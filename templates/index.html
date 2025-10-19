@@ -130,8 +130,7 @@
                     return '<p class="no-data">-</p>';
                 }
                 const escapedText = $('<div/>').text(text).html();
-                return `<p>${escapedText.replace(/\\n/g, '  
-')}</p>`;
+                return `<p>${escapedText.replace(/\\n/g, '  ')}</p>`;
             };
 
             let html = `
