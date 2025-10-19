@@ -8,7 +8,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
     <style>
-        /* CAMBIO: Añadir espacio en la parte inferior para el footer fijo */
         body { 
             display: grid; 
             grid-template-columns: 1fr;
@@ -30,7 +29,6 @@
             grid-template-columns: 250px 1fr 350px;
         }
 
-        /* NUEVO: Estilos para el footer fijo */
         footer.page-footer {
             position: fixed;
             bottom: 0;
@@ -40,7 +38,7 @@
             border-top: 1px solid #e0e0e0;
             padding: 1rem;
             display: flex;
-            justify-content: center; /* Centra el botón */
+            justify-content: center;
             align-items: center;
             z-index: 1000;
         }
@@ -49,7 +47,7 @@
         .wizard-step.active { display: block; }
         .button-group { display: flex; justify-content: space-between; margin-top: 1rem; }
         #plantilla-preview { white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 1rem; border-radius: 5px; }
-        .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+        .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; z-index: 9999; }
         .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
         .autocomplete-selected { background: #F0F0F0; }
         .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
@@ -69,7 +67,6 @@
         </header>
 
         <form id="wizard-form">
-            <!-- (El formulario del asistente no cambia ) -->
             <!-- Paso 1 -->
             <div id="step-1" class="wizard-step active">
                 <h4>Paso 1: Código Prestacional y Actividades</h4>
@@ -84,7 +81,7 @@
                     <button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button>
                 </div>
             </div>
-            <!-- Pasos 2, 3, 4 (sin cambios) -->
+            <!-- Pasos 2, 3, 4 (sin cambios ) -->
             <div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
             <div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos e Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
             <div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label for="observaciones">Observaciones Generales</label><textarea id="observaciones" name="observaciones" rows="3"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div>
@@ -97,23 +94,18 @@
         <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
     </aside>
 
-    <!-- NUEVO: Footer fijo para los botones de acción -->
     <footer class="page-footer">
         <button id="toggle-panels-btn">Ver Plantillas Guardadas</button>
     </footer>
 
 <script>
 $(document).ready(function() {
-    // La lógica de JavaScript no necesita cambios, ya que solo hemos movido el botón en el HTML.
-    // El selector '#toggle-panels-btn' seguirá funcionando correctamente.
     
     $('#toggle-panels-btn').click(function() {
         const body = $('body');
         const nav = $('nav');
         const aside = $('aside');
-        
         body.toggleClass('modo-visualizacion');
-
         if (body.hasClass('modo-visualizacion')) {
             nav.show();
             aside.show();
@@ -125,14 +117,59 @@ $(document).ready(function() {
         }
     });
 
-    // (El resto del script es idéntico al anterior)
     let currentStep = 1;
     const totalSteps = 4;
     function showStep(step) { $('.wizard-step').removeClass('active'); $('#step-' + step).addClass('active'); }
     $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
     $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
-    $('#codigo_prestacional').autocomplete({ serviceUrl: '/search_codigos', paramName: 'query', onSelect: function(suggestion) { $('#codigo_prestacional').val(suggestion.data.codigo); $('#descripcion_prestacional').val(suggestion.data.descripcion); $('#btn-step1-next').prop('disabled', false); }, onInvalidateSelection: function() { $('#descripcion_prestacional').val(''); $('#btn-step1-next').prop('disabled', true); }, transformResult: function(response) { const res = JSON.parse(response); return { suggestions: $.map(res.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) }; } });
-    $('#codigo_prestacional').on('input', function() { if ($(this).val().trim() === '') { $('#descripcion_prestacional').val(''); $('#btn-step1-next').prop('disabled', true); } });
+
+    // ==================================================================
+    // AQUÍ ESTÁ EL BLOQUE DE CÓDIGO CORREGIDO AL QUE ME REFERÍA
+    // ==================================================================
+    $('#codigo_prestacional').autocomplete({
+        serviceUrl: '/search_codigos',
+        paramName: 'query',
+        
+        onSelect: function(suggestion) {
+            $('#codigo_prestacional').val(suggestion.data.codigo);
+            $('#descripcion_prestacional').val(suggestion.data.descripcion);
+            $('#btn-step1-next').prop('disabled', false);
+            return false; 
+        },
+
+        onInvalidateSelection: function() {
+            $('#descripcion_prestacional').val('');
+            $('#btn-step1-next').prop('disabled', true);
+        },
+
+        transformResult: function(response) {
+            try {
+                const res = JSON.parse(response);
+                return {
+                    suggestions: $.map(res.suggestions, function(dataItem) {
+                        return { 
+                            value: `(${dataItem.codigo}) ${dataItem.descripcion}`, 
+                            data: dataItem 
+                        };
+                    })
+                };
+            } catch (e) {
+                console.error("Error al procesar la respuesta del autocompletado:", e);
+                return { suggestions: [] };
+            }
+        }
+    });
+
+    $('#codigo_prestacional').on('input', function() {
+        if ($(this).val().trim() === '') {
+            $('#descripcion_prestacional').val('');
+            $('#btn-step1-next').prop('disabled', true);
+        }
+    });
+    // ==================================================================
+    // FIN DEL BLOQUE CORREGIDO
+    // ==================================================================
+
     function setupAutocomplete(selector) { $(selector).autocomplete({ serviceUrl: '/search_diagnosticos', paramName: 'query', onSelect: function(suggestion) { $(selector).val(suggestion.data); } }); }
     setupAutocomplete('#diagnostico_principal');
     setupAutocomplete('#diagnosticos_complementarios');
@@ -141,6 +178,7 @@ $(document).ready(function() {
 <small>${reg.descripcion_prestacional || 'Sin descripción'}</small></article>`); item.click(function() { showPreview($(this).data('id')); }); lista.append(item); }); }); }
     function showPreview(id) { $.get('/get_registros', function(registros) { const registro = registros.find(r => r.id == id); if (registro) { const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'No registrado'}\n**Descripción:** ${registro.descripcion_prestacional || 'No registrado'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'No registrado'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'No registrado'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'No registrado'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'No registrado'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'No registrado'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'No registrado'}\n\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'No registrado'}\n\n**Observaciones Generales:**\n${registro.observaciones || 'No registrado'}`; $('#plantilla-preview').text(previewContent); } }); }
     $('#copy-btn').click(function() { const textToCopy = $('#plantilla-preview').text(); navigator.clipboard.writeText(textToCopy).then(function() { alert('¡Copiado al portapapeles!'); }, function(err) { alert('Error al copiar: ' + err); }); });
+    
     loadRegistros();
     showStep(currentStep);
 });
