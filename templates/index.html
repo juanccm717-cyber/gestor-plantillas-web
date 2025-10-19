@@ -6,13 +6,42 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Gestor de Plantillas Web</title>
   <style>
-    .autocomplete-suggestions { border: 1px solid #555; background: #2b3e50; color: #fff; cursor: pointer; text-align: left; max-height: 250px; overflow-y: auto; }
-    .autocomplete-suggestion { padding: 8px; }
-    .autocomplete-suggestion:hover { background: #3a506b; }
-    .grid-container { display: grid; grid-template-columns: 1fr 2fr 1.5fr; gap: 1.5rem; align-items: start; }
-    .preview-area { border: 1px solid #445; padding: 1rem; border-radius: 0.5rem; background-color: #1f2937; min-height: 400px; }
-    #lista-plantillas article { transition: background-color 0.2s ease-in-out; }
-    #lista-plantillas article:hover { background-color: #2a3a4a; }
+    .plantilla-item {
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .plantilla-item:hover {
+      background-color: #2d3748;
+    }
+    .preview-area {
+        border: 1px solid #445;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        background-color: #1f2937;
+        min-height: 400px;
+    }
+    .preview-area h4 {
+        color: #63b3ed;
+        border-bottom: 1px solid #4a5568;
+        padding-bottom: 5px;
+        margin-top: 1.5rem;
+    }
+    .preview-area p {
+        margin-bottom: 0.5rem;
+    }
+    .no-data {
+        color: #718096;
+        font-style: italic;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr 2fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
   </style>
 </head>
 <body>
@@ -29,25 +58,16 @@
         <article>
           <header><strong>Plantillas Guardadas</strong></header>
           <div id="lista-plantillas">
-            <p><em>Cargando plantillas...</em></p>
+            <p>Cargando plantillas...</p>
           </div>
         </article>
       </aside>
 
-      <!-- Columna Central: Formulario (Simplificado por ahora ) -->
+      <!-- Columna Central: Formulario (Placeholder ) -->
       <section>
         <article>
           <header><strong>Crear/Editar Plantilla</strong></header>
-          <form id="plantilla-form">
-            <p>La edición y creación de nuevas plantillas se implementará a continuación. Por ahora, selecciona una plantilla de la izquierda para ver sus detalles.</p>
-            <label for="codigo_prestacional_form">Código Prestacional</label>
-            <input type="text" id="codigo_prestacional_form" name="codigo_prestacional_form" placeholder="Ej: 024" disabled>
-
-            <label for="diagnostico_principal_form">Diagnóstico Principal (CIE-10)</label>
-            <input type="text" id="diagnostico_principal_form" name="diagnostico_principal_form" placeholder="Busca por código o nombre..." autocomplete="off" disabled>
-            
-            <button type="submit" disabled>Guardar Plantilla</button>
-          </form>
+          <p>La edición y creación de nuevas plantillas se implementará a continuación. Por ahora, selecciona una plantilla de la izquierda para ver sus detalles.</p>
         </article>
       </section>
 
@@ -56,101 +76,98 @@
         <article class="preview-area">
             <header><strong>Vista Previa</strong></header>
             <div id="preview-content">
-                <p><em>Selecciona una plantilla de la lista de la izquierda para ver sus detalles.</em></p>
+                <p><em>Selecciona una plantilla para ver sus detalles.</em></p>
             </div>
         </article>
       </aside>
     </div>
-
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-// Se ejecuta cuando todo el documento HTML ha sido cargado
-$(document ).ready(function() {
+  <script>
+    $(document ).ready(function() {
 
-    // --- SECCIÓN 1: LÓGICA DE CARGA Y VISUALIZACIÓN ---
+        function cargarPlantillas() {
+            $.ajax({
+                url: '/get_registros',
+                method: 'GET',
+                success: function(data) {
+                    const lista = $('#lista-plantillas');
+                    lista.empty();
+                    if (data && data.length > 0) {
+                        data.forEach(plantilla => {
+                            const item = $(`
+                                <article class="plantilla-item" data-id="${plantilla.id}">
+                                    <strong>${plantilla.codigo_prestacional || 'Sin Código'}</strong>
+                                      
 
-    function cargarPlantillas() {
-        $.ajax({
-            url: '/get_registros',
-            method: 'GET',
-            success: function(data) {
-                const lista = $('#lista-plantillas');
-                lista.empty();
-                if (data && data.length > 0) {
-                    data.forEach(plantilla => {
-                        const item = $(`
-                            <article class="plantilla-item" data-id="${plantilla.id}">
-                                <strong>${plantilla.codigo_prestacional || 'Sin Código'}</strong>
-                                <small>${plantilla.descripcion_prestacional || 'Sin Descripción'}</small>
-                            </article>
-                        `);
-                        item.on('click', function() {
-                            mostrarDetallesPlantilla(plantilla);
+                                    <small>${plantilla.descripcion_prestacional || 'Sin Descripción'}</small>
+                                </article>
+                            `);
+                            item.on('click', function() {
+                                mostrarDetallesPlantilla(plantilla);
+                                $('.plantilla-item').css('border', '1px solid transparent');
+                                $(this).css('border', '1px solid #63b3ed');
+                            });
+                            lista.append(item);
                         });
-                        lista.append(item);
-                    });
-                } else {
-                    lista.append('<p><em>No hay plantillas guardadas.</em></p>');
+                    } else {
+                        lista.append('<p><em>No hay plantillas guardadas.</em></p>');
+                    }
+                },
+                error: function(err) {
+                    console.error("Error al cargar plantillas:", err);
+                    $('#lista-plantillas').html('<p style="color:red;"><em>Error al cargar. Revisa la consola (F12).</em></p>');
                 }
-            },
-            error: function(err) {
-                console.error("Error al cargar plantillas:", err);
-                $('#lista-plantillas').html('<p style="color:red;"><em>Error al cargar plantillas. Revisa la consola (F12).</em></p>');
-            }
-        });
-    }
+            });
+        }
 
-    function mostrarDetallesPlantilla(plantilla) {
-        const previewContent = $('#preview-content');
+        function mostrarDetallesPlantilla(plantilla) {
+            const previewContent = $('#preview-content');
 
-        const formatText = (text) => {
-            if (!text || text.trim() === '') {
-                return '<p class="no-data">-</p>';
-            }
-            // Escapa caracteres HTML y luego reemplaza saltos de línea
-            const escapedText = $('<div/>').text(text).html();
-            return `<p>${escapedText.replace(/\n/g, '  
+            const formatText = (text) => {
+                if (!text || text.trim() === '') {
+                    return '<p class="no-data">-</p>';
+                }
+                const escapedText = $('<div/>').text(text).html();
+                return `<p>${escapedText.replace(/\\n/g, '  
 ')}</p>`;
-        };
+            };
 
-        let html = `
-            <h4>Código Prestacional</h4>
-            <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
-            
-            <h4>Actividades Preventivas</h4>
-            ${formatText(plantilla.actividades_preventivas)}
-            
-            <h4>Diagnóstico Principal</h4>
-            ${formatText(plantilla.diagnostico_principal)}
-            
-            <h4>Diagnósticos Complementarios</h4>
-            ${formatText(plantilla.diagnosticos_complementarios)}
-            
-            <h4>Medicamento/Insumo Principal</h4>
-            ${formatText(plantilla.medicamento_principal)}
-            
-            <h4>Medicamentos/Insumos Adicionales</h4>
-            ${formatText(plantilla.medicamentos_adicionales_obs)}
-            
-            <h4>Procedimiento Principal</h4>
-            ${formatText(plantilla.procedimiento_principal)}
-            
-            <h4>Procedimientos Adicionales</h4>
-            ${formatText(plantilla.procedimientos_adicionales_obs)}
+            let html = `
+                <h4>Código Prestacional</h4>
+                <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
+                
+                <h4>Actividades Preventivas</h4>
+                ${formatText(plantilla.actividades_preventivas)}
+                
+                <h4>Diagnóstico Principal</h4>
+                ${formatText(plantilla.diagnostico_principal)}
+                
+                <h4>Diagnósticos Complementarios</h4>
+                ${formatText(plantilla.diagnosticos_complementarios)}
+                
+                <h4>Medicamento/Insumo Principal</h4>
+                ${formatText(plantilla.medicamento_principal)}
+                
+                <h4>Medicamentos/Insumos Adicionales</h4>
+                ${formatText(plantilla.medicamentos_adicionales_obs)}
+                
+                <h4>Procedimiento Principal</h4>
+                ${formatText(plantilla.procedimiento_principal)}
+                
+                <h4>Procedimientos Adicionales</h4>
+                ${formatText(plantilla.procedimientos_adicionales_obs)}
 
-            <h4>Observaciones Finales</h4>
-            ${formatText(plantilla.observaciones)}
-        `;
+                <h4>Observaciones Finales</h4>
+                ${formatText(plantilla.observaciones)}
+            `;
 
-        previewContent.html(html);
-    }
+            previewContent.html(html);
+        }
 
-    // Cargar las plantillas al iniciar la página
-    cargarPlantillas();
-});
-</script>
-
+        cargarPlantillas();
+    });
+  </script>
 </body>
 </html>
