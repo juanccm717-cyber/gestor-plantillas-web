@@ -4,26 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Plantillas Médicas</title>
-    
-    <!-- ETIQUETAS DE ESTILO Y SCRIPTS (LA SOLUCIÓN ESTÁ AQUÍ) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    
-    <!-- 1. Cargar jQuery PRIMERO -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- 2. Cargar la librería de Autocompletado DESPUÉS de jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
-
-    <!-- (El resto del CSS no cambia ) -->
     <style>
-        body { 
-            display: grid; 
-            grid-template-columns: 1fr;
-            gap: 1rem; 
-            height: 100vh; 
-            margin: 0;
-            padding-bottom: 70px; /* Espacio para el footer fijo */
-        }
+        /* (CSS sin cambios ) */
+        body { display: grid; grid-template-columns: 1fr; gap: 1rem; height: 100vh; margin: 0; padding-bottom: 70px; }
         nav, aside { padding: 1rem; overflow-y: auto; display: none; }
         nav { border-right: 1px solid #dcdcdc; }
         aside { border-left: 1px solid #dcdcdc; background-color: #fdfdfd; }
@@ -41,52 +27,21 @@
     </style>
 </head>
 <body>
+    <!-- (HTML del body sin cambios) -->
+    <nav><h5>Plantillas Guardadas</h5><div id="lista-registros">Cargando...</div></nav>
+    <main><header><h2>Crear Nueva Plantilla</h2><p>Asistente de 4 pasos para la creación de plantillas de atención.</p></header><form id="wizard-form"><div id="step-1" class="wizard-step active"><h4>Paso 1: Código Prestacional y Actividades</h4><label for="codigo_prestacional">Código Prestacional</label><input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Escriba el código o descripción"><label for="descripcion_prestacional">Descripción Prestacional</label><input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly><label for="actividades_preventivas">Actividades Preventivas</label><textarea id="actividades_preventivas" name="actividades_preventivas" rows="4"></textarea><div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div></div><div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div><div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos e Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div><div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label for="observaciones">Observaciones Generales</label><textarea id="observaciones" name="observaciones" rows="3"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div></form></main>
+    <aside><h5>Vista Previa</h5><div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div><button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button></aside>
+    <footer class="page-footer"><button id="toggle-panels-btn">Ver Plantillas Guardadas</button></footer>
 
-    <!-- (El resto del BODY no cambia) -->
-    <nav>
-        <h5>Plantillas Guardadas</h5>
-        <div id="lista-registros">Cargando...</div>
-    </nav>
-    <main>
-        <header>
-            <h2>Crear Nueva Plantilla</h2>
-            <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
-        </header>
-        <form id="wizard-form">
-            <!-- Pasos del wizard... -->
-            <div id="step-1" class="wizard-step active"><h4>Paso 1: Código Prestacional y Actividades</h4><label for="codigo_prestacional">Código Prestacional</label><input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Escriba el código o descripción"><label for="descripcion_prestacional">Descripción Prestacional</label><input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly><label for="actividades_preventivas">Actividades Preventivas</label><textarea id="actividades_preventivas" name="actividades_preventivas" rows="4"></textarea><div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div></div>
-            <div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
-            <div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos e Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
-            <div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label for="observaciones">Observaciones Generales</label><textarea id="observaciones" name="observaciones" rows="3"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div>
-        </form>
-    </main>
-    <aside>
-        <h5>Vista Previa</h5>
-        <div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div>
-        <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
-    </aside>
-    <footer class="page-footer">
-        <button id="toggle-panels-btn">Ver Plantillas Guardadas</button>
-    </footer>
-
-    <!-- Tu código JavaScript personalizado va aquí, al final del body -->
     <script>
     $(document).ready(function() {
-        // --- Lógica de botones y wizard ---
+        // --- Lógica de botones y wizard (sin cambios) ---
         $('#toggle-panels-btn').click(function() {
-            const body = $('body');
-            body.toggleClass('modo-visualizacion');
-            if (body.hasClass('modo-visualizacion')) {
-                $('nav, aside').show();
-                $(this).text('Ocultar Paneles y Volver a Crear');
-            } else {
-                $('nav, aside').hide();
-                $(this).text('Ver Plantillas Guardadas');
-            }
+            const body = $('body'); body.toggleClass('modo-visualizacion');
+            if (body.hasClass('modo-visualizacion')) { $('nav, aside').show(); $(this).text('Ocultar Paneles y Volver a Crear'); } 
+            else { $('nav, aside').hide(); $(this).text('Ver Plantillas Guardadas'); }
         });
-
-        let currentStep = 1;
-        const totalSteps = 4;
+        let currentStep = 1; const totalSteps = 4;
         function showStep(step) { $('.wizard-step').removeClass('active'); $('#step-' + step).addClass('active'); }
         $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
         $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
@@ -96,9 +51,7 @@
             const codigoInput = $(this).val().trim();
             if (codigoInput.length === 3) {
                 $.ajax({
-                    url: '/search_codigos',
-                    data: { query: codigoInput },
-                    dataType: 'json',
+                    url: '/search_codigos', data: { query: codigoInput }, dataType: 'json',
                     success: function(response) {
                         const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput);
                         if (coincidenciaExacta) {
@@ -117,10 +70,7 @@
         });
 
         $('#codigo_prestacional').autocomplete({
-            serviceUrl: '/search_codigos',
-            paramName: 'query',
-            dataType: 'json',
-            autoSelectFirst: true,
+            serviceUrl: '/search_codigos', paramName: 'query', dataType: 'json', autoSelectFirst: true,
             onSelect: function(suggestion) {
                 $('#codigo_prestacional').val(suggestion.data.codigo);
                 $('#descripcion_prestacional').val(suggestion.data.descripcion);
@@ -129,33 +79,36 @@
             },
             onInvalidateSelection: function() {
                 if ($('#codigo_prestacional').val().length !== 3) {
-                     $('#descripcion_prestacional').val('');
-                     $('#btn-step1-next').prop('disabled', true);
+                     $('#descripcion_prestacional').val(''); $('#btn-step1-next').prop('disabled', true);
                 }
             },
             transformResult: function(response) {
-                return {
-                    suggestions: $.map(response.suggestions, function(dataItem) {
-                        return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem };
-                    })
-                };
+                return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
             }
         });
 
-        // --- Resto del script ---
+        // =========================================================================
+        // NUEVO: Ocultar sugerencias con Enter y Tab
+        // =========================================================================
+        $('#codigo_prestacional').on('keydown', function(e) {
+            // La tecla 13 es "Enter", la 9 es "Tab"
+            if (e.which === 13 || e.which === 9) {
+                // Llama al método 'hide' de la librería para ocultar el contenedor de sugerencias
+                $(this).autocomplete('hide');
+            }
+        });
+        // =========================================================================
+
+        // --- Resto del script (sin cambios) ---
         function setupAutocomplete(selector) { $(selector).autocomplete({ serviceUrl: '/search_diagnosticos', paramName: 'query', dataType: 'json', onSelect: function(suggestion) { $(selector).val(suggestion.data); } }); }
-        setupAutocomplete('#diagnostico_principal');
-        setupAutocomplete('#diagnosticos_complementarios');
+        setupAutocomplete('#diagnostico_principal'); setupAutocomplete('#diagnosticos_complementarios');
         $('#wizard-form').on('submit', function(e) { e.preventDefault(); const formData = { codigo_prestacional: $('#codigo_prestacional').val(), descripcion_prestacional: $('#descripcion_prestacional').val(), actividades_preventivas: $('#actividades_preventivas').val(), diagnostico_principal: $('#diagnostico_principal').val(), diagnosticos_complementarios: $('#diagnosticos_complementarios').val(), medicamento_principal: $('#medicamento_principal').val(), medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(), procedimiento_principal: $('#procedimiento_principal').val(), procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(), observaciones: $('#observaciones').val() }; $.ajax({ url: '/guardar_plantilla', type: 'POST', contentType: 'application/json', data: JSON.stringify(formData), success: function(response) { alert(response.message); loadRegistros(); $('#wizard-form')[0].reset(); currentStep = 1; showStep(1); $('#btn-step1-next').prop('disabled', true); }, error: function() { alert('Error al guardar la plantilla.'); } }); });
         function loadRegistros() { $.get('/get_registros', {dataType: 'json'}, function(registros) { const lista = $('#lista-registros'); lista.empty(); registros.forEach(function(reg) { const item = $(`<article style="margin-bottom: 0.5rem; cursor: pointer;" data-id="${reg.id}"><strong>${reg.codigo_prestacional || 'S/C'}</strong>  
 <small>${reg.descripcion_prestacional || 'Sin descripción'}</small></article>`); item.click(function() { showPreview($(this).data('id')); }); lista.append(item); }); }); }
-        function showPreview(id) { $.get('/get_registros', {dataType: 'json'}, function(registros) { const registro = registros.find(r => r.id == id); if (registro) { const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'No registrado'}\n**Descripción:** ${registro.descripcion_prestacional || 'No registrado'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'No registrado'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'No registrado'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'No registrado'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'No registrado'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'No registrado'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'No registrado'}\n\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'No registrado'}\n\n**Observaciones Generales:**\n${registro.observaciones || 'No registrado'}`; $('#plantilla-preview').text(previewContent); } }); }
+        function showPreview(id) { $.get('/get_registros', {dataType: 'json'}, function(registros) { const registro = registros.find(r => r.id == id); if (registro) { const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'No registrado'}\n**Descripción:** ${registro.descripcion_prestacional || 'No registrado'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'No registrado'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'No registrado'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'No registrado'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'No registrado'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'No registrado'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'No registrado'}\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'No registrado'}\n\n**Observaciones Generales:**\n${registro.observaciones || 'No registrado'}`; $('#plantilla-preview').text(previewContent); } }); }
         $('#copy-btn').click(function() { const textToCopy = $('#plantilla-preview').text(); navigator.clipboard.writeText(textToCopy).then(function() { alert('¡Copiado al portapapeles!'); }, function(err) { alert('Error al copiar: ' + err); }); });
-        
-        loadRegistros();
-        showStep(currentStep);
+        loadRegistros(); showStep(currentStep);
     });
     </script>
-
 </body>
 </html>
