@@ -67,15 +67,15 @@ def menu_principal():
 @login_required
 def gestor_plantillas_vista():
     """Muestra el gestor en modo 'solo vista'."""
-    return render_template('gestor.html', modo='vista')
+    return render_template('index.html', modo='vista') # <-- Usando index.html
 
 @app.route('/plantillas/crear')
 @login_required
 def gestor_plantillas_crear():
     """Muestra el gestor en modo 'crear/editar'."""
     if current_user.role != 'administrador':
-        return redirect(url_for('menu_principal')) # Seguridad extra
-    return render_template('gestor.html', modo='editar')
+        return redirect(url_for('menu_principal'))
+    return render_template('index.html', modo='editar') # <-- Usando index.html
 
 # --- Rutas de la API ---
 @app.route('/get_registros')
@@ -109,9 +109,7 @@ def guardar_plantilla():
 
     datos = request.get_json()
     
-    # Aquí iría la lógica para insertar los datos en la tabla 'registros' de Supabase
     try:
-        # La data que llega del frontend debe coincidir con las columnas de la tabla
         response = supabase.table('registros').insert(datos).execute()
         if len(response.data) > 0:
             return jsonify({"success": True, "data": response.data[0]}), 201
