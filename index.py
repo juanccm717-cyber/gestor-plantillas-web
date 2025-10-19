@@ -1,59 +1,47 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 import json
 import uuid
-import os # Importamos el módulo 'os'
+
+# --- Carga de datos desde PARAMETROS.py ---
+try:
+    from PARAMETROS import (
+        CODIGOS_PRESTACIONALES_CATEGORIZADOS, 
+        ACTIVIDADES_PREVENTIVAS_MAP, 
+        RELACION_CODIGO_ACTIVIDADES
+    )
+except ImportError:
+    # Valores por defecto en caso de que el archivo no se encuentre
+    CODIGOS_PRESTACIONALES_CATEGORIZADOS = []
+    ACTIVIDADES_PREVENTIVAS_MAP = {}
+    RELACION_CODIGO_ACTIVIDADES = {}
 
 # --- Configuración de la App ---
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta_aqui_cambiala'
+app.secret_key = 'tu_clave_secreta_aqui_cambiala_por_algo_seguro'
 
-# --- Carga de datos ---
-try:
-    from PARAMETROS import CODIGOS_PRESTACIONALES_CATEGORIZADOS
-except ImportError:
-    CODIGOS_PRESTACIONALES_CATEGORIZADOS = []
-
-try:
-    with open('cie10.json', 'r', encoding='utf-8') as f:
-        CIE10 = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError):
-    CIE10 = [] 
-
-# =========================================================================
-# FUNCIÓN CORREGIDA: Más robusta contra errores de sistema de archivos
-# =========================================================================
+# --- Funciones de ayuda para datos ---
 def get_registros_data():
     try:
         with open('registros.json', 'r', encoding='utf-8') as f:
             return json.load(f)
-    except Exception as e:
-        # Capturamos cualquier error (FileNotFound, JSONDecodeError, PermissionError)
-        # y simplemente devolvemos una lista vacía para no romper la app.
-        print(f"Error al leer registros.json: {e}") # Esto se verá en los logs de Vercel
+    except Exception:
         return []
 
 def save_registros_data(data):
-    # Advertencia: Esto puede fallar en Vercel.
     try:
         with open('registros.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4)
         return True
-    except Exception as e:
-        print(f"Error al GUARDAR registros.json: {e}")
+    except Exception:
         return False
-# =========================================================================
 
-# --- Rutas ---
+# --- Rutas de la Interfaz de Usuario ---
 @app.route('/')
 def index():
-    return redirect(url_for('plantillas'))
+    return render_template('index.html')
 
-@app.route('/plantillas')
-def plantillas():
-    modo = request.args.get('modo', 'ver')
-    return render_template('index.html', modo=modo)
+# --- Rutas de la API ---
 
-# --- Rutas de API ---
 @app.route('/search_codigos')
 def search_codigos():
     query = request.args.get('query', '').lower()
@@ -64,10 +52,15 @@ def search_codigos():
                 suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
     return jsonify({'suggestions': suggestions})
 
-@app.route('/search_diagnosticos')
-def search_diagnosticos():
-    # ... (sin cambios)
-    return jsonify({'suggestions': []}) # Simplificado por ahora
+@app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
+def get_actividades_por_codigo(codigo_prestacional):
+    # Busca los códigos de actividad relacionados. Usa 'DEFAULT' si no encuentra el código.
+    codigos_actividad = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', []))
+    
+    # Busca las descripciones completas para cada código de actividad
+    actividades_desc = [ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada") for cod in sorted(list(codigos_actividad))]
+    
+    return jsonify({'actividades': actividades_desc})
 
 @app.route('/get_registros')
 def get_registros():
@@ -79,12 +72,10 @@ def guardar_plantilla():
     nueva_plantilla = request.json
     nueva_plantilla['id'] = str(uuid.uuid4())
     registros.append(nueva_plantilla)
-    
     if save_registros_data(registros):
         return jsonify({'message': 'Plantilla guardada con éxito'})
     else:
-        # Devolvemos un error si no se pudo guardar
-        return jsonify({'message': 'Error: No se pudo guardar la plantilla en el servidor.'}), 500
+        return jsonify({'message': 'Error: No se pudo guardar la plantilla.'}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
