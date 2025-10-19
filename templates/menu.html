@@ -6,17 +6,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Menú Principal - Gestor de Plantillas</title>
   <style>
+  /* Quitamos los estilos del body que no funcionaban */
   body {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;   /* Centra verticalmente */
-    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
-    margin: 0;             /* Elimina cualquier margen por defecto */
+    background-color: var(--background-color);
   }
-  .menu-container { max-width: 500px; width: 100%; text-align: center; }
+  /* Aplicamos los estilos de centrado directamente al contenedor principal */
+  main.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center;   /* Centra horizontalmente */
+    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
+  }
+  .menu-container {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    border: none; /* Opcional: quita el borde del article */
+    box-shadow: none; /* Opcional: quita la sombra */
+    padding: 0;
+  }
   .menu-container img { max-width: 150px; margin-bottom: 1.5rem; }
   .menu-container a { margin-bottom: 1rem; }
 </style>
+
 </head>
 <body>
   <main class="container">
