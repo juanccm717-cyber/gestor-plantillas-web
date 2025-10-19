@@ -65,105 +65,92 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
-  
-  <script>
-    $(document ).ready(function() {
+<script>
+// Se ejecuta cuando todo el documento HTML ha sido cargado
+$(document ).ready(function() {
 
-        function cargarPlantillas() {
-            $.ajax({
-                url: '/get_registros',
-                method: 'GET',
-                success: function(data) {
-                    const lista = $('#lista-plantillas');
-                    lista.empty(); 
-                    if (data && data.length > 0) {
-                        data.forEach(plantilla => {
-                            // LA CORRECCIÓN ESTÁ AQUÍ:
-                            // He reemplazado las comillas ` (backticks) por comillas simples '
-                            // para evitar cualquier problema de sintaxis.
-                            const item = $(
-                                '<article style="padding: 0.5rem; margin-bottom: 0.5rem; cursor: pointer;">' +
-                                    '<strong>' + (plantilla.codigo_prestacional || 'Sin Código') + '</strong>  ' +
-                                    '<small>' + (plantilla.descripcion_prestacional || 'Sin Descripción') + '</small>' +
-                                '</article>'
-                            );
-                            item.data('plantilla', plantilla); 
-                            lista.append(item);
+    // --- SECCIÓN 1: LÓGICA DE CARGA Y VISUALIZACIÓN ---
+
+    function cargarPlantillas() {
+        $.ajax({
+            url: '/get_registros',
+            method: 'GET',
+            success: function(data) {
+                const lista = $('#lista-plantillas');
+                lista.empty();
+                if (data && data.length > 0) {
+                    data.forEach(plantilla => {
+                        const item = $(`
+                            <article class="plantilla-item" data-id="${plantilla.id}">
+                                <strong>${plantilla.codigo_prestacional || 'Sin Código'}</strong>
+                                <small>${plantilla.descripcion_prestacional || 'Sin Descripción'}</small>
+                            </article>
+                        `);
+                        item.on('click', function() {
+                            mostrarDetallesPlantilla(plantilla);
                         });
-                    } else {
-                        lista.append('<p><em>No hay plantillas guardadas.</em></p>');
-                    }
-                },
-                error: function(err) {
-                    console.error("Error al cargar plantillas:", err);
-                    $('#lista-plantillas').html('<p><em>Error al cargar. Verifica que el servidor Flask esté corriendo.</em></p>');
+                        lista.append(item);
+                    });
+                } else {
+                    lista.append('<p><em>No hay plantillas guardadas.</em></p>');
                 }
-            });
-        }
-        
-       function mostrarDetallesPlantilla(plantilla) {
-    const previewContent = $('#preview-content');
-
-    // Función auxiliar para manejar texto nulo o vacío
-    const formatText = (text) => {
-        if (!text || text.trim() === '') {
-            return '<p class="no-data">-</p>';
-        }
-        // Reemplaza los saltos de línea (\n) con etiquetas   
- para que se muestren en HTML
-        return `<p>${text.replace(/\n/g, '  
-')}</p>`;
-    };
-
-    // Construimos el HTML completo, campo por campo
-    let html = `
-        <h2>🏷️ Código Prestacional</h2>
-        <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
-        
-        <h2>📊 Actividades Preventivas</h2>
-        ${formatText(plantilla.actividades_preventivas)}
-        
-        <h2>🩺 Diagnóstico Principal</h2>
-        ${formatText(plantilla.diagnostico_principal)}
-        
-        <h2>➕ Diagnósticos Complementarios</h2>
-        ${formatText(plantilla.diagnosticos_complementarios)}
-        
-        <h2>💊 Medicamento/Insumo Principal</h2>
-        ${formatText(plantilla.medicamento_principal)}
-        
-        <h2>🧪 Medicamentos/Insumos Adicionales</h2>
-        ${formatText(plantilla.medicamentos_adicionales_obs)}
-        
-        <h2>💉 Procedimiento Principal</h2>
-        ${formatText(plantilla.procedimiento_principal)}
-        
-        <h2>🩹 Procedimientos Adicionales</h2>
-        ${formatText(plantilla.procedimientos_adicionales_obs)}
-
-        <h2>📝 Observaciones Finales</h2>
-        ${formatText(plantilla.observaciones)}
-    `;
-
-    previewContent.html(html);
-}
-
-
-        $('#diagnostico_principal_form').autocomplete({
-            serviceUrl: '/search_diagnosticos',
-            paramName: 'q',
-            transformResult: function(response) {
-                const res = JSON.parse(response);
-                return {
-                    suggestions: $.map(res, function(dataItem) {
-                        return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem.id };
-                    })
-                };
+            },
+            error: function(err) {
+                console.error("Error al cargar plantillas:", err);
+                $('#lista-plantillas').html('<p style="color:red;"><em>Error al cargar plantillas. Revisa la consola (F12).</em></p>');
             }
         });
+    }
 
-    });
-  </script>
+    function mostrarDetallesPlantilla(plantilla) {
+        const previewContent = $('#preview-content');
+
+        const formatText = (text) => {
+            if (!text || text.trim() === '') {
+                return '<p class="no-data">-</p>';
+            }
+            // Escapa caracteres HTML y luego reemplaza saltos de línea
+            const escapedText = $('<div/>').text(text).html();
+            return `<p>${escapedText.replace(/\n/g, '  
+')}</p>`;
+        };
+
+        let html = `
+            <h4>Código Prestacional</h4>
+            <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
+            
+            <h4>Actividades Preventivas</h4>
+            ${formatText(plantilla.actividades_preventivas)}
+            
+            <h4>Diagnóstico Principal</h4>
+            ${formatText(plantilla.diagnostico_principal)}
+            
+            <h4>Diagnósticos Complementarios</h4>
+            ${formatText(plantilla.diagnosticos_complementarios)}
+            
+            <h4>Medicamento/Insumo Principal</h4>
+            ${formatText(plantilla.medicamento_principal)}
+            
+            <h4>Medicamentos/Insumos Adicionales</h4>
+            ${formatText(plantilla.medicamentos_adicionales_obs)}
+            
+            <h4>Procedimiento Principal</h4>
+            ${formatText(plantilla.procedimiento_principal)}
+            
+            <h4>Procedimientos Adicionales</h4>
+            ${formatText(plantilla.procedimientos_adicionales_obs)}
+
+            <h4>Observaciones Finales</h4>
+            ${formatText(plantilla.observaciones)}
+        `;
+
+        previewContent.html(html);
+    }
+
+    // Cargar las plantillas al iniciar la página
+    cargarPlantillas();
+});
+</script>
+
 </body>
 </html>
