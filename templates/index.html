@@ -13,8 +13,9 @@
       border: 1px solid transparent;
       transition: background-color 0.2s, border-color 0.2s;
     }
-    .plantilla-item:hover {
-      background-color: #2d3748;
+    .plantilla-item.active {
+  border-color: #63b3ed; /* Un borde azul para indicar que está activo */
+  background-color: #314155; /* Un fondo ligeramente más claro */
     }
     .preview-area {
         border: 1px solid #445;
@@ -105,7 +106,16 @@
                                 </article>
                             `);
                             item.on('click', function() {
-                                mostrarDetallesPlantilla(plantilla);
+    // Primero, quita la clase 'active' de cualquier otro elemento
+    $('.plantilla-item').removeClass('active');
+    
+    // Luego, añade la clase 'active' solo al elemento en el que se hizo clic
+    $(this).addClass('active');
+    
+    // Finalmente, muestra los detalles como antes
+    mostrarDetallesPlantilla(plantilla);
+});
+
                                 $('.plantilla-item').css('border', '1px solid transparent');
                                 $(this).css('border', '1px solid #63b3ed');
                             });
