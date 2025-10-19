@@ -102,40 +102,53 @@
             });
         }
         
-        cargarPlantillas();
+       function mostrarDetallesPlantilla(plantilla) {
+    const previewContent = $('#preview-content');
 
-        $('#lista-plantillas').on('click', 'article', function() {
-            const plantillaSeleccionada = $(this).data('plantilla');
-            if (plantillaSeleccionada) {
-                mostrarDetalles(plantillaSeleccionada);
-            }
-        });
-
-        function mostrarDetalles(plantilla) {
-            const vistaPrevia = $('#preview-content');
-            const formatarCampo = (valor) => (valor || '-').replace(/\\n/g, '  ').replace(/\n/g, '  ');
-
-            vistaPrevia.html(`
-                <p style="margin-bottom: 1rem;"><strong>🏷️ Código Prestacional:</strong>  
-${formatarCampo(plantilla.codigo_prestacional)}: ${formatarCampo(plantilla.descripcion_prestacional)}</p>
-                <p style="margin-bottom: 1rem;"><strong>📊 Actividades Preventivas:</strong>  
-${formatarCampo(plantilla.actividades_preventivas)}</p>
-                <p style="margin-bottom: 1rem;"><strong>🩺 Diagnóstico Principal:</strong>  
-${formatarCampo(plantilla.diagnostico_principal)}</p>
-                <p style="margin-bottom: 1rem;"><strong>➕ Diagnósticos Complementarios:</strong>  
-${formatarCampo(plantilla.diagnosticos_complementarios)}</p>
-                <p style="margin-bottom: 1rem;"><strong>💊 Medicamento/Insumo Principal:</strong>  
-${formatarCampo(plantilla.medicamento_principal)}</p>
-                <p style="margin-bottom: 1rem;"><strong>🧪 Medicamentos/Insumos Adicionales:</strong>  
-${formatarCampo(plantilla.medicamentos_adicionales_obs)}</p>
-                <p style="margin-bottom: 1rem;"><strong>💉 Procedimiento Principal:</strong>  
-${formatarCampo(plantilla.procedimiento_principal)}</p>
-                <p style="margin-bottom: 1rem;"><strong>🩹 Procedimientos Adicionales:</strong>  
-${formatarCampo(plantilla.procedimientos_adicionales_obs)}</p>
-                <p style="margin-bottom: 1rem;"><strong>📝 Observaciones Finales:</strong>  
-${formatarCampo(plantilla.observaciones)}</p>
-            `);
+    // Función auxiliar para manejar texto nulo o vacío
+    const formatText = (text) => {
+        if (!text || text.trim() === '') {
+            return '<p class="no-data">-</p>';
         }
+        // Reemplaza los saltos de línea (\n) con etiquetas   
+ para que se muestren en HTML
+        return `<p>${text.replace(/\n/g, '  
+')}</p>`;
+    };
+
+    // Construimos el HTML completo, campo por campo
+    let html = `
+        <h2>🏷️ Código Prestacional</h2>
+        <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
+        
+        <h2>📊 Actividades Preventivas</h2>
+        ${formatText(plantilla.actividades_preventivas)}
+        
+        <h2>🩺 Diagnóstico Principal</h2>
+        ${formatText(plantilla.diagnostico_principal)}
+        
+        <h2>➕ Diagnósticos Complementarios</h2>
+        ${formatText(plantilla.diagnosticos_complementarios)}
+        
+        <h2>💊 Medicamento/Insumo Principal</h2>
+        ${formatText(plantilla.medicamento_principal)}
+        
+        <h2>🧪 Medicamentos/Insumos Adicionales</h2>
+        ${formatText(plantilla.medicamentos_adicionales_obs)}
+        
+        <h2>💉 Procedimiento Principal</h2>
+        ${formatText(plantilla.procedimiento_principal)}
+        
+        <h2>🩹 Procedimientos Adicionales</h2>
+        ${formatText(plantilla.procedimientos_adicionales_obs)}
+
+        <h2>📝 Observaciones Finales</h2>
+        ${formatText(plantilla.observaciones)}
+    `;
+
+    previewContent.html(html);
+}
+
 
         $('#diagnostico_principal_form').autocomplete({
             serviceUrl: '/search_diagnosticos',
