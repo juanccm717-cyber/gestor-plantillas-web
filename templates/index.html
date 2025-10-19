@@ -184,7 +184,6 @@
   {% endif %}
 </section>
 
-
       <!-- Columna Derecha: Vista Previa -->
       <aside>
         <article class="preview-area">
@@ -218,14 +217,13 @@
           $(`#step-${prevStep}`).addClass('active-step');
       });
 
-      // --- SECCIÓN 2: LÓGICA DE CARGA Y VISTA PREVIA (sin cambios) ---
+      // --- SECCIÓN 2: LÓGICA DE CARGA Y VISTA PREVIA ---
       let plantillasData = [];
 
       function formatForPreview(text) {
-          if (!text || text.trim() === '-') return '<p class="no-data">-</p>';
+          if (!text || text.trim() === '' || text.trim() === '-') return '<p class="no-data">-</p>';
           const escapedText = $('<div>').text(text).html();
-          return `<p>${escapedText.replace(/\n/g, '  
-')}</p>`;
+          return `<p>${escapedText.replace(/\n/g, '  ')}</p>`;
       }
 
       function cargarPlantillas() {
@@ -295,7 +293,6 @@
       $('#save-button').on('click', function(e) {
           e.preventDefault();
 
-          // Recolectar todos los datos de todos los pasos del formulario
           const datosPlantilla = {
               codigo_prestacional: $('#codigo_prestacional').val(),
               descripcion_prestacional: $('#descripcion_prestacional').val(),
@@ -316,11 +313,10 @@
               data: JSON.stringify(datosPlantilla),
               success: function(response) {
                   alert('¡Plantilla guardada con éxito!');
-                  // Resetear todos los formularios y volver al paso 1
                   $('#wizard-container form').each(function() { this.reset(); });
                   $('.wizard-step').removeClass('active-step');
                   $('#step-1').addClass('active-step');
-                  cargarPlantillas(); // Recargar la lista para ver la nueva plantilla
+                  cargarPlantillas();
               },
               error: function(err) {
                   const errorMsg = err.responseJSON ? err.responseJSON.error : "Error desconocido.";
@@ -330,7 +326,7 @@
           });
       });
 
-      // --- SECCIÓN 4: BOTÓN DE COPIAR (sin cambios) ---
+      // --- SECCIÓN 4: BOTÓN DE COPIAR ---
       $('#copy-button').on('click', function() {
           const textToCopy = $('#preview-content').get(0).innerText;
           navigator.clipboard.writeText(textToCopy).then(function() {
@@ -340,8 +336,26 @@
               console.error('Error al copiar: ', err);
           });
       });
+
+      // --- SECCIÓN 5: AUTOCOMPLETADO (Añadido de nuevo) ---
+      $('#diagnostico_principal').autocomplete({
+          serviceUrl: '/search_diagnosticos',
+          paramName: 'q',
+          onSelect: function (suggestion) {
+              // No necesitamos hacer nada aquí por ahora, el valor ya está en el input
+          },
+          transformResult: function(response) {
+              const res = JSON.parse(response);
+              return {
+                  suggestions: $.map(res, function(dataItem) {
+                      return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem.id };
+                  })
+              };
+          }
+      });
   });
 </script>
+
 
 </body>
 </html>
