@@ -6,29 +6,45 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Menú Principal - Gestor de Plantillas</title>
   <style>
-  /* Quitamos los estilos del body que no funcionaban */
   body {
     background-color: var(--background-color);
   }
-  /* Aplicamos los estilos de centrado directamente al contenedor principal */
   main.container {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra verticalmente */
-    align-items: center;   /* Centra horizontalmente */
-    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
   }
   .menu-container {
-    max-width: 500px;
+    max-width: 600px; /* Aumentamos un poco el ancho para la cuadrícula */
     width: 100%;
     text-align: center;
-    border: none; /* Opcional: quita el borde del article */
-    box-shadow: none; /* Opcional: quita la sombra */
+    border: none;
+    box-shadow: none;
     padding: 0;
   }
-  .menu-container img { max-width: 150px; margin-bottom: 1.5rem; }
-  .menu-container a { margin-bottom: 1rem; }
+  .menu-container hgroup {
+    margin-bottom: 2.5rem; /* Más espacio después del título */
+  }
+  
+  /* --- NUEVA CUADRÍCULA PARA LOS BOTONES --- */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+    gap: 1rem; /* Espacio entre los botones */
+  }
+
+  .menu-button {
+    margin-bottom: 0; /* Quitamos el margen inferior de los botones individuales */
+  }
+  /* ----------------------------------------- */
+  
+  footer {
+    margin-top: 2.5rem; /* Más espacio antes del botón de cerrar sesión */
+  }
 </style>
+
 
 </head>
 <body>
@@ -40,23 +56,26 @@
       </header>
       
       <!-- Botón solo para Administradores -->
-      <!-- Botón solo para Administradores -->
-{% if role == 'administrador' %}
-  <a href="/plantillas" role="button">1. Nuevo Registro de Plantilla</a>
-{% endif %}
+     <div class="menu-grid">
+  <!-- Botón solo para Administradores -->
+  {% if role == 'administrador' %}
+    <a href="/plantillas" role="button" class="menu-button">1. Nuevo Registro de Plantilla</a>
+  {% endif %}
+  
+  <!-- Botones para todos -->
+  <a href="/plantillas" role="button" class="menu-button">2. Ver Listado y Exportar Registros</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">3. Calculadora de IMC</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">4. Calculadora Gestacional/FPP</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">5. Códigos y Fechas de Digitación</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">6. RC: 61</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">7. Guía de Peso y Talla</a>
+  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">8. Búsqueda de Diagnósticos</a>
+</div>
 
-<!-- Botones para todos -->
-<a href="/plantillas" role="button">2. Ver Listado y Exportar Registros</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">3. Calculadora de IMC</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">4. Calculadora Gestacional/FPP</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">5. Códigos y Fechas de Digitación</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">6. RC: 61</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">7. Guía de Peso y Talla</a>
-<a href="#" role="button" class="secondary outline" disabled title="Próximamente">8. Búsqueda de Diagnósticos</a>
-
-<footer style="margin-top: 2rem;">
+<footer style="width: 100%;">
   <a href="/logout" role="button" class="contrast">Cerrar Sesión</a>
 </footer>
+
 
     </article>
   </main>
