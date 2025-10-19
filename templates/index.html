@@ -8,28 +8,43 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
     <style>
-        /* NUEVO: Por defecto, layout de una sola columna y paneles ocultos */
+        /* CAMBIO: Añadir espacio en la parte inferior para el footer fijo */
         body { 
             display: grid; 
-            grid-template-columns: 1fr; /* Solo la columna principal visible */
+            grid-template-columns: 1fr;
             gap: 1rem; 
             height: 100vh; 
-            margin: 0; 
+            margin: 0;
+            padding-bottom: 70px; /* Espacio para el footer fijo */
         }
         nav, aside {
             padding: 1rem;
             overflow-y: auto;
-            display: none; /* Ocultos por defecto */
+            display: none;
         }
         nav { border-right: 1px solid #dcdcdc; }
         aside { border-left: 1px solid #dcdcdc; background-color: #fdfdfd; }
         main { padding: 1rem; overflow-y: auto; }
 
-        /* NUEVO: Estilo para cuando se activa el modo de 3 columnas */
         body.modo-visualizacion {
             grid-template-columns: 250px 1fr 350px;
         }
 
+        /* NUEVO: Estilos para el footer fijo */
+        footer.page-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f9f9f9;
+            border-top: 1px solid #e0e0e0;
+            padding: 1rem;
+            display: flex;
+            justify-content: center; /* Centra el botón */
+            align-items: center;
+            z-index: 1000;
+        }
+        
         .wizard-step { display: none; }
         .wizard-step.active { display: block; }
         .button-group { display: flex; justify-content: space-between; margin-top: 1rem; }
@@ -42,89 +57,37 @@
 </head>
 <body>
 
-    <!-- Paneles que estarán ocultos al inicio -->
     <nav>
         <h5>Plantillas Guardadas</h5>
         <div id="lista-registros">Cargando...</div>
     </nav>
 
     <main>
-        <header style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h2>Crear Nueva Plantilla</h2>
-                <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
-            </div>
-            <!-- NUEVO: Botón para alternar la visibilidad de los paneles -->
-            <button id="toggle-panels-btn" style="margin-bottom: 1rem;">Ver Plantillas Guardadas</button>
+        <header>
+            <h2>Crear Nueva Plantilla</h2>
+            <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
         </header>
 
         <form id="wizard-form">
-            <!-- ... (El resto del formulario del asistente no cambia ) ... -->
-            <!-- Paso 1: Código Prestacional y Actividades -->
+            <!-- (El formulario del asistente no cambia ) -->
+            <!-- Paso 1 -->
             <div id="step-1" class="wizard-step active">
                 <h4>Paso 1: Código Prestacional y Actividades</h4>
                 <label for="codigo_prestacional">Código Prestacional</label>
                 <input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Escriba el código o descripción">
-                
                 <label for="descripcion_prestacional">Descripción Prestacional</label>
                 <input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly>
-
                 <label for="actividades_preventivas">Actividades Preventivas</label>
                 <textarea id="actividades_preventivas" name="actividades_preventivas" rows="4"></textarea>
-
                 <div class="button-group">
                     <span></span>
                     <button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button>
                 </div>
             </div>
-
-            <!-- Paso 2 -->
-            <div id="step-2" class="wizard-step">
-                <h4>Paso 2: Diagnósticos</h4>
-                <label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label>
-                <input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción">
-
-                <label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label>
-                <textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea>
-
-                <div class="button-group">
-                    <button type="button" class="prev-btn">&laquo; Anterior</button>
-                    <button type="button" class="next-btn">Siguiente &raquo;</button>
-                </div>
-            </div>
-            
-            <!-- Paso 3 -->
-            <div id="step-3" class="wizard-step">
-                <h4>Paso 3: Medicamentos e Insumos</h4>
-                <label for="medicamento_principal">Medicamento Principal</label>
-                <input type="text" id="medicamento_principal" name="medicamento_principal">
-
-                <label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label>
-                <textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea>
-
-                <div class="button-group">
-                    <button type="button" class="prev-btn">&laquo; Anterior</button>
-                    <button type="button" class="next-btn">Siguiente &raquo;</button>
-                </div>
-            </div>
-
-            <!-- Paso 4 -->
-            <div id="step-4" class="wizard-step">
-                <h4>Paso 4: Procedimientos y Observaciones</h4>
-                <label for="procedimiento_principal">Procedimiento Principal</label>
-                <input type="text" id="procedimiento_principal" name="procedimiento_principal">
-
-                <label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label>
-                <textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea>
-
-                <label for="observaciones">Observaciones Generales</label>
-                <textarea id="observaciones" name="observaciones" rows="3"></textarea>
-
-                <div class="button-group">
-                    <button type="button" class="prev-btn">&laquo; Anterior</button>
-                    <button type="submit" id="save-btn">Guardar Plantilla</button>
-                </div>
-            </div>
+            <!-- Pasos 2, 3, 4 (sin cambios) -->
+            <div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
+            <div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos e Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
+            <div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label for="observaciones">Observaciones Generales</label><textarea id="observaciones" name="observaciones" rows="3"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div>
         </form>
     </main>
 
@@ -134,60 +97,41 @@
         <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
     </aside>
 
+    <!-- NUEVO: Footer fijo para los botones de acción -->
+    <footer class="page-footer">
+        <button id="toggle-panels-btn">Ver Plantillas Guardadas</button>
+    </footer>
+
 <script>
 $(document).ready(function() {
-    // ... (código del wizard, autocompletado, guardar, etc. sin cambios) ...
-
-    // NUEVO: Lógica para el botón que alterna la visibilidad de los paneles
+    // La lógica de JavaScript no necesita cambios, ya que solo hemos movido el botón en el HTML.
+    // El selector '#toggle-panels-btn' seguirá funcionando correctamente.
+    
     $('#toggle-panels-btn').click(function() {
         const body = $('body');
         const nav = $('nav');
         const aside = $('aside');
         
-        // Alterna la clase que controla el layout
         body.toggleClass('modo-visualizacion');
 
         if (body.hasClass('modo-visualizacion')) {
-            // Si estamos en modo visualización, muestra los paneles
             nav.show();
             aside.show();
-            $(this).text('Ocultar Paneles'); // Cambia el texto del botón
+            $(this).text('Ocultar Paneles y Volver a Crear');
         } else {
-            // Si no, ocúltalos
             nav.hide();
             aside.hide();
-            $(this).text('Ver Plantillas Guardadas'); // Restaura el texto del botón
+            $(this).text('Ver Plantillas Guardadas');
         }
     });
 
-    // El resto del script permanece igual
-    // ...
-    // (Asegúrate de que todo el script anterior esté aquí)
+    // (El resto del script es idéntico al anterior)
     let currentStep = 1;
     const totalSteps = 4;
-    function showStep(step) {
-        $('.wizard-step').removeClass('active');
-        $('#step-' + step).addClass('active');
-    }
+    function showStep(step) { $('.wizard-step').removeClass('active'); $('#step-' + step).addClass('active'); }
     $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
     $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
-    $('#codigo_prestacional').autocomplete({
-        serviceUrl: '/search_codigos',
-        paramName: 'query',
-        onSelect: function(suggestion) {
-            $('#codigo_prestacional').val(suggestion.data.codigo);
-            $('#descripcion_prestacional').val(suggestion.data.descripcion);
-            $('#btn-step1-next').prop('disabled', false); 
-        },
-        onInvalidateSelection: function() {
-            $('#descripcion_prestacional').val('');
-            $('#btn-step1-next').prop('disabled', true);
-        },
-        transformResult: function(response) {
-            const res = JSON.parse(response);
-            return { suggestions: $.map(res.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
-        }
-    });
+    $('#codigo_prestacional').autocomplete({ serviceUrl: '/search_codigos', paramName: 'query', onSelect: function(suggestion) { $('#codigo_prestacional').val(suggestion.data.codigo); $('#descripcion_prestacional').val(suggestion.data.descripcion); $('#btn-step1-next').prop('disabled', false); }, onInvalidateSelection: function() { $('#descripcion_prestacional').val(''); $('#btn-step1-next').prop('disabled', true); }, transformResult: function(response) { const res = JSON.parse(response); return { suggestions: $.map(res.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) }; } });
     $('#codigo_prestacional').on('input', function() { if ($(this).val().trim() === '') { $('#descripcion_prestacional').val(''); $('#btn-step1-next').prop('disabled', true); } });
     function setupAutocomplete(selector) { $(selector).autocomplete({ serviceUrl: '/search_diagnosticos', paramName: 'query', onSelect: function(suggestion) { $(selector).val(suggestion.data); } }); }
     setupAutocomplete('#diagnostico_principal');
