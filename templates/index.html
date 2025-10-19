@@ -134,33 +134,33 @@
             };
 
             let html = `
-                <h4>Código Prestacional</h4>
-                <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
-                
-                <h4>Actividades Preventivas</h4>
-                ${formatText(plantilla.actividades_preventivas)}
-                
-                <h4>Diagnóstico Principal</h4>
-                ${formatText(plantilla.diagnostico_principal)}
-                
-                <h4>Diagnósticos Complementarios</h4>
-                ${formatText(plantilla.diagnosticos_complementarios)}
-                
-                <h4>Medicamento/Insumo Principal</h4>
-                ${formatText(plantilla.medicamento_principal)}
-                
-                <h4>Medicamentos/Insumos Adicionales</h4>
-                ${formatText(plantilla.medicamentos_adicionales_obs)}
-                
-                <h4>Procedimiento Principal</h4>
-                ${formatText(plantilla.procedimiento_principal)}
-                
-                <h4>Procedimientos Adicionales</h4>
-                ${formatText(plantilla.procedimientos_adicionales_obs)}
+    <h4>🏷️ Código Prestacional</h4>
+    <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
+    
+    <h4>📊 Actividades Preventivas</h4>
+    ${formatText(plantilla.actividades_preventivas)}
+    
+    <h4>🩺 Diagnóstico Principal</h4>
+    ${formatText(plantilla.diagnostico_principal)}
+    
+    <h4>➕ Diagnósticos Complementarios</h4>
+    ${formatText(plantilla.diagnosticos_complementarios)}
+    
+    <h4>💊 Medicamento/Insumo Principal</h4>
+    ${formatText(plantilla.medicamento_principal)}
+    
+    <h4>🧪 Medicamentos/Insumos Adicionales</h4>
+    ${formatText(plantilla.medicamentos_adicionales_obs)}
+    
+    <h4>💉 Procedimiento Principal</h4>
+    ${formatText(plantilla.procedimiento_principal)}
+    
+    <h4>🩹 Procedimientos Adicionales</h4>
+    ${formatText(plantilla.procedimientos_adicionales_obs)}
 
-                <h4>Observaciones Finales</h4>
-                ${formatText(plantilla.observaciones)}
-            `;
+    <h4>📝 Observaciones Finales</h4>
+    ${formatText(plantilla.observaciones)}
+`;
 
             previewContent.html(html);
         }
