@@ -6,15 +6,26 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>Login - Gestor de Plantillas</title>
   <style>
+  /* Quitamos los estilos del body que no funcionaban */
   body {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;   /* Centra verticalmente */
-    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
-    margin: 0;             /* Elimina cualquier margen por defecto */
+    background-color: var(--background-color); /* Mantenemos el color de fondo del tema */
   }
-  .login-container { max-width: 450px; width: 100%; }
-  .error { color: #f44336; margin-top: 1rem; }
+  /* Aplicamos los estilos de centrado directamente al contenedor principal */
+  main.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center;   /* Centra horizontalmente */
+    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
+  }
+  .login-container {
+    max-width: 450px;
+    width: 100%;
+    border: none; /* Opcional: quita el borde del article para un look más limpio */
+    box-shadow: none; /* Opcional: quita la sombra */
+    padding: 0;
+  }
+  .error { color: #f44336; margin-top: 1rem; text-align: center; }
 </style>
 </head>
 <body>
