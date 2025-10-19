@@ -4,59 +4,77 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <title>Gestor de Plantillas Web</title>
+  <title>Gestor de Plantillas</title>
   <style>
-    .plantilla-item {
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: background-color 0.2s, border-color 0.2s;
-    }
-    .plantilla-item.active {
-  border-color: #63b3ed; /* Un borde azul para indicar que está activo */
-  background-color: #314155; /* Un fondo ligeramente más claro */
-    }
-    .preview-area {
-        border: 1px solid #445;
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        background-color: #1f2937;
-        min-height: 400px;
-    }
-    .preview-area h4 {
-        color: #63b3ed;
-        border-bottom: 1px solid #4a5568;
-        padding-bottom: 5px;
-        margin-top: 1.5rem;
-    }
-    .preview-area p {
-        margin-bottom: 0.5rem;
-    }
-    .no-data {
-        color: #718096;
-        font-style: italic;
+    :root {
+      --pico-font-size: 90%;
     }
     .grid-container {
       display: grid;
-      grid-template-columns: 1fr 1.5fr 2fr;
+      grid-template-columns: 1fr 2fr 2fr;
       gap: 1.5rem;
       align-items: start;
+    }
+    .preview-area, .lista-plantillas-container {
+      border: 1px solid #445;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: #1f2937;
+      min-height: 300px;
+    }
+    #lista-plantillas {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .plantilla-item {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: var(--pico-border-radius );
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .plantilla-item:hover {
+      background-color: #2b3e50;
+    }
+    .plantilla-item.active {
+      border-color: var(--pico-primary);
+      background-color: #2b3e50;
+    }
+    .preview-content h2 {
+      font-size: 1.1rem;
+      border-bottom: 1px solid #445;
+      padding-bottom: 0.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .preview-content p, .preview-content ul {
+      margin-bottom: 0.5rem;
+      white-space: pre-wrap; /* Muestra los saltos de línea */
+      word-wrap: break-word;
+    }
+    .preview-content ul {
+      padding-left: 1.5rem;
     }
   </style>
 </head>
 <body>
   <main class="container">
-    <header class="container">
-        <h1>Gestor de Plantillas Web</h1>
-        <p>Crea y gestiona tus plantillas de registro de salud.</p>
-    </header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <hgroup>
+        <h1>Gestor de Plantillas</h1>
+        <p>Selecciona una plantilla para ver sus detalles o crea una nueva.</p>
+      </hgroup>
+      <div>
+        <a href="/menu" role="button" class="secondary">‹ Volver al Menú</a>
+      </div>
+    </div>
     <hr>
 
     <div class="grid-container">
       <!-- Columna Izquierda: Lista de Plantillas -->
       <aside>
-        <article>
+        <article class="lista-plantillas-container">
           <header><strong>Plantillas Guardadas</strong></header>
           <div id="lista-plantillas">
             <p>Cargando plantillas...</p>
@@ -64,61 +82,101 @@
         </article>
       </aside>
 
-      <!-- Columna Central: Formulario (Placeholder ) -->
+      <!-- Columna Central: Formulario de Creación (SOLO EN MODO EDICIÓN) -->
       <section>
+        {% if modo == 'editar' %}
         <article>
           <header><strong>Crear/Editar Plantilla</strong></header>
-          <p>La edición y creación de nuevas plantillas se implementará a continuación. Por ahora, selecciona una plantilla de la izquierda para ver sus detalles.</p>
+          <form id="plantilla-form">
+            <label for="codigo_prestacional">Código Prestacional</label>
+            <input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Ej: 024" required>
+
+            <label for="descripcion_prestacional">Descripción Prestacional</label>
+            <input type="text" id="descripcion_prestacional" name="descripcion_prestacional" placeholder="Ej: Tamizaje de Salud Mental" required>
+
+            <label for="actividades_preventivas">Actividades Preventivas (una por línea)</label>
+            <textarea id="actividades_preventivas" name="actividades_preventivas" rows="4" placeholder="003: Peso (Kg)&#10;004: Talla (cm.)"></textarea>
+            
+            <label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label>
+            <input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Busca por código o nombre..." required autocomplete="off">
+            
+            <label for="diagnosticos_complementarios">Diagnósticos Complementarios</label>
+            <textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="4"></textarea>
+
+            <label for="medicamento_principal">Medicamento Principal</label>
+            <input type="text" id="medicamento_principal" name="medicamento_principal">
+            
+            <label for="medicamentos_adicionales_obs">Medicamentos Adicionales</label>
+            <textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="3"></textarea>
+
+            <label for="procedimiento_principal">Procedimiento Principal</label>
+            <input type="text" id="procedimiento_principal" name="procedimiento_principal">
+            
+            <label for="procedimientos_adicionales_obs">Procedimientos Adicionales</label>
+            <textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="3"></textarea>
+
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" rows="5"></textarea>
+            
+            <button type="submit">Guardar Plantilla</button>
+          </form>
         </article>
+        {% else %}
+        <article>
+            <header><strong>Modo Solo Vista</strong></header>
+            <p>Has ingresado en modo de solo lectura.</p>
+            <p>Para crear o editar plantillas, accede desde el botón "1. Nuevo Registro de Plantilla" en el menú principal (solo para administradores).</p>
+        </article>
+        {% endif %}
       </section>
 
       <!-- Columna Derecha: Vista Previa -->
       <aside>
         <article class="preview-area">
-            <header><strong>Vista Previa</strong></header>
-            <div id="preview-content">
-                <p><em>Selecciona una plantilla para ver sus detalles.</em></p>
-            </div>
+          <header style="display: flex; justify-content: space-between; align-items: center;">
+            <strong>Vista Previa</strong>
+            <button id="copy-button" class="secondary outline" style="display: none;">📋 Copiar</button>
+          </header>
+          <div id="preview-content" class="preview-content">
+            <p><em>Selecciona una plantilla para ver sus detalles.</em></p>
+          </div>
         </article>
       </aside>
     </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
+  
   <script>
     $(document ).ready(function() {
+        // --- SECCIÓN 1: CARGA Y VISUALIZACIÓN DE PLANTILLAS ---
+        let plantillasData = [];
+
+        function formatForPreview(text) {
+            if (!text || text.trim() === '-') return '<p class="no-data">-</p>';
+            const escapedText = $('<div>').text(text).html();
+            return `<p>${escapedText.replace(/\n/g, '  
+')}</p>`;
+        }
 
         function cargarPlantillas() {
             $.ajax({
                 url: '/get_registros',
                 method: 'GET',
                 success: function(data) {
+                    plantillasData = data;
                     const lista = $('#lista-plantillas');
                     lista.empty();
-                    if (data && data.length > 0) {
+                    if (data.length > 0) {
                         data.forEach(plantilla => {
                             const item = $(`
-                                <article class="plantilla-item" data-id="${plantilla.id}">
-                                    <strong>${plantilla.codigo_prestacional || 'Sin Código'}</strong>
-                                      
+                                <div class="plantilla-item" data-id="${plantilla.id}">
+                                    <strong>${plantilla.codigo_prestacional || 'Sin Código'}</strong>  
 
                                     <small>${plantilla.descripcion_prestacional || 'Sin Descripción'}</small>
-                                </article>
+                                </div>
                             `);
-                            item.on('click', function() {
-    // Primero, quita la clase 'active' de cualquier otro elemento
-    $('.plantilla-item').removeClass('active');
-    
-    // Luego, añade la clase 'active' solo al elemento en el que se hizo clic
-    $(this).addClass('active');
-    
-    // Finalmente, muestra los detalles como antes
-    mostrarDetallesPlantilla(plantilla);
-});
-
-                                $('.plantilla-item').css('border', '1px solid transparent');
-                                $(this).css('border', '1px solid #63b3ed');
-                            });
                             lista.append(item);
                         });
                     } else {
@@ -127,55 +185,94 @@
                 },
                 error: function(err) {
                     console.error("Error al cargar plantillas:", err);
-                    $('#lista-plantillas').html('<p style="color:red;"><em>Error al cargar. Revisa la consola (F12).</em></p>');
+                    $('#lista-plantillas').html('<p><em>Error al cargar.</em></p>');
                 }
             });
         }
+        
+        cargarPlantillas();
 
-        function mostrarDetallesPlantilla(plantilla) {
-            const previewContent = $('#preview-content');
+        // --- SECCIÓN 2: LÓGICA DE CLIC Y VISTA PREVIA ---
+        $('#lista-plantillas').on('click', '.plantilla-item', function() {
+            const plantillaId = $(this).data('id');
+            const plantillaSeleccionada = plantillasData.find(p => p.id === plantillaId);
 
-            const formatText = (text) => {
-                if (!text || text.trim() === '') {
-                    return '<p class="no-data">-</p>';
-                }
-                const escapedText = $('<div/>').text(text).html();
-                return `<p>${escapedText.replace(/\\n/g, '  ')}</p>`;
+            // Resaltar el item seleccionado
+            $('.plantilla-item').removeClass('active');
+            $(this).addClass('active');
+
+            if (plantillaSeleccionada) {
+                const previewContent = `
+                    <h2>🏷️ Código Prestacional</h2>
+                    ${formatForPreview(plantillaSeleccionada.codigo_prestacional + ': ' + plantillaSeleccionada.descripcion_prestacional)}
+                    <h2>📊 Actividades Preventivas</h2>
+                    ${formatForPreview(plantillaSeleccionada.actividades_preventivas)}
+                    <h2>🩺 Diagnóstico Principal</h2>
+                    ${formatForPreview(plantillaSeleccionada.diagnostico_principal)}
+                    <h2>➕ Diagnósticos Complementarios</h2>
+                    ${formatForPreview(plantillaSeleccionada.diagnosticos_complementarios)}
+                    <h2>💊 Medicamento/Insumo Principal</h2>
+                    ${formatForPreview(plantillaSeleccionada.medicamento_principal)}
+                    <h2>🧪 Medicamentos/Insumos Adicionales</h2>
+                    ${formatForPreview(plantillaSeleccionada.medicamentos_adicionales_obs)}
+                    <h2>💉 Procedimiento Principal</h2>
+                    ${formatForPreview(plantillaSeleccionada.procedimiento_principal)}
+                    <h2>🩹 Procedimientos Adicionales</h2>
+                    ${formatForPreview(plantillaSeleccionada.procedimientos_adicionales_obs)}
+                    <h2>📝 Observaciones Finales</h2>
+                    ${formatForPreview(plantillaSeleccionada.observaciones)}
+                `;
+                $('#preview-content').html(previewContent);
+                $('#copy-button').show();
+            }
+        });
+
+        // --- SECCIÓN 3: GUARDADO DE FORMULARIO ---
+        $('#plantilla-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const datosPlantilla = {
+                codigo_prestacional: $('#codigo_prestacional').val(),
+                descripcion_prestacional: $('#descripcion_prestacional').val(),
+                actividades_preventivas: $('#actividades_preventivas').val(),
+                diagnostico_principal: $('#diagnostico_principal').val(),
+                diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
+                medicamento_principal: $('#medicamento_principal').val(),
+                medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
+                procedimiento_principal: $('#procedimiento_principal').val(),
+                procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
+                observaciones: $('#observaciones').val()
             };
 
-            let html = `
-    <h4>🏷️ Código Prestacional</h4>
-    <p>${plantilla.codigo_prestacional || ''}: ${plantilla.descripcion_prestacional || ''}</p>
-    
-    <h4>📊 Actividades Preventivas</h4>
-    ${formatText(plantilla.actividades_preventivas)}
-    
-    <h4>🩺 Diagnóstico Principal</h4>
-    ${formatText(plantilla.diagnostico_principal)}
-    
-    <h4>➕ Diagnósticos Complementarios</h4>
-    ${formatText(plantilla.diagnosticos_complementarios)}
-    
-    <h4>💊 Medicamento/Insumo Principal</h4>
-    ${formatText(plantilla.medicamento_principal)}
-    
-    <h4>🧪 Medicamentos/Insumos Adicionales</h4>
-    ${formatText(plantilla.medicamentos_adicionales_obs)}
-    
-    <h4>💉 Procedimiento Principal</h4>
-    ${formatText(plantilla.procedimiento_principal)}
-    
-    <h4>🩹 Procedimientos Adicionales</h4>
-    ${formatText(plantilla.procedimientos_adicionales_obs)}
+            $.ajax({
+                url: '/guardar_plantilla',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(datosPlantilla),
+                success: function(response) {
+                    alert('¡Plantilla guardada con éxito!');
+                    $('#plantilla-form')[0].reset();
+                    cargarPlantillas();
+                },
+                error: function(err) {
+                    const errorMsg = err.responseJSON ? err.responseJSON.error : "Error desconocido.";
+                    alert('Error al guardar la plantilla: ' + errorMsg);
+                    console.error(err);
+                }
+            });
+        });
+        
+        // --- SECCIÓN 4: BOTÓN DE COPIAR ---
+        $('#copy-button').on('click', function() {
+            const textToCopy = $('#preview-content').get(0).innerText;
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                alert('¡Vista previa copiada al portapapeles!');
+            }, function(err) {
+                alert('Error al copiar el texto.');
+                console.error('Error al copiar: ', err);
+            });
+        });
 
-    <h4>📝 Observaciones Finales</h4>
-    ${formatText(plantilla.observaciones)}
-`;
-
-            previewContent.html(html);
-        }
-
-        cargarPlantillas();
     });
   </script>
 </body>
