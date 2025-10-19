@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <title>Gestor de Plantillas Web</title>
+  <style>
+    .autocomplete-suggestions { border: 1px solid #555; background: #2b3e50; color: #fff; cursor: pointer; text-align: left; max-height: 250px; overflow-y: auto; }
+    .autocomplete-suggestion { padding: 8px; }
+    .autocomplete-suggestion:hover { background: #3a506b; }
+    .grid-container { display: grid; grid-template-columns: 1fr 2fr 1.5fr; gap: 1.5rem; align-items: start; }
+    .preview-area { border: 1px solid #445; padding: 1rem; border-radius: 0.5rem; background-color: #1f2937; min-height: 400px; }
+    #lista-plantillas article { transition: background-color 0.2s ease-in-out; }
+    #lista-plantillas article:hover { background-color: #2a3a4a; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="container">
+        <h1>Gestor de Plantillas Web</h1>
+        <p>Crea y gestiona tus plantillas de registro de salud.</p>
+    </header>
+    <hr>
+
+    <div class="grid-container">
+      <!-- Columna Izquierda: Lista de Plantillas -->
+      <aside>
+        <article>
+          <header><strong>Plantillas Guardadas</strong></header>
+          <div id="lista-plantillas">
+            <p><em>Cargando plantillas...</em></p>
+          </div>
+        </article>
+      </aside>
+
+      <!-- Columna Central: Formulario (Simplificado por ahora ) -->
+      <section>
+        <article>
+          <header><strong>Crear/Editar Plantilla</strong></header>
+          <form id="plantilla-form">
+            <p>La edición y creación de nuevas plantillas se implementará a continuación. Por ahora, selecciona una plantilla de la izquierda para ver sus detalles.</p>
+            <label for="codigo_prestacional_form">Código Prestacional</label>
+            <input type="text" id="codigo_prestacional_form" name="codigo_prestacional_form" placeholder="Ej: 024" disabled>
+
+            <label for="diagnostico_principal_form">Diagnóstico Principal (CIE-10)</label>
+            <input type="text" id="diagnostico_principal_form" name="diagnostico_principal_form" placeholder="Busca por código o nombre..." autocomplete="off" disabled>
+            
+            <button type="submit" disabled>Guardar Plantilla</button>
+          </form>
+        </article>
+      </section>
+
+      <!-- Columna Derecha: Vista Previa -->
+      <aside>
+        <article class="preview-area">
+            <header><strong>Vista Previa</strong></header>
+            <div id="preview-content">
+                <p><em>Selecciona una plantilla de la lista de la izquierda para ver sus detalles.</em></p>
+            </div>
+        </article>
+      </aside>
+    </div>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
+  
+  <script>
+    $(document ).ready(function() {
+
+        function cargarPlantillas() {
+            $.ajax({
+                url: '/get_registros',
+                method: 'GET',
+                success: function(data) {
+                    const lista = $('#lista-plantillas');
+                    lista.empty(); 
+                    if (data && data.length > 0) {
+                        data.forEach(plantilla => {
+                            // LA CORRECCIÓN ESTÁ AQUÍ:
+                            // He reemplazado las comillas ` (backticks) por comillas simples '
+                            // para evitar cualquier problema de sintaxis.
+                            const item = $(
+                                '<article style="padding: 0.5rem; margin-bottom: 0.5rem; cursor: pointer;">' +
+                                    '<strong>' + (plantilla.codigo_prestacional || 'Sin Código') + '</strong>  ' +
+                                    '<small>' + (plantilla.descripcion_prestacional || 'Sin Descripción') + '</small>' +
+                                '</article>'
+                            );
+                            item.data('plantilla', plantilla); 
+                            lista.append(item);
+                        });
+                    } else {
+                        lista.append('<p><em>No hay plantillas guardadas.</em></p>');
+                    }
+                },
+                error: function(err) {
+                    console.error("Error al cargar plantillas:", err);
+                    $('#lista-plantillas').html('<p><em>Error al cargar. Verifica que el servidor Flask esté corriendo.</em></p>');
+                }
+            });
+        }
+        
+        cargarPlantillas();
+
+        $('#lista-plantillas').on('click', 'article', function() {
+            const plantillaSeleccionada = $(this).data('plantilla');
+            if (plantillaSeleccionada) {
+                mostrarDetalles(plantillaSeleccionada);
+            }
+        });
+
+        function mostrarDetalles(plantilla) {
+            const vistaPrevia = $('#preview-content');
+            const formatarCampo = (valor) => (valor || '-').replace(/\\n/g, '  ').replace(/\n/g, '  ');
+
+            vistaPrevia.html(`
+                <p style="margin-bottom: 1rem;"><strong>🏷️ Código Prestacional:</strong>  
+${formatarCampo(plantilla.codigo_prestacional)}: ${formatarCampo(plantilla.descripcion_prestacional)}</p>
+                <p style="margin-bottom: 1rem;"><strong>📊 Actividades Preventivas:</strong>  
+${formatarCampo(plantilla.actividades_preventivas)}</p>
+                <p style="margin-bottom: 1rem;"><strong>🩺 Diagnóstico Principal:</strong>  
+${formatarCampo(plantilla.diagnostico_principal)}</p>
+                <p style="margin-bottom: 1rem;"><strong>➕ Diagnósticos Complementarios:</strong>  
+${formatarCampo(plantilla.diagnosticos_complementarios)}</p>
+                <p style="margin-bottom: 1rem;"><strong>💊 Medicamento/Insumo Principal:</strong>  
+${formatarCampo(plantilla.medicamento_principal)}</p>
+                <p style="margin-bottom: 1rem;"><strong>🧪 Medicamentos/Insumos Adicionales:</strong>  
+${formatarCampo(plantilla.medicamentos_adicionales_obs)}</p>
+                <p style="margin-bottom: 1rem;"><strong>💉 Procedimiento Principal:</strong>  
+${formatarCampo(plantilla.procedimiento_principal)}</p>
+                <p style="margin-bottom: 1rem;"><strong>🩹 Procedimientos Adicionales:</strong>  
+${formatarCampo(plantilla.procedimientos_adicionales_obs)}</p>
+                <p style="margin-bottom: 1rem;"><strong>📝 Observaciones Finales:</strong>  
+${formatarCampo(plantilla.observaciones)}</p>
+            `);
+        }
+
+        $('#diagnostico_principal_form').autocomplete({
+            serviceUrl: '/search_diagnosticos',
+            paramName: 'q',
+            transformResult: function(response) {
+                const res = JSON.parse(response);
+                return {
+                    suggestions: $.map(res, function(dataItem) {
+                        return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem.id };
+                    })
+                };
+            }
+        });
+
+    });
+  </script>
+</body>
+</html>
