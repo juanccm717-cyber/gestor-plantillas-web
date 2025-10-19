@@ -160,12 +160,86 @@ $(document).ready(function() {
         }
     });
 
+        // --- Autocompletado y Lógica Automática para Códigos Prestacionales ---
+
+    // NUEVO: Lógica para autocompletar al escribir un código de 3 dígitos
     $('#codigo_prestacional').on('input', function() {
-        if ($(this).val().trim() === '') {
+        const codigoInput = $(this).val().trim();
+
+        // Si el código tiene exactamente 3 caracteres
+        if (codigoInput.length === 3) {
+            // Hacemos una llamada AJAX para buscar ESE código específico
+            $.ajax({
+                url: '/search_codigos',
+                data: { query: codigoInput },
+                success: function(response) {
+                    try {
+                        const res = JSON.parse(response);
+                        // Buscamos una coincidencia exacta en las sugerencias
+                        const coincidenciaExacta = res.suggestions.find(s => s.codigo === codigoInput);
+
+                        if (coincidenciaExacta) {
+                            // Si se encuentra, rellenamos la descripción y habilitamos el botón
+                            $('#descripcion_prestacional').val(coincidenciaExacta.descripcion);
+                            $('#btn-step1-next').prop('disabled', false);
+                        } else {
+                            // Si no hay coincidencia exacta, limpiamos y deshabilitamos
+                            $('#descripcion_prestacional').val('Código no encontrado');
+                            $('#btn-step1-next').prop('disabled', true);
+                        }
+                    } catch (e) {
+                        console.error("Error al procesar la respuesta:", e);
+                        $('#descripcion_prestacional').val('');
+                        $('#btn-step1-next').prop('disabled', true);
+                    }
+                }
+            });
+        } else if (codigoInput.length < 3) {
+            // Si el usuario borra y el código es menor a 3, reseteamos
             $('#descripcion_prestacional').val('');
             $('#btn-step1-next').prop('disabled', true);
         }
     });
+
+    // Mantenemos el autocompletado para búsquedas por descripción
+    $('#codigo_prestacional').autocomplete({
+        serviceUrl: '/search_codigos',
+        paramName: 'query',
+        autoSelectFirst: true, // Buena idea mantener esto
+        
+        onSelect: function(suggestion) {
+            $('#codigo_prestacional').val(suggestion.data.codigo);
+            $('#descripcion_prestacional').val(suggestion.data.descripcion);
+            $('#btn-step1-next').prop('disabled', false);
+            return false; 
+        },
+
+        onInvalidateSelection: function() {
+            // Esta función se activa si el usuario escribe algo que no coincide
+            // y luego sale del campo. La dejamos para consistencia.
+            if ($('#codigo_prestacional').val().length !== 3) {
+                 $('#descripcion_prestacional').val('');
+                 $('#btn-step1-next').prop('disabled', true);
+            }
+        },
+
+        transformResult: function(response) {
+            try {
+                const res = JSON.parse(response);
+                return {
+                    suggestions: $.map(res.suggestions, function(dataItem) {
+                        return { 
+                            value: `(${dataItem.codigo}) ${dataItem.descripcion}`, 
+                            data: dataItem 
+                        };
+                    })
+                };
+            } catch (e) {
+                return { suggestions: [] };
+            }
+        }
+    });
+
     // ==================================================================
     // FIN DEL BLOQUE CORREGIDO
     // ==================================================================
