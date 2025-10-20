@@ -9,44 +9,110 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <style>
-        /* Estilos generales (sin cambios ) */
-        body { display: grid; grid-template-columns: 1fr; gap: 1rem; height: 100vh; margin: 0; padding-bottom: 70px; }
-        nav, aside { padding: 1rem; overflow-y: auto; display: none; background-color: #f8f9fa; }
-        nav { border-right: 1px solid #dcdcdc; }
-        aside { border-left: 1px solid #dcdcdc; }
-        main { padding: 1rem; overflow-y: auto; }
-        body.modo-visualizacion { grid-template-columns: 250px 1fr 350px; }
-        footer.page-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #f9f9f9; border-top: 1px solid #e0e0e0; padding: 1rem; display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .wizard-step { display: none; }
+        :root {
+            --background-color: #eef0f4;
+            --primary-color: #3d8bfd;
+            --text-color: #333;
+            --light-gray: #d1d9e6;
+            --shadow-light: #ffffff;
+            --shadow-dark: #babecc;
+            --border-radius: 12px;
+        }
+
+        body {
+            background-color: var(--background-color );
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            height: 100vh;
+            margin: 0;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            padding-bottom: 90px;
+        }
+
+        nav, aside {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+            overflow-y: auto;
+            display: none; /* Ocultos por defecto */
+        }
+
+        body.modo-visualizacion {
+            grid-template-columns: 280px 1fr 400px;
+        }
+        
+        /* CORRECCIÓN: Asegurarse de que los paneles se muestren en modo visualización */
+        body.modo-visualizacion nav,
+        body.modo-visualizacion aside {
+            display: block;
+        }
+
+        main { padding: 0; }
+        main > header { margin-bottom: 2rem; }
+        main > header h2 { font-weight: 700; color: #444; }
+
+        .wizard-step {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            display: none;
+        }
         .wizard-step.active { display: block; }
-        .button-group { display: flex; justify-content: space-between; margin-top: 1rem; }
-        #plantilla-preview { white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 1rem; border-radius: 5px; min-height: 300px; }
-        .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; z-index: 9999; }
-        .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-        .autocomplete-selected { background: #F0F0F0; }
-        .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-        article small { color: #555; }
-        #actividades-checkbox-container { max-height: 250px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #fff; }
-        #actividades-checkbox-container label { display: block; margin-bottom: 8px; }
-        #editor-observaciones { height: 150px; background-color: #fff; }
 
-        /* ====================================================================== */
-        /* CORRECCIÓN CSS: Anular estilos de Pico.css dentro del editor Quill.js */
-        /* ====================================================================== */
-        .ql-toolbar button {
-            width: 28px;      /* Ancho por defecto de Quill */
-            height: 24px;     /* Alto por defecto de Quill */
-            padding: 3px 5px; /* Padding por defecto de Quill */
+        label { font-weight: 600; margin-bottom: 0.5rem; color: #555; }
+        input, textarea, #actividades-checkbox-container, #editor-observaciones {
+            border: none; outline: none; background: var(--background-color);
+            border-radius: var(--border-radius); padding: 1rem;
+            box-shadow: inset 3px 3px 7px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light);
+            width: 100%;
         }
-        .ql-toolbar .ql-picker-label {
-            font-size: 14px; /* Restablecer tamaño de fuente para el desplegable de color */
-        }
-        /* ====================================================================== */
+        input:focus, textarea:focus { box-shadow: inset 1px 1px 2px var(--shadow-dark), inset -1px -1px 2px var(--shadow-light); }
+        input[readonly] { background-color: #e0e2e7; color: #777; }
 
+        button, .button {
+            border: none; border-radius: var(--border-radius); background: var(--background-color);
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            color: var(--text-color); font-weight: 600; padding: 0.8rem 1.2rem;
+            transition: all 0.2s ease-in-out;
+        }
+        button:hover, .button:hover { box-shadow: 3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light); }
+        button:active, .button:active { box-shadow: inset 3px 3px 7px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light); color: var(--primary-color); }
+        button.next-btn, button[type="submit"] { background: var(--primary-color); color: white; }
+        button.next-btn:active, button[type="submit"]:active { background: #3578d4; }
+
+        .button-group { display: flex; justify-content: space-between; margin-top: 2rem; }
+
+        footer.page-footer {
+            background: transparent; border: none; position: fixed; bottom: 0; left: 0;
+            width: 100%; padding: 1rem; display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        
+        #editor-observaciones { height: 150px; }
+        .ql-toolbar.ql-snow { border: none; border-bottom: 1px solid var(--light-gray); border-top-left-radius: var(--border-radius); border-top-right-radius: var(--border-radius); background: #e8eaf0; }
+        .ql-container.ql-snow { border: none; border-bottom-left-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius); }
+        .ql-toolbar button { box-shadow: none; }
+        .ql-toolbar button:hover { background-color: #ddd; }
+
+        #plantilla-preview {
+            background: var(--background-color); box-shadow: inset 3px 3px 7px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light);
+            white-space: pre-wrap; font-family: monospace; padding: 1rem; border-radius: var(--border-radius); min-height: 300px;
+        }
+        #lista-registros article {
+            background: var(--background-color); border-radius: 8px; padding: 1rem;
+            margin-bottom: 1rem; cursor: pointer;
+            box-shadow: 3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light);
+            transition: all 0.2s ease-in-out;
+        }
+        #lista-registros article:hover { transform: translateY(-2px); box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light); }
     </style>
 </head>
 <body>
-    <!-- El resto del body (nav, main, aside, footer, form, script) no cambia -->
     <nav>
         <h5>Plantillas Guardadas</h5>
         <div id="lista-registros">Cargando...</div>
@@ -114,7 +180,6 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
-    // El código JavaScript no necesita cambios, por lo que se mantiene igual.
     $(document ).ready(function() {
         const userRol = "{{ rol }}";
 
@@ -125,12 +190,22 @@
             theme: 'snow'
         });
 
+        // ======================================================================
+        // LÓGICA DEL BOTÓN DE VISUALIZACIÓN (CORREGIDA Y COMPLETA)
+        // ======================================================================
         $('#toggle-panels-btn').click(function() {
-            $('body').toggleClass('modo-visualizacion');
-            const isVisible = $('body').hasClass('modo-visualizacion');
-            $('nav, aside').toggle(isVisible);
+            const body = $('body');
+            body.toggleClass('modo-visualizacion');
+            
+            const isVisible = body.hasClass('modo-visualizacion');
+            
+            // Ocultar/mostrar el formulario principal
+            $('#wizard-form, main > header').toggle(!isVisible);
+
+            // Cambiar el texto del botón
             $(this).text(isVisible ? 'Ocultar Paneles y Volver a Crear' : 'Ver Plantillas Guardadas');
         });
+        // ======================================================================
 
         let currentStep = 1;
         const totalSteps = 4;
@@ -212,14 +287,13 @@
                 const lista = $('#lista-registros');
                 lista.empty();
                 registros.forEach(function(reg) {
-                    const item = $(`<article style="margin-bottom: 0.5rem; cursor: pointer;" data-id="${reg.id}"><strong>${reg.codigo_prestacional || 'S/C'}</strong>  
-<small>${reg.descripcion_prestacional || 'Sin descripción'}</small></article>`);
-                    item.click(function() { showPreview($(this).data('id')); });
+                    const item = $(`<article><strong data-id="${reg.id}" style="cursor: pointer;">${reg.codigo_prestacional || 'S/C'}: ${reg.descripcion_prestacional || 'Sin descripción'}</strong></article>`);
+                    item.find('strong').click(function() { showPreview($(this).data('id')); });
                     lista.append(item);
                 });
             }).fail(function(xhr) {
                 if (xhr.status === 401) {
-                    alert("Su sesión ha expirado. La página se recargará para que inicie sesión de nuevo.");
+                    alert("Su sesión ha expirado. La página se recargará.");
                     window.location.reload();
                 } else {
                     $('#lista-registros').text('Error al cargar plantillas.');
@@ -233,7 +307,6 @@
                 if (registro) {
                     const obsHtml = registro.observaciones || '';
                     const obsText = $('<div>').html(obsHtml).text();
-
                     const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'N/A'}\n**Descripción:** ${registro.descripcion_prestacional || 'N/A'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'N/A'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'N/A'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'N/A'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'N/A'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'N/A'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'N/A'}\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'N/A'}\n\n**Observaciones Generales:**\n${obsText}`;
                     $('#plantilla-preview').text(previewContent);
                 }
@@ -284,12 +357,8 @@
         });
 
         if (userRol === 'viewer') {
-            $('#wizard-form').hide();
-            $('#toggle-panels-btn').hide();
+            $('#wizard-form, main > header, #toggle-panels-btn').hide();
             $('body').addClass('modo-visualizacion');
-            $('nav, aside').show();
-            $('main > header > h2').text('Visualización de Plantillas');
-            $('main > header > p').text('Seleccione una plantilla de la lista para ver su contenido y copiarlo.');
         } else {
             showStep(currentStep);
         }
