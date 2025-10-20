@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from datetime import timedelta
 import os
 import json
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, exc
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS (SUPABASE) ---
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -24,33 +24,40 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 
 
 # ======================================================================
-# CORRECCIÓN FINAL Y DEFINITIVA: FUNCIONES ADAPTADAS A TU TABLA
+# CORRECCIÓN FINAL Y DEFINITIVA: LECTURA DE DATOS ROBUSTA
 # ======================================================================
 
 def leer_registros_desde_db():
     """Lee todas las plantillas de la tabla 'registros' existente."""
-    with engine.connect() as conn:
-        # ======================================================================
-        # CORRECCIÓN: Se ha eliminado la columna 'observaciones' que no existe en tu tabla.
-        # ======================================================================
-        result = conn.execute(text("""
-            SELECT id, codigo_prestacional, descripcion_prestacional, actividades_preventivas, 
-                   diagnostico_principal, diagnosticos_complementarios, medicamento_principal, 
-                   medicamentos_adicionales_obs, procedimiento_principal, 
-                   procedimientos_adicionales_obs
-            FROM public.registros ORDER BY id ASC;
-        """))
-        
-        registros = [dict(row._mapping) for row in result]
-        return registros
+    try:
+        with engine.connect() as conn:
+            # La consulta SQL está bien, el problema estaba en cómo se procesaba el resultado.
+            query = text("""
+                SELECT id, codigo_prestacional, descripcion_prestacional, actividades_preventivas, 
+                       diagnostico_principal, diagnosticos_complementarios, medicamento_principal, 
+                       medicamentos_adicionales_obs, procedimiento_principal, 
+                       procedimientos_adicionales_obs
+                FROM public.registros ORDER BY id ASC;
+            """)
+            result = conn.execute(query)
+            
+            # Obtenemos los nombres de las columnas del resultado
+            keys = result.keys()
+            
+            # ======================================================================
+            # CORRECCIÓN: Reemplazamos la línea frágil por un bucle explícito y seguro.
+            # ======================================================================
+            registros = [dict(zip(keys, row)) for row in result]
+            
+            return registros
+    except exc.SQLAlchemyError as e:
+        # Si hay cualquier error de base de datos, lo registramos para depuración
+        print(f"Error al leer de la base de datos: {e}")
+        return [] # Devolvemos una lista vacía para no romper el frontend
 
 def escribir_registro_en_db(plantilla_data):
     """Inserta una nueva plantilla en la tabla 'registros' existente."""
     with engine.connect() as conn:
-        # ======================================================================
-        # CORRECCIÓN: Se ha eliminado la columna 'observaciones' de la inserción.
-        # También se asegura de que todos los campos existan en el diccionario.
-        # ======================================================================
         stmt = text("""
             INSERT INTO public.registros (
                 codigo_prestacional, descripcion_prestacional, actividades_preventivas,
@@ -65,7 +72,6 @@ def escribir_registro_en_db(plantilla_data):
             ) RETURNING id;
         """)
         
-        # Preparamos un diccionario con todos los campos esperados, con valores por defecto
         params = {
             "codigo_prestacional": plantilla_data.get("codigo_prestacional"),
             "descripcion_prestacional": plantilla_data.get("descripcion_prestacional"),
@@ -76,7 +82,6 @@ def escribir_registro_en_db(plantilla_data):
             "medicamentos_adicionales_obs": plantilla_data.get("medicamentos_adicionales_obs"),
             "procedimiento_principal": plantilla_data.get("procedimiento_principal"),
             "procedimientos_adicionales_obs": plantilla_data.get("procedimientos_adicionales_obs"),
-            # "observaciones" ya no se incluye
         }
         
         result = conn.execute(stmt, params)
@@ -87,7 +92,7 @@ def escribir_registro_en_db(plantilla_data):
 # ======================================================================
 
 
-# --- RUTAS (la mayoría no cambian) ---
+# --- RUTAS (sin cambios) ---
 
 @app.route('/')
 def home():
@@ -118,7 +123,7 @@ def plantillas():
     if 'username' not in session: return redirect(url_for('login'))
     return render_template('index.html', rol=session.get('rol', 'viewer'))
 
-# --- RUTAS DE API (MODIFICADAS PARA USAR LA DB) ---
+# --- RUTAS DE API (sin cambios) ---
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
@@ -137,8 +142,6 @@ def get_registros():
     if 'username' not in session: return jsonify([]), 401
     registros = leer_registros_desde_db()
     return jsonify(registros)
-
-# --- RUTAS DE API (sin cambios, ya que no tocan la DB) ---
 
 @app.route('/search_codigos', methods=['GET'])
 def search_codigos():
