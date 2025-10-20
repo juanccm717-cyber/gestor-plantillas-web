@@ -30,39 +30,56 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 def leer_registros_desde_db():
     """Lee todas las plantillas de la tabla 'registros' existente."""
     with engine.connect() as conn:
-        # Seleccionamos las columnas que nos interesan por su nombre
+        # ======================================================================
+        # CORRECCIÓN: Se ha eliminado la columna 'observaciones' que no existe en tu tabla.
+        # ======================================================================
         result = conn.execute(text("""
             SELECT id, codigo_prestacional, descripcion_prestacional, actividades_preventivas, 
                    diagnostico_principal, diagnosticos_complementarios, medicamento_principal, 
                    medicamentos_adicionales_obs, procedimiento_principal, 
-                   procedimientos_adicionales_obs, observaciones
+                   procedimientos_adicionales_obs
             FROM public.registros ORDER BY id ASC;
         """))
         
-        # Convertimos el resultado en una lista de diccionarios, como espera el frontend
         registros = [dict(row._mapping) for row in result]
         return registros
 
 def escribir_registro_en_db(plantilla_data):
     """Inserta una nueva plantilla en la tabla 'registros' existente."""
     with engine.connect() as conn:
-        # La sentencia SQL ahora coincide con las columnas de tu tabla
+        # ======================================================================
+        # CORRECCIÓN: Se ha eliminado la columna 'observaciones' de la inserción.
+        # También se asegura de que todos los campos existan en el diccionario.
+        # ======================================================================
         stmt = text("""
             INSERT INTO public.registros (
                 codigo_prestacional, descripcion_prestacional, actividades_preventivas,
                 diagnostico_principal, diagnosticos_complementarios, medicamento_principal,
                 medicamentos_adicionales_obs, procedimiento_principal,
-                procedimientos_adicionales_obs, observaciones
+                procedimientos_adicionales_obs
             ) VALUES (
                 :codigo_prestacional, :descripcion_prestacional, :actividades_preventivas,
                 :diagnostico_principal, :diagnosticos_complementarios, :medicamento_principal,
                 :medicamentos_adicionales_obs, :procedimiento_principal,
-                :procedimientos_adicionales_obs, :observaciones
+                :procedimientos_adicionales_obs
             ) RETURNING id;
         """)
         
-        # Ejecutamos la sentencia con los datos de la plantilla
-        result = conn.execute(stmt, plantilla_data)
+        # Preparamos un diccionario con todos los campos esperados, con valores por defecto
+        params = {
+            "codigo_prestacional": plantilla_data.get("codigo_prestacional"),
+            "descripcion_prestacional": plantilla_data.get("descripcion_prestacional"),
+            "actividades_preventivas": plantilla_data.get("actividades_preventivas"),
+            "diagnostico_principal": plantilla_data.get("diagnostico_principal"),
+            "diagnosticos_complementarios": plantilla_data.get("diagnosticos_complementarios"),
+            "medicamento_principal": plantilla_data.get("medicamento_principal"),
+            "medicamentos_adicionales_obs": plantilla_data.get("medicamentos_adicionales_obs"),
+            "procedimiento_principal": plantilla_data.get("procedimiento_principal"),
+            "procedimientos_adicionales_obs": plantilla_data.get("procedimientos_adicionales_obs"),
+            # "observaciones" ya no se incluye
+        }
+        
+        result = conn.execute(stmt, params)
         nuevo_id = result.scalar()
         conn.commit()
         return nuevo_id
@@ -112,14 +129,12 @@ def guardar_plantilla():
     if not nueva_plantilla.get('codigo_prestacional'):
         return jsonify({'message': 'El código prestacional es obligatorio.'}), 400
 
-    # La función escribir_registro_en_db ahora está adaptada a tu tabla
     nuevo_id = escribir_registro_en_db(nueva_plantilla)
     return jsonify({'message': f"Plantilla guardada con éxito con ID: {nuevo_id}"}), 201
 
 @app.route('/get_registros', methods=['GET'])
 def get_registros():
     if 'username' not in session: return jsonify([]), 401
-    # La función leer_registros_desde_db ahora está adaptada a tu tabla
     registros = leer_registros_desde_db()
     return jsonify(registros)
 
