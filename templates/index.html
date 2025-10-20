@@ -53,19 +53,13 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
-    // ======================================================================
-    // CORRECCIÓN: SCRIPT REESTRUCTURADO Y FINAL
-    // ======================================================================
     $(document ).ready(function() {
+        // --- INICIALIZACIÓN ---
         const userRol = "{{ rol }}";
         const urlParams = new URLSearchParams(window.location.search);
         const modo = urlParams.get('modo');
-
-        // --- INICIALIZACIÓN DE QUILL (Editor de texto) ---
-        const colores = ['#28a745', '#ffc107', '#dc3545'];
-        const toolbarOptions = [['bold'], [{ 'color': colores }]];
         const quill = new Quill('#editor-observaciones', {
-            modules: { toolbar: toolbarOptions },
+            modules: { toolbar: [['bold'], [{ 'color': ['#28a745', '#ffc107', '#dc3545'] }]] },
             theme: 'snow'
         });
 
@@ -86,8 +80,7 @@
                 }
             }).fail(function(xhr) {
                 if (xhr.status === 401) {
-                    alert("Su sesión ha expirado. La página se recargará.");
-                    window.location.reload();
+                    alert("Su sesión ha expirado."); window.location.reload();
                 } else {
                     $('#lista-registros').text('Error al cargar plantillas.');
                 }
@@ -153,40 +146,117 @@
             navigator.clipboard.writeText(textToCopy).then(() => alert('¡Copiado!'), () => alert('Error al copiar.'));
         });
 
-        $('#codigo_prestacional').on('input', function() { /* ... (código sin cambios) ... */ });
-        $('#codigo_prestacional').autocomplete({ /* ... (código sin cambios) ... */ });
-        $('#codigo_prestacional').on('keydown', function(e) { if (e.which === 13 || e.which === 9) $(this).autocomplete('hide'); });
+        // ======================================================================
+        // CORRECCIÓN: LÓGICA DE VALIDACIÓN DEL CÓDIGO PRESTACIONAL RESTAURADA
+        // ======================================================================
+        $('#codigo_prestacional').on('input', function() {
+            const codigoInput = $(this).val().trim();
+            if (codigoInput.length === 3) {
+                $.ajax({
+                    url: '/search_codigos', data: { query: codigoInput }, dataType: 'json',
+                    success: function(response) {
+                        const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput);
+                        if (coincidenciaExacta) {
+                            $('#descripcion_prestacional').val(coincidenciaExacta.descripcion);
+                            $('#btn-step1-next').prop('disabled', false);
+                            fetchAndFillActivities(codigoInput);
+                        } else {
+                            $('#descripcion_prestacional').val('Código no encontrado');
+                            $('#btn-step1-next').prop('disabled', true);
+                        }
+                    }
+                });
+            } else {
+                $('#descripcion_prestacional').val('');
+                $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
+                $('#btn-step1-next').prop('disabled', true);
+            }
+        });
+
+        $('#codigo_prestacional').autocomplete({
+            serviceUrl: '/search_codigos',
+            paramName: 'query',
+            dataType: 'json',
+            autoSelectFirst: true,
+            onSelect: function(suggestion) {
+                $('#codigo_prestacional').val(suggestion.data.codigo);
+                $('#descripcion_prestacional').val(suggestion.data.descripcion);
+                $('#btn-step1-next').prop('disabled', false);
+                fetchAndFillActivities(suggestion.data.codigo);
+                return false; // Previene que el valor del input se reemplace con el `value` de la sugerencia
+            },
+            transformResult: function(response) {
+                return {
+                    suggestions: $.map(response.suggestions, function(dataItem) {
+                        return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem };
+                    })
+                };
+            }
+        });
         
-        $('#wizard-form').on('submit', function(e) { /* ... (código sin cambios) ... */ });
+        $('#codigo_prestacional').on('keydown', function(e) {
+            if (e.which === 13 || e.which === 9) { // Enter o Tab
+                $(this).autocomplete('hide');
+            }
+        });
+        // ======================================================================
+
+        $('#wizard-form').on('submit', function(e) {
+            e.preventDefault();
+            const actividadesSeleccionadas = [];
+            $('input[name="actividades_preventivas"]:checked').each(function() {
+                actividadesSeleccionadas.push($(this).val());
+            });
+            const observacionesHtml = quill.root.innerHTML;
+            const formData = {
+                codigo_prestacional: $('#codigo_prestacional').val(),
+                descripcion_prestacional: $('#descripcion_prestacional').val(),
+                actividades_preventivas: actividadesSeleccionadas.join('\n'),
+                diagnostico_principal: $('#diagnostico_principal').val(),
+                diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
+                medicamento_principal: $('#medicamento_principal').val(),
+                medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
+                procedimiento_principal: $('#procedimiento_principal').val(),
+                procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
+                observaciones: observacionesHtml
+            };
+            $.ajax({
+                url: '/guardar_plantilla', type: 'POST', contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    alert(response.message);
+                    loadRegistros();
+                    $('#wizard-form')[0].reset();
+                    quill.setText('');
+                    $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
+                    showStep(1);
+                    $('#btn-step1-next').prop('disabled', true);
+                },
+                error: function(xhr) {
+                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar.';
+                    alert(errorMsg);
+                }
+            });
+        });
 
         // --- LÓGICA DE INICIALIZACIÓN DE LA PÁGINA ---
-
         if (modo === 'ver') {
-            // Si la URL dice modo=ver, forzar la vista de visualización
             $('#wizard-form, main > header').hide();
-            // Para el admin, el botón de "Ocultar" sigue siendo útil
-            if (userRol === 'admin') {
-                $('#toggle-panels-btn').text('Ocultar y Volver a Crear');
-            } else { // Para el viewer, no tiene sentido
+            if (userRol !== 'admin') {
                 $('#toggle-panels-btn').hide();
+            } else {
+                $('#toggle-panels-btn').text('Ocultar y Volver a Crear');
             }
             $('body').addClass('modo-visualizacion');
-            loadRegistros(); // Cargar los registros inmediatamente
+            loadRegistros();
         } else if (userRol === 'viewer') {
-            // Si es viewer y no viene con modo=ver (caso de seguridad), forzarlo igual
             $('#wizard-form, main > header, #toggle-panels-btn').hide();
             $('body').addClass('modo-visualizacion');
             loadRegistros();
         } else {
-            // Comportamiento por defecto para el admin: mostrar el asistente
             showStep(currentStep);
         }
     });
-
-    // Re-pego el contenido de las funciones que no cambiaron para evitar errores
-    $('#codigo_prestacional').on('input', function() { const codigoInput = $(this).val().trim(); if (codigoInput.length === 3) { $.ajax({ url: '/search_codigos', data: { query: codigoInput }, dataType: 'json', success: function(response) { const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput); if (coincidenciaExacta) { $('#descripcion_prestacional').val(coincidenciaExacta.descripcion); $('#btn-step1-next').prop('disabled', false); new Function('return ' + $('#codigo_prestacional').data('fetch-activities'))()(codigoInput); } else { $('#descripcion_prestacional').val('Código no encontrado'); $('#btn-step1-next').prop('disabled', true); } } }); } else { $('#descripcion_prestacional').val(''); $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>'); $('#btn-step1-next').prop('disabled', true); } }).data('fetch-activities', 'fetchAndFillActivities');
-    $('#codigo_prestacional').autocomplete({ serviceUrl: '/search_codigos', paramName: 'query', dataType: 'json', autoSelectFirst: true, onSelect: function(suggestion) { $('#codigo_prestacional').val(suggestion.data.codigo); $('#descripcion_prestacional').val(suggestion.data.descripcion); $('#btn-step1-next').prop('disabled', false); new Function('return ' + $(this).data('fetch-activities'))()(suggestion.data.codigo); return false; }, transformResult: function(response) { return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) }; } }).data('fetch-activities', 'fetchAndFillActivities');
-    $('#wizard-form').on('submit', function(e) { e.preventDefault(); const actividadesSeleccionadas = []; $('input[name="actividades_preventivas"]:checked').each(function() { actividadesSeleccionadas.push($(this).val()); }); const observacionesHtml = new Quill('#editor-observaciones').root.innerHTML; const formData = { codigo_prestacional: $('#codigo_prestacional').val(), descripcion_prestacional: $('#descripcion_prestacional').val(), actividades_preventivas: actividadesSeleccionadas.join('\n'), diagnostico_principal: $('#diagnostico_principal').val(), diagnosticos_complementarios: $('#diagnosticos_complementarios').val(), medicamento_principal: $('#medicamento_principal').val(), medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(), procedimiento_principal: $('#procedimiento_principal').val(), procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(), observaciones: observacionesHtml }; $.ajax({ url: '/guardar_plantilla', type: 'POST', contentType: 'application/json', data: JSON.stringify(formData), success: function(response) { alert(response.message); new Function('return ' + $('#wizard-form').data('load-registros'))()(); $('#wizard-form')[0].reset(); new Quill('#editor-observaciones').setText(''); $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>'); new Function('return ' + $('#wizard-form').data('show-step'))()(1); $('#btn-step1-next').prop('disabled', true); }, error: function(xhr) { const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar.'; alert(errorMsg); } }); }).data('load-registros', 'loadRegistros').data('show-step', 'showStep');
     </script>
 </body>
 </html>
