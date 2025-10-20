@@ -1,51 +1,54 @@
-<!doctype html>
-<html lang="es" data-theme="dark">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <title>Login - Gestor de Plantillas</title>
-  <style>
-  /* Quitamos los estilos del body que no funcionaban */
-  body {
-    background-color: var(--background-color); /* Mantenemos el color de fondo del tema */
-  }
-  /* Aplicamos los estilos de centrado directamente al contenedor principal */
-  main.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centra verticalmente */
-    align-items: center;   /* Centra horizontalmente */
-    min-height: 100vh;     /* Ocupa toda la altura de la pantalla */
-  }
-  .login-container {
-    max-width: 450px;
-    width: 100%;
-    border: none; /* Opcional: quita el borde del article para un look más limpio */
-    box-shadow: none; /* Opcional: quita la sombra */
-    padding: 0;
-  }
-  .error { color: #f44336; margin-top: 1rem; text-align: center; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        article {
+            width: 400px;
+        }
+        fieldset {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <article class="login-container">
-      <hgroup>
-        <h1>Iniciar Sesión</h1>
-        <h2>Gestor de Plantillas</h2>
-      </hgroup>
-      <form method="POST" action="/login">
-        <input type="text" name="username" placeholder="Usuario" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button type="submit">Entrar</button>
-      </form>
-      <!-- Si hay un error, el backend lo insertará aquí -->
-      {% if error %}
-        <p class="error">{{ error }}</p>
-      {% endif %}
-    </article>
-  </main>
+    <main class="container">
+        <article>
+            <h2 style="text-align: center;">Iniciar Sesión</h2>
+            <form method="post">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+                
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+
+                <!-- NUEVO: Selector de Rol de Usuario -->
+                <label>Modo de Acceso</label>
+                <fieldset>
+                    <label for="rol_admin">
+                        <input type="radio" id="rol_admin" name="rol" value="admin" checked>
+                        Administrador
+                    </label>
+                    <label for="rol_viewer">
+                        <input type="radio" id="rol_viewer" name="rol" value="viewer">
+                        Visualización
+                    </label>
+                </fieldset>
+                
+                <button type="submit" style="width: 100%;">Ingresar</button>
+            </form>
+        </article>
+    </main>
 </body>
 </html>
-
