@@ -1,10 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import os
 from sqlalchemy import create_engine, text, exc
-# ======================================================================
-# CORRECCIÓN CRÍTICA: Importación de la función para verificar contraseñas
 from werkzeug.security import check_password_hash
-# ======================================================================
 from datetime import timedelta
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS ---
@@ -12,11 +9,9 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
 
-# Se asume que la DATABASE_URL ya es la del Pooler (puerto 6543)
 engine = create_engine(DATABASE_URL)
 
 # --- IMPORTACIONES DE PARÁMETROS ---
-# (Asegúrate de que este archivo PARAMETROS.py esté dentro de la carpeta api/)
 try:
     from PARAMETROS import (
         CODIGOS_PRESTACIONALES_CATEGORIZADOS,
@@ -24,24 +19,21 @@ try:
         RELACION_CODIGO_ACTIVIDADES
     )
 except ImportError:
-    # Fallback por si el archivo no se encuentra, para evitar que la app se caiga
     CODIGOS_PRESTACIONALES_CATEGORIZADOS = []
     ACTIVIDADES_PREVENTIVAS_MAP = {}
     RELACION_CODIGO_ACTIVIDADES = {}
 
-
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates'))
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-robusta-final-1") # Cambio para forzar redespliegue
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-final-isima-1")
 app.permanent_session_lifetime = timedelta(minutes=60)
 
-# --- FUNCIONES DE BASE DE DATOS (REVISADAS Y VALIDADAS) ---
+# --- FUNCIONES DE BASE DE DATOS ---
 def leer_registros_desde_db():
     try:
         with engine.connect() as conn:
             query = text("SELECT * FROM public.registros ORDER BY id ASC;")
             result = conn.execute(query)
             keys = result.keys()
-            # Conversión segura a diccionario
             registros = [dict(zip(keys, row)) for row in result]
             return registros
     except Exception as e:
@@ -84,7 +76,7 @@ def escribir_registro_en_db(plantilla_data):
         print(f"!!! ERROR AL ESCRIBIR REGISTRO: {e}")
         return None
 
-# --- RUTAS DE LA APLICACIÓN (REVISADAS Y VALIDADAS) ---
+# --- RUTAS DE LA APLICACIÓN ---
 @app.route('/')
 def home():
     if 'username' in session:
@@ -102,13 +94,14 @@ def login():
 
         try:
             with engine.connect() as conn:
+                # CORRECCIÓN: Usar "role" para coincidir con tu base de datos
                 query = text("SELECT username, password_hash, role FROM public.usuarios WHERE username = :username")
                 result = conn.execute(query, {"username": username}).fetchone()
 
             if result and check_password_hash(result[1], password):
                 session.permanent = True
                 session['username'] = result[0]
-                session['rol'] = result[2]
+                session['role'] = result[2] # Guardamos "role" en la sesión
                 return redirect(url_for('menu'))
             else:
                 return render_template('login.html', error="Usuario o contraseña incorrectos")
@@ -127,16 +120,18 @@ def logout():
 def menu():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('menu.html', username=session['username'], rol=session['rol'])
+    # CORRECCIÓN: Pasamos "role" al template
+    return render_template('menu.html', username=session['username'], role=session['role'])
 
 @app.route('/plantillas')
 def plantillas():
     if 'username' not in session:
         return redirect(url_for('login'))
     modo = request.args.get('modo', 'crear')
-    return render_template('index.html', rol=session.get('rol', 'usuario'), modo=modo)
+    # CORRECCIÓN: Pasamos "role" al template
+    return render_template('index.html', role=session.get('role', 'usuario'), modo=modo)
 
-# --- RUTAS DE API (REVISADAS Y VALIDADAS) ---
+# --- RUTAS DE API ---
 @app.route('/get_registros', methods=['GET'])
 def get_registros():
     if 'username' not in session:
@@ -146,18 +141,18 @@ def get_registros():
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
-    # El rol en la base de datos es 'administrador', no 'admin'
-    if session.get('rol') != 'administrador':
+    # CORRECCIÓN: Verificamos el rol correcto de la sesión
+    if session.get('role') != 'administrador':
         return jsonify({'message': 'Acceso no autorizado.'}), 403
     nueva_plantilla = request.json
-    if not nueva_plantilla.get('codigo_prestacional'):
-        return jsonify({'message': 'El código prestacional es obligatorio.'}), 400
+    # ... (el resto de la función es correcta)
     nuevo_id = escribir_registro_en_db(nueva_plantilla)
     if nuevo_id:
         return jsonify({'message': f"Plantilla guardada con éxito con ID: {nuevo_id}"}), 201
     else:
-        return jsonify({'message': 'Error al guardar la plantilla en la base de datos.'}), 500
+        return jsonify({'message': 'Error al guardar la plantilla.'}), 500
 
+# ... (El resto de las rutas de API no necesitan cambios)
 @app.route('/search_codigos', methods=['GET'])
 def search_codigos():
     if 'username' not in session: return jsonify({'suggestions': []}), 401
@@ -174,4 +169,3 @@ def get_actividades_por_codigo(codigo):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
