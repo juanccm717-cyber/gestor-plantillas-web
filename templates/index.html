@@ -42,10 +42,33 @@
     </style>
 </head>
 <body>
-    <!-- Body HTML (sin cambios) -->
-    <nav><h5>Plantillas Guardadas</h5><div id="lista-registros">Cargando...</div></nav>
-    <main><header><h2>Crear Nueva Plantilla</h2><p>Asistente de 4 pasos para la creación de plantillas de atención.</p></header><form id="wizard-form"><div id="step-1" class="wizard-step active"><h4>Paso 1: Código Prestacional y Actividades</h4><label for="codigo_prestacional">Código Prestacional</label><input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Escriba el código o descripción"><label for="descripcion_prestacional">Descripción Prestacional</label><input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly><label>Seleccione las Actividades Preventivas</label><div id="actividades-checkbox-container"><small><i>Seleccione un código prestacional para ver las actividades sugeridas.</i></small></div><div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div></div><div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div><div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos y/o Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div><div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label>Observaciones Generales</label><div id="editor-observaciones"></div><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div></form></main>
-    <aside><h5>Vista Previa</h5><div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div><button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button></aside>
+    <!-- ====================================================================== -->
+    <!-- CORRECCIÓN ESTRUCTURAL: <nav> y <aside> están FUERA de <main> -->
+    <!-- ====================================================================== -->
+    <nav>
+        <h5>Plantillas Guardadas</h5>
+        <div id="lista-registros">Cargando...</div>
+    </nav>
+    <main>
+        <header>
+            <h2>Crear Nueva Plantilla</h2>
+            <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
+        </header>
+        <form id="wizard-form">
+            <!-- Pasos del 1 al 4 (sin cambios) -->
+            <div id="step-1" class="wizard-step active"><h4>Paso 1: Código Prestacional y Actividades</h4><label for="codigo_prestacional">Código Prestacional</label><input type="text" id="codigo_prestacional" name="codigo_prestacional" placeholder="Escriba el código o descripción"><label for="descripcion_prestacional">Descripción Prestacional</label><input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly><label>Seleccione las Actividades Preventivas</label><div id="actividades-checkbox-container"><small><i>Seleccione un código prestacional para ver las actividades sugeridas.</i></small></div><div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div></div>
+            <div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
+            <div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos y/o Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
+            <div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label>Observaciones Generales</label><div id="editor-observaciones"></div><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div>
+        </form>
+    </main>
+    <aside>
+        <h5>Vista Previa</h5>
+        <div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div>
+        <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
+    </aside>
+    <!-- ====================================================================== -->
+    
     <footer class="page-footer"><a href="{{ url_for('menu') }}" role="button" class="secondary-action">Volver al Menú Principal</a><button id="toggle-panels-btn">Ver Plantillas Guardadas</button></footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -79,11 +102,8 @@
                     lista.html('<small><i>No hay plantillas guardadas.</i></small>');
                 }
             }).fail(function(xhr) {
-                if (xhr.status === 401) {
-                    alert("Su sesión ha expirado."); window.location.reload();
-                } else {
-                    $('#lista-registros').text('Error al cargar plantillas.');
-                }
+                if (xhr.status === 401) { alert("Su sesión ha expirado."); window.location.reload(); } 
+                else { $('#lista-registros').text('Error al cargar plantillas.'); }
             });
         }
 
@@ -136,19 +156,18 @@
             const body = $('body');
             body.toggleClass('modo-visualizacion');
             const isVisible = body.hasClass('modo-visualizacion');
+            
+            // CORRECCIÓN: Solo ocultamos el contenido de creación, no el <main> entero
             $('#wizard-form, main > header').toggle(!isVisible);
+
             if (isVisible) { loadRegistros(); }
             $(this).text(isVisible ? 'Ocultar y Volver a Crear' : 'Ver Plantillas Guardadas');
         });
 
         $('#copy-btn').click(function() {
-            const textToCopy = $('#plantilla-preview').text();
-            navigator.clipboard.writeText(textToCopy).then(() => alert('¡Copiado!'), () => alert('Error al copiar.'));
+            navigator.clipboard.writeText($('#plantilla-preview').text()).then(() => alert('¡Copiado!'), () => alert('Error al copiar.'));
         });
 
-        // ======================================================================
-        // CORRECCIÓN: LÓGICA DE VALIDACIÓN DEL CÓDIGO PRESTACIONAL RESTAURADA
-        // ======================================================================
         $('#codigo_prestacional').on('input', function() {
             const codigoInput = $(this).val().trim();
             if (codigoInput.length === 3) {
@@ -174,55 +193,37 @@
         });
 
         $('#codigo_prestacional').autocomplete({
-            serviceUrl: '/search_codigos',
-            paramName: 'query',
-            dataType: 'json',
-            autoSelectFirst: true,
+            serviceUrl: '/search_codigos', paramName: 'query', dataType: 'json', autoSelectFirst: true,
             onSelect: function(suggestion) {
                 $('#codigo_prestacional').val(suggestion.data.codigo);
                 $('#descripcion_prestacional').val(suggestion.data.descripcion);
                 $('#btn-step1-next').prop('disabled', false);
                 fetchAndFillActivities(suggestion.data.codigo);
-                return false; // Previene que el valor del input se reemplace con el `value` de la sugerencia
+                return false;
             },
             transformResult: function(response) {
-                return {
-                    suggestions: $.map(response.suggestions, function(dataItem) {
-                        return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem };
-                    })
-                };
+                return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
             }
         });
         
-        $('#codigo_prestacional').on('keydown', function(e) {
-            if (e.which === 13 || e.which === 9) { // Enter o Tab
-                $(this).autocomplete('hide');
-            }
-        });
-        // ======================================================================
+        $('#codigo_prestacional').on('keydown', function(e) { if (e.which === 13 || e.which === 9) $(this).autocomplete('hide'); });
 
         $('#wizard-form').on('submit', function(e) {
             e.preventDefault();
-            const actividadesSeleccionadas = [];
-            $('input[name="actividades_preventivas"]:checked').each(function() {
-                actividadesSeleccionadas.push($(this).val());
-            });
-            const observacionesHtml = quill.root.innerHTML;
             const formData = {
                 codigo_prestacional: $('#codigo_prestacional').val(),
                 descripcion_prestacional: $('#descripcion_prestacional').val(),
-                actividades_preventivas: actividadesSeleccionadas.join('\n'),
+                actividades_preventivas: $('input[name="actividades_preventivas"]:checked').map(function() { return $(this).val(); }).get().join('\n'),
                 diagnostico_principal: $('#diagnostico_principal').val(),
                 diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
                 medicamento_principal: $('#medicamento_principal').val(),
                 medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
                 procedimiento_principal: $('#procedimiento_principal').val(),
                 procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
-                observaciones: observacionesHtml
+                observaciones: quill.root.innerHTML
             };
             $.ajax({
-                url: '/guardar_plantilla', type: 'POST', contentType: 'application/json',
-                data: JSON.stringify(formData),
+                url: '/guardar_plantilla', type: 'POST', contentType: 'application/json', data: JSON.stringify(formData),
                 success: function(response) {
                     alert(response.message);
                     loadRegistros();
@@ -232,21 +233,15 @@
                     showStep(1);
                     $('#btn-step1-next').prop('disabled', true);
                 },
-                error: function(xhr) {
-                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar.';
-                    alert(errorMsg);
-                }
+                error: function(xhr) { alert(xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar.'); }
             });
         });
 
         // --- LÓGICA DE INICIALIZACIÓN DE LA PÁGINA ---
         if (modo === 'ver') {
             $('#wizard-form, main > header').hide();
-            if (userRol !== 'admin') {
-                $('#toggle-panels-btn').hide();
-            } else {
-                $('#toggle-panels-btn').text('Ocultar y Volver a Crear');
-            }
+            if (userRol !== 'admin') { $('#toggle-panels-btn').hide(); } 
+            else { $('#toggle-panels-btn').text('Ocultar y Volver a Crear'); }
             $('body').addClass('modo-visualizacion');
             loadRegistros();
         } else if (userRol === 'viewer') {
