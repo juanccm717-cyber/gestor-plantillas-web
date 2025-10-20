@@ -5,11 +5,9 @@ from werkzeug.security import check_password_hash
 from datetime import timedelta
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS ---
-DATABASE_URL = os.environ.get("DATABASE_URL")
-if not DATABASE_URL:
-    raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
-
+DATABASE_URL = os.environ.get('DATABASE_URL_UNPOOLED')
 engine = create_engine(DATABASE_URL)
+
 
 # --- IMPORTACIONES DE PARÁMETROS ---
 try:
