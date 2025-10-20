@@ -4,10 +4,8 @@ from flask import Flask, render_template, request, jsonify
 import json
 import uuid
 
-# --- ESTA PARTE ES CRUCIAL ---
 # Añade el directorio raíz a la ruta de Python para que encuentre PARAMETROS.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# --- FIN DE LA PARTE CRUCIAL ---
 
 try:
     from PARAMETROS import (
@@ -19,19 +17,35 @@ except ImportError as e:
     print(f"Error crítico al importar PARAMETROS: {e}")
     CODIGOS_PRESTACIONALES_CATEGORIZADOS, ACTIVIDADES_PREVENTIVAS_MAP, RELACION_CODIGO_ACTIVIDADES = [], {}, {}
 
-# --- El resto de tu aplicación Flask ---
-app = Flask(__name__)
+# =========================================================================
+# INICIO DE LA CORRECCIÓN CLAVE
+# =========================================================================
+# Obtener la ruta del directorio raíz del proyecto (un nivel arriba de 'api')
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Crear la aplicación Flask, indicando dónde están las plantillas y los archivos estáticos
+app = Flask(
+    __name__,
+    template_folder=os.path.join(project_root, 'templates'),
+    static_folder=os.path.join(project_root, 'static') # Aunque no tengamos 'static', es buena práctica
+)
+# =========================================================================
+# FIN DE LA CORRECCIÓN CLAVE
+# =========================================================================
+
 app.secret_key = 'tu_clave_secreta_aqui'
+
+# --- El resto del código no cambia ---
 
 # La ruta raíz que renderiza la página principal
 @app.route('/')
 def home():
+    # Ahora Flask sabe dónde encontrar 'index.html'
     return render_template('index.html')
 
 # El resto de tus rutas de API...
 @app.route('/search_codigos')
 def search_codigos():
-    # ... tu código para buscar códigos ...
     query = request.args.get('query', '').lower()
     suggestions = []
     if query:
@@ -40,4 +54,11 @@ def search_codigos():
                 suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
     return jsonify({'suggestions': suggestions})
 
-# ... (Asegúrate de que todas tus otras rutas como /get_actividades_por_codigo, etc., estén aquí) ...
+@app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
+def get_actividades_por_codigo(codigo_prestacional):
+    codigos_actividad = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', []))
+    actividades_desc = [ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada") for cod in sorted(list(codigos_actividad))]
+    return jsonify({'actividades': actividades_desc})
+
+# (Asegúrate de que el resto de tus rutas como /get_registros, etc., estén aquí)
+# ...
