@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import json
 import uuid
 
-# ... (Configuración de rutas y módulos sin cambios) ...
+# --- Configuración de Rutas y Módulos ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
     from PARAMETROS import (
@@ -25,7 +25,7 @@ app = Flask(
 )
 app.secret_key = 'una-clave-muy-secreta-y-dificil-de-adivinar'
 
-# ... (Funciones de datos y rutas de autenticación/navegación sin cambios) ...
+# --- Funciones de Datos ---
 def get_registros_data():
     try:
         with open(os.path.join(project_root, 'registros.json'), 'r', encoding='utf-8') as f:
@@ -41,6 +41,7 @@ def save_registros_data(data):
     except Exception:
         return False
 
+# --- Rutas de Navegación ---
 @app.route('/')
 def home():
     return redirect(url_for('login'))
@@ -68,12 +69,16 @@ def plantillas():
     if 'user' not in session: return redirect(url_for('login'))
     return render_template('index.html', rol=session.get('rol', 'viewer'))
 
-# --- Rutas de API ---
+# =========================================================================
+# RUTAS DE API CON PROTECCIÓN JSON
+# =========================================================================
 
 @app.route('/search_codigos')
 def search_codigos():
-    # ... (sin cambios)
-    if 'user' not in session: return jsonify({"error": "No autorizado"}), 401
+    # CAMBIO: Devolver error JSON en lugar de redirección
+    if 'user' not in session:
+        return jsonify({"error": "No autorizado. Por favor, inicie sesión de nuevo."}), 401
+    
     query = request.args.get('query', '').lower()
     suggestions = []
     if query:
@@ -82,36 +87,35 @@ def search_codigos():
                 suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
     return jsonify({'suggestions': suggestions})
 
-# =========================================================================
-# CAMBIO CLAVE EN LA API DE ACTIVIDADES
-# =========================================================================
 @app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
 def get_actividades_por_codigo(codigo_prestacional):
-    if 'user' not in session: return jsonify({"error": "No autorizado"}), 401
+    # CAMBIO: Devolver error JSON en lugar de redirección
+    if 'user' not in session:
+        return jsonify({"error": "No autorizado. Por favor, inicie sesión de nuevo."}), 401
     
     codigos_actividad_set = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', set()))
-    
-    # Ahora devolvemos una lista de objetos, no solo strings
     actividades_sugeridas = []
     for cod in sorted(list(codigos_actividad_set)):
         descripcion = ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada")
-        actividades_sugeridas.append({
-            "codigo": cod,
-            "descripcion": descripcion
-        })
-        
+        actividades_sugeridas.append({"codigo": cod, "descripcion": descripcion})
     return jsonify({'actividades': actividades_sugeridas})
-# =========================================================================
 
 @app.route('/get_registros')
 def get_registros():
-    if 'user' not in session: return jsonify({"error": "No autorizado"}), 401
+    # CAMBIO: Devolver error JSON en lugar de redirección
+    if 'user' not in session:
+        return jsonify({"error": "No autorizado. Por favor, inicie sesión de nuevo."}), 401
+    
     return jsonify(get_registros_data())
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
+    # CAMBIO: Devolver error JSON en lugar de redirección
+    if 'user' not in session:
+        return jsonify({"message": "Sesión expirada. Por favor, inicie sesión de nuevo."}), 401
+    
     if session.get('rol') != 'admin':
-        return jsonify({'message': 'Acción no permitida.'}), 403
+        return jsonify({'message': 'Acción no permitida. Se requieren permisos de administrador.'}), 403
     
     registros = get_registros_data()
     nueva_plantilla = request.json
@@ -121,4 +125,4 @@ def guardar_plantilla():
     if save_registros_data(registros):
         return jsonify({'message': 'Plantilla guardada con éxito'})
     else:
-        return jsonify({'message': 'Error al guardar la plantilla.'}), 500
+        return jsonify({'message': 'Error: No se pudo guardar la plantilla en el servidor.'}), 500
