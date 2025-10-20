@@ -6,8 +6,8 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import json
 import uuid
 
-# --- Configuración de Rutas y Módulos ---
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__ ), '..')))
+# ... (Configuración de rutas y módulos sin cambios) ...
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
     from PARAMETROS import (
         CODIGOS_PRESTACIONALES_CATEGORIZADOS, 
@@ -25,7 +25,7 @@ app = Flask(
 )
 app.secret_key = 'una-clave-muy-secreta-y-dificil-de-adivinar'
 
-# --- Funciones de Datos (Guardar/Cargar JSON) ---
+# ... (Funciones de datos y rutas de autenticación/navegación sin cambios) ...
 def get_registros_data():
     try:
         with open(os.path.join(project_root, 'registros.json'), 'r', encoding='utf-8') as f:
@@ -41,7 +41,6 @@ def save_registros_data(data):
     except Exception:
         return False
 
-# --- Rutas de Autenticación y Navegación ---
 @app.route('/')
 def home():
     return redirect(url_for('login'))
@@ -49,13 +48,8 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Lógica de autenticación (simplificada)
-        # Aquí podrías verificar usuario y contraseña contra una base de datos
         session['user'] = request.form.get('username', 'usuario_desconocido')
-        
-        # NUEVO: Guardar el rol en la sesión
-        session['rol'] = request.form.get('rol', 'viewer') # Por defecto 'viewer' si no se envía
-        
+        session['rol'] = request.form.get('rol', 'viewer')
         return redirect(url_for('menu'))
     return render_template('login.html')
 
@@ -66,21 +60,19 @@ def logout():
 
 @app.route('/menu')
 def menu():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-    # Pasamos el nombre de usuario y el rol a la plantilla del menú
+    if 'user' not in session: return redirect(url_for('login'))
     return render_template('menu.html', username=session.get('user'), rol=session.get('rol'))
 
 @app.route('/plantillas')
 def plantillas():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-    # Pasamos el rol a la plantilla principal para que el frontend sepa qué mostrar
+    if 'user' not in session: return redirect(url_for('login'))
     return render_template('index.html', rol=session.get('rol', 'viewer'))
 
 # --- Rutas de API ---
+
 @app.route('/search_codigos')
 def search_codigos():
+    # ... (sin cambios)
     if 'user' not in session: return jsonify({"error": "No autorizado"}), 401
     query = request.args.get('query', '').lower()
     suggestions = []
@@ -90,12 +82,26 @@ def search_codigos():
                 suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
     return jsonify({'suggestions': suggestions})
 
+# =========================================================================
+# CAMBIO CLAVE EN LA API DE ACTIVIDADES
+# =========================================================================
 @app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
 def get_actividades_por_codigo(codigo_prestacional):
     if 'user' not in session: return jsonify({"error": "No autorizado"}), 401
-    codigos_actividad = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', []))
-    actividades_desc = [ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada") for cod in sorted(list(codigos_actividad))]
-    return jsonify({'actividades': actividades_desc})
+    
+    codigos_actividad_set = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', set()))
+    
+    # Ahora devolvemos una lista de objetos, no solo strings
+    actividades_sugeridas = []
+    for cod in sorted(list(codigos_actividad_set)):
+        descripcion = ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada")
+        actividades_sugeridas.append({
+            "codigo": cod,
+            "descripcion": descripcion
+        })
+        
+    return jsonify({'actividades': actividades_sugeridas})
+# =========================================================================
 
 @app.route('/get_registros')
 def get_registros():
@@ -104,9 +110,8 @@ def get_registros():
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
-    # Solo los administradores pueden guardar
     if session.get('rol') != 'admin':
-        return jsonify({'message': 'Acción no permitida. Se requieren permisos de administrador.'}), 403
+        return jsonify({'message': 'Acción no permitida.'}), 403
     
     registros = get_registros_data()
     nueva_plantilla = request.json
@@ -116,4 +121,4 @@ def guardar_plantilla():
     if save_registros_data(registros):
         return jsonify({'message': 'Plantilla guardada con éxito'})
     else:
-        return jsonify({'message': 'Error: No se pudo guardar la plantilla en el servidor.'}), 500
+        return jsonify({'message': 'Error al guardar la plantilla.'}), 500
