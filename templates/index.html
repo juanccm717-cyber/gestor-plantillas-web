@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Plantillas Médicas</title>
     
-    <!-- Estilos de Pico.css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    
-    <!-- Estilos de Quill.js -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <style>
+        /* Estilos generales (sin cambios ) */
         body { display: grid; grid-template-columns: 1fr; gap: 1rem; height: 100vh; margin: 0; padding-bottom: 70px; }
         nav, aside { padding: 1rem; overflow-y: auto; display: none; background-color: #f8f9fa; }
         nav { border-right: 1px solid #dcdcdc; }
@@ -31,9 +29,24 @@
         #actividades-checkbox-container { max-height: 250px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #fff; }
         #actividades-checkbox-container label { display: block; margin-bottom: 8px; }
         #editor-observaciones { height: 150px; background-color: #fff; }
+
+        /* ====================================================================== */
+        /* CORRECCIÓN CSS: Anular estilos de Pico.css dentro del editor Quill.js */
+        /* ====================================================================== */
+        .ql-toolbar button {
+            width: 28px;      /* Ancho por defecto de Quill */
+            height: 24px;     /* Alto por defecto de Quill */
+            padding: 3px 5px; /* Padding por defecto de Quill */
+        }
+        .ql-toolbar .ql-picker-label {
+            font-size: 14px; /* Restablecer tamaño de fuente para el desplegable de color */
+        }
+        /* ====================================================================== */
+
     </style>
 </head>
 <body>
+    <!-- El resto del body (nav, main, aside, footer, form, script) no cambia -->
     <nav>
         <h5>Plantillas Guardadas</h5>
         <div id="lista-registros">Cargando...</div>
@@ -44,7 +57,6 @@
             <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
         </header>
         <form id="wizard-form">
-            <!-- PASO 1 -->
             <div id="step-1" class="wizard-step active">
                 <h4>Paso 1: Código Prestacional y Actividades</h4>
                 <label for="codigo_prestacional">Código Prestacional</label>
@@ -57,8 +69,6 @@
                 </div>
                 <div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div>
             </div>
-            
-            <!-- PASO 2 (Restaurado ) -->
             <div id="step-2" class="wizard-step">
                 <h4>Paso 2: Diagnósticos</h4>
                 <label for="diagnostico_principal">Diagnóstico Principal (CIE-10)</label>
@@ -67,8 +77,6 @@
                 <textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea>
                 <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div>
             </div>
-            
-            <!-- PASO 3 (Restaurado) -->
             <div id="step-3" class="wizard-step">
                 <h4>Paso 3: Medicamentos y/o Insumos</h4>
                 <label for="medicamento_principal">Medicamento Principal</label>
@@ -77,8 +85,6 @@
                 <textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea>
                 <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div>
             </div>
-
-            <!-- PASO 4 -->
             <div id="step-4" class="wizard-step">
                 <h4>Paso 4: Procedimientos y Observaciones</h4>
                 <label for="procedimiento_principal">Procedimiento Principal</label>
@@ -103,12 +109,12 @@
         <button id="toggle-panels-btn">Ver Plantillas Guardadas</button>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
+    // El código JavaScript no necesita cambios, por lo que se mantiene igual.
     $(document ).ready(function() {
         const userRol = "{{ rol }}";
 
@@ -225,7 +231,6 @@
             $.get('/get_registros', function(registros) {
                 const registro = registros.find(r => r.id == id);
                 if (registro) {
-                    // Limpiamos el HTML de las observaciones para la vista previa en texto plano
                     const obsHtml = registro.observaciones || '';
                     const obsText = $('<div>').html(obsHtml).text();
 
