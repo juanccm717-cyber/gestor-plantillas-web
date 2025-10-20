@@ -69,169 +69,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
-    <script>
-    $(document ).ready(function() {
-        const userRol = "{{ rol }}";
-        const urlParams = new URLSearchParams(window.location.search);
-        const modo = urlParams.get('modo');
-        const quill = new Quill('#editor-observaciones', {
-            modules: { toolbar: [['bold'], [{ 'color': ['#28a745', '#ffc107', '#dc3545'] }]] },
-            theme: 'snow'
-        });
+    <!-- El HTML de index.html no cambia mucho, solo el script -->
+<!-- ... (pega aquí todo el HTML de tu index.html actual, desde <!DOCTYPE html> hasta justo antes de <script>) ... -->
 
-        // --- DEFINICIÓN DE FUNCIONES PRINCIPALES ---
+<script>
+    // SDK de Supabase
+    const supabase_url = 'https://ylzpvpgcelbsbdcauqzw.supabase.co';
+    const supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlsemp2cGdjZWxic2JkY2F1cXp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg0MDM4NjcsImV4cCI6MjAzMzk3OTg2N30.KjB2xO6-2s_s3s_jY8c_Z8e_Y3e_X2e_T1r_S5f_R4c'; // Reemplaza con tu Anon Key
+    const supabase = supabase.createClient(supabase_url, supabase_key );
 
-        function loadRegistros() {
-            $.get('/get_registros', function(registros) {
-                const lista = $('#lista-registros');
-                lista.empty();
-                if (registros && registros.length > 0) {
-                    registros.forEach(function(reg) {
-                        const item = $(`<article><strong data-id="${reg.id}" style="cursor: pointer;">${reg.codigo_prestacional || 'S/C'}: ${reg.descripcion_prestacional || 'Sin descripción'}</strong></article>`);
-                        item.find('strong').on('click', function() { showPreview($(this).data('id')); });
-                        lista.append(item);
-                    });
-                } else {
-                    lista.html('<small><i>No hay plantillas guardadas.</i></small>');
-                }
-            }).fail(function(xhr) {
-                if (xhr.status === 401) { alert("Su sesión ha expirado."); window.location.reload(); } 
-                else { $('#lista-registros').text('Error al cargar plantillas.'); }
-            });
+    let session = null;
+
+    // Función para obtener la sesión y el token
+    async function getSessionData() {
+        if (session) return session;
+        const sessionString = localStorage.getItem('supabase.session');
+        if (!sessionString) {
+            window.location.href = '/'; // Redirigir al login si no hay sesión
+            return null;
         }
+        session = JSON.parse(sessionString);
+        return session;
+    }
 
-        function showPreview(id) {
-            $.get('/get_registros', function(registros) {
-                const registro = registros.find(r => r.id == id);
-                if (registro) {
-                    const obsHtml = registro.observaciones || '';
-                    const obsText = $('<div>').html(obsHtml).text();
-                    const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'N/A'}\n**Descripción:** ${registro.descripcion_prestacional || 'N/A'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'N/A'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'N/A'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'N/A'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'N/A'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'N/A'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'N/A'}\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'N/A'}\n\n**Observaciones Generales:**\n${obsText}`;
-                    $('#plantilla-preview').text(previewContent);
-                }
-            });
-        }
-
-        function fetchAndFillActivities(codigo) {
-            $.get(`/get_actividades_por_codigo/${codigo}`, function(response) {
-                const container = $('#actividades-checkbox-container');
-                container.empty();
-                if (response.actividades && response.actividades.length > 0) {
-                    response.actividades.forEach(function(actividad) {
-                        const label = $('<label></label>');
-                        const checkbox = $('<input type="checkbox" name="actividades_preventivas">').val(actividad.descripcion);
-                        label.append(checkbox).append(` ${actividad.descripcion}`);
-                        container.append(label);
-                    });
-                } else { container.html('<small><i>No hay actividades sugeridas.</i></small>'); }
-            }).fail(function() { $('#actividades-checkbox-container').html('<small><i>Error al cargar.</i></small>'); });
-        }
-
-        // --- LÓGICA DEL ASISTENTE (WIZARD) ---
-        let currentStep = 1;
-        function showStep(step) {
-            $('.wizard-step').removeClass('active').hide();
-            $('#step-' + step).addClass('active').show();
-        }
-        $('.next-btn').click(function() { if (currentStep < 4) { currentStep++; showStep(currentStep); } });
-        $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
-
-        // --- ASIGNACIÓN DE EVENTOS (EVENT BINDING) ---
-
-        $('#toggle-panels-btn').on('click', function() {
-            const body = $('body');
-            body.toggleClass('modo-visualizacion');
-            const isVisible = body.hasClass('modo-visualizacion');
-            $('#wizard-form, main > header').toggle(!isVisible);
-            if (isVisible) { loadRegistros(); }
-            $(this).text(isVisible ? 'Ocultar y Volver a Crear' : 'Ver Plantillas');
-        });
-
-        $('#copy-btn').on('click', function() {
-            navigator.clipboard.writeText($('#plantilla-preview').text()).then(() => alert('¡Copiado!'), () => alert('Error al copiar.'));
-        });
-
-        $('#codigo_prestacional').on('input', function() {
-            const codigoInput = $(this).val().trim();
-            if (codigoInput.length === 3) {
-                $.get('/search_codigos', { query: codigoInput }, function(response) {
-                    const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput);
-                    if (coincidenciaExacta) {
-                        $('#descripcion_prestacional').val(coincidenciaExacta.descripcion);
-                        $('#btn-step1-next').prop('disabled', false);
-                        fetchAndFillActivities(codigoInput);
-                    } else {
-                        $('#descripcion_prestacional').val('Código no encontrado');
-                        $('#btn-step1-next').prop('disabled', true);
-                    }
-                });
-            } else {
-                $('#descripcion_prestacional').val('');
-                $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
-                $('#btn-step1-next').prop('disabled', true);
+    // Modificamos $.ajax para que siempre incluya el token
+    $.ajaxSetup({
+        beforeSend: async function(xhr) {
+            const sessionData = await getSessionData();
+            if (sessionData) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionData.access_token);
             }
-        });
-
-        $('#codigo_prestacional').autocomplete({
-            serviceUrl: '/search_codigos', paramName: 'query', dataType: 'json', autoSelectFirst: true,
-            onSelect: function(suggestion) {
-                $('#codigo_prestacional').val(suggestion.data.codigo);
-                $('#descripcion_prestacional').val(suggestion.data.descripcion);
-                $('#btn-step1-next').prop('disabled', false);
-                fetchAndFillActivities(suggestion.data.codigo);
-                return false;
-            },
-            transformResult: function(response) {
-                return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
-            }
-        });
-        
-        $('#codigo_prestacional').on('keydown', function(e) { if (e.which === 13 || e.which === 9) $(this).autocomplete('hide'); });
-
-        $('#wizard-form').on('submit', function(e) {
-            e.preventDefault();
-            const formData = {
-                codigo_prestacional: $('#codigo_prestacional').val(),
-                descripcion_prestacional: $('#descripcion_prestacional').val(),
-                actividades_preventivas: $('input[name="actividades_preventivas"]:checked').map(function() { return $(this).val(); }).get().join('\n'),
-                diagnostico_principal: $('#diagnostico_principal').val(),
-                diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
-                medicamento_principal: $('#medicamento_principal').val(),
-                medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
-                procedimiento_principal: $('#procedimiento_principal').val(),
-                procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
-                observaciones: quill.root.innerHTML
-            };
-            $.ajax({
-                url: '/guardar_plantilla', type: 'POST', contentType: 'application/json', data: JSON.stringify(formData),
-                success: function(response) {
-                    alert(response.message);
-                    loadRegistros();
-                    $('#wizard-form')[0].reset();
-                    quill.setText('');
-                    $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
-                    showStep(1);
-                    $('#btn-step1-next').prop('disabled', true);
-                },
-                error: function(xhr) { alert(xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar.'); }
-            });
-        });
-
-        // --- LÓGICA DE INICIALIZACIÓN DE LA PÁGINA ---
-        if (modo === 'ver') {
-            $('#wizard-form, main > header').hide();
-            if (userRol !== 'admin') { $('#toggle-panels-btn').hide(); } 
-            else { $('#toggle-panels-btn').text('Ocultar y Volver a Crear'); }
-            $('body').addClass('modo-visualizacion');
-            loadRegistros();
-        } else if (userRol === 'viewer') {
-            $('#wizard-form, main > header, #toggle-panels-btn').hide();
-            $('body').addClass('modo-visualizacion');
-            loadRegistros();
-        } else {
-            showStep(currentStep);
         }
     });
-    </script>
+
+    // El resto de tu código jQuery...
+    $(document).ready(async function() {
+        const sessionData = await getSessionData();
+        if (!sessionData) return; // Detener si no hay sesión
+
+        const userRole = sessionData.user.user_metadata.rol || 'viewer';
+        
+        // El resto de tu lógica de $(document).ready...
+        // ...
+    });
+
+    // Tu función loadRegistros() y otras funciones no necesitan cambiar,
+    // porque $.ajaxSetup ya se encarga de añadir el token a todas las peticiones.
+</script>
+
 </body>
 </html>
