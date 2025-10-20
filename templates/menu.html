@@ -26,23 +26,16 @@
 
             <div class="grid">
                 <!-- ====================================================================== -->
-                <!-- CORRECCIÓN: Lógica de enlaces contextual -->
+                <!-- CORRECCIÓN: Lógica de enlaces simplificada y consistente -->
                 <!-- ====================================================================== -->
 
-                <!-- Botón 1: Nuevo Registro (Solo para Administradores) -->
-                <!-- Este botón lleva a la vista de creación por defecto. -->
+                <!-- Botón 1: Lleva a la vista de CREACIÓN. Solo para admin. -->
                 {% if rol == 'admin' %}
                 <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Crear Nueva Plantilla</a>
                 {% endif %}
 
-                <!-- Botón 2: Ver Listado -->
-                <!-- Si es admin, va a la vista de creación con opción de ver. -->
-                <!-- Si es viewer, va DIRECTAMENTE a la vista de solo lectura. -->
-                {% if rol == 'admin' %}
-                    <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">2. Gestionar Plantillas (Crear/Ver)</a>
-                {% else %}
-                    <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">Ver y Usar Plantillas</a>
-                {% endif %}
+                <!-- Botón 2: Lleva a la vista de VISUALIZACIÓN. Para TODOS los usuarios. -->
+                <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">2. Ver y Usar Plantillas</a>
                 <!-- ====================================================================== -->
             </div>
 
