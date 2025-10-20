@@ -9,6 +9,14 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:
     raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
 
+# --- CAMBIO CRÍTICO: Modificar la URL para usar el "Connection Pooler" ---
+# Esto resuelve el problema de conexión IPv4/IPv6 entre Vercel y Supabase.
+if 'db.ylzpvpgcelbsbdcauqzw.supabase.co' in DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace(
+        'db.ylzpvpgcelbsbdcauqzw.supabase.co:5432',
+        'pg.ylzpvpgcelbsbdcauqzw.supabase.co:6543'
+    )
+
 engine = create_engine(DATABASE_URL)
 
 # --- IMPORTACIONES DE PARÁMETROS (ya correctas) ---
@@ -24,14 +32,13 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 
 
 # ======================================================================
-# CORRECCIÓN FINAL Y DEFINITIVA: LECTURA DE DATOS ROBUSTA
+# LECTURA DE DATOS ROBUSTA
 # ======================================================================
 
 def leer_registros_desde_db():
     """Lee todas las plantillas de la tabla 'registros' existente."""
     try:
         with engine.connect() as conn:
-            # La consulta SQL está bien, el problema estaba en cómo se procesaba el resultado.
             query = text("""
                 SELECT id, codigo_prestacional, descripcion_prestacional, actividades_preventivas, 
                        diagnostico_principal, diagnosticos_complementarios, medicamento_principal, 
@@ -40,20 +47,12 @@ def leer_registros_desde_db():
                 FROM public.registros ORDER BY id ASC;
             """)
             result = conn.execute(query)
-            
-            # Obtenemos los nombres de las columnas del resultado
             keys = result.keys()
-            
-            # ======================================================================
-            # CORRECCIÓN: Reemplazamos la línea frágil por un bucle explícito y seguro.
-            # ======================================================================
             registros = [dict(zip(keys, row)) for row in result]
-            
             return registros
     except exc.SQLAlchemyError as e:
-        # Si hay cualquier error de base de datos, lo registramos para depuración
         print(f"Error al leer de la base de datos: {e}")
-        return [] # Devolvemos una lista vacía para no romper el frontend
+        return []
 
 def escribir_registro_en_db(plantilla_data):
     """Inserta una nueva plantilla en la tabla 'registros' existente."""
