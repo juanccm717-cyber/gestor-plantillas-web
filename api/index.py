@@ -1,115 +1,143 @@
-# api/index.py
-
-import sys
-import os
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import json
-import uuid
+import os
+from datetime import timedelta
 
-# --- Configuración (sin cambios) ---
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-try:
-    from PARAMETROS import (
-        CODIGOS_PRESTACIONALES_CATEGORIZADOS, 
-        ACTIVIDADES_PREVENTIVAS_MAP, 
-        RELACION_CODIGO_ACTIVIDADES
-    )
-except ImportError:
-    CODIGOS_PRESTACIONALES_CATEGORIZADOS, ACTIVIDADES_PREVENTIVAS_MAP, RELACION_CODIGO_ACTIVIDADES = [], {}, {}
-
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-app = Flask(
-    __name__,
-    template_folder=os.path.join(project_root, 'templates'),
-    static_folder=os.path.join(project_root, 'static')
+# Importar las listas desde PARAMETROS
+from PARAMETROS import (
+    CODIGOS_PRESTACIONALES_CATEGORIZADOS,
+    ACTIVIDADES_PREVENTIVAS_MAP,
+    RELACION_CODIGO_ACTIVIDADES
 )
-app.secret_key = 'una-clave-muy-secreta-y-dificil-de-adivinar'
 
-# --- Funciones de Datos (sin cambios) ---
-def get_registros_data():
+app = Flask(__name__)
+app.secret_key = 'tu_super_secreta_llave_aqui'
+app.permanent_session_lifetime = timedelta(minutes=60)
+
+# --- MANEJO DE DATOS ---
+
+# Obtener la ruta del directorio actual del script (api/)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Construir la ruta al archivo JSON en el directorio 'api'
+JSON_FILE_PATH = os.path.join(BASE_DIR, 'registros.json')
+
+def leer_registros_desde_archivo():
+    """Función robusta para leer el archivo JSON."""
+    if not os.path.exists(JSON_FILE_PATH):
+        return []
     try:
-        with open(os.path.join(project_root, 'registros.json'), 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+        with open(JSON_FILE_PATH, 'r', encoding='utf-8') as f:
+            # Si el archivo está vacío, json.load falla. Lo manejamos.
+            content = f.read()
+            if not content:
+                return []
+            return json.loads(content)
+    except (json.JSONDecodeError, IOError):
         return []
 
-def save_registros_data(data):
+def escribir_registros_a_archivo(registros):
+    """Función para escribir en el archivo JSON."""
     try:
-        with open(os.path.join(project_root, 'registros.json'), 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
-        return True
-    except Exception:
-        return False
+        with open(JSON_FILE_PATH, 'w', encoding='utf-8') as f:
+            json.dump(registros, f, indent=4)
+    except IOError as e:
+        print(f"Error al escribir en el archivo: {e}")
 
-# --- Rutas de Navegación (CON CORRECCIÓN) ---
+
+# --- RUTAS DE AUTENTICACIÓN Y MENÚ ---
+
 @app.route('/')
 def home():
+    if 'username' in session:
+        return redirect(url_for('menu'))
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['user'] = request.form.get('username', 'usuario_desconocido')
-        session['rol'] = request.form.get('rol', 'viewer')
-        # ======================================================================
-        # CORRECCIÓN: Siempre redirigir al menú después del login
-        # ======================================================================
+        username = request.form['username']
+        rol = request.form.get('rol', 'viewer') # 'viewer' por defecto
+        session.permanent = True
+        session['username'] = username
+        session['rol'] = rol
         return redirect(url_for('menu'))
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    session.pop('username', None)
+    session.pop('rol', None)
     return redirect(url_for('login'))
 
 @app.route('/menu')
 def menu():
-    if 'user' not in session: return redirect(url_for('login'))
-    # Pasamos el rol para poder ocultar/mostrar botones en el menú
-    return render_template('menu.html', username=session.get('user'), rol=session.get('rol'))
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('menu.html', username=session['username'], rol=session['rol'])
+
+
+# --- RUTAS PRINCIPALES DE LA APLICACIÓN ---
 
 @app.route('/plantillas')
 def plantillas():
-    if 'user' not in session: return redirect(url_for('login'))
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('index.html', rol=session.get('rol', 'viewer'))
-
-# --- Rutas de API (sin cambios) ---
-# ... (todas las rutas de /search_codigos, /get_actividades, etc. se mantienen igual) ...
-@app.route('/search_codigos')
-def search_codigos():
-    if 'user' not in session: return jsonify({"error": "No autorizado."}), 401
-    query = request.args.get('query', '').lower()
-    suggestions = []
-    if query:
-        for item in CODIGOS_PRESTACIONALES_CATEGORIZADOS:
-            if query in item['codigo'].lower() or query in item['descripcion'].lower():
-                suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
-    return jsonify({'suggestions': suggestions})
-
-@app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
-def get_actividades_por_codigo(codigo_prestacional):
-    if 'user' not in session: return jsonify({"error": "No autorizado."}), 401
-    codigos_actividad_set = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', set()))
-    actividades_sugeridas = []
-    for cod in sorted(list(codigos_actividad_set)):
-        descripcion = ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada")
-        actividades_sugeridas.append({"codigo": cod, "descripcion": descripcion})
-    return jsonify({'actividades': actividades_sugeridas})
-
-@app.route('/get_registros')
-def get_registros():
-    if 'user' not in session: return jsonify({"error": "No autorizado."}), 401
-    return jsonify(get_registros_data())
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
-    if 'user' not in session: return jsonify({"message": "Sesión expirada."}), 401
-    if session.get('rol') != 'admin': return jsonify({'message': 'Acción no permitida.'}), 403
-    registros = get_registros_data()
+    if 'username' not in session or session.get('rol') != 'admin':
+        return jsonify({'message': 'Acceso no autorizado.'}), 403
+
     nueva_plantilla = request.json
-    nueva_plantilla['id'] = str(uuid.uuid4())
+    if not nueva_plantilla.get('codigo_prestacional'):
+        return jsonify({'message': 'El código prestacional es obligatorio.'}), 400
+
+    registros = leer_registros_desde_archivo()
+    nueva_plantilla['id'] = len(registros) + 1
     registros.append(nueva_plantilla)
-    if save_registros_data(registros):
-        return jsonify({'message': 'Plantilla guardada con éxito'})
-    else:
-        return jsonify({'message': 'Error al guardar la plantilla.'}), 500
+    escribir_registros_a_archivo(registros)
+
+    return jsonify({'message': f"Plantilla guardada con éxito con ID: {nueva_plantilla['id']}"}), 201
+
+
+# --- RUTAS DE API (PARA OBTENER DATOS) ---
+
+@app.route('/get_registros', methods=['GET'])
+def get_registros():
+    """
+    CORRECCIÓN FINAL: Esta función ahora solo lee el archivo y devuelve los datos.
+    Es un GET puro, sin posibilidad de confusión.
+    """
+    if 'username' not in session:
+        return jsonify({'message': 'No autorizado'}), 401
+    
+    registros = leer_registros_desde_archivo()
+    return jsonify(registros)
+
+@app.route('/search_codigos', methods=['GET'])
+def search_codigos():
+    if 'username' not in session:
+        return jsonify({'suggestions': []}), 401
+    
+    query = request.args.get('query', '').lower()
+    suggestions = [
+        s for s in CODIGOS_PRESTACIONALES_CATEGORIZADOS
+        if query in s['codigo'].lower() or query in s['descripcion'].lower()
+    ]
+    return jsonify({'suggestions': suggestions})
+
+@app.route('/get_actividades_por_codigo/<string:codigo>', methods=['GET'])
+def get_actividades_por_codigo(codigo):
+    if 'username' not in session:
+        return jsonify({'actividades': []}), 401
+
+    codigos_actividad = RELACION_CODIGO_ACTIVIDADES.get(codigo, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', []))
+    actividades_sugeridas = [
+        {'codigo': c, 'descripcion': ACTIVIDADES_PREVENTIVAS_MAP.get(c, 'Descripción no encontrada')}
+        for c in sorted(list(codigos_actividad))
+    ]
+    return jsonify({'actividades': actividades_sugeridas})
+
+if __name__ == '__main__':
+    app.run(debug=True)
