@@ -1,49 +1,37 @@
+import sys
+import os
 from flask import Flask, render_template, request, jsonify
 import json
 import uuid
 
-# --- Carga de datos desde PARAMETROS.py ---
+# --- ESTA PARTE ES CRUCIAL ---
+# Añade el directorio raíz a la ruta de Python para que encuentre PARAMETROS.py
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# --- FIN DE LA PARTE CRUCIAL ---
+
 try:
     from PARAMETROS import (
         CODIGOS_PRESTACIONALES_CATEGORIZADOS, 
         ACTIVIDADES_PREVENTIVAS_MAP, 
         RELACION_CODIGO_ACTIVIDADES
     )
-except ImportError:
-    # Valores por defecto en caso de que el archivo no se encuentre
-    CODIGOS_PRESTACIONALES_CATEGORIZADOS = []
-    ACTIVIDADES_PREVENTIVAS_MAP = {}
-    RELACION_CODIGO_ACTIVIDADES = {}
+except ImportError as e:
+    print(f"Error crítico al importar PARAMETROS: {e}")
+    CODIGOS_PRESTACIONALES_CATEGORIZADOS, ACTIVIDADES_PREVENTIVAS_MAP, RELACION_CODIGO_ACTIVIDADES = [], {}, {}
 
-# --- Configuración de la App ---
+# --- El resto de tu aplicación Flask ---
 app = Flask(__name__)
-app.secret_key = 'tu_clave_secreta_aqui_cambiala_por_algo_seguro'
+app.secret_key = 'tu_clave_secreta_aqui'
 
-# --- Funciones de ayuda para datos ---
-def get_registros_data():
-    try:
-        with open('registros.json', 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return []
-
-def save_registros_data(data):
-    try:
-        with open('registros.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
-        return True
-    except Exception:
-        return False
-
-# --- Rutas de la Interfaz de Usuario ---
+# La ruta raíz que renderiza la página principal
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
-# --- Rutas de la API ---
-
+# El resto de tus rutas de API...
 @app.route('/search_codigos')
 def search_codigos():
+    # ... tu código para buscar códigos ...
     query = request.args.get('query', '').lower()
     suggestions = []
     if query:
@@ -52,30 +40,4 @@ def search_codigos():
                 suggestions.append({'codigo': item['codigo'], 'descripcion': item['descripcion']})
     return jsonify({'suggestions': suggestions})
 
-@app.route('/get_actividades_por_codigo/<string:codigo_prestacional>')
-def get_actividades_por_codigo(codigo_prestacional):
-    # Busca los códigos de actividad relacionados. Usa 'DEFAULT' si no encuentra el código.
-    codigos_actividad = RELACION_CODIGO_ACTIVIDADES.get(codigo_prestacional, RELACION_CODIGO_ACTIVIDADES.get('DEFAULT', []))
-    
-    # Busca las descripciones completas para cada código de actividad
-    actividades_desc = [ACTIVIDADES_PREVENTIVAS_MAP.get(cod, f"{cod}: Actividad no encontrada") for cod in sorted(list(codigos_actividad))]
-    
-    return jsonify({'actividades': actividades_desc})
-
-@app.route('/get_registros')
-def get_registros():
-    return jsonify(get_registros_data())
-
-@app.route('/guardar_plantilla', methods=['POST'])
-def guardar_plantilla():
-    registros = get_registros_data()
-    nueva_plantilla = request.json
-    nueva_plantilla['id'] = str(uuid.uuid4())
-    registros.append(nueva_plantilla)
-    if save_registros_data(registros):
-        return jsonify({'message': 'Plantilla guardada con éxito'})
-    else:
-        return jsonify({'message': 'Error: No se pudo guardar la plantilla.'}), 500
-
-if __name__ == "__main__":
-    app.run(debug=True)
+# ... (Asegúrate de que todas tus otras rutas como /get_actividades_por_codigo, etc., estén aquí) ...
