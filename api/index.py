@@ -2,8 +2,23 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import json
 import os
 from datetime import timedelta
+import sys # Importar la librería del sistema
 
-# Importar las listas desde PARAMETROS
+# ======================================================================
+# CORRECCIÓN CRÍTICA PARA EL DESPLIEGUE EN VERCEL
+# ======================================================================
+# 1. Obtener la ruta del directorio raíz del proyecto.
+#    os.path.dirname(__file__) es el directorio 'api'.
+#    os.path.dirname(...) de eso nos da el directorio raíz.
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 2. Añadir el directorio raíz a las rutas de búsqueda de Python.
+#    Esto asegura que Python pueda encontrar 'PARAMETROS.py' sin importar cómo se ejecute.
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+# ======================================================================
+
+# Ahora, la importación de PARAMETROS será siempre exitosa.
 from PARAMETROS import (
     CODIGOS_PRESTACIONALES_CATEGORIZADOS,
     ACTIVIDADES_PREVENTIVAS_MAP,
@@ -16,10 +31,10 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 
 # --- MANEJO DE DATOS ---
 
-# Obtener la ruta del directorio actual del script (api/)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Construir la ruta al archivo JSON en el directorio 'api'
-JSON_FILE_PATH = os.path.join(BASE_DIR, 'registros.json')
+# La ruta al archivo JSON ahora se construye desde la raíz del proyecto
+# para ser más explícita, aunque la lógica anterior también funcionaría
+# con la corrección de sys.path.
+JSON_FILE_PATH = os.path.join(PROJECT_ROOT, 'api', 'registros.json')
 
 def leer_registros_desde_archivo():
     """Función robusta para leer el archivo JSON."""
@@ -27,7 +42,6 @@ def leer_registros_desde_archivo():
         return []
     try:
         with open(JSON_FILE_PATH, 'r', encoding='utf-8') as f:
-            # Si el archivo está vacío, json.load falla. Lo manejamos.
             content = f.read()
             if not content:
                 return []
@@ -56,7 +70,7 @@ def home():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        rol = request.form.get('rol', 'viewer') # 'viewer' por defecto
+        rol = request.form.get('rol', 'viewer')
         session.permanent = True
         session['username'] = username
         session['rol'] = rol
@@ -105,10 +119,6 @@ def guardar_plantilla():
 
 @app.route('/get_registros', methods=['GET'])
 def get_registros():
-    """
-    CORRECCIÓN FINAL: Esta función ahora solo lee el archivo y devuelve los datos.
-    Es un GET puro, sin posibilidad de confusión.
-    """
     if 'username' not in session:
         return jsonify({'message': 'No autorizado'}), 401
     
