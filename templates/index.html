@@ -9,26 +9,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
     <style>
         body { display: grid; grid-template-columns: 1fr; gap: 1rem; height: 100vh; margin: 0; padding-bottom: 70px; }
-        nav, aside { padding: 1rem; overflow-y: auto; display: none; }
+        nav, aside { padding: 1rem; overflow-y: auto; display: none; background-color: #f8f9fa; }
         nav { border-right: 1px solid #dcdcdc; }
-        aside { border-left: 1px solid #dcdcdc; background-color: #fdfdfd; }
+        aside { border-left: 1px solid #dcdcdc; }
         main { padding: 1rem; overflow-y: auto; }
         body.modo-visualizacion { grid-template-columns: 250px 1fr 350px; }
         footer.page-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #f9f9f9; border-top: 1px solid #e0e0e0; padding: 1rem; display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .wizard-step { display: none; }
         .wizard-step.active { display: block; }
         .button-group { display: flex; justify-content: space-between; margin-top: 1rem; }
-        #plantilla-preview { white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 1rem; border-radius: 5px; }
+        #plantilla-preview { white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 1rem; border-radius: 5px; min-height: 300px; }
         .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; z-index: 9999; }
         .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
         .autocomplete-selected { background: #F0F0F0; }
         .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+        article small { color: #555; }
     </style>
 </head>
 <body>
-    <nav><h5>Plantillas Guardadas</h5><div id="lista-registros">Cargando...</div></nav>
+    <nav>
+        <h5>Plantillas Guardadas</h5>
+        <div id="lista-registros">Cargando...</div>
+    </nav>
     <main>
-        <header><h2>Crear Nueva Plantilla</h2><p>Asistente de 4 pasos para la creación de plantillas de atención.</p></header>
+        <header>
+            <h2>Crear Nueva Plantilla</h2>
+            <p>Asistente de 4 pasos para la creación de plantillas de atención.</p>
+        </header>
         <form id="wizard-form">
             <div id="step-1" class="wizard-step active">
                 <h4>Paso 1: Código Prestacional y Actividades</h4>
@@ -40,17 +47,49 @@
                 <textarea id="actividades_preventivas" name="actividades_preventivas" rows="5"></textarea>
                 <div class="button-group"><span></span><button type="button" class="next-btn" id="btn-step1-next" disabled>Siguiente &raquo;</button></div>
             </div>
-            <!-- Resto de los pasos -->
-            <div id="step-2" class="wizard-step"><h4>Paso 2: Diagnósticos</h4><label for="diagnostico_principal">Diagnóstico Principal (CIE-10 )</label><input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción"><label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label><textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
-            <div id="step-3" class="wizard-step"><h4>Paso 3: Medicamentos e Insumos</h4><label for="medicamento_principal">Medicamento Principal</label><input type="text" id="medicamento_principal" name="medicamento_principal"><label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label><textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div></div>
-            <div id="step-4" class="wizard-step"><h4>Paso 4: Procedimientos y Observaciones</h4><label for="procedimiento_principal">Procedimiento Principal</label><input type="text" id="procedimiento_principal" name="procedimiento_principal"><label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label><textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea><label for="observaciones">Observaciones Generales</label><textarea id="observaciones" name="observaciones" rows="3"></textarea><div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div></div>
+            <div id="step-2" class="wizard-step">
+                <h4>Paso 2: Diagnósticos</h4>
+                <label for="diagnostico_principal">Diagnóstico Principal (CIE-10 )</label>
+                <input type="text" id="diagnostico_principal" name="diagnostico_principal" placeholder="Buscar por código o descripción">
+                <label for="diagnosticos_complementarios">Diagnósticos Complementarios (CIE-10)</label>
+                <textarea id="diagnosticos_complementarios" name="diagnosticos_complementarios" rows="3" placeholder="Buscar y añadir más diagnósticos"></textarea>
+                <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div>
+            </div>
+            <div id="step-3" class="wizard-step">
+                <h4>Paso 3: Medicamentos e Insumos</h4>
+                <label for="medicamento_principal">Medicamento Principal</label>
+                <input type="text" id="medicamento_principal" name="medicamento_principal">
+                <label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label>
+                <textarea id="medicamentos_adicionales_obs" name="medicamentos_adicionales_obs" rows="4"></textarea>
+                <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div>
+            </div>
+            <div id="step-4" class="wizard-step">
+                <h4>Paso 4: Procedimientos y Observaciones</h4>
+                <label for="procedimiento_principal">Procedimiento Principal</label>
+                <input type="text" id="procedimiento_principal" name="procedimiento_principal">
+                <label for="procedimientos_adicionales_obs">Procedimientos Adicionales / Observaciones</label>
+                <textarea id="procedimientos_adicionales_obs" name="procedimientos_adicionales_obs" rows="4"></textarea>
+                <label for="observaciones">Observaciones Generales</label>
+                <textarea id="observaciones" name="observaciones" rows="3"></textarea>
+                <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="submit" id="save-btn">Guardar Plantilla</button></div>
+            </div>
         </form>
     </main>
-    <aside><h5>Vista Previa</h5><div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div><button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button></aside>
-    <footer class="page-footer"><button id="toggle-panels-btn">Ver Plantillas Guardadas</button></footer>
+    <aside>
+        <h5>Vista Previa</h5>
+        <div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div>
+        <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
+    </aside>
+    <footer class="page-footer">
+        <button id="toggle-panels-btn">Ver Plantillas Guardadas</button>
+    </footer>
 
     <script>
     $(document).ready(function() {
+        // Obtenemos el rol del usuario que pasamos desde Flask. 
+        // Es crucial que esté entre comillas para que sea un string de JS.
+        const userRol = "{{ rol }}";
+
         // --- Lógica de UI (botones, wizard) ---
         $('#toggle-panels-btn').click(function() {
             $('body').toggleClass('modo-visualizacion');
@@ -58,29 +97,52 @@
             $('nav, aside').toggle(isVisible);
             $(this).text(isVisible ? 'Ocultar Paneles y Volver a Crear' : 'Ver Plantillas Guardadas');
         });
-        let currentStep = 1; const totalSteps = 4;
-        function showStep(step) { $('.wizard-step').removeClass('active'); $('#step-' + step).addClass('active'); }
+
+        let currentStep = 1;
+        const totalSteps = 4;
+        function showStep(step) {
+            $('.wizard-step').removeClass('active');
+            $('#step-' + step).addClass('active');
+        }
         $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
         $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
 
         // --- Lógica de Autocompletado y Actividades ---
         function fetchAndFillActivities(codigo) {
-             $.ajax({
+            $.ajax({
                 url: `/get_actividades_por_codigo/${codigo}`,
                 dataType: 'json',
                 success: function(response) {
                     const textoActividades = (response.actividades && response.actividades.length > 0)
                         ? response.actividades.join('\n')
                         : '';
-                    $('#actividades_preventivas').val(textoActividades).trigger('input'); // Trigger para actualizar vista previa si existe
+                    $('#actividades_preventivas').val(textoActividades);
+                },
+                error: function() {
+                    $('#actividades_preventivas').val('Error al cargar actividades.');
                 }
             });
         }
 
         $('#codigo_prestacional').on('input', function() {
             const codigoInput = $(this).val().trim();
-            if (codigoInput.length === 3) { fetchAndFillActivities(codigoInput); }
-            else if (codigoInput.length < 3) {
+            if (codigoInput.length === 3) {
+                // Autocompletado por código exacto
+                $.ajax({
+                    url: '/search_codigos', data: { query: codigoInput }, dataType: 'json',
+                    success: function(response) {
+                        const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput);
+                        if (coincidenciaExacta) {
+                            $('#descripcion_prestacional').val(coincidenciaExacta.descripcion);
+                            $('#btn-step1-next').prop('disabled', false);
+                            fetchAndFillActivities(codigoInput);
+                        } else {
+                            $('#descripcion_prestacional').val('Código no encontrado');
+                            $('#btn-step1-next').prop('disabled', true);
+                        }
+                    }
+                });
+            } else {
                 $('#descripcion_prestacional').val('');
                 $('#actividades_preventivas').val('');
                 $('#btn-step1-next').prop('disabled', true);
@@ -94,7 +156,7 @@
                 $('#descripcion_prestacional').val(suggestion.data.descripcion);
                 $('#btn-step1-next').prop('disabled', false);
                 fetchAndFillActivities(suggestion.data.codigo);
-                return false; 
+                return false;
             },
             transformResult: function(response) {
                 return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
@@ -105,9 +167,88 @@
             if (e.which === 13 || e.which === 9) { $(this).autocomplete('hide'); }
         });
 
-        // --- Carga y guardado de datos ---
-        // (El resto del script para guardar, cargar, etc. no cambia)
-        // ...
+        // --- Lógica de Carga y Guardado de Datos ---
+        function loadRegistros() {
+            $.get('/get_registros', function(registros) {
+                const lista = $('#lista-registros');
+                lista.empty();
+                registros.forEach(function(reg) {
+                    const item = $(`<article style="margin-bottom: 0.5rem; cursor: pointer;" data-id="${reg.id}"><strong>${reg.codigo_prestacional || 'S/C'}</strong>  
+<small>${reg.descripcion_prestacional || 'Sin descripción'}</small></article>`);
+                    item.click(function() { showPreview($(this).data('id')); });
+                    lista.append(item);
+                });
+            }).fail(function() {
+                $('#lista-registros').text('Error al cargar plantillas.');
+            });
+        }
+
+        function showPreview(id) {
+            $.get('/get_registros', function(registros) {
+                const registro = registros.find(r => r.id == id);
+                if (registro) {
+                    const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'No registrado'}\n**Descripción:** ${registro.descripcion_prestacional || 'No registrado'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'No registrado'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'No registrado'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'No registrado'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'No registrado'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'No registrado'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'No registrado'}\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'No registrado'}\n\n**Observaciones Generales:**\n${registro.observaciones || 'No registrado'}`;
+                    $('#plantilla-preview').text(previewContent);
+                }
+            });
+        }
+
+        $('#copy-btn').click(function() {
+            const textToCopy = $('#plantilla-preview').text();
+            navigator.clipboard.writeText(textToCopy).then(function() { alert('¡Copiado al portapapeles!'); }, function(err) { alert('Error al copiar: ' + err); });
+        });
+
+        $('#wizard-form').on('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                codigo_prestacional: $('#codigo_prestacional').val(),
+                descripcion_prestacional: $('#descripcion_prestacional').val(),
+                actividades_preventivas: $('#actividades_preventivas').val(),
+                diagnostico_principal: $('#diagnostico_principal').val(),
+                diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
+                medicamento_principal: $('#medicamento_principal').val(),
+                medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
+                procedimiento_principal: $('#procedimiento_principal').val(),
+                procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
+                observaciones: $('#observaciones').val()
+            };
+            $.ajax({
+                url: '/guardar_plantilla', type: 'POST', contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    alert(response.message);
+                    loadRegistros();
+                    $('#wizard-form')[0].reset();
+                    currentStep = 1; showStep(1);
+                    $('#btn-step1-next').prop('disabled', true);
+                },
+                error: function(xhr) {
+                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar la plantilla.';
+                    alert(errorMsg);
+                }
+            });
+        });
+
+        // --- Control de UI basado en el Rol ---
+        if (userRol === 'viewer') {
+            // Ocultar el formulario de creación y el botón de paneles
+            $('#wizard-form').hide();
+            $('#toggle-panels-btn').hide();
+            
+            // Forzar la vista de visualización
+            $('body').addClass('modo-visualizacion');
+            $('nav, aside').show();
+            
+            // Cambiar el texto de la cabecera
+            $('main > header > h2').text('Visualización de Plantillas');
+            $('main > header > p').text('Seleccione una plantilla de la lista para ver su contenido y copiarlo.');
+        } else {
+            // Si es admin, asegurarse de que el asistente esté visible al inicio
+            showStep(currentStep);
+        }
+
+        // Carga inicial de datos
+        loadRegistros();
     });
     </script>
 </body>
