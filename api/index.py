@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from datetime import timedelta
 import os
-import json
 from sqlalchemy import create_engine, text, exc
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS (SUPABASE) ---
@@ -9,8 +8,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:
     raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
 
-# --- CAMBIO CRÍTICO: Modificar la URL para usar el "Connection Pooler" ---
-# Esto resuelve el problema de conexión IPv4/IPv6 entre Vercel y Supabase.
+# Modificación para usar el "Connection Pooler"
 if 'db.ylzpvpgcelbsbdcauqzw.supabase.co' in DATABASE_URL:
     DATABASE_URL = DATABASE_URL.replace(
         'db.ylzpvpgcelbsbdcauqzw.supabase.co:5432',
@@ -19,7 +17,7 @@ if 'db.ylzpvpgcelbsbdcauqzw.supabase.co' in DATABASE_URL:
 
 engine = create_engine(DATABASE_URL)
 
-# --- IMPORTACIONES DE PARÁMETROS (ya correctas) ---
+# --- IMPORTACIONES DE PARÁMETROS ---
 from PARAMETROS import (
     CODIGOS_PRESTACIONALES_CATEGORIZADOS,
     ACTIVIDADES_PREVENTIVAS_MAP,
@@ -27,16 +25,16 @@ from PARAMETROS import (
 )
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates'))
-app.secret_key = 'tu_super_secreta_llave_aqui'
+app.secret_key = 'tu_super_secreta_llave_aqui_4' # Pequeño cambio para forzar redespliegue
 app.permanent_session_lifetime = timedelta(minutes=60)
 
 
 # ======================================================================
-# LECTURA DE DATOS ROBUSTA
+# FUNCIÓN DE LECTURA CON DIAGNÓSTICO EXPLÍCITO
 # ======================================================================
 
 def leer_registros_desde_db():
-    """Lee todas las plantillas de la tabla 'registros' existente."""
+    """Lee todas las plantillas, ahora con un diagnóstico de errores detallado."""
     try:
         with engine.connect() as conn:
             query = text("""
@@ -49,13 +47,31 @@ def leer_registros_desde_db():
             result = conn.execute(query)
             keys = result.keys()
             registros = [dict(zip(keys, row)) for row in result]
+            # Si llega hasta aquí, la lectura fue exitosa
+            print("DIAGNÓSTICO: La lectura de la base de datos fue exitosa.")
             return registros
     except exc.SQLAlchemyError as e:
-        print(f"Error al leer de la base de datos: {e}")
+        # ======================================================================
+        # ¡ESTA ES LA PARTE MÁS IMPORTANTE!
+        # Imprimimos el error exacto en los logs de Vercel.
+        # ======================================================================
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!! ERROR CRÍTICO AL LEER DE LA BASE DE DATOS !!!")
+        print(f"!!! TIPO DE ERROR: {type(e)}")
+        print(f"!!! ERROR DETALLADO: {e}")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        return [] # Devolvemos una lista vacía para que el frontend no se rompa.
+    except Exception as e:
+        # Captura cualquier otro error inesperado
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!! ERROR GENERAL INESPERADO !!!")
+        print(f"!!! TIPO DE ERROR: {type(e)}")
+        print(f"!!! ERROR DETALLADO: {e}")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         return []
 
+# La función de escritura no necesita cambios
 def escribir_registro_en_db(plantilla_data):
-    """Inserta una nueva plantilla en la tabla 'registros' existente."""
     with engine.connect() as conn:
         stmt = text("""
             INSERT INTO public.registros (
@@ -70,7 +86,6 @@ def escribir_registro_en_db(plantilla_data):
                 :procedimientos_adicionales_obs
             ) RETURNING id;
         """)
-        
         params = {
             "codigo_prestacional": plantilla_data.get("codigo_prestacional"),
             "descripcion_prestacional": plantilla_data.get("descripcion_prestacional"),
@@ -82,16 +97,12 @@ def escribir_registro_en_db(plantilla_data):
             "procedimiento_principal": plantilla_data.get("procedimiento_principal"),
             "procedimientos_adicionales_obs": plantilla_data.get("procedimientos_adicionales_obs"),
         }
-        
         result = conn.execute(stmt, params)
         nuevo_id = result.scalar()
         conn.commit()
         return nuevo_id
 
-# ======================================================================
-
-
-# --- RUTAS (sin cambios) ---
+# --- El resto del archivo no cambia ---
 
 @app.route('/')
 def home():
@@ -122,17 +133,13 @@ def plantillas():
     if 'username' not in session: return redirect(url_for('login'))
     return render_template('index.html', rol=session.get('rol', 'viewer'))
 
-# --- RUTAS DE API (sin cambios) ---
-
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
     if session.get('rol') != 'admin':
         return jsonify({'message': 'Acceso no autorizado.'}), 403
-    
     nueva_plantilla = request.json
     if not nueva_plantilla.get('codigo_prestacional'):
         return jsonify({'message': 'El código prestacional es obligatorio.'}), 400
-
     nuevo_id = escribir_registro_en_db(nueva_plantilla)
     return jsonify({'message': f"Plantilla guardada con éxito con ID: {nuevo_id}"}), 201
 
