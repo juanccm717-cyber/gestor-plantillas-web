@@ -3,85 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Gestor de Plantillas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .login-card {
-            width: 100%;
-            max-width: 400px;
-        }
-    </style>
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
 <body>
-    <div class="card login-card shadow">
-        <div class="card-body p-5">
-            <h3 class="card-title text-center mb-4">Gestor de Plantillas</h3>
-            <form id="login-form">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Ingresar</button>
-                </div>
-                <div id="error-message" class="alert alert-danger mt-3 d-none" role="alert"></div>
+    <main class="container">
+        <article>
+            <hgroup>
+                <h1>Iniciar Sesión</h1>
+                <h2>Gestor de Plantillas</h2>
+            </hgroup>
+            {% if error %}
+                <p><mark>{{ error }}</mark></p>
+            {% endif %}
+            <form method="post">
+                <input type="text" name="username" placeholder="Nombre de usuario" aria-label="Nombre de usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" aria-label="Contraseña" required>
+                <button type="submit">Ingresar</button>
             </form>
-        </div>
-    </div>
-
-    <!-- SDK de Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = 'https://ylzpvpgcelbsbdcauqzw.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlsemp2cGdjZWxic2JkY2F1cXp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg0MDM4NjcsImV4cCI6MjAzMzk3OTg2N30.KjB2xO6-2s_s3s_jY8c_Z8e_Y3e_X2e_T1r_S5f_R4c'; // Reemplaza con tu Anon Key real
-        
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY );
-
-        // Redirigir si ya hay una sesión activa
-        document.addEventListener('DOMContentLoaded', async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                // Guardamos la sesión en localStorage para que otras páginas la usen
-                localStorage.setItem('supabase.session', JSON.stringify(session));
-                window.location.href = '/menu';
-            }
-        });
-
-        const loginForm = document.getElementById('login-form');
-        const errorMessage = document.getElementById('error-message');
-
-        loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            errorMessage.classList.add('d-none');
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-
-            if (error) {
-                errorMessage.textContent = error.message;
-                errorMessage.classList.remove('d-none');
-            } else if (data.session) {
-                // Guardamos la sesión en localStorage para que otras páginas la usen
-                localStorage.setItem('supabase.session', JSON.stringify(data.session));
-                window.location.href = '/menu';
-            }
-        });
-    </script>
+        </article>
+    </main>
 </body>
 </html>
