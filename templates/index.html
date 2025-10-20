@@ -68,104 +68,183 @@
     <footer class="page-footer"><button id="toggle-panels-btn">Ver Plantillas Guardadas</button></footer>
 
     <script>
-    $(document).ready(function() {
-        const userRol = "{{ rol }}";
+    <script>
+$(document).ready(function() {
+    // Obtenemos el rol del usuario que pasamos desde Flask.
+    const userRol = "{{ rol }}";
 
-        // --- Lógica de UI (sin cambios) ---
-        // ...
+    // --- Lógica de UI (botones, wizard) ---
+    $('#toggle-panels-btn').click(function() {
+        $('body').toggleClass('modo-visualizacion');
+        const isVisible = $('body').hasClass('modo-visualizacion');
+        $('nav, aside').toggle(isVisible);
+        $(this).text(isVisible ? 'Ocultar Paneles y Volver a Crear' : 'Ver Plantillas Guardadas');
+    });
 
-        // =========================================================================
-        // FUNCIÓN CLAVE MODIFICADA: Ahora genera checkboxes
-        // =========================================================================
-        function fetchAndFillActivities(codigo) {
-            const container = $('#actividades-checkbox-container');
-            container.html('<small><i>Cargando actividades...</i></small>'); // Mensaje de carga
+    let currentStep = 1;
+    const totalSteps = 4;
+    function showStep(step) {
+        $('.wizard-step').removeClass('active');
+        $('#step-' + step).addClass('active');
+    }
+    $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
+    $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
 
-            $.ajax({
-                url: `/get_actividades_por_codigo/${codigo}`,
-                dataType: 'json',
-                success: function(response) {
-                    container.empty(); // Limpiar el contenedor
-                    if (response.actividades && response.actividades.length > 0) {
-                        response.actividades.forEach(function(actividad) {
-                            // Crear un label y un input checkbox para cada actividad
-                            const label = $('<label></label>');
-                            const checkbox = $('<input type="checkbox" name="actividades_preventivas">')
-                                .val(actividad.descripcion); // El valor es la descripción completa
-                            
-                            label.append(checkbox);
-                            label.append(` ${actividad.descripcion}`); // Añadir el texto al lado
-                            container.append(label);
-                        });
-                    } else {
-                        container.html('<small><i>No hay actividades sugeridas para este código.</i></small>');
-                    }
-                },
-                error: function() {
-                    container.html('<small><i>Error al cargar actividades.</i></small>');
+    // --- Lógica de Autocompletado y Actividades ---
+    function fetchAndFillActivities(codigo) {
+        const container = $('#actividades-checkbox-container');
+        container.html('<small><i>Cargando actividades...</i></small>');
+
+        $.ajax({
+            url: `/get_actividades_por_codigo/${codigo}`,
+            dataType: 'json',
+            success: function(response) {
+                container.empty();
+                if (response.actividades && response.actividades.length > 0) {
+                    response.actividades.forEach(function(actividad) {
+                        const label = $('<label></label>');
+                        const checkbox = $('<input type="checkbox" name="actividades_preventivas">').val(actividad.descripcion);
+                        label.append(checkbox);
+                        label.append(` ${actividad.descripcion}`);
+                        container.append(label);
+                    });
+                } else {
+                    container.html('<small><i>No hay actividades sugeridas para este código.</i></small>');
                 }
-            });
-        }
-
-        // --- Lógica de Autocompletado (sin cambios en su mayoría) ---
-        // ... (La lógica de $('#codigo_prestacional').on('input', ...) y .autocomplete(...) es la misma)
-        // La única diferencia es que llama a la nueva fetchAndFillActivities
-        
-        // =========================================================================
-        // CAMBIO CLAVE AL GUARDAR: Ahora recopila desde los checkboxes
-        // =========================================================================
-        $('#wizard-form').on('submit', function(e) {
-            e.preventDefault();
-
-            // Recopilar las actividades seleccionadas
-            const actividadesSeleccionadas = [];
-            $('input[name="actividades_preventivas"]:checked').each(function() {
-                actividadesSeleccionadas.push($(this).val());
-            });
-
-            const formData = {
-                codigo_prestacional: $('#codigo_prestacional').val(),
-                descripcion_prestacional: $('#descripcion_prestacional').val(),
-                actividades_preventivas: actividadesSeleccionadas.join('\n'), // Las unimos con salto de línea
-                diagnostico_principal: $('#diagnostico_principal').val(),
-                diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
-                medicamento_principal: $('#medicamento_principal').val(),
-                medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
-                procedimiento_principal: $('#procedimiento_principal').val(),
-                procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
-                observaciones: $('#observaciones').val()
-            };
-
-            $.ajax({
-                url: '/guardar_plantilla',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function(response) {
-                    alert(response.message);
-                    loadRegistros();
-                    // Resetear el formulario (incluyendo limpiar checkboxes)
-                    $('#wizard-form')[0].reset();
-                    $('#actividades-checkbox-container').html('<small><i>Seleccione un código prestacional...</i></small>');
-                    currentStep = 1; showStep(1);
-                    $('#btn-step1-next').prop('disabled', true);
-                },
-                error: function(xhr) {
-                    const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar la plantilla.';
-                    alert(errorMsg);
-                }
-            });
+            },
+            error: function() {
+                container.html('<small><i>Error al cargar actividades.</i></small>');
+            }
         });
+    }
 
-        // --- Control de UI basado en el Rol (sin cambios) ---
-        // ...
-
-        // Carga inicial
-        loadRegistros();
-        if (userRol === 'admin') {
-            showStep(currentStep);
+    $('#codigo_prestacional').on('input', function() {
+        const codigoInput = $(this).val().trim();
+        if (codigoInput.length === 3) {
+            $.ajax({
+                url: '/search_codigos', data: { query: codigoInput }, dataType: 'json',
+                success: function(response) {
+                    const coincidenciaExacta = response.suggestions.find(s => s.codigo === codigoInput);
+                    if (coincidenciaExacta) {
+                        $('#descripcion_prestacional').val(coincidenciaExacta.descripcion);
+                        $('#btn-step1-next').prop('disabled', false);
+                        fetchAndFillActivities(codigoInput);
+                    } else {
+                        $('#descripcion_prestacional').val('Código no encontrado');
+                        $('#btn-step1-next').prop('disabled', true);
+                    }
+                }
+            });
+        } else {
+            $('#descripcion_prestacional').val('');
+            $('#actividades-checkbox-container').html('<small><i>Seleccione un código prestacional...</i></small>');
+            $('#btn-step1-next').prop('disabled', true);
         }
     });
-    </script>
+
+    $('#codigo_prestacional').autocomplete({
+        serviceUrl: '/search_codigos', paramName: 'query', dataType: 'json', autoSelectFirst: true,
+        onSelect: function(suggestion) {
+            $('#codigo_prestacional').val(suggestion.data.codigo);
+            $('#descripcion_prestacional').val(suggestion.data.descripcion);
+            $('#btn-step1-next').prop('disabled', false);
+            fetchAndFillActivities(suggestion.data.codigo);
+            return false;
+        },
+        transformResult: function(response) {
+            return { suggestions: $.map(response.suggestions, function(dataItem) { return { value: `(${dataItem.codigo}) ${dataItem.descripcion}`, data: dataItem }; }) };
+        }
+    });
+
+    $('#codigo_prestacional').on('keydown', function(e) {
+        if (e.which === 13 || e.which === 9) { $(this).autocomplete('hide'); }
+    });
+
+    // =========================================================================
+    // FUNCIONES RESTAURADAS: loadRegistros, showPreview, etc.
+    // =========================================================================
+    function loadRegistros() {
+        $.get('/get_registros', function(registros) {
+            const lista = $('#lista-registros');
+            lista.empty();
+            registros.forEach(function(reg) {
+                const item = $(`<article style="margin-bottom: 0.5rem; cursor: pointer;" data-id="${reg.id}"><strong>${reg.codigo_prestacional || 'S/C'}</strong>  
+<small>${reg.descripcion_prestacional || 'Sin descripción'}</small></article>`);
+                item.click(function() { showPreview($(this).data('id')); });
+                lista.append(item);
+            });
+        }).fail(function() {
+            $('#lista-registros').text('Error al cargar plantillas.');
+        });
+    }
+
+    function showPreview(id) {
+        $.get('/get_registros', function(registros) {
+            const registro = registros.find(r => r.id == id);
+            if (registro) {
+                const previewContent = `**Código Prestacional:** ${registro.codigo_prestacional || 'No registrado'}\n**Descripción:** ${registro.descripcion_prestacional || 'No registrado'}\n\n**Actividades Preventivas:**\n${registro.actividades_preventivas || 'No registrado'}\n\n**Diagnóstico Principal:**\n${registro.diagnostico_principal || 'No registrado'}\n\n**Diagnósticos Complementarios:**\n${registro.diagnosticos_complementarios || 'No registrado'}\n\n**Medicamento Principal:**\n${registro.medicamento_principal || 'No registrado'}\n\n**Meds. Adicionales / Obs:**\n${registro.medicamentos_adicionales_obs || 'No registrado'}\n\n**Procedimiento Principal:**\n${registro.procedimiento_principal || 'No registrado'}\n**Procs. Adicionales / Obs:**\n${registro.procedimientos_adicionales_obs || 'No registrado'}\n\n**Observaciones Generales:**\n${registro.observaciones || 'No registrado'}`;
+                $('#plantilla-preview').text(previewContent);
+            }
+        });
+    }
+
+    $('#copy-btn').click(function() {
+        const textToCopy = $('#plantilla-preview').text();
+        navigator.clipboard.writeText(textToCopy).then(function() { alert('¡Copiado al portapapeles!'); }, function(err) { alert('Error al copiar: ' + err); });
+    });
+
+    $('#wizard-form').on('submit', function(e) {
+        e.preventDefault();
+        const actividadesSeleccionadas = [];
+        $('input[name="actividades_preventivas"]:checked').each(function() {
+            actividadesSeleccionadas.push($(this).val());
+        });
+        const formData = {
+            codigo_prestacional: $('#codigo_prestacional').val(),
+            descripcion_prestacional: $('#descripcion_prestacional').val(),
+            actividades_preventivas: actividadesSeleccionadas.join('\n'),
+            diagnostico_principal: $('#diagnostico_principal').val(),
+            diagnosticos_complementarios: $('#diagnosticos_complementarios').val(),
+            medicamento_principal: $('#medicamento_principal').val(),
+            medicamentos_adicionales_obs: $('#medicamentos_adicionales_obs').val(),
+            procedimiento_principal: $('#procedimiento_principal').val(),
+            procedimientos_adicionales_obs: $('#procedimientos_adicionales_obs').val(),
+            observaciones: $('#observaciones').val()
+        };
+        $.ajax({
+            url: '/guardar_plantilla', type: 'POST', contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function(response) {
+                alert(response.message);
+                loadRegistros();
+                $('#wizard-form')[0].reset();
+                $('#actividades-checkbox-container').html('<small><i>Seleccione un código prestacional...</i></small>');
+                currentStep = 1; showStep(1);
+                $('#btn-step1-next').prop('disabled', true);
+            },
+            error: function(xhr) {
+                const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Error al guardar la plantilla.';
+                alert(errorMsg);
+            }
+        });
+    });
+
+    // --- Control de UI basado en el Rol ---
+    if (userRol === 'viewer') {
+        $('#wizard-form').hide();
+        $('#toggle-panels-btn').hide();
+        $('body').addClass('modo-visualizacion');
+        $('nav, aside').show();
+        $('main > header > h2').text('Visualización de Plantillas');
+        $('main > header > p').text('Seleccione una plantilla de la lista para ver su contenido y copiarlo.');
+    } else {
+        showStep(currentStep);
+    }
+
+    // Carga inicial de datos
+    loadRegistros();
+});
+</script>
+
 </body>
 </html>
