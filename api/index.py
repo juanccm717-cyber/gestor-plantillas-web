@@ -19,7 +19,7 @@ from PARAMETROS import (
 )
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates'))
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-robusta-12345")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-robusta-99999")
 app.permanent_session_lifetime = timedelta(minutes=60)
 
 # --- FUNCIONES DE BASE DE DATOS (SIN CAMBIOS) ---
