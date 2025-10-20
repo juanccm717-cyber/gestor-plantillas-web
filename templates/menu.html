@@ -6,7 +6,7 @@
     <title>Menú Principal - Gestor de Plantillas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <style>
-        /* Estilos (sin cambios ) */
+        /* Los estilos no cambian, se mantienen igual */
         body { background-color: #eef0f4; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         article { width: 500px; padding: 2.5rem; border-radius: 12px; background: #eef0f4; box-shadow: 7px 7px 15px #babecc, -7px -7px 15px #ffffff; text-align: center; }
         h2 { font-weight: 700; color: #444; }
@@ -16,30 +16,72 @@
         .menu-button:hover { box-shadow: 3px 3px 7px #babecc, -3px -3px 7px #ffffff; }
         .menu-button:active { box-shadow: inset 3px 3px 7px #babecc, inset -3px -3px 7px #ffffff; color: #3d8bfd; }
         .logout-button { margin-top: 2rem; background: #eef0f4; color: #dc3545; }
+        /* Estilo para ocultar botones por defecto */
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <main class="container">
         <article>
             <h2>GESTOR DE PLANTILLAS</h2>
-            <p class="subtitle">Bienvenido, <strong>{{ username }}</strong> (Rol: {{ rol }})</p>
+            <!-- El saludo ahora se llenará con JavaScript -->
+            <p id="welcome-message" class="subtitle">Cargando...</p>
 
-            <div class="grid">
-                <!-- Botón 1: Lleva a la vista de CREACIÓN. Solo para admin. -->
-                {% if rol == 'admin' %}
-                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Crear Nueva Plantilla</a>
-                {% endif %}
+            <div id="menu-buttons" class="grid">
+                <!-- Botón 1: Se mostrará u ocultará con JavaScript -->
+                <a id="btn-crear" href="/plantillas" role="button" class="menu-button hidden">1. Crear Nueva Plantilla</a>
 
-                <!-- ====================================================================== -->
-                <!-- CORRECCIÓN: Texto del Botón 2 simplificado -->
-                <!-- ====================================================================== -->
-                <!-- Botón 2: Lleva a la vista de VISUALIZACIÓN. Para TODOS los usuarios. -->
-                <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">2. Ver Plantillas</a>
-                <!-- ====================================================================== -->
+                <!-- Botón 2: Siempre visible -->
+                <a href="/plantillas?modo=ver" role="button" class="menu-button">2. Ver Plantillas</a>
             </div>
 
-            <a href="{{ url_for('logout') }}" role="button" class="menu-button logout-button">Cerrar Sesión</a>
+            <!-- El botón de logout ahora se maneja con JavaScript -->
+            <button id="logout-btn" class="menu-button logout-button">Cerrar Sesión</button>
         </article>
     </main>
+
+    <!-- SDK de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://ylzpvpgcelbsbdcauqzw.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlsemp2cGdjZWxic2JkY2F1cXp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg0MDM4NjcsImV4cCI6MjAzMzk3OTg2N30.KjB2xO6-2s_s3s_jY8c_Z8e_Y3e_X2e_T1r_S5f_R4c'; // Reemplaza con tu Anon Key real
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY );
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sessionString = localStorage.getItem('supabase.session');
+            if (!sessionString) {
+                // Si no hay sesión, redirigir al login
+                window.location.href = '/';
+                return;
+            }
+
+            const session = JSON.parse(sessionString);
+            const user = session.user;
+            
+            // Extraer el rol de los metadatos del usuario
+            const userRole = user.user_metadata.rol || 'viewer';
+            
+            // Actualizar el mensaje de bienvenida
+            const welcomeMessage = document.getElementById('welcome-message');
+            welcomeMessage.innerHTML = `Bienvenido, <strong>${user.email}</strong> (Rol: ${userRole})`;
+
+            // Mostrar el botón de "Crear" solo si el rol es 'admin'
+            if (userRole === 'admin') {
+                document.getElementById('btn-crear').classList.remove('hidden');
+            }
+        });
+
+        // Funcionalidad del botón de logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            const { error } = await supabase.auth.signOut();
+            localStorage.removeItem('supabase.session');
+            if (error) {
+                console.error('Error al cerrar sesión:', error.message);
+            } else {
+                window.location.href = '/';
+            }
+        });
+    </script>
 </body>
 </html>
