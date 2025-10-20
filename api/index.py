@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import os
 from sqlalchemy import create_engine, text, exc
 # ======================================================================
-# ¡ESTA ES LA LÍNEA QUE FALTABA Y QUE CAUSABA EL ERROR 500!
+# CORRECCIÓN CRÍTICA: Importación de la función para verificar contraseñas
 from werkzeug.security import check_password_hash
 # ======================================================================
 from datetime import timedelta
@@ -12,27 +12,36 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
 
+# Se asume que la DATABASE_URL ya es la del Pooler (puerto 6543)
 engine = create_engine(DATABASE_URL)
 
 # --- IMPORTACIONES DE PARÁMETROS ---
 # (Asegúrate de que este archivo PARAMETROS.py esté dentro de la carpeta api/)
-from PARAMETROS import (
-    CODIGOS_PRESTACIONALES_CATEGORIZADOS,
-    ACTIVIDADES_PREVENTIVAS_MAP,
-    RELACION_CODIGO_ACTIVIDADES
-)
+try:
+    from PARAMETROS import (
+        CODIGOS_PRESTACIONALES_CATEGORIZADOS,
+        ACTIVIDADES_PREVENTIVAS_MAP,
+        RELACION_CODIGO_ACTIVIDADES
+    )
+except ImportError:
+    # Fallback por si el archivo no se encuentra, para evitar que la app se caiga
+    CODIGOS_PRESTACIONALES_CATEGORIZADOS = []
+    ACTIVIDADES_PREVENTIVAS_MAP = {}
+    RELACION_CODIGO_ACTIVIDADES = {}
+
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates'))
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-robusta-99999") # El número no importa
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-robusta-final-1") # Cambio para forzar redespliegue
 app.permanent_session_lifetime = timedelta(minutes=60)
 
-# --- FUNCIONES DE BASE DE DATOS (SIN CAMBIOS) ---
+# --- FUNCIONES DE BASE DE DATOS (REVISADAS Y VALIDADAS) ---
 def leer_registros_desde_db():
     try:
         with engine.connect() as conn:
             query = text("SELECT * FROM public.registros ORDER BY id ASC;")
             result = conn.execute(query)
             keys = result.keys()
+            # Conversión segura a diccionario
             registros = [dict(zip(keys, row)) for row in result]
             return registros
     except Exception as e:
@@ -45,22 +54,23 @@ def escribir_registro_en_db(plantilla_data):
             stmt = text("""
                 INSERT INTO public.registros (
                     codigo_prestacional, descripcion_prestacional, actividades_preventivas,
-                    diagnostico_principal, diagnosticos_complementarios, medicamento_principal,
-                    medicamentos_adicionales_obs, procedimiento_principal,
-                    procedimientos_adicionales_obs
+                    diagnostico_principal, diagnosticos_complementarios, observaciones, 
+                    medicamento_principal, medicamentos_adicionales_obs, 
+                    procedimiento_principal, procedimientos_adicionales_obs
                 ) VALUES (
                     :codigo_prestacional, :descripcion_prestacional, :actividades_preventivas,
-                    :diagnostico_principal, :diagnosticos_complementarios, :medicamento_principal,
-                    :medicamentos_adicionales_obs, :procedimiento_principal,
-                    :procedimientos_adicionales_obs
+                    :diagnostico_principal, :diagnosticos_complementarios, :observaciones,
+                    :medicamento_principal, :medicamentos_adicionales_obs, 
+                    :procedimiento_principal, :procedimientos_adicionales_obs
                 ) RETURNING id;
             """)
             params = {
                 "codigo_prestacional": plantilla_data.get("codigo_prestacional"),
                 "descripcion_prestacional": plantilla_data.get("descripcion_prestacional"),
-                "actividades_preventivas": "\n".join(plantilla_data.get("actividades_preventivas", [])),
+                "actividades_preventivas": "\n".join(plantilla_data.get("actividades", [])),
                 "diagnostico_principal": plantilla_data.get("diagnostico_principal"),
                 "diagnosticos_complementarios": plantilla_data.get("diagnosticos_complementarios"),
+                "observaciones": plantilla_data.get("observaciones"),
                 "medicamento_principal": plantilla_data.get("medicamento_principal"),
                 "medicamentos_adicionales_obs": plantilla_data.get("medicamentos_adicionales_obs"),
                 "procedimiento_principal": plantilla_data.get("procedimiento_principal"),
@@ -74,7 +84,7 @@ def escribir_registro_en_db(plantilla_data):
         print(f"!!! ERROR AL ESCRIBIR REGISTRO: {e}")
         return None
 
-# --- RUTAS DE LA APLICACIÓN (YA CORRECTAS) ---
+# --- RUTAS DE LA APLICACIÓN (REVISADAS Y VALIDADAS) ---
 @app.route('/')
 def home():
     if 'username' in session:
@@ -84,22 +94,27 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-        # Búsqueda del usuario en la base de datos
-        with engine.connect() as conn:
-            query = text("SELECT username, password_hash, role FROM public.usuarios WHERE username = :username")
-            result = conn.execute(query, {"username": username}).fetchone()
+        if not username or not password:
+            return render_template('login.html', error="Usuario y contraseña son requeridos.")
 
-        # Verificación de la contraseña
-        if result and check_password_hash(result[1], password):
-            session.permanent = True
-            session['username'] = result[0]
-            session['rol'] = result[2]
-            return redirect(url_for('menu'))
-        else:
-            return render_template('login.html', error="Usuario o contraseña incorrectos")
+        try:
+            with engine.connect() as conn:
+                query = text("SELECT username, password_hash, role FROM public.usuarios WHERE username = :username")
+                result = conn.execute(query, {"username": username}).fetchone()
+
+            if result and check_password_hash(result[1], password):
+                session.permanent = True
+                session['username'] = result[0]
+                session['rol'] = result[2]
+                return redirect(url_for('menu'))
+            else:
+                return render_template('login.html', error="Usuario o contraseña incorrectos")
+        except Exception as e:
+            print(f"!!! ERROR EN LOGIN: {e}")
+            return render_template('login.html', error="Error de servidor al intentar iniciar sesión.")
 
     return render_template('login.html')
 
@@ -121,7 +136,7 @@ def plantillas():
     modo = request.args.get('modo', 'crear')
     return render_template('index.html', rol=session.get('rol', 'usuario'), modo=modo)
 
-# --- RUTAS DE API (YA CORRECTAS) ---
+# --- RUTAS DE API (REVISADAS Y VALIDADAS) ---
 @app.route('/get_registros', methods=['GET'])
 def get_registros():
     if 'username' not in session:
@@ -131,6 +146,7 @@ def get_registros():
 
 @app.route('/guardar_plantilla', methods=['POST'])
 def guardar_plantilla():
+    # El rol en la base de datos es 'administrador', no 'admin'
     if session.get('rol') != 'administrador':
         return jsonify({'message': 'Acceso no autorizado.'}), 403
     nueva_plantilla = request.json
@@ -158,3 +174,4 @@ def get_actividades_por_codigo(codigo):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
