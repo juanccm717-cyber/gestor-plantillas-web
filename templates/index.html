@@ -39,14 +39,13 @@
             padding: 1.5rem;
             box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
             overflow-y: auto;
-            display: none; /* Ocultos por defecto */
+            display: none;
         }
 
         body.modo-visualizacion {
             grid-template-columns: 280px 1fr 400px;
         }
         
-        /* CORRECCIÓN: Asegurarse de que los paneles se muestren en modo visualización */
         body.modo-visualizacion nav,
         body.modo-visualizacion aside {
             display: block;
@@ -190,22 +189,49 @@
             theme: 'snow'
         });
 
-        // ======================================================================
-        // LÓGICA DEL BOTÓN DE VISUALIZACIÓN (CORREGIDA Y COMPLETA)
-        // ======================================================================
+        // --- LÓGICA DE CARGA DE DATOS ---
+        function loadRegistros() {
+            $.get('/get_registros', function(registros) {
+                const lista = $('#lista-registros');
+                lista.empty();
+                if (registros && registros.length > 0) {
+                    registros.forEach(function(reg) {
+                        const item = $(`<article><strong data-id="${reg.id}" style="cursor: pointer;">${reg.codigo_prestacional || 'S/C'}: ${reg.descripcion_prestacional || 'Sin descripción'}</strong></article>`);
+                        item.find('strong').click(function() { showPreview($(this).data('id')); });
+                        lista.append(item);
+                    });
+                } else {
+                    lista.html('<small><i>No hay plantillas guardadas.</i></small>');
+                }
+            }).fail(function(xhr) {
+                if (xhr.status === 401) {
+                    alert("Su sesión ha expirado. La página se recargará.");
+                    window.location.reload();
+                } else {
+                    $('#lista-registros').text('Error al cargar plantillas.');
+                }
+            });
+        }
+
+        // --- LÓGICA DEL BOTÓN DE VISUALIZACIÓN (CORREGIDA) ---
         $('#toggle-panels-btn').click(function() {
             const body = $('body');
             body.toggleClass('modo-visualizacion');
             
             const isVisible = body.hasClass('modo-visualizacion');
             
-            // Ocultar/mostrar el formulario principal
             $('#wizard-form, main > header').toggle(!isVisible);
 
-            // Cambiar el texto del botón
+            // ======================================================================
+            // CORRECCIÓN: Si los paneles se hacen visibles, cargamos los registros.
+            // ======================================================================
+            if (isVisible) {
+                loadRegistros();
+            }
+            // ======================================================================
+            
             $(this).text(isVisible ? 'Ocultar Paneles y Volver a Crear' : 'Ver Plantillas Guardadas');
         });
-        // ======================================================================
 
         let currentStep = 1;
         const totalSteps = 4;
@@ -233,10 +259,10 @@
                             container.append(label);
                         });
                     } else {
-                        container.html('<small><i>No hay actividades sugeridas para este código.</i></small>');
+                        container.html('<small><i>No hay actividades sugeridas.</i></small>');
                     }
                 },
-                error: function() { container.html('<small><i>Error al cargar actividades.</i></small>'); }
+                error: function() { container.html('<small><i>Error al cargar.</i></small>'); }
             });
         }
 
@@ -259,7 +285,7 @@
                 });
             } else {
                 $('#descripcion_prestacional').val('');
-                $('#actividades-checkbox-container').html('<small><i>Seleccione un código prestacional...</i></small>');
+                $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
                 $('#btn-step1-next').prop('disabled', true);
             }
         });
@@ -281,25 +307,6 @@
         $('#codigo_prestacional').on('keydown', function(e) {
             if (e.which === 13 || e.which === 9) { $(this).autocomplete('hide'); }
         });
-
-        function loadRegistros() {
-            $.get('/get_registros', function(registros) {
-                const lista = $('#lista-registros');
-                lista.empty();
-                registros.forEach(function(reg) {
-                    const item = $(`<article><strong data-id="${reg.id}" style="cursor: pointer;">${reg.codigo_prestacional || 'S/C'}: ${reg.descripcion_prestacional || 'Sin descripción'}</strong></article>`);
-                    item.find('strong').click(function() { showPreview($(this).data('id')); });
-                    lista.append(item);
-                });
-            }).fail(function(xhr) {
-                if (xhr.status === 401) {
-                    alert("Su sesión ha expirado. La página se recargará.");
-                    window.location.reload();
-                } else {
-                    $('#lista-registros').text('Error al cargar plantillas.');
-                }
-            });
-        }
 
         function showPreview(id) {
             $.get('/get_registros', function(registros) {
@@ -345,7 +352,7 @@
                     loadRegistros();
                     $('#wizard-form')[0].reset();
                     quill.setText('');
-                    $('#actividades-checkbox-container').html('<small><i>Seleccione un código prestacional...</i></small>');
+                    $('#actividades-checkbox-container').html('<small><i>Seleccione un código...</i></small>');
                     currentStep = 1; showStep(1);
                     $('#btn-step1-next').prop('disabled', true);
                 },
@@ -359,11 +366,11 @@
         if (userRol === 'viewer') {
             $('#wizard-form, main > header, #toggle-panels-btn').hide();
             $('body').addClass('modo-visualizacion');
+            loadRegistros(); // Cargar registros para el viewer al inicio
         } else {
             showStep(currentStep);
+            // No cargamos los registros al inicio para el admin, solo cuando lo pida
         }
-
-        loadRegistros();
     });
     </script>
 </body>
