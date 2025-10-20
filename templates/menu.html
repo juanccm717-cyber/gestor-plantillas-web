@@ -25,17 +25,16 @@
             <p class="subtitle">Bienvenido, <strong>{{ username }}</strong> (Rol: {{ rol }})</p>
 
             <div class="grid">
-                <!-- ====================================================================== -->
-                <!-- CORRECCIÓN: Lógica de enlaces simplificada y consistente -->
-                <!-- ====================================================================== -->
-
                 <!-- Botón 1: Lleva a la vista de CREACIÓN. Solo para admin. -->
                 {% if rol == 'admin' %}
                 <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Crear Nueva Plantilla</a>
                 {% endif %}
 
+                <!-- ====================================================================== -->
+                <!-- CORRECCIÓN: Texto del Botón 2 simplificado -->
+                <!-- ====================================================================== -->
                 <!-- Botón 2: Lleva a la vista de VISUALIZACIÓN. Para TODOS los usuarios. -->
-                <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">2. Ver y Usar Plantillas</a>
+                <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">2. Ver Plantillas</a>
                 <!-- ====================================================================== -->
             </div>
 
