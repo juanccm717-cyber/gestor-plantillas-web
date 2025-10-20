@@ -42,9 +42,6 @@
     </style>
 </head>
 <body>
-    <!-- ====================================================================== -->
-    <!-- CORRECCIÓN ESTRUCTURAL: <nav> y <aside> están FUERA de <main> -->
-    <!-- ====================================================================== -->
     <nav>
         <h5>Plantillas Guardadas</h5>
         <div id="lista-registros">Cargando...</div>
@@ -67,9 +64,8 @@
         <div id="plantilla-preview">Seleccione una plantilla de la lista para ver su contenido.</div>
         <button id="copy-btn" style="width: 100%; margin-top: 1rem;">Copiar al Portapapeles</button>
     </aside>
-    <!-- ====================================================================== -->
     
-    <footer class="page-footer"><a href="{{ url_for('menu') }}" role="button" class="secondary-action">Volver al Menú Principal</a><button id="toggle-panels-btn">Ver Plantillas Guardadas</button></footer>
+    <footer class="page-footer"><a href="{{ url_for('menu') }}" role="button" class="secondary-action">Volver al Menú Principal</a><button id="toggle-panels-btn">Ver Plantillas</button></footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
@@ -89,6 +85,9 @@
         // --- DEFINICIÓN DE FUNCIONES PRINCIPALES ---
 
         function loadRegistros() {
+            // ======================================================================
+            // CORRECCIÓN DEFINITIVA: Usar $.get() en lugar de $.post()
+            // ======================================================================
             $.get('/get_registros', function(registros) {
                 const lista = $('#lista-registros');
                 lista.empty();
@@ -142,12 +141,11 @@
 
         // --- LÓGICA DEL ASISTENTE (WIZARD) ---
         let currentStep = 1;
-        const totalSteps = 4;
         function showStep(step) {
             $('.wizard-step').removeClass('active');
             $('#step-' + step).addClass('active');
         }
-        $('.next-btn').click(function() { if (currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
+        $('.next-btn').click(function() { if (currentStep < 4) { currentStep++; showStep(currentStep); } });
         $('.prev-btn').click(function() { if (currentStep > 1) { currentStep--; showStep(currentStep); } });
 
         // --- ASIGNACIÓN DE EVENTOS (EVENT BINDING) ---
@@ -156,12 +154,9 @@
             const body = $('body');
             body.toggleClass('modo-visualizacion');
             const isVisible = body.hasClass('modo-visualizacion');
-            
-            // CORRECCIÓN: Solo ocultamos el contenido de creación, no el <main> entero
             $('#wizard-form, main > header').toggle(!isVisible);
-
             if (isVisible) { loadRegistros(); }
-            $(this).text(isVisible ? 'Ocultar y Volver a Crear' : 'Ver Plantillas Guardadas');
+            $(this).text(isVisible ? 'Ocultar y Volver a Crear' : 'Ver Plantillas');
         });
 
         $('#copy-btn').click(function() {
