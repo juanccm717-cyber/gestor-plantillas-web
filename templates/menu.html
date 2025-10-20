@@ -1,84 +1,92 @@
-<!doctype html>
-<html lang="es" data-theme="dark">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <title>Menú Principal - Gestor de Plantillas</title>
-  <style>
-  body {
-    background-color: var(--background-color);
-  }
-  main.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .menu-container {
-    max-width: 600px; /* Aumentamos un poco el ancho para la cuadrícula */
-    width: 100%;
-    text-align: center;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-  }
-  .menu-container hgroup {
-    margin-bottom: 2.5rem; /* Más espacio después del título */
-  }
-  
-  /* --- NUEVA CUADRÍCULA PARA LOS BOTONES --- */
-  .menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
-    gap: 1rem; /* Espacio entre los botones */
-  }
-
-  .menu-button {
-    margin-bottom: 0; /* Quitamos el margen inferior de los botones individuales */
-  }
-  /* ----------------------------------------- */
-  
-  footer {
-    margin-top: 2.5rem; /* Más espacio antes del botón de cerrar sesión */
-  }
-</style>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - Gestor de Plantillas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        body {
+            background-color: #eef0f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        article {
+            width: 500px;
+            padding: 2.5rem;
+            border-radius: 12px;
+            background: #eef0f4;
+            box-shadow: 7px 7px 15px #babecc, -7px -7px 15px #ffffff;
+            text-align: center;
+        }
+        h2 {
+            font-weight: 700;
+            color: #444;
+        }
+        .subtitle {
+            color: #555;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+        }
+        .subtitle strong {
+            color: #3d8bfd;
+        }
+        .menu-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: #eef0f4;
+            box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff;
+            color: #333;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .menu-button:hover {
+            box-shadow: 3px 3px 7px #babecc, -3px -3px 7px #ffffff;
+        }
+        .menu-button:active {
+            box-shadow: inset 3px 3px 7px #babecc, inset -3px -3px 7px #ffffff;
+            color: #3d8bfd;
+        }
+        .logout-button {
+            margin-top: 2rem;
+            background: #eef0f4;
+            color: #dc3545; /* Rojo para la acción de salir */
+        }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <article class="menu-container">
-      <header>
-        <h2>BIENVENIDO AL GESTOR DE PLANTILLAS</h2>
-        <p><strong>Rol:</strong> {{ role | capitalize }}</p>
-      </header>
-      
-      <!-- Botón solo para Administradores -->
-     <div class="menu-grid">
-  <!-- Botón solo para Administradores -->
-  {% if role == 'administrador' %}
-    <a href="/plantillas" role="button" class="menu-button">1. Nuevo Registro de Plantilla</a>
-  {% endif %}
-  
-  <!-- Botones para todos -->
-  <a href="/plantillas" role="button">Ir al Gestor de Plantillas</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">3. Calculadora de IMC</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">4. Calculadora Gestacional/FPP</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">5. Códigos y Fechas de Digitación</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">6. RC: 61</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">7. Guía de Peso y Talla</a>
-  <a href="#" role="button" class="secondary outline menu-button" disabled title="Próximamente">8. Búsqueda de Diagnósticos</a>
-</div>
+    <main class="container">
+        <article>
+            <h2>GESTOR DE PLANTILLAS</h2>
+            <p class="subtitle">Bienvenido, <strong>{{ username }}</strong> (Rol: {{ rol }} )</p>
 
-<footer style="width: 100%;">
-  <a href="/logout" role="button" class="contrast">Cerrar Sesión</a>
-</footer>
+            <div class="grid">
+                <!-- Botón 1: Nuevo Registro (Solo para Administradores) -->
+                {% if rol == 'admin' %}
+                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Nuevo Registro de Plantilla</a>
+                {% endif %}
 
+                <!-- Botón 2: Ver Listado (Para todos los usuarios) -->
+                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">2. Ver y Usar Plantillas</a>
+                
+                <!-- Aquí irían los enlaces a las otras herramientas (calculadoras, etc.) si las añadimos en el futuro -->
+                <!-- <a href="#" role="button" class="menu-button">3. Calculadora de IMC</a> -->
+                <!-- <a href="#" role="button" class="menu-button">4. Calculadora Gestacional/FPP</a> -->
 
-    </article>
-  </main>
+            </div>
+
+            <a href="{{ url_for('logout') }}" role="button" class="menu-button logout-button">Cerrar Sesión</a>
+        </article>
+    </main>
 </body>
 </html>
-
