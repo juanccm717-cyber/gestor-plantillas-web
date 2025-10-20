@@ -6,83 +6,44 @@
     <title>Menú Principal - Gestor de Plantillas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <style>
-        body {
-            background-color: #eef0f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        article {
-            width: 500px;
-            padding: 2.5rem;
-            border-radius: 12px;
-            background: #eef0f4;
-            box-shadow: 7px 7px 15px #babecc, -7px -7px 15px #ffffff;
-            text-align: center;
-        }
-        h2 {
-            font-weight: 700;
-            color: #444;
-        }
-        .subtitle {
-            color: #555;
-            margin-top: -1rem;
-            margin-bottom: 2rem;
-        }
-        .subtitle strong {
-            color: #3d8bfd;
-        }
-        .menu-button {
-            display: block;
-            width: 100%;
-            text-align: left;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 12px;
-            background: #eef0f4;
-            box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff;
-            color: #333;
-            font-weight: 600;
-            padding: 1rem 1.5rem;
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .menu-button:hover {
-            box-shadow: 3px 3px 7px #babecc, -3px -3px 7px #ffffff;
-        }
-        .menu-button:active {
-            box-shadow: inset 3px 3px 7px #babecc, inset -3px -3px 7px #ffffff;
-            color: #3d8bfd;
-        }
-        .logout-button {
-            margin-top: 2rem;
-            background: #eef0f4;
-            color: #dc3545; /* Rojo para la acción de salir */
-        }
+        /* Estilos (sin cambios ) */
+        body { background-color: #eef0f4; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        article { width: 500px; padding: 2.5rem; border-radius: 12px; background: #eef0f4; box-shadow: 7px 7px 15px #babecc, -7px -7px 15px #ffffff; text-align: center; }
+        h2 { font-weight: 700; color: #444; }
+        .subtitle { color: #555; margin-top: -1rem; margin-bottom: 2rem; }
+        .subtitle strong { color: #3d8bfd; }
+        .menu-button { display: block; width: 100%; text-align: left; margin-bottom: 1rem; border: none; border-radius: 12px; background: #eef0f4; box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff; color: #333; font-weight: 600; padding: 1rem 1.5rem; transition: all 0.2s ease-in-out; cursor: pointer; font-size: 1rem; text-decoration: none; }
+        .menu-button:hover { box-shadow: 3px 3px 7px #babecc, -3px -3px 7px #ffffff; }
+        .menu-button:active { box-shadow: inset 3px 3px 7px #babecc, inset -3px -3px 7px #ffffff; color: #3d8bfd; }
+        .logout-button { margin-top: 2rem; background: #eef0f4; color: #dc3545; }
     </style>
 </head>
 <body>
     <main class="container">
         <article>
             <h2>GESTOR DE PLANTILLAS</h2>
-            <p class="subtitle">Bienvenido, <strong>{{ username }}</strong> (Rol: {{ rol }} )</p>
+            <p class="subtitle">Bienvenido, <strong>{{ username }}</strong> (Rol: {{ rol }})</p>
 
             <div class="grid">
+                <!-- ====================================================================== -->
+                <!-- CORRECCIÓN: Lógica de enlaces contextual -->
+                <!-- ====================================================================== -->
+
                 <!-- Botón 1: Nuevo Registro (Solo para Administradores) -->
+                <!-- Este botón lleva a la vista de creación por defecto. -->
                 {% if rol == 'admin' %}
-                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Nuevo Registro de Plantilla</a>
+                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">1. Crear Nueva Plantilla</a>
                 {% endif %}
 
-                <!-- Botón 2: Ver Listado (Para todos los usuarios) -->
-                <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">2. Ver y Usar Plantillas</a>
-                
-                <!-- Aquí irían los enlaces a las otras herramientas (calculadoras, etc.) si las añadimos en el futuro -->
-                <!-- <a href="#" role="button" class="menu-button">3. Calculadora de IMC</a> -->
-                <!-- <a href="#" role="button" class="menu-button">4. Calculadora Gestacional/FPP</a> -->
-
+                <!-- Botón 2: Ver Listado -->
+                <!-- Si es admin, va a la vista de creación con opción de ver. -->
+                <!-- Si es viewer, va DIRECTAMENTE a la vista de solo lectura. -->
+                {% if rol == 'admin' %}
+                    <a href="{{ url_for('plantillas') }}" role="button" class="menu-button">2. Gestionar Plantillas (Crear/Ver)</a>
+                {% else %}
+                    <a href="{{ url_for('plantillas', modo='ver') }}" role="button" class="menu-button">Ver y Usar Plantillas</a>
+                {% endif %}
+                <!-- ====================================================================== -->
             </div>
 
             <a href="{{ url_for('logout') }}" role="button" class="menu-button logout-button">Cerrar Sesión</a>
