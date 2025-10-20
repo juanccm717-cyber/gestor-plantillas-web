@@ -57,7 +57,6 @@
                 <label for="descripcion_prestacional">Descripción Prestacional</label>
                 <input type="text" id="descripcion_prestacional" name="descripcion_prestacional" readonly>
                 
-                <!-- CORRECCIÓN APLICADA: Se eliminó el atributo 'for' de esta etiqueta -->
                 <label>Seleccione las Actividades Preventivas</label>
                 <div id="actividades-checkbox-container">
                     <small><i>Seleccione un código prestacional para ver las actividades sugeridas.</i></small>
@@ -74,7 +73,9 @@
                 <div class="button-group"><button type="button" class="prev-btn">&laquo; Anterior</button><button type="button" class="next-btn">Siguiente &raquo;</button></div>
             </div>
             <div id="step-3" class="wizard-step">
-                <h4>Paso 3: Medicamentos e Insumos</h4>
+                <!-- ===================== CORRECCIÓN APLICADA AQUÍ ===================== -->
+                <h4>Paso 3: Medicamentos y/o Insumos</h4>
+                <!-- ==================================================================== -->
                 <label for="medicamento_principal">Medicamento Principal</label>
                 <input type="text" id="medicamento_principal" name="medicamento_principal">
                 <label for="medicamentos_adicionales_obs">Medicamentos Adicionales / Observaciones</label>
