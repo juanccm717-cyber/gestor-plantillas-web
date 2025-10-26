@@ -1,72 +1,71 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla{% endblock %}
+{% block title %}Detalle de Plantilla - Profesional{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
-    <div class="card bg-dark text-white border-secondary">
-        <div class="card-header bg-dark-accent">
-            <h2 class="card-title mb-0">Detalle de la Plantilla: {{ plantilla.tipo_atencion }}</h2>
+    <div class="card bg-dark text-white border-secondary shadow-lg">
+        <div class="card-header bg-dark-accent text-center">
+            <h2 class="card-title mb-0 display-6">{{ plantilla.tipo_atencion }}</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <!-- SECCIÓN 1: INFORMACIÓN GENERAL -->
-            <div class="mb-4">
-                <h5 class="text-neon-green">Información General</h5>
+            <div class="mb-4 p-3 rounded" style="background-color: rgba(255,255,255,0.05 );">
+                <h4 class="text-neon-green border-bottom border-secondary pb-2 mb-3"><i class="fas fa-info-circle me-2"></i>Información General</h4>
                 <p><strong>ID de Plantilla:</strong> {{ plantilla.id }}</p>
-                <p><strong>Código Prestacional:</strong> {{ plantilla.codigo_prestacional }}</p>
+                <p><strong>Código Prestacional:</strong> <span class="badge bg-primary fs-6">{{ plantilla.codigo_prestacional }}</span></p>
                 <p><strong>Descripción Prestacional:</strong> {{ plantilla.descripcion_prestacional }}</p>
             </div>
-            <hr class="border-secondary">
 
-            <!-- FUNCIÓN AUXILIAR PARA MOSTRAR LISTAS -->
-            {% macro display_list(title, items) %}
-            <div class="mb-3">
-                <h6 class="text-neon-green">{{ title }}</h6>
-                {% if items and items|length > 0 %}
-                    <ul class="list-group list-group-flush">
-                        {% for item in items %}
-                            <li class="list-group-item bg-transparent text-white border-secondary">{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="text-muted">No se han especificado elementos.</p>
-                {% endif %}
+            <!-- MACRO PARA MOSTRAR LISTAS -->
+            {% macro display_list_card(title, items, icon) %}
+            <div class="card bg-dark border-secondary mb-3">
+                <div class="card-header bg-dark-accent">
+                    <h6 class="mb-0"><i class="fas {{ icon }} me-2"></i>{{ title }}</h6>
+                </div>
+                <div class="card-body">
+                    {% if items and items|length > 0 %}
+                        <ul class="list-group list-group-flush">
+                            {% for item in items %}
+                                <li class="list-group-item bg-transparent text-white ps-0">{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted fst-italic">No se han especificado elementos.</p>
+                    {% endif %}
+                </div>
             </div>
             {% endmacro %}
 
             <div class="row">
-                <!-- Columna Izquierda -->
                 <div class="col-md-6">
-                    {{ display_list('Actividades Preventivas', plantilla.actividades_preventivas) }}
-                    {{ display_list('Diagnóstico Principal', plantilla.diagnostico_principal) }}
-                    {{ display_list('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes) }}
-                    {{ display_list('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios) }}
+                    {{ display_list_card('Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
+                    {{ display_list_card('Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
+                    {{ display_list_card('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
+                    {{ display_list_card('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
                 </div>
-                <!-- Columna Derecha -->
                 <div class="col-md-6">
-                    {{ display_list('Medicamentos Relacionados', plantilla.medicamentos_relacionados) }}
-                    {{ display_list('Insumos Relacionados', plantilla.insumos_relacionados) }}
-                    {{ display_list('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios) }}
-                    {{ display_list('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes) }}
-                    {{ display_list('Otros Procedimientos', plantilla.otros_procedimientos) }}
+                    {{ display_list_card('Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
+                    {{ display_list_card('Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
+                    {{ display_list_card('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
+                    {{ display_list_card('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
+                    {{ display_list_card('Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
                 </div>
             </div>
-
-            <hr class="border-secondary">
+            
+            <hr class="border-secondary my-4">
 
             <!-- SECCIÓN DE OBSERVACIONES -->
-            <div class="mb-4">
-                <h5 class="text-neon-green">Observaciones</h5>
-                <div class="p-3 border border-secondary rounded quill-content">
-                    <!-- La siguiente línea es crucial para mostrar el HTML correctamente -->
+            <div>
+                <h4 class="text-neon-green border-bottom border-secondary pb-2 mb-3"><i class="fas fa-eye me-2"></i>Observaciones</h4>
+                <div class="p-3 border border-secondary rounded quill-content bg-light text-dark">
                     {{ plantilla.observaciones | safe }}
                 </div>
             </div>
-
         </div>
-        <div class="card-footer text-center">
-            <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary">Volver a la Lista</a>
-            <a href="{{ url_for('plantillas', modo='editar', id=plantilla.id) }}" class="btn btn-primary">Editar esta Plantilla</a>
+        <div class="card-footer text-center bg-dark-accent py-3">
+            <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver a la Lista</a>
+            <a href="{{ url_for('plantillas', modo='editar', id=plantilla.id) }}" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Editar Plantilla</a>
         </div>
     </div>
 </div>
