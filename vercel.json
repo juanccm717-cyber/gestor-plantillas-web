@@ -1,15 +1,9 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.12"
-      }
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "api/LISTAS.py"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",
