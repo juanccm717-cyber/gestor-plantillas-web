@@ -1,64 +1,98 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla - Documento{% endblock %}
+{% block title %}Detalle de Plantilla - Dashboard v2.0{% endblock %}
+
+{% block head %}
+<style>
+    /* Estilos personalizados para la vista de detalle */
+    .section-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: .5rem;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+    }
+    .section-title {
+        color: #00ff8c; /* Color neón verde */
+        border-bottom: 1px solid #444;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .item-count-badge {
+        font-size: 0.8em;
+        background-color: #343a40;
+    }
+    .quill-content-dark {
+        background-color: #f8f9fa;
+        color: #212529;
+        border-radius: .3rem;
+        padding: 1rem;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
     <div class="card bg-dark text-white border-secondary shadow-lg">
-        <div class="card-header bg-dark-accent text-center">
+        <div class="card-header bg-dark-accent text-center py-3">
             <h2 class="card-title mb-0 display-6">{{ plantilla.tipo_atencion }}</h2>
         </div>
         <div class="card-body p-4">
+            
             <!-- SECCIÓN 1: INFORMACIÓN GENERAL -->
-            <div class="mb-4 p-3 rounded" style="background-color: rgba(255,255,255,0.05);">
-                <h4 class="text-neon-green border-bottom border-secondary pb-2 mb-3"><i class="fas fa-info-circle me-2"></i>Información General</h4>
+            <div class="section-card">
+                <h4 class="section-title">
+                    <span><i class="fas fa-info-circle me-2"></i>Información General</span>
+                </h4>
                 <p><strong>ID de Plantilla:</strong> {{ plantilla.id }}</p>
                 <p><strong>Código Prestacional:</strong> <span class="badge bg-primary fs-6">{{ plantilla.codigo_prestacional }}</span></p>
                 <p><strong>Descripción Prestacional:</strong> {{ plantilla.descripcion_prestacional }}</p>
             </div>
 
-            <!-- MACRO PARA MOSTRAR ACORDEÓN -->
-            {% macro display_accordion_item(id, title, items, icon) %}
-            <div class="accordion-item bg-dark text-white border-secondary">
-                <h2 class="accordion-header" id="heading-{{ id }}">
-                    <button class="accordion-button bg-dark-accent text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ id }}" aria-expanded="false" aria-controls="collapse-{{ id }}">
-                        <i class="fas {{ icon }} me-2"></i>{{ title }}
-                    </button>
-                </h2>
-                <div id="collapse-{{ id }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ id }}">
-                    <div class="accordion-body">
-                        {% if items and items|length > 0 %}
-                            <ul class="list-group list-group-flush">
-                                {% for item in items %}
-                                    <li class="list-group-item bg-transparent text-white">{{ item }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="text-muted fst-italic">No se han especificado elementos.</p>
-                        {% endif %}
-                    </div>
+            <!-- MACRO MEJORADO PARA MOSTRAR PÍLDORAS -->
+            {% macro display_pills_section(title, items, icon, pill_color='info') %}
+            <div class="section-card">
+                <h5 class="section-title">
+                    <span><i class="fas {{ icon }} me-2"></i>{{ title }}</span>
+                    <span class="badge item-count-badge">{{ items|length if items else 0 }}</span>
+                </h5>
+                <div>
+                    {% if items and items|length > 0 %}
+                        {% for item in items %}
+                            <span class="badge rounded-pill text-bg-{{ pill_color }} me-1 mb-1 fs-6 fw-normal">{{ item }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted fst-italic">No se han especificado elementos.</p>
+                    {% endif %}
                 </div>
             </div>
             {% endmacro %}
 
-            <div class="accordion" id="plantillaAccordion">
-                {{ display_accordion_item('actividades', 'Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
-                {{ display_accordion_item('diagPrincipal', 'Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
-                {{ display_accordion_item('diagExcluyentes', 'Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
-                {{ display_accordion_item('diagComplementarios', 'Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
-                {{ display_accordion_item('medicamentos', 'Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
-                {{ display_accordion_item('insumos', 'Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
-                {{ display_accordion_item('procObligatorios', 'Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
-                {{ display_accordion_item('procExcluyentes', 'Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
-                {{ display_accordion_item('procOtros', 'Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ display_pills_section('Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt', 'success') }}
+                    {{ display_pills_section('Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope', 'danger') }}
+                    {{ display_pills_section('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle', 'warning') }}
+                    {{ display_pills_section('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle', 'info') }}
+                </div>
+                <div class="col-lg-6">
+                    {{ display_pills_section('Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills', 'primary') }}
+                    {{ display_pills_section('Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box', 'secondary') }}
+                    {{ display_pills_section('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle', 'success') }}
+                    {{ display_pills_section('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban', 'warning') }}
+                    {{ display_pills_section('Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks', 'info') }}
+                </div>
             </div>
             
-            <hr class="border-secondary my-4">
-
             <!-- SECCIÓN DE OBSERVACIONES -->
-            <div>
-                <h4 class="text-neon-green border-bottom border-secondary pb-2 mb-3"><i class="fas fa-eye me-2"></i>Observaciones</h4>
-                <div class="p-3 border border-secondary rounded quill-content bg-light text-dark">
+            <div class="section-card">
+                <h4 class="section-title">
+                    <span><i class="fas fa-eye me-2"></i>Observaciones</span>
+                </h4>
+                <div class="quill-content-dark">
                     {{ plantilla.observaciones | safe }}
                 </div>
             </div>
