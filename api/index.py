@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response
-from weasyprint import HTML
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
+from fpdf import FPDF # Importamos la librería correcta para PDFs
+
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS REAL (SUPABASE) ---
 load_dotenv() # Carga las variables desde el archivo .env
