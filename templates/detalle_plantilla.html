@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla - Moderno{% endblock %}
+{% block title %}Detalle de Plantilla - Documento{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
@@ -17,39 +17,41 @@
                 <p><strong>Descripción Prestacional:</strong> {{ plantilla.descripcion_prestacional }}</p>
             </div>
 
-            <!-- MACRO PARA MOSTRAR PÍLDORAS -->
-            {% macro display_pills(title, items, icon) %}
-            <div class="mb-4">
-                <h5 class="text-neon-green mb-3"><i class="fas {{ icon }} me-2"></i>{{ title }}</h5>
-                <div>
-                    {% if items and items|length > 0 %}
-                        {% for item in items %}
-                            <span class="badge rounded-pill text-bg-info me-1 mb-1 fs-6 fw-normal">{{ item }}</span>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-muted fst-italic">No se han especificado elementos.</p>
-                    {% endif %}
+            <!-- MACRO PARA MOSTRAR ACORDEÓN -->
+            {% macro display_accordion_item(id, title, items, icon) %}
+            <div class="accordion-item bg-dark text-white border-secondary">
+                <h2 class="accordion-header" id="heading-{{ id }}">
+                    <button class="accordion-button bg-dark-accent text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ id }}" aria-expanded="false" aria-controls="collapse-{{ id }}">
+                        <i class="fas {{ icon }} me-2"></i>{{ title }}
+                    </button>
+                </h2>
+                <div id="collapse-{{ id }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ id }}">
+                    <div class="accordion-body">
+                        {% if items and items|length > 0 %}
+                            <ul class="list-group list-group-flush">
+                                {% for item in items %}
+                                    <li class="list-group-item bg-transparent text-white">{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted fst-italic">No se han especificado elementos.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% endmacro %}
 
-            {{ display_pills('Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
-            <hr class="border-secondary">
-            {{ display_pills('Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
-            <hr class="border-secondary">
-            {{ display_pills('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
-            <hr class="border-secondary">
-            {{ display_pills('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
-            <hr class="border-secondary">
-            {{ display_pills('Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
-            <hr class="border-secondary">
-            {{ display_pills('Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
-            <hr class="border-secondary">
-            {{ display_pills('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
-            <hr class="border-secondary">
-            {{ display_pills('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
-            <hr class="border-secondary">
-            {{ display_pills('Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
+            <div class="accordion" id="plantillaAccordion">
+                {{ display_accordion_item('actividades', 'Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
+                {{ display_accordion_item('diagPrincipal', 'Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
+                {{ display_accordion_item('diagExcluyentes', 'Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
+                {{ display_accordion_item('diagComplementarios', 'Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
+                {{ display_accordion_item('medicamentos', 'Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
+                {{ display_accordion_item('insumos', 'Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
+                {{ display_accordion_item('procObligatorios', 'Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
+                {{ display_accordion_item('procExcluyentes', 'Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
+                {{ display_accordion_item('procOtros', 'Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
+            </div>
             
             <hr class="border-secondary my-4">
 
