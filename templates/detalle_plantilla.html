@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla - Profesional{% endblock %}
+{% block title %}Detalle de Plantilla - Moderno{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
@@ -10,26 +10,22 @@
         </div>
         <div class="card-body p-4">
             <!-- SECCIÓN 1: INFORMACIÓN GENERAL -->
-            <div class="mb-4 p-3 rounded" style="background-color: rgba(255,255,255,0.05 );">
+            <div class="mb-4 p-3 rounded" style="background-color: rgba(255,255,255,0.05);">
                 <h4 class="text-neon-green border-bottom border-secondary pb-2 mb-3"><i class="fas fa-info-circle me-2"></i>Información General</h4>
                 <p><strong>ID de Plantilla:</strong> {{ plantilla.id }}</p>
                 <p><strong>Código Prestacional:</strong> <span class="badge bg-primary fs-6">{{ plantilla.codigo_prestacional }}</span></p>
                 <p><strong>Descripción Prestacional:</strong> {{ plantilla.descripcion_prestacional }}</p>
             </div>
 
-            <!-- MACRO PARA MOSTRAR LISTAS -->
-            {% macro display_list_card(title, items, icon) %}
-            <div class="card bg-dark border-secondary mb-3">
-                <div class="card-header bg-dark-accent">
-                    <h6 class="mb-0"><i class="fas {{ icon }} me-2"></i>{{ title }}</h6>
-                </div>
-                <div class="card-body">
+            <!-- MACRO PARA MOSTRAR PÍLDORAS -->
+            {% macro display_pills(title, items, icon) %}
+            <div class="mb-4">
+                <h5 class="text-neon-green mb-3"><i class="fas {{ icon }} me-2"></i>{{ title }}</h5>
+                <div>
                     {% if items and items|length > 0 %}
-                        <ul class="list-group list-group-flush">
-                            {% for item in items %}
-                                <li class="list-group-item bg-transparent text-white ps-0">{{ item }}</li>
-                            {% endfor %}
-                        </ul>
+                        {% for item in items %}
+                            <span class="badge rounded-pill text-bg-info me-1 mb-1 fs-6 fw-normal">{{ item }}</span>
+                        {% endfor %}
                     {% else %}
                         <p class="text-muted fst-italic">No se han especificado elementos.</p>
                     {% endif %}
@@ -37,21 +33,23 @@
             </div>
             {% endmacro %}
 
-            <div class="row">
-                <div class="col-md-6">
-                    {{ display_list_card('Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
-                    {{ display_list_card('Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
-                    {{ display_list_card('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
-                    {{ display_list_card('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
-                </div>
-                <div class="col-md-6">
-                    {{ display_list_card('Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
-                    {{ display_list_card('Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
-                    {{ display_list_card('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
-                    {{ display_list_card('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
-                    {{ display_list_card('Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
-                </div>
-            </div>
+            {{ display_pills('Actividades Preventivas', plantilla.actividades_preventivas, 'fa-shield-alt') }}
+            <hr class="border-secondary">
+            {{ display_pills('Diagnóstico Principal', plantilla.diagnostico_principal, 'fa-stethoscope') }}
+            <hr class="border-secondary">
+            {{ display_pills('Diagnósticos Excluyentes', plantilla.diagnosticos_excluyentes, 'fa-times-circle') }}
+            <hr class="border-secondary">
+            {{ display_pills('Diagnósticos Complementarios', plantilla.diagnosticos_complementarios, 'fa-plus-circle') }}
+            <hr class="border-secondary">
+            {{ display_pills('Medicamentos Relacionados', plantilla.medicamentos_relacionados, 'fa-pills') }}
+            <hr class="border-secondary">
+            {{ display_pills('Insumos Relacionados', plantilla.insumos_relacionados, 'fa-box') }}
+            <hr class="border-secondary">
+            {{ display_pills('Procedimientos Obligatorios', plantilla.procedimientos_obligatorios, 'fa-check-circle') }}
+            <hr class="border-secondary">
+            {{ display_pills('Procedimientos Excluyentes', plantilla.procedimientos_excluyentes, 'fa-ban') }}
+            <hr class="border-secondary">
+            {{ display_pills('Otros Procedimientos', plantilla.otros_procedimientos, 'fa-tasks') }}
             
             <hr class="border-secondary my-4">
 
