@@ -358,8 +358,11 @@ def detalle_plantilla(plantilla_id):
         # Si no se encuentra una plantilla con ese ID, mostramos un error 404
         return "Plantilla no encontrada", 404
 
+# --- RUTA DE DESCARGA PDF - VERSIÓN LIGERA FINAL ---
 @app.route('/plantilla/<int:plantilla_id>/descargar_pdf')
 def descargar_pdf_plantilla(plantilla_id):
+    # ... el resto del código de la función ...
+
     if 'username' not in session:
         return redirect(url_for('login'))
 
