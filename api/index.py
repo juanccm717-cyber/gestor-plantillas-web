@@ -438,7 +438,7 @@ def descargar_pdf_plantilla(plantilla_id):
 
 
     # 4. Generamos el PDF y lo enviamos como respuesta
-    pdf_output = pdf.output(dest='S').encode('latin-1')
+    pdf_output = pdf.output(dest='S')
     
     return Response(
         pdf_output,
@@ -450,3 +450,4 @@ def descargar_pdf_plantilla(plantilla_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
