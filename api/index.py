@@ -1,3 +1,5 @@
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response
+from weasyprint import HTML
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
@@ -355,6 +357,37 @@ def detalle_plantilla(plantilla_id):
     else:
         # Si no se encuentra una plantilla con ese ID, mostramos un error 404
         return "Plantilla no encontrada", 404
+
+@app.route('/plantilla/<int:plantilla_id>/descargar_pdf')
+def descargar_pdf_plantilla(plantilla_id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # 1. Obtenemos los datos de la plantilla (lógica similar a la vista de detalle)
+    plantilla_data = None
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT * FROM plantillas WHERE id = :id"), {"id": plantilla_id})
+        plantilla_row = result.first()
+        if plantilla_row:
+            plantilla_data = dict(plantilla_row._mapping)
+
+    if not plantilla_data:
+        return "Plantilla no encontrada", 404
+
+    # 2. Renderizamos la plantilla HTML a una cadena de texto en lugar de mostrarla
+    html_string = render_template('detalle_plantilla.html', plantilla=plantilla_data)
+
+    # 3. Usamos WeasyPrint para convertir el HTML a un PDF en memoria
+    pdf_bytes = HTML(string=html_string, base_url=request.base_url).write_pdf()
+
+    # 4. Creamos una respuesta HTTP para enviar el PDF al navegador
+    return Response(
+        pdf_bytes,
+        mimetype='application/pdf',
+        headers={
+            'Content-Disposition': f'attachment; filename="plantilla_{plantilla_id}.pdf"'
+        }
+    )
 
 
 if __name__ == '__main__':

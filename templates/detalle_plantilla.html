@@ -32,26 +32,47 @@
         padding: 1rem;
     }
 
-    /* ====================================================== */
-    /*               INICIO DE LAS CORRECCIONES               */
-    /* ====================================================== */
-
-    /* 1. Aumentar contraste del texto de 'No hay elementos' */
+    /* Corrección de contraste */
     .text-muted.fst-italic {
-        color: rgba(255, 255, 255, 0.5) !important; /* Hacemos el gris más claro */
+        color: rgba(255, 255, 255, 0.5) !important;
     }
 
-    /* 2. Permitir que las píldoras largas se dividan en varias líneas */
+    /* Corrección de desbordamiento de píldoras */
     .badge.rounded-pill {
-        white-space: normal;  /* Permite el salto de línea dentro de la píldora */
-        text-align: left;     /* Alinea el texto a la izquierda si se divide */
-        line-height: 1.2;     /* Mejora el espaciado entre líneas si se divide */
+        white-space: normal;
+        text-align: left;
+        line-height: 1.2;
     }
 
     /* ====================================================== */
-    /*                 FIN DE LAS CORRECCIONES                */
+    /*     ESTILOS PARA LA GENERACIÓN DEL PDF (BLANCO Y NEGRO) */
     /* ====================================================== */
-
+    @media print {
+        body {
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+        }
+        .card-footer {
+            display: none !important;
+        }
+        .card, .section-card, .quill-content-dark {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ccc !important;
+        }
+        .text-white, .section-title {
+             color: #000000 !important;
+        }
+        .section-title {
+            border-bottom: 1px solid #ccc !important;
+        }
+        /* Ocultamos los badges de Bootstrap en el PDF para simplicidad */
+        .badge {
+            border: 1px solid #000 !important;
+            color: #000 !important;
+            background-color: #fff !important;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -118,9 +139,13 @@
                 </div>
             </div>
         </div>
+        <!-- ====================================================== -->
+        <!--             PIE DE TARJETA ACTUALIZADO               -->
+        <!-- ====================================================== -->
         <div class="card-footer text-center bg-dark-accent py-3">
-            <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver a la Lista</a>
-            <a href="{{ url_for('plantillas', modo='editar', id=plantilla.id) }}" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Editar Plantilla</a>
+            <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver</a>
+            <a href="{{ url_for('descargar_pdf_plantilla', plantilla_id=plantilla.id) }}" class="btn btn-success"><i class="fas fa-file-pdf me-2"></i>Descargar PDF</a>
+            <a href="{{ url_for('plantillas', modo='editar', id=plantilla.id) }}" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Editar</a>
         </div>
     </div>
 </div>
