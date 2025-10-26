@@ -363,7 +363,7 @@ def descargar_pdf_plantilla(plantilla_id):
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # 1. Obtenemos los datos de la plantilla (lógica similar a la vista de detalle)
+    # 1. Obtenemos los datos de la plantilla
     plantilla_data = None
     with engine.connect() as connection:
         result = connection.execute(text("SELECT * FROM plantillas WHERE id = :id"), {"id": plantilla_id})
@@ -374,20 +374,75 @@ def descargar_pdf_plantilla(plantilla_id):
     if not plantilla_data:
         return "Plantilla no encontrada", 404
 
-    # 2. Renderizamos la plantilla HTML a una cadena de texto en lugar de mostrarla
-    html_string = render_template('detalle_plantilla.html', plantilla=plantilla_data)
+    # 2. Creamos una clase PDF personalizada con fpdf2
+    class PDF(FPDF):
+        def header(self):
+            self.set_font('Arial', 'B', 16)
+            self.cell(0, 10, 'Detalle de Plantilla', 0, 1, 'C')
+            self.ln(5)
 
-    # 3. Usamos WeasyPrint para convertir el HTML a un PDF en memoria
-    pdf_bytes = HTML(string=html_string, base_url=request.base_url).write_pdf()
+        def footer(self):
+            self.set_y(-15)
+            self.set_font('Arial', 'I', 8)
+            self.cell(0, 10, f'Página {self.page_no()}', 0, 0, 'C')
 
-    # 4. Creamos una respuesta HTTP para enviar el PDF al navegador
+        def chapter_title(self, title):
+            self.set_font('Arial', 'B', 12)
+            self.set_fill_color(230, 230, 230)
+            self.cell(0, 8, title, 0, 1, 'L', True)
+            self.ln(4)
+
+        def chapter_body(self, content):
+            self.set_font('Arial', '', 10)
+            if isinstance(content, list):
+                for item in content:
+                    self.multi_cell(0, 5, f'- {item}')
+                self.ln()
+            else:
+                self.multi_cell(0, 5, content)
+                self.ln()
+
+    # 3. "Dibujamos" el PDF
+    pdf = PDF()
+    pdf.add_page()
+    
+    pdf.chapter_title('Información General')
+    pdf.chapter_body(f"ID de Plantilla: {plantilla_data['id']}")
+    pdf.chapter_body(f"Tipo de Atención: {plantilla_data['tipo_atencion']}")
+    pdf.chapter_body(f"Código Prestacional: {plantilla_data['codigo_prestacional']}")
+    pdf.chapter_body(f"Descripción: {plantilla_data['descripcion_prestacional']}")
+
+    def display_section(title, data):
+        if data and len(data) > 0:
+            pdf.chapter_title(title)
+            pdf.chapter_body(data)
+
+    display_section('Actividades Preventivas', plantilla_data.get('actividades_preventivas'))
+    display_section('Diagnóstico Principal', plantilla_data.get('diagnostico_principal'))
+    display_section('Diagnósticos Excluyentes', plantilla_data.get('diagnosticos_excluyentes'))
+    display_section('Diagnósticos Complementarios', plantilla_data.get('diagnosticos_complementarios'))
+    display_section('Medicamentos Relacionados', plantilla_data.get('medicamentos_relacionados'))
+    display_section('Insumos Relacionados', plantilla_data.get('insumos_relacionados'))
+    display_section('Procedimientos Obligatorios', plantilla_data.get('procedimientos_obligatorios'))
+    display_section('Procedimientos Excluyentes', plantilla_data.get('procedimientos_excluyentes'))
+    display_section('Otros Procedimientos', plantilla_data.get('otros_procedimientos'))
+    
+    # Para las observaciones, como es HTML, lo manejamos de forma simple
+    if plantilla_data.get('observaciones'):
+        pdf.chapter_title('Observaciones')
+        # fpdf2 no renderiza HTML, así que lo mostramos como texto plano (una limitación necesaria)
+        pdf.multi_cell(0, 5, plantilla_data['observaciones'].replace('<p>', '').replace('</p>', '\n'))
+
+
+    # 4. Generamos el PDF y lo enviamos como respuesta
+    pdf_output = pdf.output(dest='S').encode('latin-1')
+    
     return Response(
-        pdf_bytes,
+        pdf_output,
         mimetype='application/pdf',
-        headers={
-            'Content-Disposition': f'attachment; filename="plantilla_{plantilla_id}.pdf"'
-        }
+        headers={'Content-Disposition': f'attachment; filename="plantilla_{plantilla_id}.pdf"'}
     )
+
 
 
 if __name__ == '__main__':
