@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla - Dashboard v2.0{% endblock %}
+{% block title %}Detalle de Plantilla - Dashboard v2.1{% endblock %}
 
 {% block head %}
 <style>
@@ -31,6 +31,27 @@
         border-radius: .3rem;
         padding: 1rem;
     }
+
+    /* ====================================================== */
+    /*               INICIO DE LAS CORRECCIONES               */
+    /* ====================================================== */
+
+    /* 1. Aumentar contraste del texto de 'No hay elementos' */
+    .text-muted.fst-italic {
+        color: rgba(255, 255, 255, 0.5) !important; /* Hacemos el gris más claro */
+    }
+
+    /* 2. Permitir que las píldoras largas se dividan en varias líneas */
+    .badge.rounded-pill {
+        white-space: normal;  /* Permite el salto de línea dentro de la píldora */
+        text-align: left;     /* Alinea el texto a la izquierda si se divide */
+        line-height: 1.2;     /* Mejora el espaciado entre líneas si se divide */
+    }
+
+    /* ====================================================== */
+    /*                 FIN DE LAS CORRECCIONES                */
+    /* ====================================================== */
+
 </style>
 {% endblock %}
 
