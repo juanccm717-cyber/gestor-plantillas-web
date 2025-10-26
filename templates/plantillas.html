@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+{% block title %}Crear/Editar Plantilla{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .card-header { background-color: rgba(0,0,0,.05); }
+    #actividades-container { max-height: 250px; overflow-y: auto; border: 1px solid #dee2e6; padding: 1rem; border-radius: 0.375rem; background-color: #f8f9fa; }
+    .form-check { margin-bottom: 0.5rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Crear Nueva Plantilla</h1>
+        <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary">Volver a la Lista</a>
+    </div>
+
+    <form id="plantilla-form">
+        <!-- 1. TIPO DE ATENCIÓN -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">1. Tipo de Atención</h5></div>
+            <div class="card-body">
+                <label for="tipo_atencion" class="form-label">Descripción General de la Plantilla</label>
+                <input type="text" class="form-control" id="tipo_atencion" name="tipo_atencion" placeholder="Ej: REGISTRO DE UN PACIENTE CON ANEMIA" required>
+            </div>
+        </div>
+
+        <!-- 2. CÓDIGO PRESTACIONAL -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">2. Código Prestacional</h5></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="codigo_prestacional" class="form-label">Código (3 dígitos)</label>
+                        <input type="text" class="form-control" id="codigo_prestacional" name="codigo_prestacional" maxlength="3" pattern="\d{3}" required>
+                    </div>
+                    <div class="col-md-8 mb-3">
+                        <label for="descripcion_prestacional" class="form-label">Descripción Automática</label>
+                        <input type="text" class="form-control" id="descripcion_prestacional" name="descripcion_prestacional" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. ACTIVIDADES PREVENTIVAS -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">3. Actividades Preventivas</h5></div>
+            <div class="card-body">
+                <div id="actividades-container">
+                    <p class="text-muted">Introduce un código prestacional para ver las actividades sugeridas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. DIAGNÓSTICOS -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">4. Diagnósticos</h5></div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Diagnóstico Principal (Obligatorio)</label>
+                    <div class="input-group"><input type="text" id="input-diag-principal" class="form-control" placeholder="Añadir diagnóstico principal"><button class="btn btn-outline-primary" type="button" data-input="input-diag-principal" data-list="lista-diag-principal">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-diag-principal"></ul>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Otros Diagnósticos Utilizables (Excluyentes entre sí)</label>
+                    <div class="input-group"><input type="text" id="input-diag-excluyentes" class="form-control" placeholder="Añadir diagnóstico excluyente"><button class="btn btn-outline-secondary" type="button" data-input="input-diag-excluyentes" data-list="lista-diag-excluyentes">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-diag-excluyentes"></ul>
+                </div>
+                <div>
+                    <label class="form-label fw-bold">Diagnósticos Adicionales / Complementarios</label>
+                    <div class="input-group"><input type="text" id="input-diag-complementarios" class="form-control" placeholder="Añadir diagnóstico complementario"><button class="btn btn-outline-info" type="button" data-input="input-diag-complementarios" data-list="lista-diag-complementarios">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-diag-complementarios"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. MEDICAMENTOS -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">5. Medicamentos Relacionados</h5></div>
+            <div class="card-body">
+                <div class="input-group"><input type="text" id="input-medicamentos-relacionados" class="form-control" placeholder="Añadir medicamento"><button class="btn btn-outline-success" type="button" data-input="input-medicamentos-relacionados" data-list="lista-medicamentos-relacionados">Añadir</button></div>
+                <ul class="list-group mt-2" id="lista-medicamentos-relacionados"></ul>
+            </div>
+        </div>
+
+        <!-- 6. INSUMOS -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">6. Insumos Relacionados</h5></div>
+            <div class="card-body">
+                <div class="input-group"><input type="text" id="input-insumos-relacionados" class="form-control" placeholder="Añadir insumo"><button class="btn btn-outline-warning" type="button" data-input="input-insumos-relacionados" data-list="lista-insumos-relacionados">Añadir</button></div>
+                <ul class="list-group mt-2" id="lista-insumos-relacionados"></ul>
+            </div>
+        </div>
+
+        <!-- 7. PROCEDIMIENTOS -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">7. Procedimientos</h5></div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Procedimientos Obligatorios</label>
+                    <div class="input-group"><input type="text" id="input-procedimientos-obligatorios" class="form-control" placeholder="Añadir procedimiento obligatorio"><button class="btn btn-outline-danger" type="button" data-input="input-procedimientos-obligatorios" data-list="lista-procedimientos-obligatorios">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-procedimientos-obligatorios"></ul>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Procedimientos Excluyentes entre sí</label>
+                    <div class="input-group"><input type="text" id="input-procedimientos-excluyentes" class="form-control" placeholder="Añadir procedimiento excluyente"><button class="btn btn-outline-secondary" type="button" data-input="input-procedimientos-excluyentes" data-list="lista-procedimientos-excluyentes">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-procedimientos-excluyentes"></ul>
+                </div>
+                <div>
+                    <label class="form-label fw-bold">Otros Procedimientos Relacionados</label>
+                    <div class="input-group"><input type="text" id="input-otros-procedimientos" class="form-control" placeholder="Añadir otro procedimiento"><button class="btn btn-outline-info" type="button" data-input="input-otros-procedimientos" data-list="lista-otros-procedimientos">Añadir</button></div>
+                    <ul class="list-group mt-2" id="lista-otros-procedimientos"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. OBSERVACIONES (CON EDITOR DE TEXTO) -->
+        <div class="card mb-4">
+            <div class="card-header"><h5 class="mb-0">8. Observaciones Generales</h5></div>
+            <div class="card-body">
+                <div id="editor-observaciones" style="height: 200px;"></div>
+                <input type="hidden" id="observaciones" name="observaciones">
+            </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="d-flex justify-content-end gap-2 mb-5">
+            <button type="button" class="btn btn-outline-secondary" id="clear-form-btn">Limpiar Formulario</button>
+            <button type="submit" class="btn btn-primary">Guardar Plantilla</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // --- CONSTANTES DE ELEMENTOS DEL DOM ---
+    const form = document.getElementById('plantilla-form');
+    const codigoInput = document.getElementById('codigo_prestacional');
+    const descripcionInput = document.getElementById('descripcion_prestacional');
+    const actividadesContainer = document.getElementById('actividades-container');
+    const editorContainer = document.getElementById('editor-observaciones');
+    const observacionesInput = document.getElementById('observaciones');
+    
+    // Leemos las variables que nos pasa el servidor para el modo edición
+    const modo = "{{ modo }}";
+    const plantillaId = "{{ plantilla_id }}";
+
+    // --- INICIALIZACIÓN DE QUILL EDITOR ---
+    const quill = new Quill(editorContainer, {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold'],
+                [{ 'color': ['green', 'yellow', 'red', false] }] // false para volver a negro
+            ]
+        }
+    });
+
+    // --- LÓGICA DE AUTOCOMPLETADO DE CÓDIGO Y ACTIVIDADES ---
+    const fetchCodigoData = async () => {
+        const codigo = codigoInput.value;
+        if (codigo.length !== 3) {
+            descripcionInput.value = '';
+            actividadesContainer.innerHTML = '<p class="text-muted">Introduce un código de 3 dígitos.</p>';
+            return;
+        }
+        try {
+            const resDesc = await fetch(`/search_codigos?query=${codigo}`);
+            const dataDesc = await resDesc.json();
+            descripcionInput.value = (dataDesc.suggestions && dataDesc.suggestions.length > 0) ? dataDesc.suggestions[0].descripcion : 'Código no encontrado.';
+            
+            if (dataDesc.suggestions && dataDesc.suggestions.length > 0) {
+                const resAct = await fetch(`/get_actividades_por_codigo/${codigo}`);
+                const dataAct = await resAct.json();
+                actividadesContainer.innerHTML = '';
+                if (dataAct.actividades && dataAct.actividades.length > 0) {
+                    dataAct.actividades.forEach(act => {
+                        const div = document.createElement('div');
+                        div.className = 'form-check';
+                        div.innerHTML = `<input class="form-check-input" type="checkbox" value="${act.descripcion}" id="act-${act.codigo}" name="actividades_preventivas"><label class="form-check-label" for="act-${act.codigo}">${act.descripcion} (${act.codigo})</label>`;
+                        actividadesContainer.appendChild(div);
+                    });
+                } else {
+                    actividadesContainer.innerHTML = '<p class="text-muted">No hay actividades sugeridas.</p>';
+                }
+            } else {
+                actividadesContainer.innerHTML = '<p class="text-muted">Código no válido.</p>';
+            }
+        } catch (e) { 
+            console.error('Error al buscar datos:', e); 
+            descripcionInput.value = 'Error de conexión.';
+            actividadesContainer.innerHTML = '<p class="text-danger">Error al cargar.</p>';
+        }
+    };
+    codigoInput.addEventListener('input', fetchCodigoData);
+
+    // --- LÓGICA GENÉRICA PARA LISTAS DINÁMICAS ---
+    function setupDynamicList(button) {
+        const inputId = button.dataset.input;
+        const listId = button.dataset.list;
+        const inputEl = document.getElementById(inputId);
+        const listEl = document.getElementById(listId);
+
+        const addItem = (text) => {
+            if (!text) return;
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+            li.textContent = text;
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'btn-close';
+            deleteBtn.setAttribute('aria-label', 'Close');
+            deleteBtn.onclick = () => li.remove();
+            li.appendChild(deleteBtn);
+            listEl.appendChild(li);
+            inputEl.value = '';
+            inputEl.focus();
+        };
+
+        button.addEventListener('click', () => addItem(inputEl.value.trim()));
+        inputEl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); addItem(inputEl.value.trim()); }
+        });
+    }
+    document.querySelectorAll('button[data-input]').forEach(setupDynamicList);
+
+    // --- LÓGICA DE GUARDADO DEL FORMULARIO (CORREGIDA PARA EDICIÓN) ---
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Si estamos en modo edición, añadimos el ID al paquete de datos
+        if (modo === 'editar') {
+            data.plantilla_id = plantillaId;
+        }
+    
+        // Sincronizar el contenido de Quill con el input oculto
+        observacionesInput.value = quill.root.innerHTML;
+        data.observaciones = observacionesInput.value;
+
+        // Recolectar todas las listas
+        data.actividades_preventivas = Array.from(document.querySelectorAll('input[name="actividades_preventivas"]:checked')).map(cb => cb.value);
+        data.diagnostico_principal = Array.from(document.getElementById('lista-diag-principal').children).map(li => li.firstChild.textContent.trim());
+        data.diagnosticos_excluyentes = Array.from(document.getElementById('lista-diag-excluyentes').children).map(li => li.firstChild.textContent.trim());
+        data.diagnosticos_complementarios = Array.from(document.getElementById('lista-diag-complementarios').children).map(li => li.firstChild.textContent.trim());
+        data.medicamentos_relacionados = Array.from(document.getElementById('lista-medicamentos-relacionados').children).map(li => li.firstChild.textContent.trim());
+        data.insumos_relacionados = Array.from(document.getElementById('lista-insumos-relacionados').children).map(li => li.firstChild.textContent.trim());
+        data.procedimientos_obligatorios = Array.from(document.getElementById('lista-procedimientos-obligatorios').children).map(li => li.firstChild.textContent.trim());
+        data.procedimientos_excluyentes = Array.from(document.getElementById('lista-procedimientos-excluyentes').children).map(li => li.firstChild.textContent.trim());
+        data.otros_procedimientos = Array.from(document.getElementById('lista-otros-procedimientos').children).map(li => li.firstChild.textContent.trim());
+
+        try {
+            const response = await fetch('/guardar_plantilla', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const result = await response.json();
+            alert(result.message);
+            
+            if (response.ok) {
+                // Si la operación fue exitosa, redirigimos a la lista de plantillas
+                window.location.href = "{{ url_for('ver_plantillas') }}";
+            }
+        } catch (error) {
+            console.error('Error al guardar:', error);
+            alert('Error al conectar con el servidor.');
+        }
+    });
+
+
+    // --- LÓGICA DEL BOTÓN DE LIMPIAR ---
+    document.getElementById('clear-form-btn').addEventListener('click', () => {
+        form.reset();
+        descripcionInput.value = '';
+        actividadesContainer.innerHTML = '<p class="text-muted">Introduce un código prestacional para ver las actividades sugeridas.</p>';
+        quill.root.innerHTML = '';
+        document.querySelectorAll('ul.list-group').forEach(ul => ul.innerHTML = '');
+    });
+
+    // --- LÓGICA PARA CARGAR DATOS EN MODO EDICIÓN ---
+    if (modo === 'editar' && plantillaId) {
+        document.querySelector('h1.mb-0').textContent = `Editando Plantilla ID: ${plantillaId}`;
+
+        const populateDynamicList = (listId, items) => {
+            const listEl = document.getElementById(listId);
+            if (items && items.length > 0) {
+                items.forEach(itemText => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    li.textContent = itemText;
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.className = 'btn-close';
+                    deleteBtn.setAttribute('aria-label', 'Close');
+                    deleteBtn.onclick = () => li.remove();
+                    li.appendChild(deleteBtn);
+                    listEl.appendChild(li);
+                });
+            }
+        };
+
+        fetch(`/get_plantilla/${plantillaId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) { alert(data.error); return; }
+
+                form.tipo_atencion.value = data.tipo_atencion || '';
+                form.codigo_prestacional.value = data.codigo_prestacional || '';
+                quill.root.innerHTML = data.observaciones || '';
+                
+                codigoInput.dispatchEvent(new Event('input'));
+
+                populateDynamicList('lista-diag-principal', data.diagnostico_principal);
+                populateDynamicList('lista-diag-excluyentes', data.diagnosticos_excluyentes);
+                populateDynamicList('lista-diag-complementarios', data.diagnosticos_complementarios);
+                populateDynamicList('lista-medicamentos-relacionados', data.medicamentos_relacionados);
+                populateDynamicList('lista-insumos-relacionados', data.insumos_relacionados);
+                populateDynamicList('lista-procedimientos-obligatorios', data.procedimientos_obligatorios);
+                populateDynamicList('lista-procedimientos-excluyentes', data.procedimientos_excluyentes);
+                populateDynamicList('lista-otros-procedimientos', data.otros_procedimientos);
+
+                setTimeout(() => {
+                    if (data.actividades_preventivas) {
+                        data.actividades_preventivas.forEach(actividad => {
+                            const checkbox = document.querySelector(`input[value="${actividad}"]`);
+                            if (checkbox) checkbox.checked = true;
+                        });
+                    }
+                }, 500);
+            })
+            .catch(error => {
+                console.error('Error al cargar la plantilla:', error);
+                alert('No se pudo cargar la información de la plantilla.');
+            });
+    }
+});
+</script>
+{% endblock %}

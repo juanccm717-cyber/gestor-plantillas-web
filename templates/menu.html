@@ -1,25 +1,49 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Principal</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-</head>
-<body>
-    <main class="container">
-        <article>
-            <h2>Menú Principal</h2>
-            <p>Bienvenido, <strong>{{ username }}</strong> (Rol: {{ role }} )</p>
-            
-            <!-- CORRECCIÓN: La condición ahora usa "role" y "administrador" -->
-            {% if role == 'administrador' %}
-            <a href="{{ url_for('plantillas') }}" role="button">1. Crear Nueva Plantilla</a>
-            {% endif %}
-            
-            <a href="{{ url_for('plantillas', modo='ver') }}" role="button">2. Ver Plantillas</a>
-            <a href="{{ url_for('logout') }}" role="button" class="secondary">Cerrar Sesión</a>
-        </article>
-    </main>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Menú Principal{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1>Menú Principal</h1>
+        <p class="lead text-muted">Selecciona una opción para comenzar a gestionar las guías y plantillas.</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        
+        <!-- ====================================================== -->
+        <!-- Tarjeta para Crear Plantilla (SOLO SE MUESTRA A ADMINS) -->
+        <!-- ====================================================== -->
+        {% if session.role == 'administrador' %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-plus-circle-dotted" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h5 class="card-title">Crear Nueva Plantilla</h5>
+                    <p class="card-text text-muted flex-grow-1">Diseña una nueva guía o procedimiento desde cero.</p>
+                    <a href="{{ url_for('plantillas') }}" class="btn btn-primary mt-auto">Comenzar a Crear</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- ====================================================== -->
+
+        <!-- Tarjeta para Ver Plantillas (SE MUESTRA A TODOS) -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-card-list" style="font-size: 3rem; color: #198754;"></i>
+                    </div>
+                    <h5 class="card-title">Ver Plantillas Existentes</h5>
+                    <p class="card-text text-muted flex-grow-1">Consulta las guías y plantillas guardadas.</p>
+                    <a href="{{ url_for('ver_plantillas') }}" class="btn btn-success mt-auto">Ver Plantillas</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

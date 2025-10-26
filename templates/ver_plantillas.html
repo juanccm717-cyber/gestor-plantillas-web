@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Ver Plantillas Guardadas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Plantillas Guardadas</h1>
+        
+        <!-- ====================================================== -->
+        <!-- Botón Crear (SOLO SE MUESTRA A ADMINS) -->
+        <!-- ====================================================== -->
+        {% if session.role == 'administrador' %}
+        <a href="{{ url_for('plantillas') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Crear Nueva Plantilla
+        </a>
+        {% endif %}
+        <!-- ====================================================== -->
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Tipo de Atención</th>
+                            <th scope="col">Código Prestacional</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-plantillas-body">
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Cargando plantillas...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const tbody = document.getElementById('tabla-plantillas-body');
+
+    try {
+        const response = await fetch('/get_registros');
+        const registros = await response.json();
+
+        tbody.innerHTML = ''; 
+
+        if (registros.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Aún no se han guardado plantillas.</td></tr>';
+        } else {
+            // Leemos el rol del usuario desde la sesión de Flask
+            const userRole = "{{ session.role }}";
+
+            registros.forEach(registro => {
+                const tr = document.createElement('tr');
+                
+                // Preparamos los botones de administrador
+                let adminButtons = '';
+                if (userRole === 'administrador') {
+                    adminButtons = `
+                        <a href="/plantillas?modo=editar&id=${registro.id}" class="btn btn-sm btn-warning" title="Editar"><i class="bi bi-pencil"></i></a>
+                        <button class="btn btn-sm btn-danger btn-delete" data-id="${registro.id}" data-nombre="${registro.tipo_atencion}" title="Eliminar"><i class="bi bi-trash"></i></button>
+                    `;
+                }
+
+                // Construimos la fila de la tabla
+                tr.innerHTML = `
+                    <th scope="row">${registro.id}</th>
+                    <td>${registro.tipo_atencion}</td>
+                    <td>${registro.codigo_prestacional}</td>
+                    <td>
+                        <a href="/plantilla/${registro.id}" class="btn btn-sm btn-info" title="Ver Detalles"><i class="bi bi-eye"></i></a>
+                        ${adminButtons}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (error) {
+        console.error('Error al cargar las plantillas:', error);
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error al cargar los datos.</td></tr>';
+    }
+});
+
+// La lógica para el botón de eliminar (sin cambios)
+document.getElementById('tabla-plantillas-body').addEventListener('click', async function(e) {
+    const deleteButton = e.target.closest('.btn-delete');
+    
+    if (deleteButton) {
+        const plantillaId = deleteButton.dataset.id;
+        const plantillaNombre = deleteButton.dataset.nombre;
+        const confirmado = confirm(`¿Estás seguro de que quieres eliminar la plantilla "${plantillaNombre}" (ID: ${plantillaId})?\n\nEsta acción no se puede deshacer.`);
+
+        if (confirmado) {
+            try {
+                const response = await fetch(`/delete_plantilla/${plantillaId}`, { method: 'DELETE' });
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    deleteButton.closest('tr').remove();
+                } else {
+                    alert(`Error: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+                alert('Error de conexión al intentar eliminar la plantilla.');
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

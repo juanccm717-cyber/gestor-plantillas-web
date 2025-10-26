@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Detalle de Plantilla{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Detalle de Plantilla</h1>
+            <h5 class="text-muted fw-normal">ID: {{ plantilla.id }}</h5>
+        </div>
+        <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary">Volver a la Lista</a>
+    </div>
+
+    <!-- 1. TIPO DE ATENCIÓN -->
+    <div class="card mb-3">
+        <div class="card-header">1. Tipo de Atención</div>
+        <div class="card-body">
+            <p class="card-text">{{ plantilla.tipo_atencion }}</p>
+        </div>
+    </div>
+
+    <!-- 2. CÓDIGO PRESTACIONAL -->
+    <div class="card mb-3">
+        <div class="card-header">2. Código Prestacional</div>
+        <div class="card-body">
+            <p class="card-text"><strong>{{ plantilla.codigo_prestacional }}:</strong> {{ plantilla.descripcion_prestacional }}</p>
+        </div>
+    </div>
+
+    <!-- 3. ACTIVIDADES PREVENTIVAS -->
+    <div class="card mb-3">
+        <div class="card-header">3. Actividades Preventivas Seleccionadas</div>
+        <div class="card-body">
+            {% if plantilla.actividades_preventivas %}
+                <ul class="list-group list-group-flush">
+                {% for actividad in plantilla.actividades_preventivas %}
+                    <li class="list-group-item">{{ actividad }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No se seleccionaron actividades.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- FUNCIÓN MACRO PARA REUTILIZAR CÓDIGO -->
+    {% macro display_list(title, items) %}
+        {% if items %}
+            <h6 class="fw-bold">{{ title }}</h6>
+            <ul class="list-group list-group-flush mb-3">
+            {% for item in items %}
+                <li class="list-group-item">{{ item }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endmacro %}
+
+    <!-- 4. DIAGNÓSTICOS -->
+    <div class="card mb-3">
+        <div class="card-header">4. Diagnósticos</div>
+        <div class="card-body">
+            {{ display_list('Principal (Obligatorio)', plantilla.diagnostico_principal) }}
+            {{ display_list('Utilizables (Excluyentes)', plantilla.diagnosticos_excluyentes) }}
+            {{ display_list('Adicionales / Complementarios', plantilla.diagnosticos_complementarios) }}
+        </div>
+    </div>
+
+    <!-- 5. MEDICAMENTOS -->
+    <div class="card mb-3">
+        <div class="card-header">5. Medicamentos</div>
+        <div class="card-body">
+            {{ display_list('Relacionados al Diagnóstico/Atención', plantilla.medicamentos_relacionados) }}
+        </div>
+    </div>
+    
+    <!-- 6. INSUMOS -->
+    <div class="card mb-3">
+        <div class="card-header">6. Insumos</div>
+        <div class="card-body">
+            {{ display_list('Relacionados al Diagnóstico/Atención', plantilla.insumos_relacionados) }}
+        </div>
+    </div>
+
+    <!-- 7. PROCEDIMIENTOS -->
+    <div class="card mb-3">
+        <div class="card-header">7. Procedimientos</div>
+        <div class="card-body">
+            {{ display_list('Obligatorios', plantilla.procedimientos_obligatorios) }}
+            {{ display_list('Excluyentes entre sí', plantilla.procedimientos_excluyentes) }}
+            {{ display_list('Otros Relacionados a la Atención', plantilla.otros_procedimientos) }}
+        </div>
+    </div>
+
+    <!-- 8. OBSERVACIONES -->
+    <div class="card mb-3">
+        <div class="card-header">8. Observaciones Generales</div>
+        <div class="card-body">
+            <p class="card-text">{{ plantilla.observaciones or 'Sin observaciones.' }}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
