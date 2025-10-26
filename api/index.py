@@ -336,5 +336,26 @@ def ver_plantillas():
     if 'username' not in session: return redirect(url_for('login'))
     return render_template('ver_plantillas.html')
 
+@app.route('/plantilla/<int:plantilla_id>')
+def detalle_plantilla(plantilla_id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    plantilla_data = None
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT * FROM plantillas WHERE id = :id"), {"id": plantilla_id})
+        plantilla_row = result.first()
+        if plantilla_row:
+            # Convertimos la fila de la BD a un diccionario para pasarlo a la plantilla
+            plantilla_data = dict(plantilla_row._mapping)
+
+    if plantilla_data:
+        # Si encontramos la plantilla, la mostramos en una nueva página de detalles
+        return render_template('detalle_plantilla.html', plantilla=plantilla_data)
+    else:
+        # Si no se encuentra una plantilla con ese ID, mostramos un error 404
+        return "Plantilla no encontrada", 404
+
+
 if __name__ == '__main__':
     app.run(debug=True)
