@@ -12,7 +12,7 @@
     <!-- Quill Rich Text Editor CSS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
-    <!-- LÍNEA AÑADIDA PARA ICONOS (FONT AWESOME ) -->
+    <!-- LÍNEA AÑADIDA PARA ICONOS (FONT AWESOME  ) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
@@ -27,13 +27,25 @@
             background-color: #b02a6e;
             border-color: #a52867;
         }
+
+        /* Estilos para el botón púrpura de la página de Referencia */
+        .btn-purple {
+            color: #fff;
+            background-color: #6f42c1;
+            border-color: #6f42c1;
+        }
+        .btn-purple:hover {
+            color: #fff;
+            background-color: #5a359a;
+            border-color: #53318f;
+        }
     </style>
     {% block head %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('menu'  ) }}">
+            <a class="navbar-brand" href="{{ url_for('menu'   ) }}">
                 <i class="bi bi-journal-text"></i>
                 Gestor de Plantillas
             </a>

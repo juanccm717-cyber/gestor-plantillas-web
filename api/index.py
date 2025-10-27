@@ -1,10 +1,21 @@
+# ==============================================================================
+#                           BLOQUE DE IMPORTACIONES
+# ==============================================================================
+
+# --- Librerías Estándar de Python ---
+import os
+import re
+from datetime import datetime, timedelta
+
+# --- Librerías de Terceros (Instaladas) ---
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response
 from werkzeug.security import check_password_hash, generate_password_hash
-import os
-import re # <--- CORRECCIÓN 1 y 2: Importación en el lugar correcto.
-from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
 from fpdf import FPDF
+
+# ==============================================================================
+
 
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS REAL (SUPABASE) ---
@@ -467,6 +478,29 @@ def calculadora_gestacional():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('calculadora_gestacional.html')
+
+# --- RUTA PARA LA PÁGINA DE REFERENCIA DE CÓDIGOS Y FECHAS ---
+@app.route('/referencia_codigos')
+def referencia_codigos():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Lógica para calcular las fechas
+    hoy = datetime.now()
+    fecha_optima = hoy - timedelta(days=7)
+    fecha_regular = hoy - timedelta(days=30)
+    fecha_no_optima = hoy - timedelta(days=45)
+
+    # Formateamos las fechas para mostrarlas
+    fechas = {
+        "actual": hoy.strftime('%d/%m/%Y'),
+        "optima": fecha_optima.strftime('%d/%m/%Y'),
+        "regular": fecha_regular.strftime('%d/%m/%Y'),
+        "no_optima": fecha_no_optima.strftime('%d/%m/%Y')
+    }
+
+    # Pasamos las fechas y la lista de códigos a la plantilla
+    return render_template('referencia_codigos.html', fechas=fechas, codigos=CODIGOS_PRESTACIONALES_CATEGORIZADOS)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Códigos y Fechas de Referencia{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card bg-dark text-white border-secondary shadow-lg">
+                <div class="card-header bg-dark-accent text-center py-3">
+                    <h2 class="card-title mb-0"><i class="fas fa-calendar-alt me-2"></i>Códigos y Fechas de Referencia</h2>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <!-- Sección de Fechas -->
+                    <div class="text-center mb-4 p-3 border border-secondary rounded">
+                        <p class="mb-2">FECHA ACTUAL (Referencia): <span class="fw-bold text-warning">{{ fechas.actual }}</span></p>
+                        <p class="mb-2 fs-5">FECHA ÓPTIMA DE DIGITACIÓN: <span class="fw-bold text-success">{{ fechas.optima }}</span></p>
+                        <p class="mb-2 fs-5">FECHA REGULAR DE DIGITACIÓN: <span class="fw-bold text-primary">{{ fechas.regular }}</span></p>
+                        <p class="mb-0 fs-5">FECHA NO ÓPTIMA DE DIGITACIÓN: <span class="fw-bold text-danger">{{ fechas.no_optima }}</span></p>
+                    </div>
+
+                    <hr>
+
+                    <!-- Sección de Códigos -->
+                    <h4 class="text-center mb-3">Referencia de Códigos Prestacionales</h4>
+                    <div class="bg-light text-dark p-3 rounded" style="font-family: 'Courier New', Courier, monospace; max-height: 400px; overflow-y: auto;">
+                        {% set categoria_actual = "" %}
+                        {% for codigo in codigos %}
+                            {% if codigo.categoria != categoria_actual %}
+                                {% set categoria_actual = codigo.categoria %}
+                                <div class="fw-bold mt-3 mb-1">--- {{ categoria_actual }} ---</div>
+                            {% endif %}
+                            <div>{{ codigo.codigo }} {{ codigo.descripcion }}</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="card-footer text-center bg-dark-accent py-3">
+                    <a href="{{ url_for('menu') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver al Menú</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
