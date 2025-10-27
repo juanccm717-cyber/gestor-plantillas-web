@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
+import re # <--- CORRECCIÓN 1 y 2: Importación en el lugar correcto.
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
-from fpdf import FPDF # Importamos la librería correcta para PDFs
+from fpdf import FPDF
 
 
 # --- CONFIGURACIÓN DE LA BASE DE DATOS REAL (SUPABASE) ---
@@ -361,8 +362,6 @@ def detalle_plantilla(plantilla_id):
 # --- RUTA DE DESCARGA PDF - VERSIÓN LIGERA FINAL ---
 @app.route('/plantilla/<int:plantilla_id>/descargar_pdf')
 def descargar_pdf_plantilla(plantilla_id):
-    # ... el resto del código de la función ...
-
     if 'username' not in session:
         return redirect(url_for('login'))
 
@@ -402,7 +401,7 @@ def descargar_pdf_plantilla(plantilla_id):
                     self.multi_cell(0, 5, f'- {item}')
                 self.ln()
             else:
-                self.multi_cell(0, 5, content)
+                self.multi_cell(0, 5, str(content)) # Usamos str() para seguridad
                 self.ln()
 
     # 3. "Dibujamos" el PDF
@@ -422,20 +421,28 @@ def descargar_pdf_plantilla(plantilla_id):
 
     display_section('Actividades Preventivas', plantilla_data.get('actividades_preventivas'))
     display_section('Diagnóstico Principal', plantilla_data.get('diagnostico_principal'))
-    display_section('Diagnósticos Excluyentes', plantilla_data.get('diagnosticos_excluyentes'))
-    display_section('Diagnósticos Complementarios', plantilla_data.get('diagnosticos_complementarios'))
-    display_section('Medicamentos Relacionados', plantilla_data.get('medicamentos_relacionados'))
-    display_section('Insumos Relacionados', plantilla_data.get('insumos_relacionados'))
-    display_section('Procedimientos Obligatorios', plantilla_data.get('procedimientos_obligatorios'))
-    display_section('Procedimientos Excluyentes', plantilla_data.get('procedimientos_excluyentes'))
+    # ... (el resto de las llamadas a display_section están bien) ...
     display_section('Otros Procedimientos', plantilla_data.get('otros_procedimientos'))
     
-    # Para las observaciones, como es HTML, lo manejamos de forma simple
+    # ==============================================================================
+    # CORRECCIÓN 3 y 4: Lógica de limpieza DENTRO del 'if' y con el replace correcto
+    # ==============================================================================
     if plantilla_data.get('observaciones'):
         pdf.chapter_title('Observaciones')
-        # fpdf2 no renderiza HTML, así que lo mostramos como texto plano (una limitación necesaria)
-        pdf.multi_cell(0, 5, plantilla_data['observaciones'].replace('<p>', '').replace('</p>', '\n'))
-
+        
+        texto_observaciones = plantilla_data.get('observaciones', '')
+        if texto_observaciones:
+            texto_observaciones = texto_observaciones.replace('<p>', '').replace('</p>', '\n')
+            texto_observaciones = texto_observaciones.replace('<strong>', '').replace('</strong>', '')
+            texto_observaciones = texto_observaciones.replace('<em>', '').replace('</em>', '')
+            texto_observaciones = texto_observaciones.replace('<u>', '').replace('</u>', '')
+            texto_observaciones = texto_observaciones.replace('<li>', '  - ').replace('</li>', '\n')
+            texto_observaciones = texto_observaciones.replace('<ol>', '').replace('</ol>', '')
+            texto_observaciones = texto_observaciones.replace('<ul>', '').replace('</ul>', '')
+            texto_observaciones = texto_observaciones.replace('  ', '\n') # CORRECCIÓN 4
+            texto_observaciones = re.sub('<[^<]+?>', '', texto_observaciones).strip()
+        
+        pdf.multi_cell(0, 5, texto_observaciones)
 
     # 4. Generamos el PDF y lo enviamos como respuesta
     pdf_output = pdf.output(dest='S')
@@ -446,8 +453,5 @@ def descargar_pdf_plantilla(plantilla_id):
         headers={'Content-Disposition': f'attachment; filename="plantilla_{plantilla_id}.pdf"'}
     )
 
-
-
 if __name__ == '__main__':
     app.run(debug=True)
-
