@@ -460,6 +460,14 @@ def calculadora_imc():
         return redirect(url_for('login'))
     return render_template('calculadora_imc.html')
 
+# --- RUTA PARA LA CALCULADORA GESTACIONAL ---
+
+@app.route('/calculadora_gestacional')
+def calculadora_gestacional():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('calculadora_gestacional.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
