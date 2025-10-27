@@ -4,7 +4,7 @@
 
 {% block head %}
 <style>
-    /* Estilos para la nueva barra de progreso y su indicador */
+    /* Estilos para la barra de progreso y su indicador */
     .imc-scale-container {
         position: relative;
         margin-top: 1.5rem;
@@ -30,6 +30,26 @@
         transition: left 0.5s ease-out;
         white-space: nowrap;
     }
+
+    /* MEJORA 1: Estilos para las etiquetas de rango */
+    .range-label {
+        position: absolute;
+        top: -20px;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.7);
+        transform: translateX(-50%);
+    }
+
+    /* MEJORA 2: Animación de aparición suave */
+    #resultado-area {
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    /* MEJORA 3: Estilo para campos con error */
+    .is-invalid {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
 </style>
 {% endblock %}
 
@@ -50,13 +70,12 @@
                         <label for="talla" class="form-label">Talla (en centímetros)</label>
                         <input type="number" class="form-control" id="talla" placeholder="Ej: 175">
                     </div>                  
-                    <div id="resultado-area" class="mt-4 text-center" style="display: none;">
+                    <div id="resultado-area" class="mt-4 text-center" style="display: none; opacity: 0;">
                         <hr>
                         <h4>Resultado</h4>
                         <p class="display-4" id="imc-valor"></p>
                         <p class="fs-4" id="imc-interpretacion"></p>
 
-                        <!-- INICIO DE LA MEJORA VISUAL (BARRA) -->
                         <div class="imc-scale-container">
                             <div class="progress" style="height: 20px;">
                                 <div class="progress-bar bg-info" role="progressbar" style="width: 25%"></div>
@@ -64,10 +83,13 @@
                                 <div class="progress-bar bg-warning" role="progressbar" style="width: 25%"></div>
                                 <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"></div>
                             </div>
+                            <!-- MEJORA 1: Etiquetas de rango -->
+                            <span class="range-label" style="left: 25%;">18.5</span>
+                            <span class="range-label" style="left: 50%;">25</span>
+                            <span class="range-label" style="left: 75%;">30</span>
+
                             <div id="indicator-container"></div>
                         </div>
-                        <!-- FIN DE LA MEJORA VISUAL (BARRA) -->
-
                     </div>
                 </div>
             </div>
@@ -84,15 +106,31 @@
     const imcValor = document.getElementById('imc-valor');
     const imcInterpretacion = document.getElementById('imc-interpretacion');
 
-    function calcularIMC() {
-        const peso = parseFloat(inputPeso.value);
-        const tallaCm = parseFloat(inputTalla.value);
+    function validarInput(input) {
+        const valor = parseFloat(input.value);
+        if (isNaN(valor) || valor <= 0) {
+            if (input.value !== '') {
+                input.classList.add('is-invalid');
+            }
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            return true;
+        }
+    }
 
-        if (isNaN(peso) || isNaN(tallaCm) || peso <= 0 || tallaCm <= 0) {
-            resultadoArea.style.display = 'none';
+    function calcularIMC() {
+        const esPesoValido = validarInput(inputPeso);
+        const esTallaValida = validarInput(inputTalla);
+
+        if (!esPesoValido || !esTallaValida) {
+            resultadoArea.style.opacity = '0';
+            setTimeout(() => { resultadoArea.style.display = 'none'; }, 500);
             return;
         }
 
+        const peso = parseFloat(inputPeso.value);
+        const tallaCm = parseFloat(inputTalla.value);
         const tallaM = tallaCm / 100;
         const imc = peso / (tallaM * tallaM);
         const imcRedondeado = imc.toFixed(2);
@@ -118,7 +156,6 @@
         imcInterpretacion.innerText = interpretacion;
         imcInterpretacion.className = 'fs-4 ' + colorClase;
         
-        // LÓGICA PARA POSICIONAR EL INDICADOR
         const indicatorContainer = document.getElementById('indicator-container');
         const minIMC = 15;
         const maxIMC = 40;
@@ -131,6 +168,7 @@
         `;
         
         resultadoArea.style.display = 'block';
+        setTimeout(() => { resultadoArea.style.opacity = '1'; }, 10);
     }
 
     inputPeso.addEventListener('input', calcularIMC);
