@@ -201,7 +201,7 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    usuarios_locales = [{"username": "admin", "password_hash": generate_password_hash("test1234", method='scrypt'), "role": "administrador"}, {"username": "usuario", "password_hash": generate_password_hash("test1234", method='scrypt'), "role": "usuario"}]
+    usuarios_locales = [{"username": "admin", "password_hash": generate_password_hash("test125879", method='scrypt'), "role": "administrador"}, {"username": "usuario", "password_hash": generate_password_hash("test1234", method='scrypt'), "role": "usuario"}]
     if 'username' in session: return redirect(url_for('menu'))
     if request.method == 'POST':
         form_username = request.form['username']
