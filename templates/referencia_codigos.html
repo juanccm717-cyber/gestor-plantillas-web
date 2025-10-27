@@ -12,29 +12,37 @@
                 </div>
                 <div class="card-body p-4">
                     
-                    <!-- Sección de Fechas -->
+                    <!-- Sección de Fechas con colores corregidos -->
                     <div class="text-center mb-4 p-3 border border-secondary rounded">
-                        <p class="mb-2">FECHA ACTUAL (Referencia): <span class="fw-bold text-warning">{{ fechas.actual }}</span></p>
+                        <p class="mb-2">FECHA ACTUAL (Referencia): <span class="fw-bold text-primary">{{ fechas.actual }}</span></p>
                         <p class="mb-2 fs-5">FECHA ÓPTIMA DE DIGITACIÓN: <span class="fw-bold text-success">{{ fechas.optima }}</span></p>
-                        <p class="mb-2 fs-5">FECHA REGULAR DE DIGITACIÓN: <span class="fw-bold text-primary">{{ fechas.regular }}</span></p>
+                        <p class="mb-2 fs-5">FECHA REGULAR DE DIGITACIÓN: <span class="fw-bold text-warning">{{ fechas.regular }}</span></p>
                         <p class="mb-0 fs-5">FECHA NO ÓPTIMA DE DIGITACIÓN: <span class="fw-bold text-danger">{{ fechas.no_optima }}</span></p>
                     </div>
 
                     <hr>
 
-                    <!-- Sección de Códigos -->
+                    <!-- Sección de Códigos con Acordeón -->
                     <h4 class="text-center mb-3">Referencia de Códigos Prestacionales</h4>
-                    <div class="bg-light text-dark p-3 rounded" style="font-family: 'Courier New', Courier, monospace; max-height: 400px; overflow-y: auto;">
-                        {% set categoria_actual = "" %}
-                        {% for codigo in codigos %}
-                            {% if codigo.categoria != categoria_actual %}
-                                {% set categoria_actual = codigo.categoria %}
-                                <div class="fw-bold mt-3 mb-1">--- {{ categoria_actual }} ---</div>
-                            {% endif %}
-                            <div>{{ codigo.codigo }} {{ codigo.descripcion }}</div>
+                    <div class="accordion" id="acordeonCodigos">
+                        {% for categoria, codigos_agrupados in codigos|groupby('categoria') %}
+                            <div class="accordion-item bg-dark text-white border-secondary">
+                                <h2 class="accordion-header" id="heading-{{ loop.index }}">
+                                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ loop.index }}" aria-expanded="false" aria-controls="collapse-{{ loop.index }}">
+                                        {{ categoria }}
+                                    </button>
+                                </h2>
+                                <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ loop.index }}" data-bs-parent="#acordeonCodigos">
+                                    <div class="accordion-body" style="font-family: 'Courier New', Courier, monospace; max-height: 300px; overflow-y: auto;">
+                                        {% for codigo in codigos_agrupados %}
+                                            <div>{{ codigo.codigo }} {{ codigo.descripcion }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
-
+                    
                 </div>
                 <div class="card-footer text-center bg-dark-accent py-3">
                     <a href="{{ url_for('menu') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver al Menú</a>
