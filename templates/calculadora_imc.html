@@ -16,13 +16,9 @@
                         <input type="number" class="form-control" id="peso" placeholder="Ej: 70.5">
                     </div>
                     <div class="mb-3">
-                        <label for="talla" class="form-label">Talla (en metros)</label>
-                        <input type="number" class="form-control" id="talla" placeholder="Ej: 1.75">
-                    </div>
-                    <div class="d-grid">
-                        <button id="btn-calcular" class="btn btn-primary btn-lg">Calcular IMC</button>
-                    </div>
-                    
+                        <label for="talla" class="form-label">Talla (en centímetros)</label>
+                        <input type="number" class="form-control" id="talla" placeholder="Ej: 175">
+                    </div>                  
                     <div id="resultado-area" class="mt-4 text-center" style="display: none;">
                         <hr>
                         <h4>Resultado</h4>
@@ -37,5 +33,63 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- Aquí irá nuestro JavaScript en el Paso 3 -->
+<script>
+    // Seleccionamos los elementos que necesitamos
+    const inputPeso = document.getElementById('peso');
+    const inputTalla = document.getElementById('talla');
+    const resultadoArea = document.getElementById('resultado-area');
+    const imcValor = document.getElementById('imc-valor');
+    const imcInterpretacion = document.getElementById('imc-interpretacion');
+
+    // Creamos una función para encapsular la lógica del cálculo
+    function calcularIMC() {
+        const peso = parseFloat(inputPeso.value);
+        const tallaCm = parseFloat(inputTalla.value);
+
+        // Si los campos no tienen valores válidos, ocultamos el resultado y salimos
+        if (isNaN(peso) || isNaN(tallaCm) || peso <= 0 || tallaCm <= 0) {
+            resultadoArea.style.display = 'none';
+            return;
+        }
+
+        // --- ¡NUEVA LÓGICA! Convertimos cm a metros para la fórmula ---
+        const tallaM = tallaCm / 100;
+        
+        const imc = peso / (tallaM * tallaM);
+        const imcRedondeado = imc.toFixed(2);
+
+        let interpretacion = '';
+        let colorClase = '';
+
+        if (imc < 18.5) {
+            interpretacion = 'Bajo Peso';
+            colorClase = 'text-info';
+        } else if (imc >= 18.5 && imc < 25) {
+            interpretacion = 'Peso Normal';
+            colorClase = 'text-success';
+        } else if (imc >= 25 && imc < 30) {
+            interpretacion = 'Sobrepeso';
+            colorClase = 'text-warning';
+        } else {
+            interpretacion = 'Obesidad';
+            colorClase = 'text-danger';
+        }
+
+        imcValor.innerText = imcRedondeado;
+        imcInterpretacion.innerText = interpretacion;
+        imcInterpretacion.className = 'fs-4 ' + colorClase;
+        
+        // Mostramos el área de resultado
+        resultadoArea.style.display = 'block';
+    }
+
+    // --- ¡NUEVA LÓGICA! ---
+    // Añadimos "escuchadores" a ambos campos de entrada.
+    // El evento 'input' se dispara cada vez que el usuario escribe algo.
+    inputPeso.addEventListener('input', calcularIMC);
+    inputTalla.addEventListener('input', calcularIMC);
+
+</script>
+
+
 {% endblock %}
