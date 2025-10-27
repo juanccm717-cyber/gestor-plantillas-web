@@ -453,5 +453,13 @@ def descargar_pdf_plantilla(plantilla_id):
         headers={'Content-Disposition': f'attachment; filename="plantilla_{plantilla_id}.pdf"'}
     )
 
+# --- RUTA PARA LA CALCULADORA DE IMC ---
+@app.route('/calculadora_imc')
+def calculadora_imc():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('calculadora_imc.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

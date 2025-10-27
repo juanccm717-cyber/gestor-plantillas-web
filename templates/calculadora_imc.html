@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Calculadora de IMC{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card bg-dark text-white border-secondary shadow-lg">
+                <div class="card-header bg-dark-accent text-center py-3">
+                    <h2 class="card-title mb-0"><i class="fas fa-calculator me-2"></i>Calculadora de IMC</h2>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <label for="peso" class="form-label">Peso (en kilogramos)</label>
+                        <input type="number" class="form-control" id="peso" placeholder="Ej: 70.5">
+                    </div>
+                    <div class="mb-3">
+                        <label for="talla" class="form-label">Talla (en metros)</label>
+                        <input type="number" class="form-control" id="talla" placeholder="Ej: 1.75">
+                    </div>
+                    <div class="d-grid">
+                        <button id="btn-calcular" class="btn btn-primary btn-lg">Calcular IMC</button>
+                    </div>
+                    
+                    <div id="resultado-area" class="mt-4 text-center" style="display: none;">
+                        <hr>
+                        <h4>Resultado</h4>
+                        <p class="display-4" id="imc-valor"></p>
+                        <p class="fs-4" id="imc-interpretacion"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Aquí irá nuestro JavaScript en el Paso 3 -->
+{% endblock %}
