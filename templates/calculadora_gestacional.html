@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Calculadora Gestacional y FPP{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card bg-dark text-white border-secondary shadow-lg">
+                <div class="card-header bg-dark-accent text-center py-3">
+                    <h2 class="card-title mb-0"><i class="fas fa-baby-carriage me-2"></i>Calculadora Gestacional y FPP</h2>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <div class="mb-4">
+                        <label for="fecha_atencion" class="form-label">Fecha de Atención (o fecha de hoy)</label>
+                        <input type="date" class="form-control" id="fecha_atencion">
+                    </div>
+                    <hr>
+
+                    <!-- OPCIÓN 1: CALCULAR EDAD GESTACIONAL (EG) -->
+                    <div class="p-3 border border-secondary rounded mb-4">
+                        <h4 class="text-primary">Opción 1: Calcular Edad Gestacional (EG)</h4>
+                        <p class="text-muted small">Requiere: FPP y Fecha de Atención.</p>
+                        <div class="mb-3">
+                            <label for="fpp_input" class="form-label">Fecha Probable de Parto (FPP)</label>
+                            <input type="date" class="form-control" id="fpp_input">
+                        </div>
+                        <div class="d-grid">
+                            <button id="btn-calcular-eg" class="btn btn-primary">Calcular EG</button>
+                        </div>
+                        <div id="resultado-eg" class="mt-3 text-center" style="display: none;">
+                            <p class="fs-5">Edad Gestacional: <span class="fw-bold text-success" id="eg-valor"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- OPCIÓN 2: CALCULAR FECHA PROBABLE DE PARTO (FPP) -->
+                    <div class="p-3 border border-secondary rounded">
+                        <h4 class="text-primary">Opción 2: Calcular Fecha Probable de Parto (FPP)</h4>
+                        <p class="text-muted small">Requiere: Edad Gestacional actual y Fecha de Atención.</p>
+                        <div class="mb-3">
+                            <label for="eg_input" class="form-label">Edad Gestacional (solo semanas)</label>
+                            <input type="number" class="form-control" id="eg_input" placeholder="Ej: 32">
+                        </div>
+                        <div class="d-grid">
+                            <button id="btn-calcular-fpp" class="btn btn-primary">Calcular FPP</button>
+                        </div>
+                        <div id="resultado-fpp" class="mt-3 text-center" style="display: none;">
+                            <p class="fs-5">Fecha Probable de Parto: <span class="fw-bold text-success" id="fpp-valor"></span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // --- ELEMENTOS COMUNES ---
+    const inputFechaAtencion = document.getElementById('fecha_atencion');
+    
+    // --- ELEMENTOS OPCIÓN 1 (Calcular EG) ---
+    const inputFPP1 = document.getElementById('fpp_input');
+    const btnCalcularEG = document.getElementById('btn-calcular-eg');
+    const resultadoEG = document.getElementById('resultado-eg');
+    const egValor = document.getElementById('eg-valor');
+
+    // --- ELEMENTOS OPCIÓN 2 (Calcular FPP) ---
+    const inputEG2 = document.getElementById('eg_input');
+    const btnCalcularFPP = document.getElementById('btn-calcular-fpp');
+    const resultadoFPP = document.getElementById('resultado-fpp');
+    const fppValor = document.getElementById('fpp-valor');
+
+    // --- LÓGICA ---
+
+    // Poner la fecha de hoy por defecto en Fecha de Atención
+    window.onload = function() {
+        const hoy = new Date();
+        const hoyFormateado = hoy.toISOString().split('T')[0];
+        inputFechaAtencion.value = hoyFormateado;
+    };
+
+    // Función para parsear fechas de forma segura (evita problemas de zona horaria)
+    function parseDate(dateString) {
+        if (!dateString) return null;
+        return new Date(dateString + 'T00:00:00');
+    }
+
+    // Lógica para el botón "Calcular EG"
+    btnCalcularEG.addEventListener('click', function() {
+        const fechaAtencion = parseDate(inputFechaAtencion.value);
+        const fpp = parseDate(inputFPP1.value);
+
+        if (!fechaAtencion || !fpp) {
+            alert('Por favor, complete la Fecha de Atención y la FPP.');
+            return;
+        }
+
+        // La FUR se calcula restando 280 días a la FPP
+        const fur = new Date(fpp.getTime());
+        fur.setDate(fpp.getDate() - 280);
+
+        const diffTiempo = fechaAtencion.getTime() - fur.getTime();
+        const diffDias = Math.floor(diffTiempo / (1000 * 3600 * 24));
+
+        if (diffDias < 0) {
+            egValor.innerText = "La fecha de atención es anterior a la concepción.";
+        } else {
+            const semanas = Math.floor(diffDias / 7);
+            const dias = diffDias % 7;
+            egValor.innerText = `${semanas} semanas y ${dias} días`;
+        }
+        resultadoEG.style.display = 'block';
+    });
+
+    // Lógica para el botón "Calcular FPP"
+    btnCalcularFPP.addEventListener('click', function() {
+        const fechaAtencion = parseDate(inputFechaAtencion.value);
+        const semanasEG = parseInt(inputEG2.value, 10);
+
+        if (!fechaAtencion || isNaN(semanasEG) || semanasEG < 0 || semanasEG > 42) {
+            alert('Por favor, complete la Fecha de Atención y una Edad Gestacional válida (0-42 semanas).');
+            return;
+        }
+
+        // La FUR se calcula restando las semanas de gestación a la fecha de atención
+        const diasGestacion = semanasEG * 7;
+        const fur = new Date(fechaAtencion.getTime());
+        fur.setDate(fechaAtencion.getDate() - diasGestacion);
+
+        // La FPP se calcula sumando 280 días a la FUR
+        const fpp = new Date(fur.getTime());
+        fpp.setDate(fur.getDate() + 280);
+
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        fppValor.innerText = fpp.toLocaleDateString('es-ES', options);
+        resultadoFPP.style.display = 'block';
+    });
+</script>
+
+{% endblock %}
