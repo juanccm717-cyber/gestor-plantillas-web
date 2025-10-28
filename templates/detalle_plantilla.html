@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Detalle de Plantilla - Dashboard v2.1{% endblock %}
+{% block title %}Detalle de Plantilla - {{ plantilla.tipo_atencion }}{% endblock %}
 
 {% block head %}
 <style>
@@ -26,27 +26,24 @@
         background-color: #343a40;
     }
     .quill-content-dark {
-        background-color: #f8f9fa;
-        color: #212529;
+        background-color: #212529; /* Fondo oscuro para el contenido de Quill */
+        color: #f8f9fa; /* Texto claro */
         border-radius: .3rem;
         padding: 1rem;
+        border: 1px solid #444;
     }
 
-    /* Corrección de contraste */
     .text-muted.fst-italic {
         color: rgba(255, 255, 255, 0.5) !important;
     }
 
-    /* Corrección de desbordamiento de píldoras */
     .badge.rounded-pill {
         white-space: normal;
         text-align: left;
         line-height: 1.2;
+        padding: .4em .8em;
     }
 
-    /* ====================================================== */
-    /*     ESTILOS PARA LA GENERACIÓN DEL PDF (BLANCO Y NEGRO) */
-    /* ====================================================== */
     @media print {
         body {
             filter: grayscale(100%);
@@ -66,7 +63,6 @@
         .section-title {
             border-bottom: 1px solid #ccc !important;
         }
-        /* Ocultamos los badges de Bootstrap en el PDF para simplicidad */
         .badge {
             border: 1px solid #000 !important;
             color: #000 !important;
@@ -130,6 +126,7 @@
             </div>
             
             <!-- SECCIÓN DE OBSERVACIONES -->
+            {% if plantilla.observaciones %}
             <div class="section-card">
                 <h4 class="section-title">
                     <span><i class="fas fa-eye me-2"></i>Observaciones</span>
@@ -138,14 +135,20 @@
                     {{ plantilla.observaciones | safe }}
                 </div>
             </div>
+            {% endif %}
         </div>
+        
         <!-- ====================================================== -->
-        <!--             PIE DE TARJETA ACTUALIZADO               -->
+        <!--             PIE DE TARJETA CON CORRECCIÓN              -->
         <!-- ====================================================== -->
         <div class="card-footer text-center bg-dark-accent py-3">
             <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver</a>
             <a href="{{ url_for('descargar_pdf_plantilla', plantilla_id=plantilla.id) }}" class="btn btn-success"><i class="fas fa-file-pdf me-2"></i>Descargar PDF</a>
+            
+            <!-- Condición de seguridad para el botón Editar -->
+            {% if session.role == 'administrador' %}
             <a href="{{ url_for('plantillas', modo='editar', id=plantilla.id) }}" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Editar</a>
+            {% endif %}
         </div>
     </div>
 </div>
