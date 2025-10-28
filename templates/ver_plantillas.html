@@ -11,9 +11,7 @@
         </div>
 
         <div class="card-body p-4">
-            <!-- ================================== -->
-            <!-- CAMPO DE BÚSQUEDA Y CONTADOR (NUEVO) -->
-            <!-- ================================== -->
+            <!-- Campo de Búsqueda y Contador -->
             <div class="row mb-3 align-items-center">
                 <div class="col-md-8">
                     <input type="text" id="searchInput" class="form-control" placeholder="Buscar por tipo de atención, código o descripción...">
@@ -54,17 +52,17 @@
     document.addEventListener('DOMContentLoaded', function() {
         const registrosBody = document.getElementById('registrosBody');
         const spinner = document.getElementById('loadingSpinner');
-        const searchInput = document.getElementById('searchInput'); // NUEVO
-        const resultsCount = document.getElementById('resultsCount'); // NUEVO
-        let allRegistros = []; // Almacenaremos todos los registros aquí
+        const searchInput = document.getElementById('searchInput');
+        const resultsCount = document.getElementById('resultsCount');
+        let allRegistros = [];
 
         function cargarRegistros() {
             spinner.style.display = 'block';
             fetch('{{ url_for("get_registros") }}')
                 .then(response => response.json())
                 .then(data => {
-                    allRegistros = data; // Guardamos los datos originales
-                    renderTabla(allRegistros); // Renderizamos la tabla inicial
+                    allRegistros = data;
+                    renderTabla(allRegistros);
                     spinner.style.display = 'none';
                 })
                 .catch(error => {
@@ -77,89 +75,102 @@
         function renderTabla(registros) {
             registrosBody.innerHTML = '';
             if (registros.length === 0) {
-                registrosBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No se encontraron plantillas.</td></tr>';
+                registrosBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No se encontraron plantillas que coincidan con la búsqueda.</td></tr>';
                 resultsCount.textContent = '0 resultados.';
                 return;
             }
 
+            // =================================================================
+            // INICIO DEL BLOQUE CORREGIDO
+            // =================================================================
             registros.forEach(registro => {
                 const fila = document.createElement('tr');
                 
-                // Condicional para mostrar botones solo si el usuario es administrador
-                let botonesAdmin = '';
+                // Se construye la celda de acciones dinámicamente
+                const accionesCell = document.createElement('td');
+                accionesCell.className = 'text-center';
+
+                // 1. Botón de Ver (siempre visible)
+                const verBtn = document.createElement('a');
+                verBtn.href = `/plantilla/${registro.id}`;
+                verBtn.className = 'btn btn-sm btn-outline-info me-1';
+                verBtn.title = 'Ver';
+                verBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+                accionesCell.appendChild(verBtn);
+
+                // 2. Botones de Admin (solo si el rol es 'administrador')
                 if ('{{ session.role }}' === 'administrador') {
-                    botonesAdmin = `
-                        <a href="/plantillas?modo=editar&id=${registro.id}" class="btn btn-sm btn-outline-warning me-1" title="Editar"><i class="bi bi-pencil-fill"></i></a>
-                        <button onclick="eliminarRegistro(${registro.id})" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i></button>
-                    `;
+                    // Botón de Editar
+                    const editarBtn = document.createElement('a');
+                    editarBtn.href = `/plantillas?modo=editar&id=${registro.id}`;
+                    editarBtn.className = 'btn btn-sm btn-outline-warning me-1';
+                    editarBtn.title = 'Editar';
+                    editarBtn.innerHTML = '<i class="bi bi-pencil-fill"></i>';
+                    accionesCell.appendChild(editarBtn);
+
+                    // Botón de Eliminar
+                    const eliminarBtn = document.createElement('button');
+                    eliminarBtn.className = 'btn btn-sm btn-outline-danger';
+                    eliminarBtn.title = 'Eliminar';
+                    eliminarBtn.innerHTML = '<i class="bi bi-trash-fill"></i>';
+                    eliminarBtn.onclick = function() { eliminarRegistro(registro.id, registro.tipo_atencion); }; // Pasamos el nombre para el confirm
+                    accionesCell.appendChild(eliminarBtn);
                 }
 
+                // Se construye el resto de la fila
                 fila.innerHTML = `
                     <td>${registro.id}</td>
                     <td>${registro.tipo_atencion}</td>
                     <td>${registro.codigo_prestacional}</td>
-                    <td class="text-center">
-                        <a href="/plantilla/${registro.id}" class="btn btn-sm btn-outline-info me-1" title="Ver"><i class="bi bi-eye-fill"></i></a>
-                        ${botonesAdmin}
-                    </td>
                 `;
+                fila.appendChild(accionesCell); // Se añade la celda de acciones al final
+
                 registrosBody.appendChild(fila);
             });
+            // =================================================================
+            // FIN DEL BLOQUE CORREGIDO
+            // =================================================================
 
             // Actualizar contador
-            if (allRegistros.length === registros.length) {
-                resultsCount.textContent = `Mostrando ${registros.length} plantillas.`;
-            } else {
-                resultsCount.textContent = `Mostrando ${registros.length} de ${allRegistros.length} plantillas.`;
-            }
+            actualizarContador(registros.length);
         }
 
-        function eliminarRegistro(id) {
-            if (confirm('¿Estás seguro de que quieres eliminar esta plantilla? Esta acción no se puede deshacer.')) {
+        function eliminarRegistro(id, nombre) {
+            if (confirm(`¿Estás seguro de que quieres eliminar la plantilla "${nombre}" (ID: ${id})? Esta acción no se puede deshacer.`)) {
                 fetch(`/delete_plantilla/${id}`, { method: 'DELETE' })
                     .then(response => response.json())
                     .then(data => {
                         alert(data.message);
-                        cargarRegistros(); // Recargar la lista después de eliminar
+                        // Recargar la lista desde la variable local para evitar otra llamada a la API
+                        allRegistros = allRegistros.filter(r => r.id !== id);
+                        filtrarTabla(); // Volver a renderizar la tabla con los datos filtrados
                     })
                     .catch(error => console.error('Error al eliminar:', error));
             }
         }
-
-        // ==================================
-        // FUNCIÓN DE FILTRADO (NUEVA)
-        // ==================================
+        
         function filtrarTabla() {
             const textoBusqueda = searchInput.value.toLowerCase();
-            const filas = registrosBody.getElementsByTagName('tr');
-            let conteoVisibles = 0;
+            
+            const registrosFiltrados = allRegistros.filter(registro => {
+                const textoRegistro = (registro.tipo_atencion + ' ' + registro.codigo_prestacional).toLowerCase();
+                return textoRegistro.includes(textoBusqueda);
+            });
 
-            for (let i = 0; i < filas.length; i++) {
-                const fila = filas[i];
-                const celdaTipoAtencion = fila.cells[1];
-                const celdaCodigo = fila.cells[2];
-                
-                if (celdaTipoAtencion && celdaCodigo) {
-                    const textoFila = (celdaTipoAtencion.textContent + ' ' + celdaCodigo.textContent).toLowerCase();
-                    if (textoFila.includes(textoBusqueda)) {
-                        fila.style.display = '';
-                        conteoVisibles++;
-                    } else {
-                        fila.style.display = 'none';
-                    }
-                }
+            renderTabla(registrosFiltrados);
+        }
+
+        function actualizarContador(visibles) {
+             if (allRegistros.length === visibles) {
+                resultsCount.textContent = `Mostrando ${allRegistros.length} plantillas.`;
+            } else {
+                resultsCount.textContent = `Mostrando ${visibles} de ${allRegistros.length} plantillas.`;
             }
-            // Actualizar contador en tiempo real
-            resultsCount.textContent = `Mostrando ${conteoVisibles} de ${allRegistros.length} plantillas.`;
         }
 
         // --- INICIALIZACIÓN ---
         cargarRegistros();
-        
-        // Asignar el evento al campo de búsqueda
         searchInput.addEventListener('keyup', filtrarTabla);
-
-        // Hacemos la función eliminarRegistro accesible globalmente
         window.eliminarRegistro = eliminarRegistro;
     });
 </script>
