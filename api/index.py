@@ -591,45 +591,41 @@ def guia_peso_talla():
     return render_template('guia_peso_talla.html', datos_tabla=DATOS_PESO_TALLA)
 
 # --- RUTA PARA MOSTRAR LA PÁGINA DE BÚSQUEDA DE DIAGNÓSTICOS ---
+# --- RUTA PARA MOSTRAR LA PÁGINA DE BÚSQUEDA HÍBRIDA DE DIAGNÓSTICOS ---
 @app.route('/buscar_diagnosticos')
 def buscar_diagnosticos():
     if 'username' not in session:
         return redirect(url_for('login'))
-    # Simplemente renderiza la página, sin datos iniciales
     return render_template('buscar_diagnosticos.html')
 
-# --- API INTERNA PARA REALIZAR LA BÚSQUEDA ASÍNCRONA ---
+# --- API INTERNA PARA BÚSQUEDA ASÍNCRONA (RÁPIDA) ---
 @app.route('/api/search_diagnosticos')
 def search_diagnosticos():
-    if 'username' not in session:
-        return jsonify({'error': 'No autorizado'}), 401
-
-    query = request.args.get('q', '') # Obtiene el término de búsqueda de la URL (ej: ?q=colera)
-    
-    if len(query) < 3:
-        # No buscar si la consulta es muy corta para evitar sobrecargar la BD
-        return jsonify([])
-
+    if 'username' not in session: return jsonify({'error': 'No autorizado'}), 401
+    query = request.args.get('q', '')
+    if len(query) < 3: return jsonify([])
     try:
         with engine.connect() as connection:
-            # Usamos ILIKE para búsqueda insensible a mayúsculas/minúsculas
-            # Buscamos tanto en el código como en la descripción
-            sql_query = text("""
-                SELECT codigo, descripcion 
-                FROM diagnosticos 
-                WHERE codigo ILIKE :query OR descripcion ILIKE :query
-                LIMIT 50;
-            """)
-            # El '%' permite buscar el término en cualquier parte del texto
+            sql_query = text("SELECT codigo, descripcion FROM diagnosticos WHERE codigo ILIKE :query OR descripcion ILIKE :query LIMIT 50;")
             result = connection.execute(sql_query, {'query': f'%{query}%'})
-            
-            # Convertimos los resultados a una lista de diccionarios
-            diagnosticos = [dict(row._mapping) for row in result]
-            
-            return jsonify(diagnosticos)
+            return jsonify([dict(row._mapping) for row in result])
     except Exception as e:
-        print(f"Error en la búsqueda de diagnósticos: {e}")
+        print(f"Error en búsqueda asíncrona: {e}")
         return jsonify({'error': 'Error en el servidor'}), 500
+
+# --- API INTERNA PARA CARGAR TODOS LOS DIAGNÓSTICOS (COMPLETA) ---
+@app.route('/api/get_all_diagnosticos')
+def get_all_diagnosticos():
+    if 'username' not in session: return jsonify({'error': 'No autorizado'}), 401
+    try:
+        with engine.connect() as connection:
+            sql_query = text("SELECT codigo, descripcion FROM diagnosticos ORDER BY codigo;")
+            result = connection.execute(sql_query)
+            return jsonify([dict(row._mapping) for row in result])
+    except Exception as e:
+        print(f"Error al cargar todos los diagnósticos: {e}")
+        return jsonify({'error': 'Error en el servidor'}), 500
+
 
 
 if __name__ == '__main__':

@@ -12,18 +12,23 @@
                 </div>
                 <div class="card-body p-4">
                     
-                    <!-- Campo de Búsqueda -->
+                    <!-- Controles de Búsqueda -->
                     <div class="mb-3">
                         <input type="text" id="searchInput" class="form-control" placeholder="Escribe un código o descripción (mín. 3 letras)..." autofocus>
                     </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div id="statusText" class="text-muted small">Modo de búsqueda: <strong>Rápida (en servidor)</strong></div>
+                        <button id="loadAllButton" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-database me-2"></i>Cargar todos los diagnósticos
+                        </button>
+                    </div>
                     <div id="loadingSpinner" class="text-center" style="display: none;">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Buscando...</span>
-                        </div>
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p id="loadingText" class="mt-2">Buscando...</p>
                     </div>
 
-                    <!-- Tabla de Resultados (inicialmente vacía) -->
-                    <div class="table-responsive mt-4">
+                    <!-- Tabla de Resultados -->
+                    <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
                         <table class="table table-dark table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -32,9 +37,7 @@
                                 </tr>
                             </thead>
                             <tbody id="resultsTableBody">
-                                <tr>
-                                    <td colspan="2" class="text-center text-muted">Los resultados de la búsqueda aparecerán aquí.</td>
-                                </tr>
+                                <tr><td colspan="2" class="text-center text-muted">Los resultados aparecerán aquí.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,49 +57,102 @@
         const searchInput = document.getElementById('searchInput');
         const resultsBody = document.getElementById('resultsTableBody');
         const spinner = document.getElementById('loadingSpinner');
+        const loadingText = document.getElementById('loadingText');
+        const loadAllButton = document.getElementById('loadAllButton');
+        const statusText = document.getElementById('statusText');
+
+        let searchMode = 'server'; // 'server' o 'local'
+        let allData = [];
         let debounceTimer;
 
-        searchInput.addEventListener('keyup', function() {
-            clearTimeout(debounceTimer);
-            const query = searchInput.value;
-
-            if (query.length < 3) {
-                resultsBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Escribe al menos 3 caracteres para buscar.</td></tr>';
+        // --- LÓGICA DE BÚSQUEDA ---
+        function performSearch() {
+            const query = searchInput.value.toUpperCase();
+            if (query.length < 3 && searchMode === 'server') {
+                resultsBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Escribe al menos 3 caracteres.</td></tr>';
                 return;
             }
 
-            // Debounce: esperar 300ms después de que el usuario deje de escribir para buscar
+            if (searchMode === 'server') {
+                performServerSearch(query);
+            } else {
+                performLocalFilter(query);
+            }
+        }
+
+        // --- BÚSQUEDA EN SERVIDOR (ASÍNCRONA) ---
+        function performServerSearch(query) {
+            clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
+                loadingText.textContent = 'Buscando...';
                 spinner.style.display = 'block';
                 resultsBody.innerHTML = '';
 
                 fetch(`/api/search_diagnosticos?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
-                    .then(data => {
-                        spinner.style.display = 'none';
-                        
-                        if (data.error) {
-                            resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error al realizar la búsqueda.</td></tr>`;
-                            return;
-                        }
-
-                        if (data.length === 0) {
-                            resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${query}".</td></tr>`;
-                        } else {
-                            let newRows = '';
-                            data.forEach(item => {
-                                newRows += `<tr>
-                                                <td>${item.codigo}</td>
-                                                <td>${item.descripcion}</td></tr>`;
-                            });
-                            resultsBody.innerHTML = newRows;
-                        }
-                    })
-                    .catch(error => {
-                        spinner.style.display = 'none';
-                        resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error de conexión con el servidor.</td></tr>`;
-                    });
+                    .then(data => handleNewData(data, query))
+                    .catch(handleError);
             }, 300);
+        }
+
+        // --- FILTRADO LOCAL (EN NAVEGADOR) ---
+        function performLocalFilter(query) {
+            const filteredData = allData.filter(item => 
+                item.codigo.toUpperCase().includes(query) || item.descripcion.toUpperCase().includes(query)
+            );
+            handleNewData(filteredData, query);
+        }
+
+        // --- MANEJO DE DATOS Y RENDERIZADO ---
+        function handleNewData(data, query) {
+            spinner.style.display = 'none';
+            if (!data || data.error) {
+                resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error al realizar la búsqueda.</td></tr>`;
+                return;
+            }
+            if (data.length === 0) {
+                resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${searchInput.value}".</td></tr>`;
+            } else {
+                resultsBody.innerHTML = data.map(item => `
+                    <tr>
+                        <td>${item.codigo}</td>
+                        <td>${item.descripcion}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function handleError(error) {
+            spinner.style.display = 'none';
+            resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error de conexión.</td></tr>`;
+        }
+
+        // --- EVENT LISTENERS ---
+        searchInput.addEventListener('keyup', performSearch);
+
+        loadAllButton.addEventListener('click', function() {
+            if (!confirm('Esto cargará la base de datos completa y puede tardar unos segundos. ¿Deseas continuar?')) {
+                return;
+            }
+            
+            loadingText.textContent = 'Cargando todos los diagnósticos...';
+            spinner.style.display = 'block';
+            this.disabled = true;
+
+            fetch('/api/get_all_diagnosticos')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && !data.error) {
+                        allData = data;
+                        searchMode = 'local';
+                        statusText.innerHTML = 'Modo de búsqueda: <strong>Local (en memoria)</strong>';
+                        loadAllButton.style.display = 'none'; // Ocultar botón después de cargar
+                        handleNewData(allData, ''); // Mostrar todos los datos cargados
+                    } else {
+                        handleError();
+                    }
+                })
+                .catch(handleError);
         });
     });
 </script>
