@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestor de Plantillas</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap' );
+        /* ... Tu CSS espectacular va aquí ... */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'  );
 
         * {
             margin: 0;
@@ -126,7 +127,6 @@
 <body>
 
     <div class="video-background">
-        <!-- NUEVO VIDEO: Equipo de adultos trabajando juntos -->
         <video autoplay muted loop id="bgVideo">
             <source src="https://videos.pexels.com/video-files/3254013/3254013-hd_1920_1080_25fps.mp4" type="video/mp4">
             Tu navegador no soporta videos HTML5.
@@ -137,15 +137,52 @@
     <div class="login-wrapper">
         <div class="login-container">
             <h1>Gestor de Plantillas</h1>
-            {% if error %}
-                <p class="error">{{ error }}</p>
-            {% endif %}
+            {% with messages = get_flashed_messages( ) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="error">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
             <form method="post">
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
+                
+                <!-- ================================================== -->
+                <!-- ADICIÓN 1: El campo oculto para la huella          -->
+                <!-- ================================================== -->
+                <input type="hidden" name="device_fingerprint" id="device_fingerprint">
+                
                 <input type="submit" value="Acceder">
             </form>
         </div>
     </div>
+
+    <!-- ================================================== -->
+    <!-- ADICIÓN 2: La librería FingerprintJS               -->
+    <!-- ================================================== -->
+    <script
+      src="https://fpcdn.io/v3/7aYn2JvC3c97s2b4W8b5"
+      onload="initFingerprintJS( )">
+    </script>
+    
+    <!-- ================================================== -->
+    <!-- ADICIÓN 3: El script para obtener la huella        -->
+    <!-- ================================================== -->
+    <script>
+      function initFingerprintJS() {
+        FingerprintJS.load()
+          .then(fp => fp.get())
+          .then(result => {
+            const visitorId = result.visitorId;
+            const fingerprintInput = document.getElementById('device_fingerprint');
+            fingerprintInput.value = visitorId;
+            // Esta línea es útil para depurar y ver la huella en la consola del navegador
+            console.log("Huella del dispositivo:", visitorId);
+          });
+      }
+    </script>
+
 </body>
 </html>

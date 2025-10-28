@@ -784,6 +784,76 @@ def dashboard_data():
         print(f"Error al generar datos del dashboard: {e}")
         return jsonify({"error": "Error interno al procesar los datos"}), 500
 
+# En api/index.py
+
+# En api/index.py
+
+@app.route('/admin/dispositivos', methods=['GET'])
+# @login_required # El decorador no existe, usamos la comprobación manual
+# @admin_required # El decorador no existe, usamos la comprobación manual
+def pagina_admin_dispositivos():
+    if 'username' not in session or session.get('role') != 'administrador':
+        flash('Acceso no autorizado.', 'danger')
+        return redirect(url_for('menu'))
+
+    try:
+        with engine.connect() as connection:
+            # Obtener todos los usuarios para el menú desplegable
+            usuarios = connection.execute(text("SELECT id, username FROM usuarios ORDER BY username")).fetchall()
+            
+            usuario_seleccionado_id = request.args.get('usuario_id')
+            dispositivos_del_usuario = []
+            usuario_seleccionado = None
+            
+            if usuario_seleccionado_id:
+                # Lógica para mostrar los dispositivos del usuario seleccionado
+                sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id")
+                dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
+                
+                # Lógica para obtener los datos del usuario seleccionado
+                sql_usuario = text("SELECT * FROM usuarios WHERE id = :id")
+                usuario_seleccionado = connection.execute(sql_usuario, {'id': usuario_seleccionado_id}).first()
+
+            return render_template('admin_dispositivos.html', 
+                                   usuarios=usuarios, 
+                                   dispositivos=dispositivos_del_usuario,
+                                   usuario_seleccionado=usuario_seleccionado)
+    except Exception as e:
+        flash(f"Error al cargar la página de dispositivos: {e}", "danger")
+        return redirect(url_for('menu'))
+
+
+@app.route('/admin/autorizar_dispositivo', methods=['POST'])
+# @login_required
+# @admin_required
+def autorizar_dispositivo():
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    usuario_id = request.form.get('usuario_id')
+    huella = request.form.get('huella_dispositivo')
+    descripcion = request.form.get('descripcion')
+
+    if not all([usuario_id, huella, descripcion]):
+        flash('Todos los campos son requeridos.', 'danger')
+        return redirect(url_for('pagina_admin_dispositivos'))
+
+    try:
+        with engine.connect() as connection:
+            # Insertar el nuevo dispositivo autorizado en la base de datos
+            sql = text("""
+                INSERT INTO dispositivos_autorizados (usuario_id, huella_dispositivo, descripcion)
+                VALUES (:uid, :huella, :desc)
+            """)
+            connection.execute(sql, {'uid': usuario_id, 'huella': huella, 'desc': descripcion})
+            connection.commit()
+        
+        flash('¡Dispositivo autorizado con éxito!', 'success')
+    except Exception as e:
+        flash(f'Error al autorizar el dispositivo: {e}', 'danger')
+
+    return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
