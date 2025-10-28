@@ -105,12 +105,7 @@
             handleNewData(filteredData, query);
         }
 
-        function highlightText(text, query) {
-            if (!query) return text;
-            const regex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-            return text.replace(regex, '<mark>$1</mark>');
-        }
-
+        // --- MANEJO DE DATOS Y RENDERIZADO (SIN RESALTADO) ---
         function handleNewData(data, query) {
             spinner.style.display = 'none';
             if (!data || data.error) {
@@ -122,7 +117,13 @@
                 resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${searchInput.value}".</td></tr>`;
                 resultsCount.textContent = '0 resultados.';
             } else {
-                resultsBody.innerHTML = data.map(item => `<tr><td>${highlightText(item.codigo, query)}</td><td>${highlightText(item.descripcion, query)}</td></tr>`).join('');
+                resultsBody.innerHTML = data.map(item => `
+                    <tr>
+                        <td>${item.codigo}</td>
+                        <td>${item.descripcion}</td>
+                    </tr>
+                `).join('');
+                // Actualizar contador
                 if (searchMode === 'local') {
                     resultsCount.textContent = `Mostrando ${data.length} de ${allData.length} diagnósticos.`;
                 } else {
@@ -137,6 +138,7 @@
             resultsCount.textContent = 'Error de conexión.';
         }
 
+        // --- EVENT LISTENERS ---
         searchInput.addEventListener('keyup', performSearch);
         loadAllButton.addEventListener('click', function() {
             if (!confirm('Esto cargará la base de datos completa y puede tardar unos segundos. ¿Deseas continuar?')) return;

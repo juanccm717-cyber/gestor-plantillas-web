@@ -1,5 +1,5 @@
 # ==============================================================================
-#                           BLOQUE DE IMPORTACIONES
+#                           BLOQUE DE IMPORTACIONES (CORREGIDO)
 # ==============================================================================
 
 # --- Librerías Estándar de Python ---
@@ -8,13 +8,15 @@ import re
 from datetime import datetime, timedelta
 
 # --- Librerías de Terceros (Instaladas) ---
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, Response, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 from fpdf import FPDF
+import scrypt
 
 # ==============================================================================
+
 
 
 
@@ -280,22 +282,47 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-de-desarrollo
 def home():
     return redirect(url_for('login'))
 
+# --- RUTA DE LOGIN (MODIFICADA PARA USAR LA BASE DE DATOS) ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    usuarios_locales = [{"username": "admin", "password_hash": generate_password_hash("test125879", method='scrypt'), "role": "administrador"}, {"username": "usuario", "password_hash": generate_password_hash("test1234", method='scrypt'), "role": "usuario"}]
-    if 'username' in session: return redirect(url_for('menu'))
     if request.method == 'POST':
-        form_username = request.form['username']
-        form_password = request.form['password']
-        normalized_form_username = form_username.lower()
-        found_user = next((user for user in usuarios_locales if user["username"].lower() == normalized_form_username), None)
-        if found_user and check_password_hash(found_user['password_hash'], form_password):
-            session['username'] = found_user['username']
-            session['role'] = found_user['role']
-            return redirect(url_for('menu'))
-        else:
-            return render_template('login.html', error='Credenciales inválidas.')
+        username = request.form['username']
+        password = request.form['password']
+
+        try:
+            with engine.connect() as connection:
+                # 1. Buscar al usuario en la base de datos
+                sql_query = text("SELECT username, password_hash, role FROM usuarios WHERE username = :username")
+                result = connection.execute(sql_query, {'username': username}).first()
+
+                if result:
+                    # 2. Si el usuario existe, verificar la contraseña
+                    stored_hash_hex = result.password_hash
+                    stored_hash_bytes = bytes.fromhex(stored_hash_hex)
+                    
+                    # scrypt.verify necesita bytes
+                    password_bytes = password.encode('utf-8')
+
+                    if scrypt.verify(password_bytes, stored_hash_bytes):
+                        # 3. Si la contraseña es correcta, iniciar sesión
+                        session['username'] = result.username
+                        session['role'] = result.role
+                        return redirect(url_for('menu'))
+                    else:
+                        # Contraseña incorrecta
+                        flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+                else:
+                    # Usuario no encontrado
+                    flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+        
+        except Exception as e:
+            print(f"Error durante el login: {e}")
+            flash('Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.', 'danger')
+
+        return redirect(url_for('login'))
+
     return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
