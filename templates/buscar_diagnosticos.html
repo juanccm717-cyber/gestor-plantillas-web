@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Búsqueda de Diagnósticos (CIE-10){% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card bg-dark text-white border-secondary shadow-lg">
+                <div class="card-header bg-dark-accent text-center py-3">
+                    <h2 class="card-title mb-0"><i class="fas fa-search-plus me-2"></i>Búsqueda de Diagnósticos (CIE-10)</h2>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <!-- Campo de Búsqueda -->
+                    <div class="mb-3">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Escribe un código o descripción (mín. 3 letras)..." autofocus>
+                    </div>
+                    <div id="loadingSpinner" class="text-center" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Buscando...</span>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Resultados (inicialmente vacía) -->
+                    <div class="table-responsive mt-4">
+                        <table class="table table-dark table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">Código</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted">Los resultados de la búsqueda aparecerán aquí.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-center bg-dark-accent py-3">
+                    <a href="{{ url_for('menu') }}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Volver al Menú</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const resultsBody = document.getElementById('resultsTableBody');
+        const spinner = document.getElementById('loadingSpinner');
+        let debounceTimer;
+
+        searchInput.addEventListener('keyup', function() {
+            clearTimeout(debounceTimer);
+            const query = searchInput.value;
+
+            if (query.length < 3) {
+                resultsBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Escribe al menos 3 caracteres para buscar.</td></tr>';
+                return;
+            }
+
+            // Debounce: esperar 300ms después de que el usuario deje de escribir para buscar
+            debounceTimer = setTimeout(() => {
+                spinner.style.display = 'block';
+                resultsBody.innerHTML = '';
+
+                fetch(`/api/search_diagnosticos?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = 'none';
+                        
+                        if (data.error) {
+                            resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error al realizar la búsqueda.</td></tr>`;
+                            return;
+                        }
+
+                        if (data.length === 0) {
+                            resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${query}".</td></tr>`;
+                        } else {
+                            let newRows = '';
+                            data.forEach(item => {
+                                newRows += `<tr>
+                                                <td>${item.codigo}</td>
+                                                <td>${item.descripcion}</td></tr>`;
+                            });
+                            resultsBody.innerHTML = newRows;
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-danger">Error de conexión con el servidor.</td></tr>`;
+                    });
+            }, 300);
+        });
+    });
+</script>
+{% endblock %}

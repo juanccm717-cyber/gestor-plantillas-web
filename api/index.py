@@ -590,6 +590,47 @@ def guia_peso_talla():
     # Pasamos los datos de la tabla a la plantilla
     return render_template('guia_peso_talla.html', datos_tabla=DATOS_PESO_TALLA)
 
+# --- RUTA PARA MOSTRAR LA PÁGINA DE BÚSQUEDA DE DIAGNÓSTICOS ---
+@app.route('/buscar_diagnosticos')
+def buscar_diagnosticos():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    # Simplemente renderiza la página, sin datos iniciales
+    return render_template('buscar_diagnosticos.html')
+
+# --- API INTERNA PARA REALIZAR LA BÚSQUEDA ASÍNCRONA ---
+@app.route('/api/search_diagnosticos')
+def search_diagnosticos():
+    if 'username' not in session:
+        return jsonify({'error': 'No autorizado'}), 401
+
+    query = request.args.get('q', '') # Obtiene el término de búsqueda de la URL (ej: ?q=colera)
+    
+    if len(query) < 3:
+        # No buscar si la consulta es muy corta para evitar sobrecargar la BD
+        return jsonify([])
+
+    try:
+        with engine.connect() as connection:
+            # Usamos ILIKE para búsqueda insensible a mayúsculas/minúsculas
+            # Buscamos tanto en el código como en la descripción
+            sql_query = text("""
+                SELECT codigo, descripcion 
+                FROM diagnosticos 
+                WHERE codigo ILIKE :query OR descripcion ILIKE :query
+                LIMIT 50;
+            """)
+            # El '%' permite buscar el término en cualquier parte del texto
+            result = connection.execute(sql_query, {'query': f'%{query}%'})
+            
+            # Convertimos los resultados a una lista de diccionarios
+            diagnosticos = [dict(row._mapping) for row in result]
+            
+            return jsonify(diagnosticos)
+    except Exception as e:
+        print(f"Error en la búsqueda de diagnósticos: {e}")
+        return jsonify({'error': 'Error en el servidor'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
