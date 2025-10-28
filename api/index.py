@@ -313,7 +313,6 @@ def login():
     return render_template('login.html')
 
 
-
 @app.route('/logout')
 def logout():
     session.clear()
@@ -643,6 +642,22 @@ def get_all_diagnosticos():
         print(f"Error al cargar todos los diagnósticos: {e}")
         return jsonify({'error': 'Error en el servidor'}), 500
 
+# --- RUTA PARA LA GESTIÓN DE USUARIOS (SOLO ADMIN) ---
+@app.route('/admin/usuarios')
+def gestionar_usuarios():
+    # Doble capa de seguridad:
+    # 1. ¿Hay un usuario logueado?
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    # 2. ¿El usuario logueado es administrador?
+    if session.get('role') != 'administrador':
+        flash('Acceso no autorizado. Esta área es solo para administradores.', 'danger')
+        return redirect(url_for('menu'))
+
+    # Por ahora, solo renderizamos la plantilla.
+    # En el futuro, aquí obtendremos la lista de usuarios de la BD.
+    return render_template('gestionar_usuarios.html')
 
 
 if __name__ == '__main__':
