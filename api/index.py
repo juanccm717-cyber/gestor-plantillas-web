@@ -643,21 +643,91 @@ def get_all_diagnosticos():
         return jsonify({'error': 'Error en el servidor'}), 500
 
 # --- RUTA PARA LA GESTIÓN DE USUARIOS (SOLO ADMIN) ---
+# --- RUTA PARA LA GESTIÓN DE USUARIOS (SOLO ADMIN) ---
 @app.route('/admin/usuarios')
 def gestionar_usuarios():
-    # Doble capa de seguridad:
-    # 1. ¿Hay un usuario logueado?
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    
-    # 2. ¿El usuario logueado es administrador?
-    if session.get('role') != 'administrador':
-        flash('Acceso no autorizado. Esta área es solo para administradores.', 'danger')
+    if 'username' not in session or session.get('role') != 'administrador':
+        flash('Acceso no autorizado.', 'danger')
         return redirect(url_for('menu'))
 
-    # Por ahora, solo renderizamos la plantilla.
-    # En el futuro, aquí obtendremos la lista de usuarios de la BD.
-    return render_template('gestionar_usuarios.html')
+    try:
+        with engine.connect() as connection:
+            sql_query = text("SELECT id, username, role FROM usuarios ORDER BY username ASC")
+            result = connection.execute(sql_query)
+            lista_usuarios = [dict(row._mapping) for row in result]
+    except Exception as e:
+        print(f"Error al obtener la lista de usuarios: {e}")
+        flash('Error al cargar la lista de usuarios.', 'danger')
+        lista_usuarios = []
+
+    return render_template('gestionar_usuarios.html', usuarios=lista_usuarios)
+
+# --- API PARA AÑADIR UN NUEVO USUARIO ---
+@app.route('/api/add_user', methods=['POST'])
+def add_user():
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    data = request.json
+    new_username = data.get('username')
+    new_password = data.get('password')
+    new_role = data.get('role')
+
+    if not all([new_username, new_password, new_role]):
+        return jsonify({'success': False, 'message': 'Todos los campos son requeridos.'}), 400
+
+    try:
+        # Hashear la contraseña
+        password_bytes = new_password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        hashed_password_bytes = bcrypt.hashpw(password_bytes, salt)
+        hashed_password_hex = hashed_password_bytes.hex()
+
+        with engine.connect() as connection:
+            # Verificar si el usuario ya existe
+            check_sql = text("SELECT id FROM usuarios WHERE LOWER(username) = LOWER(:username)")
+            existing_user = connection.execute(check_sql, {'username': new_username}).first()
+            if existing_user:
+                return jsonify({'success': False, 'message': f'El usuario "{new_username}" ya existe.'}), 409
+
+            # Insertar nuevo usuario
+            insert_sql = text("INSERT INTO usuarios (username, password_hash, role) VALUES (:username, :password_hash, :role)")
+            connection.execute(insert_sql, {
+                'username': new_username,
+                'password_hash': hashed_password_hex,
+                'role': new_role
+            })
+            connection.commit()
+        
+        return jsonify({'success': True, 'message': f'Usuario "{new_username}" creado con éxito.'}), 201
+
+    except Exception as e:
+        print(f"Error al añadir usuario: {e}")
+        return jsonify({'success': False, 'message': 'Error interno del servidor.'}), 500
+
+
+# --- API PARA ELIMINAR UN USUARIO ---
+@app.route('/api/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user():
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    # Evitar que el admin se elimine a sí mismo
+    with engine.connect() as connection:
+        user_to_delete = connection.execute(text("SELECT username FROM usuarios WHERE id = :id"), {'id': user_id}).scalar()
+        if user_to_delete == session.get('username'):
+            return jsonify({'success': False, 'message': 'No puedes eliminar tu propia cuenta de administrador.'}), 400
+
+    try:
+        with engine.connect() as connection:
+            sql_query = text("DELETE FROM usuarios WHERE id = :id")
+            connection.execute(sql_query, {'id': user_id})
+            connection.commit()
+        return jsonify({'success': True, 'message': 'Usuario eliminado con éxito.'}), 200
+    except Exception as e:
+        print(f"Error al eliminar usuario: {e}")
+        return jsonify({'success': False, 'message': 'Error interno del servidor.'}), 500
+
 
 
 if __name__ == '__main__':

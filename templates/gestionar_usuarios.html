@@ -11,10 +11,135 @@
         </div>
 
         <div class="card-body p-4">
-            <h5 class="text-center text-muted">Próximamente: Aquí se mostrará la tabla de usuarios y el formulario para añadir nuevos.</h5>
-            <!-- Aquí irá la tabla de usuarios -->
-            <!-- Aquí irá el formulario para añadir nuevos usuarios -->
+            
+            <!-- Acordeón para Añadir Nuevo Usuario -->
+            <div class="accordion mb-4" id="accordionAddUser">
+                <div class="accordion-item bg-dark border-secondary">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button bg-dark-accent text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <i class="bi bi-plus-circle-fill me-2"></i>Añadir Nuevo Usuario
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionAddUser">
+                        <div class="accordion-body">
+                            <form id="addUserForm">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <input type="text" id="newUsername" class="form-control" placeholder="Nombre de usuario" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="password" id="newPassword" class="form-control" placeholder="Contraseña" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select id="newRole" class="form-select" required>
+                                            <option value="" selected disabled>Seleccionar rol...</option>
+                                            <option value="administrador">Administrador</option>
+                                            <option value="usuario">Usuario</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 d-grid">
+                                        <button type="submit" class="btn btn-primary">Añadir</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Usuarios Existentes -->
+            <h4 class="mb-3">Usuarios Registrados</h4>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">ID</th>
+                            <th>Nombre de Usuario</th>
+                            <th style="width: 20%;">Rol</th>
+                            <th style="width: 15%;" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in usuarios %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                <span class="badge {{ 'bg-success' if user.role == 'administrador' else 'bg-secondary' }}">
+                                    {{ user.role | capitalize }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser({{ user.id }}, '{{ user.username }}')">
+                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No hay usuarios registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // --- LÓGICA PARA AÑADIR USUARIO ---
+    document.getElementById('addUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const username = document.getElementById('newUsername').value;
+        const password = document.getElementById('newPassword').value;
+        const role = document.getElementById('newRole').value;
+
+        if (!username || !password || !role) {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+        fetch('/api/add_user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, role })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error de red.');
+        });
+    });
+
+    // --- LÓGICA PARA ELIMINAR USUARIO ---
+    function deleteUser(userId, username) {
+        if (confirm(`¿Estás seguro de que quieres eliminar al usuario "${username}" (ID: ${userId})? Esta acción no se puede deshacer.`)) {
+            fetch(`/api/delete_user/${userId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error de red.');
+            });
+        }
+    }
+</script>
 {% endblock %}
