@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestor de Plantillas</title>
     <style>
-        /* ... Tu CSS espectacular va aquí ... */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'  );
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap' );
 
         * {
             margin: 0;
@@ -40,7 +39,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 25, 47, 0.7); /* Overlay azul oscuro original */
+            background-color: rgba(10, 25, 47, 0.7);
             z-index: -1;
         }
 
@@ -149,9 +148,6 @@
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 
-                <!-- ================================================== -->
-                <!-- ADICIÓN 1: El campo oculto para la huella          -->
-                <!-- ================================================== -->
                 <input type="hidden" name="device_fingerprint" id="device_fingerprint">
                 
                 <input type="submit" value="Acceder">
@@ -160,27 +156,23 @@
     </div>
 
     <!-- ================================================== -->
-    <!-- ADICIÓN 2: La librería FingerprintJS               -->
+    <!--     BLOQUE DE SCRIPTS (VERSIÓN FINAL Y CORRECTA)   -->
     <!-- ================================================== -->
-    <script
-      src="https://fpcdn.io/v3/7aYn2JvC3c97s2b4W8b5"
-      onload="initFingerprintJS( )">
-    </script>
-    
-    <!-- ================================================== -->
-    <!-- ADICIÓN 3: El script para obtener la huella        -->
-    <!-- ================================================== -->
+
+    <!-- 1. Carga la librería FingerprintJS desde la URL correcta -->
+    <script src="https://openfpcdn.io/fingerprintjs/v4" onload="initFingerprintJS( )"></script>
+
+    <!-- 2. Ejecuta el código para obtener la huella y ponerla en el campo oculto -->
     <script>
       function initFingerprintJS() {
         FingerprintJS.load()
           .then(fp => fp.get())
           .then(result => {
             const visitorId = result.visitorId;
-            const fingerprintInput = document.getElementById('device_fingerprint');
-            fingerprintInput.value = visitorId;
-            // Esta línea es útil para depurar y ver la huella en la consola del navegador
-            console.log("Huella del dispositivo:", visitorId);
-          });
+            document.getElementById('device_fingerprint').value = visitorId;
+            console.log("Huella del dispositivo detectada:", visitorId);
+          })
+          .catch(error => console.error("Error al obtener la huella:", error));
       }
     </script>
 
