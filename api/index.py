@@ -291,7 +291,7 @@ def login():
         password = request.form['password']
         try:
             with engine.connect() as connection:
-                sql_query = text("SELECT username, password_hash, role FROM usuarios WHERE username = :username")
+                sql_query = text("SELECT username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 result = connection.execute(sql_query, {'username': username}).first()
                 if result:
                     stored_hash_hex = result.password_hash
