@@ -141,9 +141,7 @@
         </div>
         {% endif %}
 
-        <!-- ============================================== -->
-        <!--      Tarjeta para el Dashboard (NUEVA)         -->
-        <!-- ============================================== -->
+        <!-- Tarjeta para el Dashboard -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
@@ -154,6 +152,24 @@
                     <h5 class="card-title">Dashboard de Métricas</h5>
                     <p class="card-text text-muted flex-grow-1">Visualiza las estadísticas de uso de la aplicación.</p>
                     <a href="{{ url_for('dashboard') }}" class="btn btn-warning mt-auto">Ver Dashboard</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ===================================================================== -->
+        <!--    NUEVA TARJETA: GESTIONAR DISPOSITIVOS (VALIDAR ACCESO)            -->
+        <!-- ===================================================================== -->
+        {% if session.role == 'administrador' %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm border-danger">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #dc3545;"></i>
+                    </div>
+                    <h5 class="card-title">Validar Acceso de Dispositivos</h5>
+                    <p class="card-text text-muted flex-grow-1">Autoriza o revoca el acceso de los dispositivos de los usuarios.</p>
+                    <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-danger mt-auto">Validar Accesos</a>
                 </div>
             </div>
         </div>

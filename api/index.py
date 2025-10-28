@@ -284,50 +284,62 @@ def home():
 
 # --- RUTA DE LOGIN (MODIFICADA PARA USAR LA BASE DE DATOS) ---
 # --- RUTA DE LOGIN (CON bcrypt) ---
+# ==============================================================================
+#               RUTA DE LOGIN CON VERIFICACIÓN DE DISPOSITIVO (CORREGIDA)
+# ==============================================================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        # 1. Obtenemos la huella del dispositivo desde el formulario
+        fingerprint = request.form.get('device_fingerprint') 
+
+        if not fingerprint:
+            flash('No se pudo identificar el dispositivo. Por favor, recargue la página.', 'danger')
+            return render_template('login.html')
+
         try:
             with engine.connect() as connection:
-                sql_query = text("SELECT username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
-                result = connection.execute(sql_query, {'username': username}).first()
-                if result:
-                    stored_hash_hex = result.password_hash
-                    stored_hash_bytes = bytes.fromhex(stored_hash_hex)
-                    password_bytes = password.encode('utf-8')
-                    # VERIFICACIÓN CON BCRYPT
-                    # ... (dentro de la función login)
-                    if bcrypt.checkpw(password_bytes, stored_hash_bytes):
-                        # 3. Si la contraseña es correcta, iniciar sesión
-                        session['username'] = result.username
-                        session['role'] = result.role
-    
-                        # ==================================
-                        # INICIO DE LA INSTRUMENTACIÓN (NUEVO)
-                        # ==================================
-                        try:
-                            log_sql = text("INSERT INTO logs (username, action) VALUES (:username, 'login')")
-                            connection.execute(log_sql, {'username': result.username})
-                            connection.commit() # Asegurarse de que el log se guarde
-                        except Exception as log_error:
-                            # Si el log falla, no queremos que el login se interrumpa.
-                            # Simplemente lo imprimimos en la consola del servidor para depuración.
-                            print(f"Error al registrar el log de login: {log_error}")
-                        # ==================================
-                        # FIN DE LA INSTRUMENTACIÓN
-                        # ==================================
-                        return redirect(url_for('menu'))
-                    # ...
-                    else:
-                        flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+                # 2. Buscamos al usuario por su nombre de usuario
+                sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
+                user = connection.execute(sql_query, {'username': username}).first()
+
+                # 3. Verificamos si el usuario existe y la contraseña es correcta
+                if user and bcrypt.checkpw(password.encode('utf-8'), bytes.fromhex(user.password_hash)):
+                    user_id = user.id
+                    
+                    # 4. ¡LA PIEZA CLAVE QUE FALTABA! Verificamos el dispositivo
+                    sql_dispositivo = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :uid AND huella_dispositivo = :huella")
+                    dispositivo_autorizado = connection.execute(sql_dispositivo, {'uid': user_id, 'huella': fingerprint}).first()
+                    
+                    # 5. Si el dispositivo NO está en la lista, bloqueamos el acceso
+                    if not dispositivo_autorizado:
+                        flash('Dispositivo no autorizado. Contacte al administrador.', 'danger')
+                        return render_template('login.html')
+                    
+                    # 6. Si llegamos aquí, el dispositivo SÍ está autorizado. Iniciamos sesión.
+                    session['user_id'] = user.id
+                    session['username'] = user.username
+                    session['role'] = user.role
+                    
+                    try:
+                        log_sql = text("INSERT INTO logs (username, action) VALUES (:username, 'login')")
+                        connection.execute(log_sql, {'username': user.username})
+                        connection.commit()
+                    except Exception as log_error:
+                        print(f"Error al registrar el log de login: {log_error}")
+                        
+                    return redirect(url_for('menu'))
                 else:
+                    # Si el usuario o la contraseña son incorrectos
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         except Exception as e:
             print(f"Error durante el login: {e}")
             flash('Ocurrió un error en el servidor.', 'danger')
+        
         return redirect(url_for('login'))
+        
     return render_template('login.html')
 
 
