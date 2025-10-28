@@ -13,7 +13,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 from fpdf import FPDF
-import scrypt
+import bcrypt
 
 # ==============================================================================
 
