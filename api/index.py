@@ -201,6 +201,58 @@ RELACION_CODIGO_ACTIVIDADES = {
     'DEFAULT': {'003', '004', '014', '015', '301'}
 }
 
+# --- DATOS PARA LA GUÍA DE REFERENCIA DE ANEMIA (RC: 61) ---
+DATOS_TABLA_ANEMIA = [
+    # N° | EDAD | SEXO | CONDICIÓN | EDAD GEST. | RN PREMATURO | VALOR HB | ACCIÓN 01 | ACCIÓN 02
+    ('1.1', '<=7d', 'A', 'NO APLICA', 'NO APLICA', 'SI', '> 13', 'Normal', 'No permite ingreso de "anemia"'),
+    ('1.2', '<=7d', 'A', 'NO APLICA', 'NO APLICA', 'SI', '<= 13', 'Anemia', 'Permite ingreso de "anemia"'),
+    ('1.3', '8d - 28d', 'A', 'NO APLICA', 'NO APLICA', 'SI', '> 10', 'Normal', 'No permite ingreso de "anemia"'),
+    ('1.4', '8d - 28d', 'A', 'NO APLICA', 'NO APLICA', 'SI', '<= 10', 'Anemia', 'Permite ingreso de "anemia"'),
+    ('1.5', '29d - <2m', 'A', 'NO APLICA', 'NO APLICA', 'SI', '> 8', 'Normal', 'No permite ingreso de "anemia"'),
+    ('1.6', '29d - <2m', 'A', 'NO APLICA', 'NO APLICA', 'SI', '<= 8', 'Anemia', 'Permite ingreso de "anemia"'),
+    ('2.1', '<2m', 'A', 'NO APLICA', 'NO APLICA', 'NO', '13.5 - 18.5', 'Normal', 'No permite ingreso de "anemia"'),
+    ('2.2', '<2m', 'A', 'NO APLICA', 'NO APLICA', 'NO', '< 13.5', 'Anemia', 'Permite ingreso de "anemia"'),
+    ('3.1', '2m - 5m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '9.5 - 13.5', 'Normal', 'No permite ingreso de "anemia"'),
+    ('3.2', '2m - 5m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 9.5', 'Anemia', 'Permite ingreso de "anemia"'),
+    ('4.1', '6m - 23m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '>= 10.5', 'Normal', 'No permite ingreso de "anemia"'),
+    ('4.2', '6m - 23m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '9.5 - 10.4', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('4.3', '6m - 23m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '7.0 - 9.4', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('4.4', '6m - 23m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 7.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('5.1', '24m - 4a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '>= 11.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('5.2', '24m - 4a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '10.0 - 10.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('5.3', '24m - 4a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '7.0 - 9.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('5.4', '24m - 4a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 7.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('6.1', '5a - 11a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '>= 11.5', 'Normal', 'No permite ingreso de "anemia"'),
+    ('6.2', '5a - 11a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '11.0 - 11.4', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('6.3', '5a - 11a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '8.0 - 10.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('6.4', '5a - 11a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('7.1', '12a - 14a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '>= 12.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('7.2', '12a - 14a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '11.0 - 11.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('7.3', '12a - 14a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '8.0 - 10.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('7.4', '12a - 14a11m29d', 'A', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('8.1', '>=15a', 'M', 'NO APLICA', 'NO APLICA', 'NO APLICA', '>= 13.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('8.2', '>=15a', 'M', 'NO APLICA', 'NO APLICA', 'NO APLICA', '11.0 - 12.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('8.3', '>=15a', 'M', 'NO APLICA', 'NO APLICA', 'NO APLICA', '8.0 - 10.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('8.4', '>=15a', 'M', 'NO APLICA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('9.1', '>=15a', 'F', 'NO GESTANTE/NO PUERPERA', 'NO APLICA', 'NO APLICA', '>= 12.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('9.2', '>=15a', 'F', 'NO GESTANTE/NO PUERPERA', 'NO APLICA', 'NO APLICA', '11.0 - 11.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('9.3', '>=15a', 'F', 'NO GESTANTE/NO PUERPERA', 'NO APLICA', 'NO APLICA', '8.0 - 10.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('9.4', '>=15a', 'F', 'NO GESTANTE/NO PUERPERA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('10.1', '>=9a', 'F', 'GESTANTE', 'EG <14', 'NO APLICA', '>= 11.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('10.2', '>=9a', 'F', 'GESTANTE', 'EG <14', 'NO APLICA', '10.0 - 10.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('10.3', '>=9a', 'F', 'GESTANTE', 'EG <14', 'NO APLICA', '7.0 - 9.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('10.4', '>=9a', 'F', 'GESTANTE', 'EG <14', 'NO APLICA', '< 7.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('10.5', '>=9a', 'F', 'GESTANTE', 'EG 14-28', 'NO APLICA', '>= 10.5', 'Normal', 'No permite ingreso de "anemia"'),
+    ('10.6', '>=9a', 'F', 'GESTANTE', 'EG 14-28', 'NO APLICA', '9.5 - 10.4', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('10.7', '>=9a', 'F', 'GESTANTE', 'EG 14-28', 'NO APLICA', '7.0 - 9.4', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('10.8', '>=9a', 'F', 'GESTANTE', 'EG 14-28', 'NO APLICA', '< 7.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+    ('11.1', '>=9a', 'F', 'PUERPERA', 'NO APLICA', 'NO APLICA', '>= 12.0', 'Normal', 'No permite ingreso de "anemia"'),
+    ('11.2', '>=9a', 'F', 'PUERPERA', 'NO APLICA', 'NO APLICA', '11.0 - 11.9', 'Anemia Leve', 'Permite ingreso de "anemia"'),
+    ('11.3', '>=9a', 'F', 'PUERPERA', 'NO APLICA', 'NO APLICA', '8.0 - 10.9', 'Anemia Moderada', 'Permite ingreso de "anemia"'),
+    ('11.4', '>=9a', 'F', 'PUERPERA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
+]
+
+
 # --- INICIO DE LA APLICACIÓN FLASK ---
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates'))
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-de-desarrollo")
@@ -501,6 +553,15 @@ def referencia_codigos():
 
     # Pasamos las fechas y la lista de códigos a la plantilla
     return render_template('referencia_codigos.html', fechas=fechas, codigos=CODIGOS_PRESTACIONALES_CATEGORIZADOS)
+
+# --- RUTA PARA LA GUÍA DE REFERENCIA DE ANEMIA (RC: 61) ---
+@app.route('/guia_anemia')
+def guia_anemia():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    # Pasamos los datos de la tabla a la plantilla
+    return render_template('guia_anemia.html', datos_anemia=DATOS_TABLA_ANEMIA)
 
 
 if __name__ == '__main__':
