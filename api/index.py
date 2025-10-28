@@ -252,6 +252,24 @@ DATOS_TABLA_ANEMIA = [
     ('11.4', '>=9a', 'F', 'PUERPERA', 'NO APLICA', 'NO APLICA', '< 8.0', 'Anemia Severa', 'Permite ingreso de "anemia"'),
 ]
 
+# --- DATOS PARA LA GUÍA DE REFERENCIA DE CRECIMIENTO (PESO Y TALLA) ---
+DATOS_PESO_TALLA = [
+    # Categoría, Rango de Edad, Sexo, Rango de Peso (kg), Rango de Talla (cm), Notas
+    ("Recién Nacido", "0 - 1 mes", "Ambos", "2.5 - 4.5 kg", "46 - 55 cm", "Peso y talla al nacer"),
+    ("Bebés", "1 - 6 meses", "Ambos", "4.0 - 8.0 kg", "54 - 68 cm", "Rápido crecimiento"),
+    ("Bebés", "6 - 12 meses", "Ambos", "7.0 - 10.5 kg", "65 - 78 cm", ""),
+    ("Niños Pequeños", "1 - 2 años", "Ambos", "9.0 - 13.5 kg", "74 - 90 cm", ""),
+    ("Niños Pequeños", "2 - 3 años", "Ambos", "11.0 - 16.0 kg", "85 - 100 cm", ""),
+    ("Preescolar", "3 - 5 años", "Ambos", "13.0 - 20.0 kg", "95 - 110 cm", ""),
+    ("Escolar", "6 - 8 años", "Ambos", "18.0 - 28.0 kg", "110 - 130 cm", ""),
+    ("Escolar", "9 - 11 años", "Ambos", "26.0 - 40.0 kg", "125 - 145 cm", ""),
+    ("Adolescentes", "12 - 14 años", "Masculino", "35.0 - 55.0 kg", "145 - 165 cm", "Varía mucho con la pubertad"),
+    ("Adolescentes", "12 - 14 años", "Femenino", "35.0 - 52.0 kg", "147 - 163 cm", "Varía mucho con la pubertad"),
+    ("Adolescentes", "15 - 17 años", "Masculino", "50.0 - 70.0 kg", "165 - 178 cm", ""),
+    ("Adolescentes", "15 - 17 años", "Femenino", "48.0 - 65.0 kg", "155 - 170 cm", ""),
+    ("Adultos", "18+ años", "Ambos", "Ver nota", "Ver nota", "El peso ideal depende de la talla (IMC 18.5-24.9)"),
+]
+
 
 # --- INICIO DE LA APLICACIÓN FLASK ---
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates'))
@@ -562,6 +580,15 @@ def guia_anemia():
     
     # Pasamos los datos de la tabla a la plantilla
     return render_template('guia_anemia.html', datos_anemia=DATOS_TABLA_ANEMIA)
+
+# --- RUTA PARA LA GUÍA DE REFERENCIA DE CRECIMIENTO (PESO Y TALLA) ---
+@app.route('/guia_peso_talla')
+def guia_peso_talla():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    # Pasamos los datos de la tabla a la plantilla
+    return render_template('guia_peso_talla.html', datos_tabla=DATOS_PESO_TALLA)
 
 
 if __name__ == '__main__':

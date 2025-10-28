@@ -98,7 +98,22 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- ====================================================== -->
+        <!-- Tarjeta para Guía de Crecimiento (Peso y Talla) -->
+        <!-- ====================================================== -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-rulers" style="font-size: 3rem; color: #ffc107;"></i>
+                    </div>
+                    <h5 class="card-title">Guía de Peso y Talla</h5>
+                    <p class="card-text text-muted flex-grow-1">Consulta los rangos de referencia para el crecimiento infantil y de adultos.</p>
+                    <a href="{{ url_for('guia_peso_talla') }}" class="btn btn-warning mt-auto">Consultar</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
