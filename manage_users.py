@@ -1,64 +1,52 @@
 import os
 from sqlalchemy import create_engine, text
 from getpass import getpass
-import scrypt
-
-# Carga la URL de la base de datos desde el archivo .env
-# Asegúrate de tener un archivo .env con tu DATABASE_URL
+import bcrypt  # <--- CORREGIDO
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    raise ValueError("No se encontró la variable de entorno DATABASE_URL. Asegúrate de que tu archivo .env está configurado.")
-
+    raise ValueError("No se encontró la variable de entorno DATABASE_URL.")
 engine = create_engine(DATABASE_URL)
 
 def add_user():
-    """Añade un nuevo usuario a la base de datos de forma interactiva y segura."""
-    print("--- Añadir Nuevo Usuario ---")
+    print("--- Añadir Nuevo Usuario (usando bcrypt) ---")
     username = input("Introduce el nombre de usuario: ")
     password = getpass("Introduce la contraseña: ")
     password_confirm = getpass("Confirma la contraseña: ")
 
     if password != password_confirm:
-        print("\n[ERROR] Las contraseñas no coinciden. Operación cancelada.")
+        print("\n[ERROR] Las contraseñas no coinciden.")
         return
 
-    # Hashear la contraseña con scrypt
-    print("Hasheando contraseña...")
-    hashed_password = scrypt.hash(password, salt=os.urandom(16)).hex()
+    # --- Lógica de hashing con bcrypt (CORREGIDO) ---
+    print("Hasheando contraseña con bcrypt...")
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password_bytes = bcrypt.hashpw(password_bytes, salt)
+    hashed_password_hex = hashed_password_bytes.hex()
     
     role = input("Introduce el rol (ej: administrador, usuario): ")
 
     try:
         with engine.connect() as connection:
-            # Verificar si el usuario ya existe
             check_sql = text("SELECT id FROM usuarios WHERE username = :username")
             existing_user = connection.execute(check_sql, {'username': username}).first()
-            
             if existing_user:
-                print(f"\n[ERROR] El usuario '{username}' ya existe. Operación cancelada.")
+                print(f"\n[ERROR] El usuario '{username}' ya existe.")
                 return
 
-            # Insertar el nuevo usuario
-            insert_sql = text("""
-                INSERT INTO usuarios (username, password_hash, role) 
-                VALUES (:username, :password_hash, :role)
-            """)
+            insert_sql = text("INSERT INTO usuarios (username, password_hash, role) VALUES (:username, :password_hash, :role)")
             connection.execute(insert_sql, {
                 'username': username,
-                'password_hash': hashed_password,
+                'password_hash': hashed_password_hex,  # <--- Usa el nuevo hash
                 'role': role
             })
-            # Es necesario hacer commit para que los cambios se guarden
             connection.commit()
-        
         print(f"\n¡Éxito! Usuario '{username}' con rol '{role}' ha sido añadido a la base de datos.")
-
     except Exception as e:
-        print(f"\n[ERROR] Ocurrió un error al conectar o insertar en la base de datos: {e}")
+        print(f"\n[ERROR] Ocurrió un error: {e}")
 
 if __name__ == "__main__":
     add_user()
-

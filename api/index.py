@@ -283,45 +283,35 @@ def home():
     return redirect(url_for('login'))
 
 # --- RUTA DE LOGIN (MODIFICADA PARA USAR LA BASE DE DATOS) ---
+# --- RUTA DE LOGIN (CON bcrypt) ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         try:
             with engine.connect() as connection:
-                # 1. Buscar al usuario en la base de datos
                 sql_query = text("SELECT username, password_hash, role FROM usuarios WHERE username = :username")
                 result = connection.execute(sql_query, {'username': username}).first()
-
                 if result:
-                    # 2. Si el usuario existe, verificar la contraseña
                     stored_hash_hex = result.password_hash
                     stored_hash_bytes = bytes.fromhex(stored_hash_hex)
-                    
-                    # scrypt.verify necesita bytes
                     password_bytes = password.encode('utf-8')
-
-                    if scrypt.verify(password_bytes, stored_hash_bytes):
-                        # 3. Si la contraseña es correcta, iniciar sesión
+                    # VERIFICACIÓN CON BCRYPT
+                    if bcrypt.checkpw(password_bytes, stored_hash_bytes):
                         session['username'] = result.username
                         session['role'] = result.role
                         return redirect(url_for('menu'))
                     else:
-                        # Contraseña incorrecta
                         flash('Nombre de usuario o contraseña incorrectos.', 'danger')
                 else:
-                    # Usuario no encontrado
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
-        
         except Exception as e:
             print(f"Error durante el login: {e}")
-            flash('Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.', 'danger')
-
+            flash('Ocurrió un error en el servidor.', 'danger')
         return redirect(url_for('login'))
-
     return render_template('login.html')
+
 
 
 @app.route('/logout')
