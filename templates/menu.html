@@ -55,9 +55,7 @@
             </div>
         </div>
         
-        <!-- ====================================================== -->
         <!-- Tarjeta para la Calculadora Gestacional -->
-        <!-- ====================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
@@ -70,9 +68,8 @@
                 </div>
             </div>
         </div>
-        <!-- ====================================================== -->
+        
         <!-- Tarjeta para Códigos y Fechas de Digitación -->
-        <!-- ====================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
@@ -85,6 +82,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- Tarjeta para Guía de Referencia de Anemia (RC: 61) -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
@@ -99,9 +97,7 @@
             </div>
         </div>
         
-        <!-- ====================================================== -->
         <!-- Tarjeta para Guía de Crecimiento (Peso y Talla) -->
-        <!-- ====================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
@@ -114,9 +110,8 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================== -->
+
         <!-- Tarjeta para Búsqueda de Diagnósticos (CIE-10) -->
-        <!-- ============================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
@@ -129,9 +124,8 @@
                 </div>
             </div>
         </div>
-        <!-- ============================================== -->
+
         <!-- Tarjeta para Gestionar Usuarios (SOLO ADMIN) -->
-        <!-- ============================================== -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
@@ -146,6 +140,25 @@
             </div>
         </div>
         {% endif %}
+
+        <!-- ============================================== -->
+        <!--      Tarjeta para el Dashboard (NUEVA)         -->
+        <!-- ============================================== -->
+        {% if session.role == 'administrador' %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-bar-chart-line-fill" style="font-size: 3rem; color: #ffc107;"></i>
+                    </div>
+                    <h5 class="card-title">Dashboard de Métricas</h5>
+                    <p class="card-text text-muted flex-grow-1">Visualiza las estadísticas de uso de la aplicación.</p>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-warning mt-auto">Ver Dashboard</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}

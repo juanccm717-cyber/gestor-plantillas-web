@@ -298,10 +298,28 @@ def login():
                     stored_hash_bytes = bytes.fromhex(stored_hash_hex)
                     password_bytes = password.encode('utf-8')
                     # VERIFICACIÓN CON BCRYPT
+                    # ... (dentro de la función login)
                     if bcrypt.checkpw(password_bytes, stored_hash_bytes):
+                        # 3. Si la contraseña es correcta, iniciar sesión
                         session['username'] = result.username
                         session['role'] = result.role
+    
+                        # ==================================
+                        # INICIO DE LA INSTRUMENTACIÓN (NUEVO)
+                        # ==================================
+                        try:
+                            log_sql = text("INSERT INTO logs (username, action) VALUES (:username, 'login')")
+                            connection.execute(log_sql, {'username': result.username})
+                            connection.commit() # Asegurarse de que el log se guarde
+                        except Exception as log_error:
+                            # Si el log falla, no queremos que el login se interrumpa.
+                            # Simplemente lo imprimimos en la consola del servidor para depuración.
+                            print(f"Error al registrar el log de login: {log_error}")
+                        # ==================================
+                        # FIN DE LA INSTRUMENTACIÓN
+                        # ==================================
                         return redirect(url_for('menu'))
+                    # ...
                     else:
                         flash('Nombre de usuario o contraseña incorrectos.', 'danger')
                 else:
@@ -728,6 +746,43 @@ def delete_user():
         print(f"Error al eliminar usuario: {e}")
         return jsonify({'success': False, 'message': 'Error interno del servidor.'}), 500
 
+# ==============================================================================
+#                           RUTAS PARA EL DASHBOARD
+# ==============================================================================
+
+@app.route('/dashboard')
+def dashboard():
+    """Muestra la página principal del dashboard de métricas."""
+    if session.get('role') != 'administrador':
+        flash('Acceso denegado. Esta sección es solo para administradores.', 'danger')
+        return redirect(url_for('menu'))
+    
+    return render_template('dashboard.html')
+
+
+@app.route('/api/dashboard_data')
+def dashboard_data():
+    """Proporciona los datos agregados para el dashboard."""
+    if session.get('role') != 'administrador':
+        return jsonify({"error": "No autorizado"}), 403
+
+    try:
+        with engine.connect() as connection:
+            # 1. Contar el total de logins
+            logins_query = text("SELECT COUNT(*) FROM logs WHERE action = 'login'")
+            total_logins = connection.execute(logins_query).scalar_one_or_none() or 0
+
+            # Preparamos el diccionario de datos para enviar
+            data = {
+                "total_logins": total_logins
+                # En el futuro añadiremos más datos aquí
+            }
+            
+            return jsonify(data)
+
+    except Exception as e:
+        print(f"Error al generar datos del dashboard: {e}")
+        return jsonify({"error": "Error interno al procesar los datos"}), 500
 
 
 if __name__ == '__main__':
