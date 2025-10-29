@@ -312,58 +312,91 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        session.clear() # Limpiamos la sesión para asegurar un inicio limpio
-        
-        username = request.form['username']
-        password = request.form['password']
-        fingerprint = request.form.get('fingerprint')
+    # --- PASO 0: Limpiar sesión al visitar la página de login (opcional pero recomendado) ---
+    if request.method == 'GET':
+        session.clear()
+        return render_template('login.html')
 
-        try:
-            with engine.connect() as connection:
-                sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
-                user = connection.execute(sql_query, {'username': username}).first()
+    # --- PASO 1: Recoger datos del formulario ---
+    username = request.form.get('username')
+    password = request.form.get('password')
+    fingerprint = request.form.get('fingerprint')
+    user_agent = request.headers.get('User-Agent') # Capturamos el User-Agent
 
-                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
-                    
-                    user_role = user.role.strip().lower() if user.role else ''
+    # Validación básica
+    if not all([username, password, fingerprint]):
+        flash('Faltan datos para el inicio de sesión. Asegúrate de que JavaScript esté habilitado.', 'warning')
+        return redirect(url_for('login'))
 
-                    if user_role == 'administrador':
+    try:
+        with engine.connect() as connection:
+            # --- PASO 2: Encontrar al usuario y verificar la contraseña ---
+            sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
+            user = connection.execute(sql_query, {'username': username}).first()
+
+            user_role_cleaned = ""
+            if user:
+                user_role_cleaned = user.role.strip().lower()
+
+            # Verificación de contraseña
+            if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+                
+                # --- PASO 3: Lógica de roles ---
+                # Bypass para el administrador
+                if user_role_cleaned == 'administrador':
+                    session['user_id'] = user.id
+                    session['username'] = user.username
+                    session['role'] = user.role
+                    return redirect(url_for('menu'))
+                
+                # Validación para usuarios normales
+                else:
+                    device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
+                    authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                    if authorized_device:
+                        # Dispositivo autorizado, concedemos acceso
                         session['user_id'] = user.id
                         session['username'] = user.username
                         session['role'] = user.role
                         return redirect(url_for('menu'))
-                    
-                    elif user_role == 'usuario':
-                        if not fingerprint:
-                            flash('No se pudo identificar el dispositivo. Recarga la página.', 'warning')
-                            return redirect(url_for('login'))
-
-                        device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
-                        authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
-
-                        if authorized_device:
-                            session['user_id'] = user.id
-                            session['username'] = user.username
-                            session['role'] = user.role
-                            return redirect(url_for('menu'))
-                        else:
-                            flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
-                            return redirect(url_for('login'))
-                    
                     else:
-                        flash('Rol de usuario no reconocido. Contacta al soporte.', 'danger')
+                        # --- ¡AQUÍ ESTÁ LA NUEVA LÓGICA! ---
+                        # Dispositivo NO autorizado, creamos una solicitud de acceso
+                        
+                        # 1. Evitar duplicados: Verificamos si ya existe una solicitud pendiente para este usuario y dispositivo
+                        check_solicitud_sql = text("""
+                            SELECT id FROM solicitudes_acceso 
+                            WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint AND estado = 'pendiente'
+                        """)
+                        existing_request = connection.execute(check_solicitud_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                        if not existing_request:
+                            # 2. Si no existe, la creamos
+                            insert_solicitud_sql = text("""
+                                INSERT INTO solicitudes_acceso (usuario_id, huella_dispositivo, user_agent_info)
+                                VALUES (:user_id, :fingerprint, :user_agent)
+                            """)
+                            connection.execute(insert_solicitud_sql, {
+                                'user_id': user.id,
+                                'fingerprint': fingerprint,
+                                'user_agent': user_agent
+                            })
+                            connection.commit()
+                        
+                        # 3. Mostramos un mensaje amigable
+                        flash('Dispositivo no reconocido. Se ha enviado una solicitud de acceso al administrador para su aprobación.', 'info')
                         return redirect(url_for('login'))
-                else:
-                    flash('Nombre de usuario o contraseña incorrectos.', 'danger')
-        
-        except Exception as e:
-            print(f"Error catastrófico durante el login: {e}")
-            flash('Ocurrió un error en el servidor.', 'danger')
-        
+            else:
+                # Contraseña o usuario incorrectos
+                flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+                return redirect(url_for('login'))
+
+    except Exception as e:
+        print(f"Error catastrófico durante el login: {e}")
+        flash('Ocurrió un error inesperado en el servidor. Contacte al soporte.', 'danger')
         return redirect(url_for('login'))
-        
-    return render_template('login.html')
+
 
 
 @app.route('/logout')
