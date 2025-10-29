@@ -70,8 +70,7 @@
                                 </span>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-danger" onclick="deleteUser({{ user.id }}, '{{ user.username }}')">
-                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser({{ user.id }}, '{{ user.username | e }}')"><i class="bi bi-trash-fill"></i> Eliminar
                                 </button>
                             </td>
                         </tr>
