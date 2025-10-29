@@ -313,48 +313,57 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
-        print("--- INTENTO DE LOGIN ---")
-        print(f"Usuario recibido: {username}")
-        print(f"Contraseña recibida: {password}")
+        fingerprint = request.form.get('fingerprint')
 
         try:
             with engine.connect() as connection:
-                print("Conexión a la BD exitosa.")
                 sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 user = connection.execute(sql_query, {'username': username}).first()
 
-                if user:
-                    print(f"Usuario encontrado en la BD: {user.username}")
-                    print(f"Hash en la BD: {user.password_hash}")
+                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
                     
-                    # Verificación
-                    try:
-                        is_valid = bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8'))
-                        print(f"Resultado de bcrypt.checkpw: {is_valid}")
-                        if is_valid:
-                            # ... el resto de tu lógica de sesión exitosa
+                    # =================================================================
+                    #           AQUÍ ESTÁ LA CORRECCIÓN CLAVE
+                    # =================================================================
+                    # Comparamos el rol en minúsculas y sin espacios para evitar errores
+                    user_role = user.role.strip().lower() if user.role else ''
+
+                    if user_role == 'administrador':
+                        # El admin siempre tiene acceso
+                        session['user_id'] = user.id
+                        session['username'] = user.username
+                        session['role'] = user.role # Guardamos el rol original en la sesión
+                        return redirect(url_for('menu'))
+                    else:
+                        # Para usuarios normales, validamos el dispositivo
+                        if not fingerprint:
+                            flash('No se pudo identificar el dispositivo. Recarga la página e inténtalo de nuevo.', 'warning')
+                            return redirect(url_for('login'))
+
+                        device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
+                        authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                        if authorized_device:
+                            # Dispositivo autorizado
                             session['user_id'] = user.id
                             session['username'] = user.username
                             session['role'] = user.role
                             return redirect(url_for('menu'))
                         else:
-                            flash('Nombre de usuario o contraseña incorrectos.', 'danger')
-                    except Exception as check_error:
-                        print(f"ERROR DURANTE bcrypt.checkpw: {check_error}")
-                        flash('Error al verificar la contraseña.', 'danger')
-
+                            # Dispositivo no autorizado
+                            flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
+                            return redirect(url_for('login'))
                 else:
-                    print("Usuario NO encontrado en la BD.")
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         
         except Exception as e:
-            print(f"ERROR DURANTE LA CONEXIÓN O CONSULTA: {e}")
+            print(f"Error durante el login: {e}")
             flash('Ocurrió un error en el servidor.', 'danger')
         
         return redirect(url_for('login'))
         
     return render_template('login.html')
+
 
 
 @app.route('/logout')
@@ -814,8 +823,6 @@ def dashboard_data():
 # En api/index.py
 
 @app.route('/admin/dispositivos', methods=['GET'])
-# @login_required # El decorador no existe, usamos la comprobación manual
-# @admin_required # El decorador no existe, usamos la comprobación manual
 def pagina_admin_dispositivos():
     if 'username' not in session or session.get('role') != 'administrador':
         flash('Acceso no autorizado.', 'danger')
@@ -823,7 +830,6 @@ def pagina_admin_dispositivos():
 
     try:
         with engine.connect() as connection:
-            # Obtener todos los usuarios para el menú desplegable
             usuarios = connection.execute(text("SELECT id, username FROM usuarios ORDER BY username")).fetchall()
             
             usuario_seleccionado_id = request.args.get('usuario_id')
@@ -831,13 +837,12 @@ def pagina_admin_dispositivos():
             usuario_seleccionado = None
             
             if usuario_seleccionado_id:
-                # Lógica para mostrar los dispositivos del usuario seleccionado
-                sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id")
-                dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
-                
-                # Lógica para obtener los datos del usuario seleccionado
-                sql_usuario = text("SELECT * FROM usuarios WHERE id = :id")
+                sql_usuario = text("SELECT id, username FROM usuarios WHERE id = :id")
                 usuario_seleccionado = connection.execute(sql_usuario, {'id': usuario_seleccionado_id}).first()
+                
+                if usuario_seleccionado:
+                    sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id ORDER BY created_at DESC")
+                    dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
 
             return render_template('admin_dispositivos.html', 
                                    usuarios=usuarios, 

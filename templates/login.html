@@ -6,7 +6,7 @@
     <title>Login - Gestor de Plantillas</title>
     <style>
         /* Tu CSS espectacular va aquí */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap' );
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap'  );
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; }
         .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -2; }
@@ -16,7 +16,9 @@
         .login-container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); padding: 40px 50px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); width: 100%; max-width: 420px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); color: white; animation: fadeIn 1s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         h1 { margin-bottom: 24px; font-weight: 600; }
-        .error { color: #ffb8b8; margin-bottom: 16px; font-weight: 600; }
+        .alert { padding: 1rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .25rem; text-align: left; }
+        .alert-danger { color: #842029; background-color: #f8d7da; border-color: #f5c2c7; }
+        .alert-warning { color: #664d03; background-color: #fff3cd; border-color: #ffecb5; }
         input[type="text"], input[type="password"] { width: 100%; padding: 14px 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; box-sizing: border-box; background: rgba(255, 255, 255, 0.15); color: white; font-size: 16px; }
         input::placeholder { color: rgba(255, 255, 255, 0.7); }
         input:focus { outline: none; border-color: #3498db; }
@@ -37,10 +39,10 @@
     <div class="login-wrapper">
         <div class="login-container">
             <h1>Gestor de Plantillas</h1>
-            {% with messages = get_flashed_messages( ) %}
+            {% with messages = get_flashed_messages(with_categories=true ) %}
                 {% if messages %}
-                    {% for message in messages %}
-                        <p class="error">{{ message }}</p>
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
@@ -49,13 +51,26 @@
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 
-                <!-- El botón de login simple, siempre habilitado -->
+                <!-- CAMPO OCULTO PARA LA HUELLA DIGITAL -->
+                <input type="hidden" name="fingerprint" id="fingerprint">
+                
                 <input type="submit" value="Acceder">
             </form>
         </div>
     </div>
 
-    <!-- NINGÚN SCRIPT DE FINGERPRINTJS AQUÍ -->
+    <!-- SCRIPT DE FINGERPRINTJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@4/dist/fp.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function ( ) {
+            FingerprintJS.load()
+                .then(fp => fp.get())
+                .then(result => {
+                    const visitorId = result.visitorId;
+                    document.getElementById('fingerprint').value = visitorId;
+                });
+        });
+    </script>
 
 </body>
 </html>
