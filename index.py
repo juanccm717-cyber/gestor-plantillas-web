@@ -312,7 +312,11 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+<<<<<<< HEAD
     # --- PASO 0: Limpiar sesión al visitar la página de login (opcional pero recomendado) ---
+=======
+    # --- PASO 0: Limpiar sesión al visitar la página de login ---
+>>>>>>> feature/device-validation
     if request.method == 'GET':
         session.clear()
         return render_template('login.html')
@@ -323,7 +327,10 @@ def login():
     fingerprint = request.form.get('fingerprint')
     user_agent = request.headers.get('User-Agent') # Capturamos el User-Agent
 
+<<<<<<< HEAD
     # Validación básica
+=======
+>>>>>>> feature/device-validation
     if not all([username, password, fingerprint]):
         flash('Faltan datos para el inicio de sesión. Asegúrate de que JavaScript esté habilitado.', 'warning')
         return redirect(url_for('login'))
@@ -335,6 +342,7 @@ def login():
             user = connection.execute(sql_query, {'username': username}).first()
 
             user_role_cleaned = ""
+<<<<<<< HEAD
             if user:
                 user_role_cleaned = user.role.strip().lower()
 
@@ -343,28 +351,47 @@ def login():
                 
                 # --- PASO 3: Lógica de roles ---
                 # Bypass para el administrador
+=======
+            if user and user.role:
+                user_role_cleaned = user.role.strip().lower()
+
+            if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+                
+                # --- PASO 3: Lógica de roles ---
+>>>>>>> feature/device-validation
                 if user_role_cleaned == 'administrador':
                     session['user_id'] = user.id
                     session['username'] = user.username
                     session['role'] = user.role
                     return redirect(url_for('menu'))
                 
+<<<<<<< HEAD
                 # Validación para usuarios normales
                 else:
+=======
+                else: # Para 'usuario' y cualquier otro rol por defecto
+>>>>>>> feature/device-validation
                     device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
                     authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
 
                     if authorized_device:
+<<<<<<< HEAD
                         # Dispositivo autorizado, concedemos acceso
+=======
+>>>>>>> feature/device-validation
                         session['user_id'] = user.id
                         session['username'] = user.username
                         session['role'] = user.role
                         return redirect(url_for('menu'))
                     else:
+<<<<<<< HEAD
                         # --- ¡AQUÍ ESTÁ LA NUEVA LÓGICA! ---
                         # Dispositivo NO autorizado, creamos una solicitud de acceso
                         
                         # 1. Evitar duplicados: Verificamos si ya existe una solicitud pendiente para este usuario y dispositivo
+=======
+                        # --- ¡LÓGICA DE CREACIÓN DE SOLICITUD! ---
+>>>>>>> feature/device-validation
                         check_solicitud_sql = text("""
                             SELECT id FROM solicitudes_acceso 
                             WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint AND estado = 'pendiente'
@@ -372,7 +399,10 @@ def login():
                         existing_request = connection.execute(check_solicitud_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
 
                         if not existing_request:
+<<<<<<< HEAD
                             # 2. Si no existe, la creamos
+=======
+>>>>>>> feature/device-validation
                             insert_solicitud_sql = text("""
                                 INSERT INTO solicitudes_acceso (usuario_id, huella_dispositivo, user_agent_info)
                                 VALUES (:user_id, :fingerprint, :user_agent)
@@ -384,11 +414,17 @@ def login():
                             })
                             connection.commit()
                         
+<<<<<<< HEAD
                         # 3. Mostramos un mensaje amigable
                         flash('Dispositivo no reconocido. Se ha enviado una solicitud de acceso al administrador para su aprobación.', 'info')
                         return redirect(url_for('login'))
             else:
                 # Contraseña o usuario incorrectos
+=======
+                        flash('Dispositivo no reconocido. Se ha enviado una solicitud de acceso al administrador para su aprobación.', 'info')
+                        return redirect(url_for('login'))
+            else:
+>>>>>>> feature/device-validation
                 flash('Nombre de usuario o contraseña incorrectos.', 'danger')
                 return redirect(url_for('login'))
 
@@ -835,25 +871,27 @@ def dashboard_data():
 
     try:
         with engine.connect() as connection:
-            # 1. Contar el total de logins
-            logins_query = text("SELECT COUNT(*) FROM logs WHERE action = 'login'")
-            total_logins = connection.execute(logins_query).scalar_one_or_none() or 0
+            # Esta es una consulta de ejemplo, asegúrate de tener una tabla 'logs' si la usas.
+            # Si no tienes la tabla 'logs', esta consulta fallará.
+            # Comentaré la consulta para evitar errores si la tabla no existe.
+            # logins_query = text("SELECT COUNT(*) FROM logs WHERE action = 'login'")
+            # total_logins = connection.execute(logins_query).scalar_one_or_none() or 0
+            
+            # Dato de ejemplo para que no falle si no hay tabla 'logs'
+            total_logins = 0 
 
-            # Preparamos el diccionario de datos para enviar
             data = {
                 "total_logins": total_logins
-                # En el futuro añadiremos más datos aquí
             }
-            
             return jsonify(data)
 
     except Exception as e:
         print(f"Error al generar datos del dashboard: {e}")
         return jsonify({"error": "Error interno al procesar los datos"}), 500
 
-# En api/index.py
-
-# En api/index.py
+# ==============================================================================
+#                 RUTAS DE GESTIÓN DE DISPOSITIVOS (ADMIN)
+# ==============================================================================
 
 @app.route('/admin/dispositivos', methods=['GET'])
 def pagina_admin_dispositivos():
@@ -867,6 +905,7 @@ def pagina_admin_dispositivos():
             
             usuario_seleccionado_id = request.args.get('usuario_id')
             dispositivos_del_usuario = []
+            solicitudes_pendientes = []
             usuario_seleccionado = None
             
             if usuario_seleccionado_id:
@@ -874,41 +913,50 @@ def pagina_admin_dispositivos():
                 usuario_seleccionado = connection.execute(sql_usuario, {'id': usuario_seleccionado_id}).first()
                 
                 if usuario_seleccionado:
+                    # Obtener dispositivos ya autorizados
                     sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id ORDER BY created_at DESC")
                     dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
+
+                    # Obtener solicitudes de acceso pendientes (CÓDIGO REAL)
+                    sql_solicitudes = text("SELECT * FROM solicitudes_acceso WHERE usuario_id = :id AND estado = 'pendiente' ORDER BY created_at DESC")
+                    solicitudes_pendientes = connection.execute(sql_solicitudes, {'id': usuario_seleccionado_id}).fetchall()
 
             return render_template('admin_dispositivos.html', 
                                    usuarios=usuarios, 
                                    dispositivos=dispositivos_del_usuario,
+                                   solicitudes=solicitudes_pendientes,
                                    usuario_seleccionado=usuario_seleccionado)
     except Exception as e:
         flash(f"Error al cargar la página de dispositivos: {e}", "danger")
         return redirect(url_for('menu'))
 
-
 @app.route('/admin/autorizar_dispositivo', methods=['POST'])
-# @login_required
-# @admin_required
 def autorizar_dispositivo():
     if 'username' not in session or session.get('role') != 'administrador':
+        # Esta es una API, así que devolvemos JSON en caso de error
         return jsonify({'success': False, 'message': 'No autorizado'}), 403
 
     usuario_id = request.form.get('usuario_id')
     huella = request.form.get('huella_dispositivo')
     descripcion = request.form.get('descripcion')
+    solicitud_id = request.form.get('solicitud_id')
 
     if not all([usuario_id, huella, descripcion]):
-        flash('Todos los campos son requeridos.', 'danger')
-        return redirect(url_for('pagina_admin_dispositivos'))
+        flash('Todos los campos son requeridos para autorizar.', 'danger')
+        return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
 
     try:
         with engine.connect() as connection:
-            # Insertar el nuevo dispositivo autorizado en la base de datos
-            sql = text("""
-                INSERT INTO dispositivos_autorizados (usuario_id, huella_dispositivo, descripcion)
-                VALUES (:uid, :huella, :desc)
-            """)
-            connection.execute(sql, {'uid': usuario_id, 'huella': huella, 'desc': descripcion})
+            # 1. Insertar el nuevo dispositivo autorizado
+            sql_insert = text("INSERT INTO dispositivos_autorizados (usuario_id, huella_dispositivo, descripcion) VALUES (:uid, :huella, :desc)")
+            connection.execute(sql_insert, {'uid': usuario_id, 'huella': huella, 'desc': descripcion})
+            
+            # 2. Actualizar el estado de la solicitud si viene de una
+            if solicitud_id:
+                sql_update = text("UPDATE solicitudes_acceso SET estado = 'aprobada' WHERE id = :sid")
+                connection.execute(sql_update, {'sid': solicitud_id})
+
+            # 3. Confirmar todos los cambios en la base de datos
             connection.commit()
         
         flash('¡Dispositivo autorizado con éxito!', 'success')
@@ -917,6 +965,10 @@ def autorizar_dispositivo():
 
     return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
 
+# ==============================================================================
+#                     PUNTO DE ENTRADA DE LA APLICACIÓN
+# ==============================================================================
 
 if __name__ == '__main__':
     app.run(debug=True)
+
