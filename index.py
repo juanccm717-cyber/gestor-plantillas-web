@@ -274,7 +274,9 @@ DATOS_PESO_TALLA = [
 
 
 # --- INICIO DE LA APLICACIÓN FLASK ---
-app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates'))
+# DESPUÉS (Correcto para la nueva estructura)
+app = Flask(__name__, template_folder='templates')
+
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-de-desarrollo")
 
 # ==============================================================================
