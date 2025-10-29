@@ -312,58 +312,80 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        session.clear() # Limpiamos la sesión para asegurar un inicio limpio
-        
-        username = request.form['username']
-        password = request.form['password']
-        fingerprint = request.form.get('fingerprint')
+    # --- PASO 0: Limpiar sesión al visitar la página de login ---
+    if request.method == 'GET':
+        session.clear()
+        return render_template('login.html')
 
-        try:
-            with engine.connect() as connection:
-                sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
-                user = connection.execute(sql_query, {'username': username}).first()
+    # --- PASO 1: Recoger datos del formulario ---
+    username = request.form.get('username')
+    password = request.form.get('password')
+    fingerprint = request.form.get('fingerprint')
+    user_agent = request.headers.get('User-Agent') # Capturamos el User-Agent
 
-                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
-                    
-                    user_role = user.role.strip().lower() if user.role else ''
+    if not all([username, password, fingerprint]):
+        flash('Faltan datos para el inicio de sesión. Asegúrate de que JavaScript esté habilitado.', 'warning')
+        return redirect(url_for('login'))
 
-                    if user_role == 'administrador':
+    try:
+        with engine.connect() as connection:
+            # --- PASO 2: Encontrar al usuario y verificar la contraseña ---
+            sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
+            user = connection.execute(sql_query, {'username': username}).first()
+
+            user_role_cleaned = ""
+            if user and user.role:
+                user_role_cleaned = user.role.strip().lower()
+
+            if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+                
+                # --- PASO 3: Lógica de roles ---
+                if user_role_cleaned == 'administrador':
+                    session['user_id'] = user.id
+                    session['username'] = user.username
+                    session['role'] = user.role
+                    return redirect(url_for('menu'))
+                
+                else: # Para 'usuario' y cualquier otro rol por defecto
+                    device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
+                    authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                    if authorized_device:
                         session['user_id'] = user.id
                         session['username'] = user.username
                         session['role'] = user.role
                         return redirect(url_for('menu'))
-                    
-                    elif user_role == 'usuario':
-                        if not fingerprint:
-                            flash('No se pudo identificar el dispositivo. Recarga la página.', 'warning')
-                            return redirect(url_for('login'))
-
-                        device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
-                        authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
-
-                        if authorized_device:
-                            session['user_id'] = user.id
-                            session['username'] = user.username
-                            session['role'] = user.role
-                            return redirect(url_for('menu'))
-                        else:
-                            flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
-                            return redirect(url_for('login'))
-                    
                     else:
-                        flash('Rol de usuario no reconocido. Contacta al soporte.', 'danger')
+                        # --- ¡LÓGICA DE CREACIÓN DE SOLICITUD! ---
+                        check_solicitud_sql = text("""
+                            SELECT id FROM solicitudes_acceso 
+                            WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint AND estado = 'pendiente'
+                        """)
+                        existing_request = connection.execute(check_solicitud_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                        if not existing_request:
+                            insert_solicitud_sql = text("""
+                                INSERT INTO solicitudes_acceso (usuario_id, huella_dispositivo, user_agent_info)
+                                VALUES (:user_id, :fingerprint, :user_agent)
+                            """)
+                            connection.execute(insert_solicitud_sql, {
+                                'user_id': user.id,
+                                'fingerprint': fingerprint,
+                                'user_agent': user_agent
+                            })
+                            connection.commit()
+                        
+                        flash('Dispositivo no reconocido. Se ha enviado una solicitud de acceso al administrador para su aprobación.', 'info')
                         return redirect(url_for('login'))
-                else:
-                    flash('Nombre de usuario o contraseña incorrectos.', 'danger')
-        
-        except Exception as e:
-            print(f"Error catastrófico durante el login: {e}")
-            flash('Ocurrió un error en el servidor.', 'danger')
-        
+            else:
+                flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+                return redirect(url_for('login'))
+
+    except Exception as e:
+        print(f"Error catastrófico durante el login: {e}")
+        flash('Ocurrió un error inesperado en el servidor. Contacte al soporte.', 'danger')
         return redirect(url_for('login'))
-        
-    return render_template('login.html')
+
 
 
 @app.route('/logout')
@@ -830,32 +852,38 @@ def pagina_admin_dispositivos():
 
     try:
         with engine.connect() as connection:
+            # 1. Obtener todos los usuarios para el menú desplegable (sin cambios)
             usuarios = connection.execute(text("SELECT id, username FROM usuarios ORDER BY username")).fetchall()
             
             usuario_seleccionado_id = request.args.get('usuario_id')
             dispositivos_del_usuario = []
+            solicitudes_pendientes = [] # <<-- NUEVA LISTA
             usuario_seleccionado = None
             
             if usuario_seleccionado_id:
+                # 2. Obtener datos del usuario seleccionado (sin cambios)
                 sql_usuario = text("SELECT id, username FROM usuarios WHERE id = :id")
                 usuario_seleccionado = connection.execute(sql_usuario, {'id': usuario_seleccionado_id}).first()
                 
                 if usuario_seleccionado:
+                    # 3. Obtener dispositivos ya autorizados (sin cambios)
                     sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id ORDER BY created_at DESC")
                     dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
+
+                    # 4. <<-- NUEVA LÓGICA: Obtener solicitudes de acceso pendientes -->>
+                    sql_solicitudes = text("SELECT * FROM solicitudes_acceso WHERE usuario_id = :id AND estado = 'pendiente' ORDER BY created_at DESC")
+                    solicitudes_pendientes = connection.execute(sql_solicitudes, {'id': usuario_seleccionado_id}).fetchall()
 
             return render_template('admin_dispositivos.html', 
                                    usuarios=usuarios, 
                                    dispositivos=dispositivos_del_usuario,
+                                   solicitudes=solicitudes_pendientes, # <<-- NUEVA VARIABLE
                                    usuario_seleccionado=usuario_seleccionado)
     except Exception as e:
         flash(f"Error al cargar la página de dispositivos: {e}", "danger")
         return redirect(url_for('menu'))
 
-
 @app.route('/admin/autorizar_dispositivo', methods=['POST'])
-# @login_required
-# @admin_required
 def autorizar_dispositivo():
     if 'username' not in session or session.get('role') != 'administrador':
         return jsonify({'success': False, 'message': 'No autorizado'}), 403
@@ -863,19 +891,26 @@ def autorizar_dispositivo():
     usuario_id = request.form.get('usuario_id')
     huella = request.form.get('huella_dispositivo')
     descripcion = request.form.get('descripcion')
+    solicitud_id = request.form.get('solicitud_id') # <<-- NUEVO CAMPO
 
     if not all([usuario_id, huella, descripcion]):
         flash('Todos los campos son requeridos.', 'danger')
-        return redirect(url_for('pagina_admin_dispositivos'))
+        return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
 
     try:
         with engine.connect() as connection:
-            # Insertar el nuevo dispositivo autorizado en la base de datos
-            sql = text("""
+            # 1. Insertar el nuevo dispositivo autorizado
+            sql_insert = text("""
                 INSERT INTO dispositivos_autorizados (usuario_id, huella_dispositivo, descripcion)
                 VALUES (:uid, :huella, :desc)
             """)
-            connection.execute(sql, {'uid': usuario_id, 'huella': huella, 'desc': descripcion})
+            connection.execute(sql_insert, {'uid': usuario_id, 'huella': huella, 'desc': descripcion})
+            
+            # 2. <<-- NUEVA LÓGICA: Actualizar el estado de la solicitud -->>
+            if solicitud_id:
+                sql_update = text("UPDATE solicitudes_acceso SET estado = 'aprobada' WHERE id = :sid")
+                connection.execute(sql_update, {'sid': solicitud_id})
+
             connection.commit()
         
         flash('¡Dispositivo autorizado con éxito!', 'success')
