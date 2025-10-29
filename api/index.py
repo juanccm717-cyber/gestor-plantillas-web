@@ -287,13 +287,15 @@ def home():
 # ==============================================================================
 #               RUTA DE LOGIN CON VERIFICACIÓN DE DISPOSITIVO (CORREGIDA)
 # ==============================================================================
+# ==============================================================================
+#      RUTA DE LOGIN CON BYPASS DE DISPOSITIVO PARA ADMINISTRADORES
+# ==============================================================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # 1. Obtenemos la huella del dispositivo desde el formulario
-        fingerprint = request.form.get('device_fingerprint') 
+        fingerprint = request.form.get('device_fingerprint')
 
         if not fingerprint:
             flash('No se pudo identificar el dispositivo. Por favor, recargue la página.', 'danger')
@@ -301,24 +303,28 @@ def login():
 
         try:
             with engine.connect() as connection:
-                # 2. Buscamos al usuario por su nombre de usuario
                 sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 user = connection.execute(sql_query, {'username': username}).first()
 
-                # 3. Verificamos si el usuario existe y la contraseña es correcta
+                # 1. Primero, verificamos si el usuario y la contraseña son correctos.
                 if user and bcrypt.checkpw(password.encode('utf-8'), bytes.fromhex(user.password_hash)):
-                    user_id = user.id
                     
-                    # 4. ¡LA PIEZA CLAVE QUE FALTABA! Verificamos el dispositivo
-                    sql_dispositivo = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :uid AND huella_dispositivo = :huella")
-                    dispositivo_autorizado = connection.execute(sql_dispositivo, {'uid': user_id, 'huella': fingerprint}).first()
-                    
-                    # 5. Si el dispositivo NO está en la lista, bloqueamos el acceso
-                    if not dispositivo_autorizado:
-                        flash('Dispositivo no autorizado. Contacte al administrador.', 'danger')
-                        return render_template('login.html')
-                    
-                    # 6. Si llegamos aquí, el dispositivo SÍ está autorizado. Iniciamos sesión.
+                    # 2. ¡LA LÓGICA CLAVE! Verificamos el rol del usuario.
+                    # Si el rol es 'administrador', nos saltamos la verificación del dispositivo.
+                    if user.role == 'administrador':
+                        # ¡Acceso concedido directamente para el admin!
+                        pass # Simplemente continuamos al siguiente bloque.
+                    else:
+                        # Para cualquier OTRO rol ('usuario', etc.), SÍ hacemos la verificación.
+                        user_id = user.id
+                        sql_dispositivo = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :uid AND huella_dispositivo = :huella")
+                        dispositivo_autorizado = connection.execute(sql_dispositivo, {'uid': user_id, 'huella': fingerprint}).first()
+                        
+                        if not dispositivo_autorizado:
+                            flash('Dispositivo no autorizado. Contacte al administrador.', 'danger')
+                            return render_template('login.html')
+
+                    # 3. Si hemos llegado hasta aquí (sea admin o usuario verificado), iniciamos sesión.
                     session['user_id'] = user.id
                     session['username'] = user.username
                     session['role'] = user.role
@@ -332,7 +338,7 @@ def login():
                         
                     return redirect(url_for('menu'))
                 else:
-                    # Si el usuario o la contraseña son incorrectos
+                    # Si el usuario o la contraseña son incorrectos desde el principio.
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         except Exception as e:
             print(f"Error durante el login: {e}")
@@ -341,6 +347,7 @@ def login():
         return redirect(url_for('login'))
         
     return render_template('login.html')
+
 
 
 @app.route('/logout')
