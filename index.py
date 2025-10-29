@@ -846,42 +846,61 @@ def dashboard_data():
 
 @app.route('/admin/dispositivos', methods=['GET'])
 def pagina_admin_dispositivos():
+    # --- INICIO DE DEPURACIÓN ---
+    print("--- ACCEDIENDO A /admin/dispositivos ---")
+    
     if 'username' not in session or session.get('role') != 'administrador':
+        print("Error: Acceso no autorizado, redirigiendo al menú.")
         flash('Acceso no autorizado.', 'danger')
         return redirect(url_for('menu'))
 
     try:
         with engine.connect() as connection:
-            # 1. Obtener todos los usuarios para el menú desplegable (sin cambios)
+            # 1. Obtener todos los usuarios
             usuarios = connection.execute(text("SELECT id, username FROM usuarios ORDER BY username")).fetchall()
+            print(f"Usuarios encontrados en la BD: {[u.username for u in usuarios]}")
             
             usuario_seleccionado_id = request.args.get('usuario_id')
+            print(f"ID de usuario seleccionado desde la URL: {usuario_seleccionado_id}")
+            
             dispositivos_del_usuario = []
-            solicitudes_pendientes = [] # <<-- NUEVA LISTA
+            solicitudes_pendientes = []
             usuario_seleccionado = None
             
             if usuario_seleccionado_id:
-                # 2. Obtener datos del usuario seleccionado (sin cambios)
+                # 2. Obtener datos del usuario seleccionado
                 sql_usuario = text("SELECT id, username FROM usuarios WHERE id = :id")
                 usuario_seleccionado = connection.execute(sql_usuario, {'id': usuario_seleccionado_id}).first()
                 
                 if usuario_seleccionado:
-                    # 3. Obtener dispositivos ya autorizados (sin cambios)
+                    print(f"Usuario seleccionado: {usuario_seleccionado.username}")
+                    
+                    # 3. Obtener dispositivos ya autorizados
                     sql_dispositivos = text("SELECT * FROM dispositivos_autorizados WHERE usuario_id = :id ORDER BY created_at DESC")
                     dispositivos_del_usuario = connection.execute(sql_dispositivos, {'id': usuario_seleccionado_id}).fetchall()
+                    print(f"Dispositivos autorizados encontrados: {len(dispositivos_del_usuario)}")
 
-                    # 4. <<-- NUEVA LÓGICA: Obtener solicitudes de acceso pendientes -->>
+                    # 4. Obtener solicitudes de acceso pendientes
                     sql_solicitudes = text("SELECT * FROM solicitudes_acceso WHERE usuario_id = :id AND estado = 'pendiente' ORDER BY created_at DESC")
                     solicitudes_pendientes = connection.execute(sql_solicitudes, {'id': usuario_seleccionado_id}).fetchall()
+                    print(f"¡¡¡ Solicitudes pendientes encontradas: {len(solicitudes_pendientes)} !!!")
+                    if solicitudes_pendientes:
+                        print(f"Detalle de la primera solicitud: {dict(solicitudes_pendientes[0]._mapping)}")
 
+                else:
+                    print("Error: El ID de usuario seleccionado no existe en la BD.")
+
+            print("--- RENDERIZANDO PLANTILLA ---")
             return render_template('admin_dispositivos.html', 
                                    usuarios=usuarios, 
                                    dispositivos=dispositivos_del_usuario,
-                                   solicitudes=solicitudes_pendientes, # <<-- NUEVA VARIABLE
+                                   solicitudes=solicitudes_pendientes,
                                    usuario_seleccionado=usuario_seleccionado)
     except Exception as e:
+        print(f"!!!!!!!!!! ERROR CATASTRÓFICO EN LA RUTA: {e} !!!!!!!!!!!")
         flash(f"Error al cargar la página de dispositivos: {e}", "danger")
         return redirect(url_for('menu'))
+
 
 @app.route('/admin/autorizar_dispositivo', methods=['POST'])
 def autorizar_dispositivo():
