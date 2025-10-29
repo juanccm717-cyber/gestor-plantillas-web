@@ -150,7 +150,7 @@
                 
                 <input type="hidden" name="device_fingerprint" id="device_fingerprint">
                 
-                <input type="submit" value="Acceder">
+                <input type="submit" value="Identificando dispositivo..." id="submit-button" disabled>
             </form>
         </div>
     </div>
@@ -159,22 +159,37 @@
     <!--     BLOQUE DE SCRIPTS (VERSIÓN FINAL Y CORRECTA)   -->
     <!-- ================================================== -->
 
+    <!-- ... -->
     <!-- 1. Carga la librería FingerprintJS desde la URL correcta -->
     <script src="https://openfpcdn.io/fingerprintjs/v4" onload="initFingerprintJS( )"></script>
 
+    <!-- 2. Ejecuta el código para obtener la huella... -->
+    <!-- ... -->
+
     <!-- 2. Ejecuta el código para obtener la huella y ponerla en el campo oculto -->
     <script>
-      function initFingerprintJS() {
-        FingerprintJS.load()
-          .then(fp => fp.get())
-          .then(result => {
-            const visitorId = result.visitorId;
-            document.getElementById('device_fingerprint').value = visitorId;
-            console.log("Huella del dispositivo detectada:", visitorId);
-          })
-          .catch(error => console.error("Error al obtener la huella:", error));
-      }
-    </script>
+        function initFingerprintJS() {
+            FingerprintJS.load()
+            .then(fp => fp.get())
+            .then(result => {
+                const visitorId = result.visitorId;
+                document.getElementById('device_fingerprint').value = visitorId;
+                console.log("Huella del dispositivo detectada:", visitorId);
+
+                // --- ¡NUEVAS LÍNEAS! ---
+                const submitButton = document.getElementById('submit-button');
+                submitButton.disabled = false; // Habilita el botón
+                submitButton.value = "Acceder"; // Cambia el texto
+                // ------------------------
+
+            })
+            .catch(error => {
+                console.error("Error al obtener la huella:", error);
+                // Opcional: Informar al usuario que algo falló
+                document.getElementById('submit-button').value = "Error de identificación";
+            });
+        }
+</script>
 
 </body>
 </html>
