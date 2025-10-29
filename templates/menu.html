@@ -125,22 +125,6 @@
             </div>
         </div>
 
-        <!-- Tarjeta para Gestionar Usuarios (SOLO ADMIN) -->
-        {% if session.role == 'administrador' %}
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-person-gear" style="font-size: 3rem; color: #6f42c1;"></i>
-                    </div>
-                    <h5 class="card-title">Gestionar Usuarios</h5>
-                    <p class="card-text text-muted flex-grow-1">Añade, edita o elimina usuarios del sistema.</p>
-                    <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-purple mt-auto">Administrar</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
         <!-- Tarjeta para el Dashboard -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
@@ -158,18 +142,23 @@
         {% endif %}
 
         <!-- ===================================================================== -->
-        <!--    NUEVA TARJETA: GESTIONAR DISPOSITIVOS (VALIDAR ACCESO)            -->
+        <!--    NUEVA TARJETA UNIFICADA DE SEGURIDAD (SOLO ADMIN)                 -->
         <!-- ===================================================================== -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm border-danger">
+            <div class="card h-100 shadow-sm border-primary">
                 <div class="card-body text-center d-flex flex-column">
                     <div class="mb-3">
-                        <i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #dc3545;"></i>
+                        <i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #0d6efd;"></i>
                     </div>
-                    <h5 class="card-title">Validar Acceso de Dispositivos</h5>
-                    <p class="card-text text-muted flex-grow-1">Autoriza o revoca el acceso de los dispositivos de los usuarios.</p>
-                    <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-danger mt-auto">Validar Accesos</a>
+                    <h5 class="card-title">Gestión de Seguridad</h5>
+                    <p class="card-text text-muted flex-grow-1">Administra usuarios, valida dispositivos y revisa el historial de accesos.</p>
+                    
+                    <div class="mt-auto">
+                        <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
+                        <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2">Validar Dispositivos</a>
+                        <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>
+                    </div>
                 </div>
             </div>
         </div>

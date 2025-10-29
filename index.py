@@ -867,6 +867,55 @@ def eliminar_dispositivo(dispositivo_id):
     usuario_id = request.form.get('usuario_id')
     return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
 
+# ==============================================================================
+#                 RUTAS DE HISTORIAL Y LIMPIEZA (ADMIN)
+# ==============================================================================
+
+@app.route('/admin/historial_solicitudes')
+def historial_solicitudes():
+    if 'username' not in session or session.get('role') != 'administrador':
+        flash('Acceso no autorizado.', 'danger')
+        return redirect(url_for('menu'))
+
+    try:
+        with engine.connect() as connection:
+            # Unimos las tablas para obtener el nombre de usuario en la misma consulta
+            sql = text("""
+                SELECT s.id, s.estado, s.huella_dispositivo, s.user_agent_info, s.created_at, u.username
+                FROM solicitudes_acceso s
+                JOIN usuarios u ON s.usuario_id = u.id
+                ORDER BY s.created_at DESC
+            """)
+            todas_las_solicitudes = connection.execute(sql).fetchall()
+            
+        return render_template('historial_solicitudes.html', solicitudes=todas_las_solicitudes)
+
+    except Exception as e:
+        flash(f"Error al cargar el historial de solicitudes: {e}", "danger")
+        return redirect(url_for('menu'))
+
+
+@app.route('/admin/borrar_solicitud/<int:solicitud_id>', methods=['POST'])
+def borrar_solicitud_permanente(solicitud_id):
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    try:
+        with engine.connect() as connection:
+            sql = text("DELETE FROM solicitudes_acceso WHERE id = :sid")
+            result = connection.execute(sql, {'sid': solicitud_id})
+            
+            if result.rowcount == 0:
+                flash('La solicitud no fue encontrada (probablemente ya fue eliminada).', 'warning')
+            else:
+                flash('Solicitud eliminada permanentemente.', 'success')
+            
+            connection.commit()
+    except Exception as e:
+        flash(f'Error al eliminar la solicitud: {e}', 'danger')
+
+    return redirect(url_for('historial_solicitudes'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
