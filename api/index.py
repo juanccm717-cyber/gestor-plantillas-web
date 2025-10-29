@@ -311,33 +311,58 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session.clear() # Limpiamos sesión
+        session.clear() # Limpiamos la sesión para asegurar un inicio limpio
         
         username = request.form['username']
         password = request.form['password']
+        fingerprint = request.form.get('fingerprint')
 
-        print("--- USANDO LOGIN FALSO DE DEPURACIÓN ---")
-        print(f"Usuario recibido: {username}")
+        try:
+            with engine.connect() as connection:
+                sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
+                user = connection.execute(sql_query, {'username': username}).first()
 
-        # --- LÓGICA DE LOGIN FALSO ---
-        if username == "admin" and password == "123":
-            print("--- LOGIN FALSO: Detectado 'admin'. Asignando rol de administrador. ---")
-            session['username'] = 'admin'
-            session['role'] = 'administrador'
-            return redirect(url_for('menu'))
+                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+                    
+                    user_role = user.role.strip().lower() if user.role else ''
 
-        elif username == "usuario" and password == "123":
-            print("--- LOGIN FALSO: Detectado 'usuario'. Asignando rol de usuario. ---")
-            session['username'] = 'usuario'
-            session['role'] = 'usuario'
-            return redirect(url_for('menu'))
+                    if user_role == 'administrador':
+                        session['user_id'] = user.id
+                        session['username'] = user.username
+                        session['role'] = user.role
+                        return redirect(url_for('menu'))
+                    
+                    elif user_role == 'usuario':
+                        if not fingerprint:
+                            flash('No se pudo identificar el dispositivo. Recarga la página.', 'warning')
+                            return redirect(url_for('login'))
+
+                        device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
+                        authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                        if authorized_device:
+                            session['user_id'] = user.id
+                            session['username'] = user.username
+                            session['role'] = user.role
+                            return redirect(url_for('menu'))
+                        else:
+                            flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
+                            return redirect(url_for('login'))
+                    
+                    else:
+                        flash('Rol de usuario no reconocido. Contacta al soporte.', 'danger')
+                        return redirect(url_for('login'))
+                else:
+                    flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         
-        else:
-            print("--- LOGIN FALSO: Credenciales no coinciden con 'admin' o 'usuario'. ---")
-            flash('Credenciales incorrectas (prueba con admin/123 o usuario/123).', 'danger')
-            return redirect(url_for('login'))
-
+        except Exception as e:
+            print(f"Error catastrófico durante el login: {e}")
+            flash('Ocurrió un error en el servidor.', 'danger')
+        
+        return redirect(url_for('login'))
+        
     return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
