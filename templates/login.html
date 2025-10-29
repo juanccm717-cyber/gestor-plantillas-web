@@ -49,28 +49,13 @@
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 
-                <!-- Dejamos el campo oculto, pero no dependemos de él para el admin -->
-                <input type="hidden" name="device_fingerprint" id="device_fingerprint">
-                
-                <!-- BOTÓN SIEMPRE HABILITADO -->
+                <!-- El botón de login simple, siempre habilitado -->
                 <input type="submit" value="Acceder">
             </form>
         </div>
     </div>
 
-    <!-- El script de FingerprintJS sigue aquí para los usuarios normales, pero ya no bloquea al admin -->
-    <script src="https://openfpcdn.io/fingerprintjs/v4" onload="initFingerprintJS( )"></script>
-    <script>
-      function initFingerprintJS() {
-        FingerprintJS.load()
-          .then(fp => fp.get())
-          .then(result => {
-            document.getElementById('device_fingerprint').value = result.visitorId;
-            console.log("Huella del dispositivo detectada (para usuarios normales):", result.visitorId);
-          })
-          .catch(error => console.error("Error al obtener la huella:", error));
-      }
-    </script>
+    <!-- NINGÚN SCRIPT DE FINGERPRINTJS AQUÍ -->
 
 </body>
 </html>
