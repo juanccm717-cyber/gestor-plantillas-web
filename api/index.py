@@ -310,61 +310,80 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Paso 1: Limpiar la sesión al inicio de cualquier intento de login POST
     if request.method == 'POST':
+        session.clear() # Forzamos la limpieza de la sesión
+        print("--- SESIÓN LIMPIADA ANTES DEL LOGIN ---")
+
         username = request.form['username']
         password = request.form['password']
         fingerprint = request.form.get('fingerprint')
 
+        print(f"--- INTENTO DE LOGIN RECIBIDO ---")
+        print(f"Usuario del formulario: '{username}'")
+        print(f"Contraseña recibida: [OCULTA]")
+        print(f"Huella recibida: '{fingerprint}'")
+
         try:
             with engine.connect() as connection:
+                print("--- CONEXIÓN A BD EXITOSA ---")
                 sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 user = connection.execute(sql_query, {'username': username}).first()
 
-                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
-                    
-                    # =================================================================
-                    #           AQUÍ ESTÁ LA CORRECCIÓN CLAVE
-                    # =================================================================
-                    # Comparamos el rol en minúsculas y sin espacios para evitar errores
-                    user_role = user.role.strip().lower() if user.role else ''
+                if user:
+                    print(f"--- USUARIO ENCONTRADO EN BD ---")
+                    print(f"ID: {user.id}, Username: '{user.username}', Rol en BD: '{user.role}'")
 
-                    if user_role == 'administrador':
-                        # El admin siempre tiene acceso
-                        session['user_id'] = user.id
-                        session['username'] = user.username
-                        session['role'] = user.role # Guardamos el rol original en la sesión
-                        return redirect(url_for('menu'))
-                    else:
-                        # Para usuarios normales, validamos el dispositivo
-                        if not fingerprint:
-                            flash('No se pudo identificar el dispositivo. Recarga la página e inténtalo de nuevo.', 'warning')
-                            return redirect(url_for('login'))
+                    password_match = bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8'))
+                    print(f"Resultado de bcrypt.checkpw: {password_match}")
 
-                        device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
-                        authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+                    if password_match:
+                        print("--- CONTRASEÑA CORRECTA ---")
+                        
+                        user_role_raw = user.role
+                        user_role_cleaned = user_role_raw.strip().lower() if user_role_raw else ''
+                        
+                        print(f"Rol extraído (limpio): '{user_role_cleaned}'")
+                        print(f"Comparando con: 'administrador'")
 
-                        if authorized_device:
-                            # Dispositivo autorizado
+                        if user_role_cleaned == 'administrador':
+                            print("--- DECISIÓN: ES ADMINISTRADOR. Dando acceso directo. ---")
                             session['user_id'] = user.id
                             session['username'] = user.username
                             session['role'] = user.role
                             return redirect(url_for('menu'))
                         else:
-                            # Dispositivo no autorizado
-                            flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
-                            return redirect(url_for('login'))
+                            print("--- DECISIÓN: NO ES ADMINISTRADOR. Procediendo a validar dispositivo. ---")
+                            
+                            if not fingerprint:
+                                flash('No se pudo identificar el dispositivo. Recarga la página e inténtalo de nuevo.', 'warning')
+                                return redirect(url_for('login'))
+
+                            device_sql = text("SELECT id FROM dispositivos_autorizados WHERE usuario_id = :user_id AND huella_dispositivo = :fingerprint")
+                            authorized_device = connection.execute(device_sql, {'user_id': user.id, 'fingerprint': fingerprint}).first()
+
+                            if authorized_device:
+                                print("--- RESULTADO DISPOSITIVO: AUTORIZADO. Dando acceso. ---")
+                                session['user_id'] = user.id
+                                session['username'] = user.username
+                                session['role'] = user.role
+                                return redirect(url_for('menu'))
+                            else:
+                                print("--- RESULTADO DISPOSITIVO: NO AUTORIZADO. Bloqueando. ---")
+                                flash(f'Dispositivo no autorizado. Proporciona esta huella al administrador: {fingerprint}', 'danger')
+                                return redirect(url_for('login'))
                 else:
+                    print("--- USUARIO NO ENCONTRADO O CONTRASEÑA INCORRECTA ---")
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         
         except Exception as e:
-            print(f"Error durante el login: {e}")
+            print(f"--- ERROR CATASTRÓFICO EN EL TRY-EXCEPT ---")
+            print(f"Error: {e}")
             flash('Ocurrió un error en el servidor.', 'danger')
         
         return redirect(url_for('login'))
         
     return render_template('login.html')
-
-
 
 @app.route('/logout')
 def logout():
