@@ -305,10 +305,13 @@ def login():
                 sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 user = connection.execute(sql_query, {'username': username}).first()
 
-                # Verificamos si el usuario existe y la contraseña es correcta
-                if user and bcrypt.checkpw(password.encode('utf-8'), bytes.fromhex(user.password_hash)):
+                # =================================================================
+                #           AQUÍ ESTÁ LA CORRECCIÓN CLAVE
+                # =================================================================
+                # Comparamos la contraseña en texto plano con el hash (en formato texto) de la BD
+                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
                     
-                    # Iniciamos sesión directamente, sin comprobar dispositivo
+                    # Iniciamos sesión directamente
                     session['user_id'] = user.id
                     session['username'] = user.username
                     session['role'] = user.role
@@ -325,13 +328,17 @@ def login():
                 else:
                     # Si el usuario o la contraseña son incorrectos
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+        
         except Exception as e:
             print(f"Error durante el login: {e}")
             flash('Ocurrió un error en el servidor.', 'danger')
         
+        # Si el login falla, siempre redirigir de vuelta a la página de login
         return redirect(url_for('login'))
         
+    # Si es un método GET, simplemente mostramos la página
     return render_template('login.html')
+
 
 
 
@@ -703,7 +710,8 @@ def add_user():
         password_bytes = new_password.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed_password_bytes = bcrypt.hashpw(password_bytes, salt)
-        hashed_password_hex = hashed_password_bytes.hex()
+        # Decodificamos el hash a una cadena de texto para guardarlo en la base de datos
+        hashed_password_str = hashed_password_bytes.decode('utf-8') # <--- CAMBIO AQUÍ
 
         with engine.connect() as connection:
             # Verificar si el usuario ya existe
@@ -716,7 +724,7 @@ def add_user():
             insert_sql = text("INSERT INTO usuarios (username, password_hash, role) VALUES (:username, :password_hash, :role)")
             connection.execute(insert_sql, {
                 'username': new_username,
-                'password_hash': hashed_password_hex,
+                'password_hash': hashed_password_str, # <--- Se guarda la cadena de texto
                 'role': new_role
             })
             connection.commit()
@@ -726,6 +734,7 @@ def add_user():
     except Exception as e:
         print(f"Error al añadir usuario: {e}")
         return jsonify({'success': False, 'message': 'Error interno del servidor.'}), 500
+
 
 
 # --- API PARA ELIMINAR UN USUARIO ---
@@ -861,3 +870,6 @@ def autorizar_dispositivo():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+    add_user
