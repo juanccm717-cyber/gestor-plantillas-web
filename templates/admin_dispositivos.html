@@ -6,7 +6,9 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Gestión de Dispositivos y Solicitudes</h1>
-        <a href="{{ url_for('menu') }}" class="btn btn-secondary">Volver al Menú</a>
+        <a href="{{ url_for('menu') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Volver al Menú
+        </a>
     </div>
 
     <!-- Mensajes Flash -->
@@ -22,7 +24,7 @@
     {% endwith %}
 
     <!-- Selector de Usuario -->
-    <div class="card mb-4">
+    <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <form method="get" action="{{ url_for('pagina_admin_dispositivos') }}">
                 <div class="row g-3 align-items-end">
@@ -44,8 +46,9 @@
 
     <!-- Solo mostrar las tablas si se ha seleccionado un usuario -->
     {% if usuario_seleccionado %}
+        
         <!-- ========================================================== -->
-        <!--    SECCIÓN DE SOLICITUDES PENDIENTES (LA IMPORTANTE)       -->
+        <!--    SECCIÓN DE SOLICITUDES PENDIENTES (CON BOTÓN RECHAZAR)  -->
         <!-- ========================================================== -->
         <div class="card mt-4 border-warning shadow-sm">
             <div class="card-header bg-warning text-dark fw-bold">
@@ -61,7 +64,7 @@
                                     <th>Huella del Dispositivo</th>
                                     <th>Información del Dispositivo</th>
                                     <th>Fecha de Solicitud</th>
-                                    <th class="text-center">Acción de Aprobación</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,15 +74,25 @@
                                     <td><small class="text-muted">{{ solicitud.user_agent_info or 'No disponible' }}</small></td>
                                     <td>{{ solicitud.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
                                     <td class="text-center">
-                                        <form method="post" action="{{ url_for('autorizar_dispositivo') }}" class="d-flex gap-2 justify-content-center">
-                                            <input type="hidden" name="usuario_id" value="{{ solicitud.usuario_id }}">
-                                            <input type="hidden" name="huella_dispositivo" value="{{ solicitud.huella_dispositivo }}">
-                                            <input type="hidden" name="solicitud_id" value="{{ solicitud.id }}">
-                                            <input type="text" class="form-control form-control-sm" name="descripcion" placeholder="Ej: Celular de Carlos" required>
-                                            <button type="submit" class="btn btn-success btn-sm flex-shrink-0">
-                                                <i class="bi bi-check-circle me-1"></i>Aprobar
-                                            </button>
-                                        </form>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <!-- Formulario para APROBAR -->
+                                            <form method="post" action="{{ url_for('autorizar_dispositivo') }}" class="d-inline-flex gap-2">
+                                                <input type="hidden" name="usuario_id" value="{{ solicitud.usuario_id }}">
+                                                <input type="hidden" name="huella_dispositivo" value="{{ solicitud.huella_dispositivo }}">
+                                                <input type="hidden" name="solicitud_id" value="{{ solicitud.id }}">
+                                                <input type="text" class="form-control form-control-sm" name="descripcion" placeholder="Ej: Celular de Carlos" required>
+                                                <button type="submit" class="btn btn-success btn-sm flex-shrink-0">
+                                                    <i class="bi bi-check-circle me-1"></i>Aprobar
+                                                </button>
+                                            </form>
+                                            <!-- Formulario para RECHAZAR -->
+                                            <form method="post" action="{{ url_for('rechazar_solicitud', solicitud_id=solicitud.id) }}" class="d-inline">
+                                                <input type="hidden" name="usuario_id" value="{{ solicitud.usuario_id }}">
+                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-x-circle me-1"></i>Rechazar
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -92,7 +105,9 @@
             </div>
         </div>
 
-        <!-- Tabla de dispositivos ya autorizados -->
+        <!-- ========================================================== -->
+        <!--    TABLA DE DISPOSITIVOS AUTORIZADOS (CON BOTÓN ELIMINAR)  -->
+        <!-- ========================================================== -->
         <div class="card mt-4">
             <div class="card-header fw-bold">
                 <i class="bi bi-shield-check me-2"></i>
@@ -101,12 +116,13 @@
             <div class="card-body">
                 {% if dispositivos and dispositivos|length > 0 %}
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped align-middle">
                             <thead>
                                 <tr>
                                     <th>Descripción</th>
                                     <th>Huella</th>
                                     <th>Fecha de Autorización</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,6 +131,15 @@
                                     <td>{{ dispositivo.descripcion }}</td>
                                     <td><code>{{ dispositivo.huella_dispositivo }}</code></td>
                                     <td>{{ dispositivo.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td class="text-center">
+                                        <!-- Formulario para ELIMINAR -->
+                                        <form id="delete-form-{{ dispositivo.id }}" method="post" action="{{ url_for('eliminar_dispositivo', dispositivo_id=dispositivo.id) }}" class="d-inline">
+                                            <input type="hidden" name="usuario_id" value="{{ dispositivo.usuario_id }}">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ dispositivo.id }}, '{{ dispositivo.descripcion }}')">
+                                                <i class="bi bi-trash-fill me-1"></i>Eliminar
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -127,4 +152,15 @@
         </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete(dispositivoId, descripcion) {
+    if (confirm(`¿Estás seguro de que quieres eliminar el dispositivo "${descripcion}"?\n\nEsta acción es irreversible y el usuario tendrá que solicitar acceso de nuevo desde ese dispositivo.`)) {
+        // Si el usuario confirma, enviamos el formulario correspondiente
+        document.getElementById('delete-form-' + dispositivoId).submit();
+    }
+}
+</script>
 {% endblock %}

@@ -17,9 +17,6 @@ import bcrypt
 
 # ==============================================================================
 
-
-
-
 # --- CONFIGURACIÓN DE LA BASE DE DATOS REAL (SUPABASE) ---
 load_dotenv() # Carga las variables desde el archivo .env
 
@@ -819,6 +816,57 @@ def autorizar_dispositivo():
     except Exception as e:
         flash(f'Error al autorizar el dispositivo: {e}', 'danger')
     return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
+
+@app.route('/admin/rechazar_solicitud/<int:solicitud_id>', methods=['POST'])
+def rechazar_solicitud(solicitud_id):
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    try:
+        with engine.connect() as connection:
+            # En lugar de APROBAR, cambiamos el estado a 'rechazada'
+            # Podríamos también borrarla, pero marcarla es mejor para auditoría.
+            sql = text("UPDATE solicitudes_acceso SET estado = 'rechazada' WHERE id = :sid")
+            result = connection.execute(sql, {'sid': solicitud_id})
+            
+            # Verificamos que una fila fue afectada para confirmar que la solicitud existía
+            if result.rowcount == 0:
+                flash('La solicitud no fue encontrada o ya fue procesada.', 'warning')
+            else:
+                flash('Solicitud de acceso rechazada con éxito.', 'success')
+            
+            connection.commit()
+    except Exception as e:
+        flash(f'Error al rechazar la solicitud: {e}', 'danger')
+
+    # Redirigimos de vuelta a la página de gestión, manteniendo el usuario seleccionado
+    usuario_id = request.form.get('usuario_id')
+    return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
+
+
+@app.route('/admin/eliminar_dispositivo/<int:dispositivo_id>', methods=['POST'])
+def eliminar_dispositivo(dispositivo_id):
+    if 'username' not in session or session.get('role') != 'administrador':
+        return jsonify({'success': False, 'message': 'No autorizado'}), 403
+
+    try:
+        with engine.connect() as connection:
+            # Aquí sí borramos el registro directamente de la tabla de autorizados
+            sql = text("DELETE FROM dispositivos_autorizados WHERE id = :did")
+            result = connection.execute(sql, {'did': dispositivo_id})
+            
+            if result.rowcount == 0:
+                flash('El dispositivo no fue encontrado.', 'warning')
+            else:
+                flash('Dispositivo autorizado eliminado con éxito.', 'success')
+                
+            connection.commit()
+    except Exception as e:
+        flash(f'Error al eliminar el dispositivo: {e}', 'danger')
+
+    usuario_id = request.form.get('usuario_id')
+    return redirect(url_for('pagina_admin_dispositivos', usuario_id=usuario_id))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
