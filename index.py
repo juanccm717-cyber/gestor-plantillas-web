@@ -311,7 +311,6 @@ def home():
 def login():
     # --- PASO 0: Limpiar sesión al visitar la página de login ---
     if request.method == 'GET':
-        session.clear()
         return render_template('login.html')
 
     # --- PASO 1: Recoger datos del formulario ---
