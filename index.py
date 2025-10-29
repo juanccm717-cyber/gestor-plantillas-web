@@ -751,16 +751,59 @@ def dashboard():
 
 @app.route('/api/dashboard_data')
 def dashboard_data():
+    """Proporciona los datos agregados para el dashboard."""
     if session.get('role') != 'administrador':
         return jsonify({"error": "No autorizado"}), 403
+
     try:
         with engine.connect() as connection:
-            total_logins = 0 
-            data = { "total_logins": total_logins }
+            # 1. Total de Usuarios
+            total_usuarios = connection.execute(text("SELECT COUNT(id) FROM usuarios")).scalar_one()
+
+            # 2. Total de Dispositivos Autorizados
+            total_dispositivos = connection.execute(text("SELECT COUNT(id) FROM dispositivos_autorizados")).scalar_one()
+
+            # 3. Total de Solicitudes Pendientes
+            solicitudes_pendientes_count = connection.execute(text("SELECT COUNT(id) FROM solicitudes_acceso WHERE estado = 'pendiente'")).scalar_one()
+
+            # 4. Desglose de Usuarios por Rol
+            roles_query = text("SELECT role, COUNT(id) as count FROM usuarios GROUP BY role")
+            roles_result = connection.execute(roles_query).fetchall()
+            desglose_roles = {row.role.strip(): row.count for row in roles_result}
+
+            # 5. Actividad Reciente (Últimas 5 solicitudes)
+            actividad_reciente_query = text("""
+                SELECT u.username, s.estado, s.created_at
+                FROM solicitudes_acceso s
+                JOIN usuarios u ON s.usuario_id = u.id
+                ORDER BY s.created_at DESC
+                LIMIT 5
+            """)
+            actividad_reciente_result = connection.execute(actividad_reciente_query).fetchall()
+            # Convertimos las filas a diccionarios para que sean serializables a JSON
+            actividad_reciente = [
+                {
+                    "username": row.username,
+                    "estado": row.estado,
+                    "fecha": row.created_at.strftime('%d/%m/%Y %H:%M')
+                } for row in actividad_reciente_result
+            ]
+
+            # Preparamos el diccionario de datos para enviar
+            data = {
+                "total_usuarios": total_usuarios,
+                "total_dispositivos_autorizados": total_dispositivos,
+                "solicitudes_pendientes": solicitudes_pendientes_count,
+                "desglose_roles": desglose_roles,
+                "actividad_reciente": actividad_reciente
+            }
+            
             return jsonify(data)
+
     except Exception as e:
         print(f"Error al generar datos del dashboard: {e}")
         return jsonify({"error": "Error interno al procesar los datos"}), 500
+
 
 @app.route('/admin/dispositivos', methods=['GET'])
 def pagina_admin_dispositivos():

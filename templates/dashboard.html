@@ -4,28 +4,90 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card bg-dark text-white border-secondary shadow-lg">
-        <div class="card-header bg-dark-accent d-flex justify-content-between align-items-center py-3">
-            <h2 class="card-title mb-0"><i class="bi bi-bar-chart-line-fill me-2"></i>Dashboard de Métricas</h2>
-            <a href="{{ url_for('menu') }}" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-left me-1"></i>Volver al Menú</a>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Dashboard de Métricas</h1>
+        <a href="{{ url_for('menu') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Volver al Menú
+        </a>
+    </div>
 
-        <div class="card-body p-4">
-            <div class="row">
-                <!-- Métrica 1: Total de Logins -->
-                <div class="col-md-4">
-                    <div class="card text-white bg-primary mb-3 text-center">
-                        <div class="card-header">Total de Inicios de Sesión</div>
-                        <div class="card-body">
-                            <h1 class="card-title display-4" id="totalLogins">
-                                <div class="spinner-border spinner-border-sm" role="status"></div>
-                            </h1>
+    <!-- Fila de Tarjetas de Métricas Principales -->
+    <div class="row g-4 mb-4">
+        <!-- Tarjeta: Usuarios Totales -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Usuarios Totales</h5>
+                            <h2 class="display-4 fw-bold" id="total-usuarios">...</h2>
+                        </div>
+                        <i class="bi bi-people-fill" style="font-size: 4rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tarjeta: Dispositivos Autorizados -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Dispositivos Autorizados</h5>
+                            <h2 class="display-4 fw-bold" id="total-dispositivos">...</h2>
+                        </div>
+                        <i class="bi bi-phone-fill" style="font-size: 4rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tarjeta: Solicitudes Pendientes -->
+        <div class="col-md-4">
+            <div class="card text-dark bg-warning shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title">Solicitudes Pendientes</h5>
+                            <h2 class="display-4 fw-bold" id="solicitudes-pendientes">...</h2>
+                        </div>
+                        <i class="bi bi-exclamation-triangle-fill" style="font-size: 4rem; opacity: 0.5;"></i>
+                    </div>
+                    <a href="{{ url_for('pagina_admin_dispositivos') }}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila para Gráfico y Actividad Reciente -->
+    <div class="row g-4">
+        <!-- Columna para Gráfico de Roles -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm h-100">
+                <div class="card-header fw-bold">
+                    <i class="bi bi-pie-chart-fill me-2"></i>Desglose de Usuarios por Rol
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <canvas id="roles-chart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Columna para Actividad Reciente -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm h-100">
+                <div class="card-header fw-bold">
+                    <i class="bi bi-clock-history me-2"></i>Actividad Reciente
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-muted">Últimas 5 solicitudes de acceso registradas.</p>
+                    <div id="actividad-reciente-container">
+                        <!-- El contenido se generará con JavaScript -->
+                        <div class="text-center p-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Aquí añadiremos más tarjetas de métricas en el futuro -->
-
             </div>
         </div>
     </div>
@@ -33,25 +95,81 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const totalLoginsElement = document.getElementById('totalLogins');
+<!-- Incluimos la librería Chart.js para los gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function( ) {
+        // Hacemos la petición a nuestra API para obtener los datos
         fetch("{{ url_for('dashboard_data') }}")
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    totalLoginsElement.textContent = 'Error';
-                    console.error('Error al cargar datos del dashboard:', data.error);
+                    console.error("Error al cargar datos del dashboard:", data.error);
+                    return;
+                }
+
+                // 1. Actualizar las tarjetas de métricas
+                document.getElementById('total-usuarios').textContent = data.total_usuarios;
+                document.getElementById('total-dispositivos').textContent = data.total_dispositivos_autorizados;
+                document.getElementById('solicitudes-pendientes').textContent = data.solicitudes_pendientes;
+
+                // 2. Renderizar el gráfico de roles
+                const rolesCtx = document.getElementById('roles-chart').getContext('2d');
+                new Chart(rolesCtx, {
+                    type: 'doughnut', // Tipo de gráfico: dona
+                    data: {
+                        labels: Object.keys(data.desglose_roles),
+                        datasets: [{
+                            label: 'Nº de Usuarios',
+                            data: Object.values(data.desglose_roles),
+                            backgroundColor: [
+                                'rgba(25, 135, 84, 0.7)', // Verde para admin (o el primer rol)
+                                'rgba(108, 117, 125, 0.7)', // Gris para usuario (o el segundo rol)
+                            ],
+                            borderColor: [
+                                'rgba(25, 135, 84, 1)',
+                                'rgba(108, 117, 125, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
+
+                // 3. Renderizar la lista de actividad reciente
+                const actividadContainer = document.getElementById('actividad-reciente-container');
+                if (data.actividad_reciente && data.actividad_reciente.length > 0) {
+                    let html = '<ul class="list-group list-group-flush">';
+                    data.actividad_reciente.forEach(actividad => {
+                        let badgeClass = 'bg-secondary';
+                        if (actividad.estado === 'aprobada') badgeClass = 'bg-success';
+                        if (actividad.estado === 'pendiente') badgeClass = 'bg-warning text-dark';
+                        if (actividad.estado === 'rechazada') badgeClass = 'bg-danger';
+
+                        html += `
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    Solicitud para <strong>${actividad.username}</strong>
+                                    <small class="d-block text-muted">${actividad.fecha}</small>
+                                </div>
+                                <span class="badge ${badgeClass} rounded-pill">${actividad.estado}</span>
+                            </li>`;
+                    });
+                    html += '</ul>';
+                    actividadContainer.innerHTML = html;
                 } else {
-                    // Actualizamos el contador de logins
-                    totalLoginsElement.textContent = data.total_logins;
+                    actividadContainer.innerHTML = '<p class="text-center text-muted">No hay actividad reciente.</p>';
                 }
             })
-            .catch(error => {
-                totalLoginsElement.textContent = 'Error';
-                console.error('Error de red:', error);
-            });
+            .catch(error => console.error('Error en la petición fetch:', error));
     });
 </script>
 {% endblock %}
