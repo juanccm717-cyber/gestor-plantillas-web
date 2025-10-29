@@ -5,122 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestor de Plantillas</title>
     <style>
+        /* Tu CSS espectacular va aquí */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap' );
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -2;
-        }
-
-        #bgVideo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(10, 25, 47, 0.7);
-            z-index: -1;
-        }
-
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            padding: 40px 50px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            margin-bottom: 24px;
-            font-weight: 600;
-        }
-
-        .error {
-            color: #ffb8b8;
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 14px 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 16px;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            background: #3498db;
-            color: white;
-            padding: 14px 20px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background: #2980b9;
-            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.5);
-            transform: translateY(-3px);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; }
+        .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -2; }
+        #bgVideo { width: 100%; height: 100%; object-fit: cover; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.7); z-index: -1; }
+        .login-wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); padding: 40px 50px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); width: 100%; max-width: 420px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); color: white; animation: fadeIn 1s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h1 { margin-bottom: 24px; font-weight: 600; }
+        .error { color: #ffb8b8; margin-bottom: 16px; font-weight: 600; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 14px 20px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; box-sizing: border-box; background: rgba(255, 255, 255, 0.15); color: white; font-size: 16px; }
+        input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        input:focus { outline: none; border-color: #3498db; }
+        input[type="submit"] { width: 100%; background: #3498db; color: white; padding: 14px 20px; margin-top: 10px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s; }
+        input[type="submit"]:hover { background: #2980b9; box-shadow: 0 4px 20px rgba(52, 152, 219, 0.5); transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -148,48 +49,28 @@
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 
+                <!-- Dejamos el campo oculto, pero no dependemos de él para el admin -->
                 <input type="hidden" name="device_fingerprint" id="device_fingerprint">
                 
-                <input type="submit" value="Identificando dispositivo..." id="submit-button" disabled>
+                <!-- BOTÓN SIEMPRE HABILITADO -->
+                <input type="submit" value="Acceder">
             </form>
         </div>
     </div>
 
-    <!-- ================================================== -->
-    <!--     BLOQUE DE SCRIPTS (VERSIÓN FINAL Y CORRECTA)   -->
-    <!-- ================================================== -->
-
-    <!-- ... -->
-    <!-- 1. Carga la librería FingerprintJS desde la URL correcta -->
+    <!-- El script de FingerprintJS sigue aquí para los usuarios normales, pero ya no bloquea al admin -->
     <script src="https://openfpcdn.io/fingerprintjs/v4" onload="initFingerprintJS( )"></script>
-
-    <!-- 2. Ejecuta el código para obtener la huella... -->
-    <!-- ... -->
-
-    <!-- 2. Ejecuta el código para obtener la huella y ponerla en el campo oculto -->
     <script>
-        function initFingerprintJS() {
-            FingerprintJS.load()
-            .then(fp => fp.get())
-            .then(result => {
-                const visitorId = result.visitorId;
-                document.getElementById('device_fingerprint').value = visitorId;
-                console.log("Huella del dispositivo detectada:", visitorId);
-
-                // --- ¡NUEVAS LÍNEAS! ---
-                const submitButton = document.getElementById('submit-button');
-                submitButton.disabled = false; // Habilita el botón
-                submitButton.value = "Acceder"; // Cambia el texto
-                // ------------------------
-
-            })
-            .catch(error => {
-                console.error("Error al obtener la huella:", error);
-                // Opcional: Informar al usuario que algo falló
-                document.getElementById('submit-button').value = "Error de identificación";
-            });
-        }
-</script>
+      function initFingerprintJS() {
+        FingerprintJS.load()
+          .then(fp => fp.get())
+          .then(result => {
+            document.getElementById('device_fingerprint').value = result.visitorId;
+            console.log("Huella del dispositivo detectada (para usuarios normales):", result.visitorId);
+          })
+          .catch(error => console.error("Error al obtener la huella:", error));
+      }
+    </script>
 
 </body>
 </html>
