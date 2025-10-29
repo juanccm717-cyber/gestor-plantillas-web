@@ -277,6 +277,20 @@ DATOS_PESO_TALLA = [
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates'))
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "llave-secreta-de-desarrollo")
 
+# ==============================================================================
+#           CONFIGURACIÓN DE COOKIES PARA PRODUCCIÓN EN VERCEL
+# ==============================================================================
+# Soluciona el error "Third-party cookie is blocked" en navegadores modernos.
+
+# Obliga a que la cookie solo se envíe a través de HTTPS (Vercel ya lo provee).
+app.config['SESSION_COOKIE_SECURE'] = True  
+
+# Permite que la cookie se envíe en todas las solicitudes, solucionando
+# el problema de origen cruzado que bloquea la sesión.
+app.config['SESSION_COOKIE_SAMESITE'] = 'None' 
+# ==============================================================================
+
+
 # --- RUTAS DEL NÚCLEO (LOGIN, MENU, ETC.) ---
 @app.route('/')
 def home():
@@ -293,53 +307,54 @@ def home():
 # ==============================================================================
 #               RUTA DE LOGIN CLÁSICA (SIN HUELLA DIGITAL)
 # ==============================================================================
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         
+        print("--- INTENTO DE LOGIN ---")
+        print(f"Usuario recibido: {username}")
+        print(f"Contraseña recibida: {password}")
+
         try:
             with engine.connect() as connection:
-                # Usamos LOWER() para que el login sea case-insensitive
+                print("Conexión a la BD exitosa.")
                 sql_query = text("SELECT id, username, password_hash, role FROM usuarios WHERE LOWER(username) = LOWER(:username)")
                 user = connection.execute(sql_query, {'username': username}).first()
 
-                # =================================================================
-                #           AQUÍ ESTÁ LA CORRECCIÓN CLAVE
-                # =================================================================
-                # Comparamos la contraseña en texto plano con el hash (en formato texto) de la BD
-                if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+                if user:
+                    print(f"Usuario encontrado en la BD: {user.username}")
+                    print(f"Hash en la BD: {user.password_hash}")
                     
-                    # Iniciamos sesión directamente
-                    session['user_id'] = user.id
-                    session['username'] = user.username
-                    session['role'] = user.role
-                    
-                    # Guardamos el log
+                    # Verificación
                     try:
-                        log_sql = text("INSERT INTO logs (username, action) VALUES (:username, 'login')")
-                        connection.execute(log_sql, {'username': user.username})
-                        connection.commit()
-                    except Exception as log_error:
-                        print(f"Error al registrar el log de login: {log_error}")
-                        
-                    return redirect(url_for('menu'))
+                        is_valid = bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8'))
+                        print(f"Resultado de bcrypt.checkpw: {is_valid}")
+                        if is_valid:
+                            # ... el resto de tu lógica de sesión exitosa
+                            session['user_id'] = user.id
+                            session['username'] = user.username
+                            session['role'] = user.role
+                            return redirect(url_for('menu'))
+                        else:
+                            flash('Nombre de usuario o contraseña incorrectos.', 'danger')
+                    except Exception as check_error:
+                        print(f"ERROR DURANTE bcrypt.checkpw: {check_error}")
+                        flash('Error al verificar la contraseña.', 'danger')
+
                 else:
-                    # Si el usuario o la contraseña son incorrectos
+                    print("Usuario NO encontrado en la BD.")
                     flash('Nombre de usuario o contraseña incorrectos.', 'danger')
         
         except Exception as e:
-            print(f"Error durante el login: {e}")
+            print(f"ERROR DURANTE LA CONEXIÓN O CONSULTA: {e}")
             flash('Ocurrió un error en el servidor.', 'danger')
         
-        # Si el login falla, siempre redirigir de vuelta a la página de login
         return redirect(url_for('login'))
         
-    # Si es un método GET, simplemente mostramos la página
     return render_template('login.html')
-
-
 
 
 @app.route('/logout')
@@ -706,25 +721,22 @@ def add_user():
         return jsonify({'success': False, 'message': 'Todos los campos son requeridos.'}), 400
 
     try:
-        # Hashear la contraseña
         password_bytes = new_password.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed_password_bytes = bcrypt.hashpw(password_bytes, salt)
-        # Decodificamos el hash a una cadena de texto para guardarlo en la base de datos
-        hashed_password_str = hashed_password_bytes.decode('utf-8') # <--- CAMBIO AQUÍ
+        # CORRECCIÓN 2: Guardar el hash como texto, no como hexadecimal
+        hashed_password_str = hashed_password_bytes.decode('utf-8')
 
         with engine.connect() as connection:
-            # Verificar si el usuario ya existe
             check_sql = text("SELECT id FROM usuarios WHERE LOWER(username) = LOWER(:username)")
             existing_user = connection.execute(check_sql, {'username': new_username}).first()
             if existing_user:
                 return jsonify({'success': False, 'message': f'El usuario "{new_username}" ya existe.'}), 409
 
-            # Insertar nuevo usuario
             insert_sql = text("INSERT INTO usuarios (username, password_hash, role) VALUES (:username, :password_hash, :role)")
             connection.execute(insert_sql, {
                 'username': new_username,
-                'password_hash': hashed_password_str, # <--- Se guarda la cadena de texto
+                'password_hash': hashed_password_str,
                 'role': new_role
             })
             connection.commit()
