@@ -1,50 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Calculadora de IMC{% endblock %}
+{% block title %}Calculadora Universal de IMC{% endblock %}
 
-{% block head %}
+{% block styles %}
 <style>
-    /* Estilos para la barra de progreso y su indicador */
-    .imc-scale-container {
-        position: relative;
-        margin-top: 1.5rem;
-        padding-bottom: 2.5rem; 
+    #resultado-area {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+        display: none;
     }
-    .imc-indicator {
-        position: absolute;
-        bottom: 20px; /* Alineado con la parte superior de la barra */
-        width: 3px;
-        height: 25px;
-        background-color: #fff;
-        transform: translateX(-50%);
-        transition: left 0.5s ease-out;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
-        border-radius: 1.5px;
-        z-index: 10;
+    #resultado-area.visible {
+        opacity: 1;
+        display: block;
     }
-    .imc-indicator-label {
-        position: absolute;
-        bottom: -10px;
-        font-size: 0.9rem;
-        font-weight: bold;
+    .accordion-button:not(.collapsed) {
+        background-color: #343a40;
         color: #fff;
-        transform: translateX(-50%);
-        transition: left 0.5s ease-out;
-        white-space: nowrap;
-        text-shadow: 0 0 3px rgba(0,0,0,0.7);
     }
-    /* NUEVO: Estilos para las etiquetas de los rangos */
-    .range-labels {
-        position: relative;
-        height: 20px;
-        margin-top: -20px; /* Alinea las etiquetas con la barra */
-    }
-    .range-label {
-        position: absolute;
-        bottom: -20px;
-        transform: translateX(-50%);
-        font-size: 0.75rem;
-        color: #adb5bd;
+    .imc-valor {
+        font-size: 2rem;
+        font-weight: bold;
     }
 </style>
 {% endblock %}
@@ -52,44 +27,31 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
+        <div class="col-md-8 col-lg-7">
             <div class="card bg-dark text-white border-secondary shadow-lg">
                 <div class="card-header bg-dark-accent text-center py-3">
-                    <h2 class="card-title mb-0"><i class="fas fa-calculator me-2"></i>Calculadora de IMC</h2>
+                    <h2 class="card-title mb-0"><i class="bi bi-calculator me-2"></i>Calculadora Universal de IMC</h2>
                 </div>
                 <div class="card-body p-4">
+                    <p class="text-center text-muted">Introduce el peso y la talla para ver la interpretación del IMC en diferentes grupos.</p>
                     <div class="mb-3">
                         <label for="peso" class="form-label">Peso (en kilogramos)</label>
-                        <input type="number" class="form-control" id="peso" placeholder="Ej: 70.5">
+                        <input type="number" class="form-control" id="peso" placeholder="Ej: 70.5" step="0.1">
                     </div>
                     <div class="mb-3">
                         <label for="talla" class="form-label">Talla (en centímetros)</label>
                         <input type="number" class="form-control" id="talla" placeholder="Ej: 175">
                     </div>                  
-                    <div id="resultado-area" class="mt-4 text-center" style="display: none; opacity: 0; transition: opacity 0.5s;">
-                        <hr>
-                        <h4>Resultado</h4>
-                        <p class="display-4 fw-bold" id="imc-valor"></p>
-                        <p class="fs-4" id="imc-interpretacion"></p>
+                </div>
+            </div>
 
-                        <!-- INICIO DE LA MEJORA VISUAL v4.0 -->
-                        <div class="imc-scale-container">
-                            <!-- Barra de progreso con anchos proporcionales -->
-                            <div class="progress" style="height: 20px;">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 23.33%"></div>
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 43.33%"></div>
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 33.34%"></div>
-                            </div>
-                            <!-- Contenedor para el indicador y las etiquetas -->
-                            <div class="range-labels">
-                                <div id="indicator-container"></div>
-                                <div class="range-label" style="left: 23.33%;">18.5</div>
-                                <div class="range-label" style="left: 66.66%;">25</div>
-                                <div class="range-label" style="left: 100%;">30</div>
-                            </div>
-                        </div>
-                        <!-- FIN DE LA MEJORA VISUAL v4.0 -->
-                    </div>
+            <!-- Área de Resultados -->
+            <div id="resultado-area" class="mt-4">
+                <div class="text-center mb-3">
+                    <h3 class="text-white">IMC Calculado: <span id="imc-calculado" class="imc-valor text-primary"></span></h3>
+                </div>
+                <div class="accordion" id="interpretacionesAcordeon">
+                    <!-- Los resultados se insertarán aquí con JavaScript -->
                 </div>
             </div>
         </div>
@@ -102,72 +64,92 @@
     const inputPeso = document.getElementById('peso');
     const inputTalla = document.getElementById('talla');
     const resultadoArea = document.getElementById('resultado-area');
-    const imcValor = document.getElementById('imc-valor');
-    const imcInterpretacion = document.getElementById('imc-interpretacion');
-    const indicatorContainer = document.getElementById('indicator-container');
+    const imcCalculadoSpan = document.getElementById('imc-calculado');
+    const acordeon = document.getElementById('interpretacionesAcordeon');
 
-    function calcularIMC() {
+    function calcularYMostrarResultados() {
         const peso = parseFloat(inputPeso.value);
         const tallaCm = parseFloat(inputTalla.value);
 
         if (isNaN(peso) || isNaN(tallaCm) || peso <= 0 || tallaCm <= 0) {
-            resultadoArea.style.opacity = '0';
-            setTimeout(() => { resultadoArea.style.display = 'none'; }, 500);
+            resultadoArea.classList.remove('visible');
             return;
         }
 
         const tallaM = tallaCm / 100;
-        const imc = peso / (tallaM * tallaM);
-        const imcRedondeado = imc.toFixed(2);
+        const imc = (peso / (tallaM * tallaM)).toFixed(1);
 
-        let interpretacion = '';
-        let colorClase = '';
+        imcCalculadoSpan.textContent = imc;
+        
+        let resultadosHTML = '';
+        
+        // 1. Interpretación para Adultos
+        resultadosHTML += generarInterpretacionAdulto(imc);
 
-        // Definimos los rangos de forma clara
-        const RANGOS = {
-            BAJO_PESO: 18.5,
-            NORMAL: 25,
-            SOBREPESO: 30,
-        };
-        
-        // Lógica de interpretación
-        if (imc < RANGOS.BAJO_PESO) {
-            interpretacion = 'Bajo Peso';
-            colorClase = 'text-info';
-        } else if (imc < RANGOS.NORMAL) {
-            interpretacion = 'Peso Normal';
-            colorClase = 'text-success';
-        } else if (imc < RANGOS.SOBREPESO) {
-            interpretacion = 'Sobrepeso';
-            colorClase = 'text-warning';
-        } else {
-            interpretacion = 'Obesidad';
-            colorClase = 'text-danger';
-        }
+        // 2. Interpretación para Niños (ejemplos clave)
+        resultadosHTML += generarInterpretacionInfantil(imc, 5, 'Niño de 5 años');
+        resultadosHTML += generarInterpretacionInfantil(imc, 10, 'Niño/a de 10 años');
+        resultadosHTML += generarInterpretacionInfantil(imc, 15, 'Adolescente de 15 años');
 
-        imcValor.innerText = imcRedondeado;
-        imcInterpretacion.innerText = interpretacion;
-        imcInterpretacion.className = 'fs-4 ' + colorClase;
-        
-        // --- LÓGICA DE POSICIONAMIENTO CORREGIDA ---
-        const minVisibleIMC = 15;
-        const maxVisibleIMC = 30; // El final de la barra visible es 30
-        
-        let percentPosition = ((imc - minVisibleIMC) / (maxVisibleIMC - minVisibleIMC)) * 100;
-        
-        // Aplicamos límites para que el indicador no se salga
-        percentPosition = Math.max(0, Math.min(100, percentPosition));
+        // 3. Interpretación para Gestantes
+        resultadosHTML += generarInterpretacionGestante(imc);
 
-        indicatorContainer.innerHTML = `
-            <div class="imc-indicator" style="left: ${percentPosition}%;"></div>
-            <div class="imc-indicator-label" style="left: ${percentPosition}%;">Tú</div>
-        `;
-        
-        resultadoArea.style.display = 'block';
-        setTimeout(() => { resultadoArea.style.opacity = '1'; }, 10);
+        acordeon.innerHTML = resultadosHTML;
+
+        resultadoArea.classList.add('visible');
     }
 
-    inputPeso.addEventListener('input', calcularIMC);
-    inputTalla.addEventListener('input', calcularIMC);
+    function generarInterpretacionAdulto(imc) {
+        let categoria, color, recomendacion;
+        if (imc < 18.5) { categoria = 'Bajo Peso'; color = 'info'; } 
+        else if (imc < 25) { categoria = 'Peso Normal'; color = 'success'; } 
+        else if (imc < 30) { categoria = 'Sobrepeso'; color = 'warning'; } 
+        else { categoria = 'Obesidad'; color = 'danger'; }
+        recomendacion = 'Clasificación estándar de la OMS para mayores de 20 años.';
+        return crearItemAcordeon('Adultos (+20 años)', imc, categoria, color, recomendacion, 'adulto-collapse', true);
+    }
+
+    function generarInterpretacionInfantil(imc, edad, titulo) {
+        const rangos = { '5': { min: 14, max: 17.5 }, '10': { min: 15, max: 20 }, '15': { min: 17, max: 23 } };
+        const rangoNormal = rangos[edad];
+        let categoria, color;
+
+        if (imc < rangoNormal.min) { categoria = 'Bajo Peso'; color = 'info'; } 
+        else if (imc <= rangoNormal.max) { categoria = 'Peso Normal'; color = 'success'; } 
+        else if (imc <= rangoNormal.max + 2) { categoria = 'Sobrepeso'; color = 'warning'; } 
+        else { categoria = 'Obesidad'; color = 'danger'; }
+        const recomendacion = `Interpretación basada en percentiles de crecimiento para la edad. Rango normal aproximado: ${rangoNormal.min}-${rangoNormal.max}.`;
+        return crearItemAcordeon(titulo, imc, categoria, color, recomendacion, `infantil-${edad}-collapse`);
+    }
+
+    function generarInterpretacionGestante(imc) {
+        let categoria, color, gananciaRecomendada;
+        if (imc < 18.5) { categoria = 'Bajo Peso Pregestacional'; color = 'info'; gananciaRecomendada = '12.5 - 18 kg'; } 
+        else if (imc < 25) { categoria = 'Peso Normal Pregestacional'; color = 'success'; gananciaRecomendada = '11.5 - 16 kg'; } 
+        else if (imc < 30) { categoria = 'Sobrepeso Pregestacional'; color = 'warning'; gananciaRecomendada = '7 - 11.5 kg'; } 
+        else { categoria = 'Obesidad Pregestacional'; color = 'danger'; gananciaRecomendada = '5 - 9 kg'; }
+        const recomendacion = `Si este IMC corresponde a su estado <strong>pregestacional</strong>, la ganancia de peso recomendada es de <strong>${gananciaRecomendada}</strong>.`;
+        return crearItemAcordeon('Gestantes', imc, categoria, color, recomendacion, 'gestante-collapse');
+    }
+
+    function crearItemAcordeon(titulo, imc, categoria, color, recomendacion, id, expandido = false) {
+        return `
+            <div class="accordion-item bg-dark text-white border-secondary">
+                <h2 class="accordion-header" id="heading-${id}">
+                    <button class="accordion-button ${expandido ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${id}" aria-expanded="${expandido}" aria-controls="${id}">
+                        ${titulo} - <span class="ms-2 fw-bold text-${color}">${categoria}</span>
+                    </button>
+                </h2>
+                <div id="${id}" class="accordion-collapse collapse ${expandido ? 'show' : ''}" aria-labelledby="heading-${id}" data-bs-parent="#interpretacionesAcordeon">
+                    <div class="accordion-body">
+                        ${recomendacion}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    inputPeso.addEventListener('input', calcularYMostrarResultados);
+    inputTalla.addEventListener('input', calcularYMostrarResultados);
 </script>
 {% endblock %}
