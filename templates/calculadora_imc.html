@@ -132,7 +132,9 @@
         return crearItemAcordeon('Gestantes', imc, categoria, color, recomendacion, 'gestante-collapse');
     }
 
+    // ESTA ES LA NUEVA VERSIÓN MEJORADA
     function crearItemAcordeon(titulo, imc, categoria, color, recomendacion, id, expandido = false) {
+        // El cambio clave está aquí: hemos añadido el párrafo con la clase "imc-valor"
         return `
             <div class="accordion-item bg-dark text-white border-secondary">
                 <h2 class="accordion-header" id="heading-${id}">
@@ -142,12 +144,14 @@
                 </h2>
                 <div id="${id}" class="accordion-collapse collapse ${expandido ? 'show' : ''}" aria-labelledby="heading-${id}" data-bs-parent="#interpretacionesAcordeon">
                     <div class="accordion-body">
-                        ${recomendacion}
+                        <p class="text-center imc-valor text-${color}">${imc}</p>
+                        <p class="text-center">${recomendacion}</p>
                     </div>
                 </div>
             </div>
         `;
     }
+
 
     inputPeso.addEventListener('input', calcularYMostrarResultados);
     inputTalla.addEventListener('input', calcularYMostrarResultados);
