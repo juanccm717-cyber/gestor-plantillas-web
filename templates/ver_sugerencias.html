@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Bandeja de Sugerencias{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Bandeja de Entrada de Sugerencias</h1>
+
+    {% if sugerencias %}
+        {% for sugerencia in sugerencias %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>De:</strong> {{ sugerencia.username }}
+                </div>
+                <small class="text-muted">
+                    {{ sugerencia.created_at.strftime('%d/%m/%Y a las %H:%M') }}
+                </small>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ sugerencia.contenido }}</p>
+            </div>
+            <div class="card-footer text-end">
+                <span class="badge bg-secondary">{{ sugerencia.estado | capitalize }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            No hay sugerencias en la bandeja de entrada por el momento.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

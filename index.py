@@ -1015,6 +1015,56 @@ def search_items():
         print(f"Error en la búsqueda de items: {e}")
         return jsonify({'error': 'Error en el servidor'}), 500
 
+# --- RUTA PARA LA PÁGINA DE SUGERENCIAS (¡NUEVO!) ---
+@app.route('/enviar_sugerencia', methods=['GET', 'POST'])
+def enviar_sugerencia():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        contenido_sugerencia = request.form.get('contenido')
+        user_id = session.get('user_id')
+
+        if contenido_sugerencia and user_id:
+            try:
+                with engine.connect() as connection:
+                    sql = text("INSERT INTO sugerencias (usuario_id, contenido) VALUES (:uid, :contenido)")
+                    connection.execute(sql, {'uid': user_id, 'contenido': contenido_sugerencia})
+                    connection.commit()
+                flash('¡Gracias! Tu sugerencia ha sido enviada con éxito.', 'success')
+            except Exception as e:
+                print(f"Error al guardar sugerencia: {e}")
+                flash('Hubo un error al enviar tu sugerencia. Por favor, inténtalo de nuevo.', 'danger')
+        else:
+            flash('El campo de la sugerencia no puede estar vacío.', 'warning')
+        
+        return redirect(url_for('enviar_sugerencia'))
+
+    return render_template('enviar_sugerencia.html')
+# --- RUTA PARA VER LAS SUGERENCIAS (SOLO ADMIN - ¡NUEVO!) ---
+@app.route('/ver_sugerencias')
+def ver_sugerencias():
+    if session.get('role') != 'administrador':
+        flash('Acceso no autorizado.', 'danger')
+        return redirect(url_for('menu'))
+
+    try:
+        with engine.connect() as connection:
+            # Unimos la tabla de sugerencias con la de usuarios para obtener el nombre de usuario
+            sql = text("""
+                SELECT s.id, s.contenido, s.estado, s.created_at, u.username
+                FROM sugerencias s
+                JOIN usuarios u ON s.usuario_id = u.id
+                ORDER BY s.created_at DESC;
+            """)
+            lista_sugerencias = connection.execute(sql).fetchall()
+    except Exception as e:
+        print(f"Error al obtener sugerencias: {e}")
+        flash('Error al cargar las sugerencias.', 'danger')
+        lista_sugerencias = []
+
+    return render_template('ver_sugerencias.html', sugerencias=lista_sugerencias)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

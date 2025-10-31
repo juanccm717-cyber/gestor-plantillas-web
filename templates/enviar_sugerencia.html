@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Enviar Sugerencia{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h2 class="h3"><i class="bi bi-lightbulb me-2"></i>Buzón de Sugerencias</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">¿Tienes una idea para mejorar la aplicación? ¿Una nueva función que te gustaría ver? ¡Cuéntanos! Tu feedback es muy valioso para nosotros.</p>
+                    
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="contenido" class="form-label">Tu sugerencia:</label>
+                            <textarea class="form-control" id="contenido" name="contenido" rows="5" placeholder="Ej: Me gustaría que la calculadora de IMC tuviera una opción para niños..." required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-send me-2"></i>Enviar mi Idea
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

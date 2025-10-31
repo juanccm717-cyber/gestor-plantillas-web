@@ -111,9 +111,7 @@
             </div>
         </div>
 
-        <!-- ===================================================================== -->
-        <!--    NUEVA TARJETA UNIFICADA DE BÚSQUEDA (PARA TODOS LOS USUARIOS)     -->
-        <!-- ===================================================================== -->
+        <!-- TARJETA UNIFICADA DE BÚSQUEDA -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-info">
                 <div class="card-body text-center d-flex flex-column">
@@ -124,16 +122,27 @@
                     <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, medicamentos e insumos.</p>
                     
                     <div class="mt-auto">
-                        <!-- Botón para buscar diagnósticos -->
                         <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
                             <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
                         </a>
-                        
-                        <!-- Botón para buscar items (medicamentos/insumos) -->
                         <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
                             <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta para Enviar Sugerencia (¡NUEVO!) -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-lightbulb" style="font-size: 3rem; color: #ffc107;"></i>
+                    </div>
+                    <h5 class="card-title">Buzón de Sugerencias</h5>
+                    <p class="card-text text-muted flex-grow-1">¿Tienes una idea? Ayúdanos a mejorar la aplicación.</p>
+                    <a href="{{ url_for('enviar_sugerencia') }}" class="btn btn-warning mt-auto">Enviar Idea</a>
                 </div>
             </div>
         </div>
@@ -154,7 +163,7 @@
         </div>
         {% endif %}
 
-        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) -->
+        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) - ACTUALIZADA -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-primary">
@@ -163,7 +172,7 @@
                         <i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #0d6efd;"></i>
                     </div>
                     <h5 class="card-title">Gestión de Seguridad</h5>
-                    <p class="card-text text-muted flex-grow-1">Administra usuarios, valida dispositivos y revisa el historial de accesos.</p>
+                    <p class="card-text text-muted flex-grow-1">Administra usuarios, dispositivos, sugerencias y el historial de accesos.</p>
                     
                     <div class="mt-auto">
                         <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
@@ -173,10 +182,12 @@
                             {% if solicitudes_pendientes_count > 0 %}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {{ solicitudes_pendientes_count }}
-                                    <span class="visually-hidden">solicitudes pendientes</span>
                                 </span>
                             {% endif %}
                         </a>
+
+                        <!-- ¡NUEVO BOTÓN AQUÍ! -->
+                        <a href="{{ url_for('ver_sugerencias') }}" class="btn btn-primary d-block mb-2">Ver Sugerencias</a>
 
                         <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>
                     </div>
