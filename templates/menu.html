@@ -174,7 +174,19 @@
             </div>
         </div>
         {% endif %}
-
+        <!-- Tarjeta para Búsqueda de Items Médicos (¡NUEVO!) -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-search" style="font-size: 3rem; color: #198754;"></i>
+                    </div>
+                    <h5 class="card-title">Búsqueda de Items</h5>
+                    <p class="card-text text-muted flex-grow-1">Encuentra medicamentos e insumos por código o nombre.</p>
+                    <a href="{{ url_for('buscar_items') }}" class="btn btn-success mt-auto">Buscar Item</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

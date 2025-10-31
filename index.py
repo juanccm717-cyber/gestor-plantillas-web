@@ -980,6 +980,41 @@ def inject_pending_requests_count():
     # Si no es admin o no está logueado, la variable no se crea o es 0
     return dict(solicitudes_pendientes_count=0)
 
+# --- RUTA PARA MOSTRAR LA PÁGINA DE BÚSQUEDA DE ITEMS (¡NUEVO!) ---
+@app.route('/buscar_items')
+def buscar_items():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('buscar_items.html')
+
+# --- API INTERNA PARA BÚSQUEDA DE ITEMS (¡NUEVO!) ---
+@app.route('/api/search_items')
+def search_items():
+    if 'username' not in session: 
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    query = request.args.get('q', '')
+    if len(query) < 3: 
+        return jsonify([])
+
+    try:
+        with engine.connect() as connection:
+            # Buscamos en la tabla 'items_medicos' por código o descripción
+            sql_query = text("""
+                SELECT codigo, descripcion, tipo 
+                FROM items_medicos 
+                WHERE descripcion ILIKE :query OR codigo ILIKE :query
+                LIMIT 50;
+            """)
+            result = connection.execute(sql_query, {'query': f'%{query}%'})
+            
+            items = [dict(row._mapping) for row in result]
+            return jsonify(items)
+            
+    except Exception as e:
+        print(f"Error en la búsqueda de items: {e}")
+        return jsonify({'error': 'Error en el servidor'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Búsqueda de Items Médicos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h2 class="h3"><i class="bi bi-search me-2"></i>Búsqueda de Medicamentos e Insumos</h2>
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Escribe el nombre o código del item (mín. 3 letras)..." autofocus>
+                    </div>
+                    <div id="loadingIndicator" class="text-center" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Buscando...</span>
+                        </div>
+                    </div>
+                    <ul id="resultsList" class="list-group">
+                        <!-- Los resultados de la búsqueda aparecerán aquí -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const resultsList = document.getElementById('resultsList');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    let searchTimeout;
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        const query = searchInput.value.trim();
+
+        if (query.length < 3) {
+            resultsList.innerHTML = '';
+            loadingIndicator.style.display = 'none';
+            return;
+        }
+
+        loadingIndicator.style.display = 'block';
+        resultsList.innerHTML = '';
+
+        searchTimeout = setTimeout(() => {
+            fetch(`/api/search_items?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    loadingIndicator.style.display = 'none';
+                    let html = '';
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            // Asignamos un color según el tipo de item
+                            const badgeColor = item.tipo === 'MED' ? 'bg-success' : 'bg-info';
+                            const badgeText = item.tipo === 'MED' ? 'Medicamento' : 'Insumo';
+
+                            html += `
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <strong class="text-primary">${item.codigo}</strong> - ${item.descripcion}
+                                    </span>
+                                    <span class="badge ${badgeColor} rounded-pill">${badgeText}</span>
+                                </li>
+                            `;
+                        });
+                    } else {
+                        html = '<li class="list-group-item text-center text-muted">No se encontraron items.</li>';
+                    }
+                    resultsList.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error en la búsqueda:', error);
+                    loadingIndicator.style.display = 'none';
+                    resultsList.innerHTML = '<li class="list-group-item text-center text-danger">Error al cargar los resultados.</li>';
+                });
+        }, 300);
+    });
+</script>
+{% endblock %}
