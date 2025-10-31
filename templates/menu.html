@@ -142,7 +142,7 @@
         {% endif %}
 
         <!-- ===================================================================== -->
-        <!--    NUEVA TARJETA UNIFICADA DE SEGURIDAD (SOLO ADMIN)                 -->
+        <!--    TARJETA DE SEGURIDAD ACTUALIZADA CON NOTIFICACIÓN (SOLO ADMIN)    -->
         <!-- ===================================================================== -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
@@ -156,7 +156,18 @@
                     
                     <div class="mt-auto">
                         <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
-                        <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2">Validar Dispositivos</a>
+                        
+                        <!-- Botón con la nueva insignia de notificación -->
+                        <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2 position-relative">
+                            Validar Dispositivos
+                            {% if solicitudes_pendientes_count > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ solicitudes_pendientes_count }}
+                                    <span class="visually-hidden">solicitudes pendientes</span>
+                                </span>
+                            {% endif %}
+                        </a>
+
                         <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>
                     </div>
                 </div>

@@ -958,6 +958,28 @@ def borrar_solicitud_permanente(solicitud_id):
 
     return redirect(url_for('historial_solicitudes'))
 
+# ==============================================================================
+#           PROCESADOR DE CONTEXTO PARA NOTIFICACIONES (¡NUEVO!)
+# ==============================================================================
+# Esta función se ejecuta antes de renderizar CUALQUIER plantilla.
+# Su objetivo es hacer que una variable esté disponible globalmente en el HTML.
+
+@app.context_processor
+def inject_pending_requests_count():
+    # Solo hacemos la consulta a la BD si el usuario es un administrador
+    if session.get('role') == 'administrador':
+        try:
+            with engine.connect() as connection:
+                # Contamos las solicitudes con estado 'pendiente'
+                sql = text("SELECT COUNT(id) FROM solicitudes_acceso WHERE estado = 'pendiente'")
+                count = connection.execute(sql).scalar_one_or_none() or 0
+                return dict(solicitudes_pendientes_count=count)
+        except Exception as e:
+            print(f"Error al inyectar el contador de solicitudes: {e}")
+            return dict(solicitudes_pendientes_count=0)
+    # Si no es admin o no está logueado, la variable no se crea o es 0
+    return dict(solicitudes_pendientes_count=0)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
