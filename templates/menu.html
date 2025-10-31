@@ -60,7 +60,7 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
                     <div class="mb-3">
-                <i class="bi bi-calendar2-heart" style="font-size: 3rem; color: #d63384;"></i>
+                        <i class="bi bi-calendar2-heart" style="font-size: 3rem; color: #d63384;"></i>
                     </div>
                     <h5 class="card-title">Calculadora Gestacional</h5>
                     <p class="card-text text-muted flex-grow-1">Calcula la FPP y las semanas de gestación.</p>
@@ -111,16 +111,29 @@
             </div>
         </div>
 
-        <!-- Tarjeta para Búsqueda de Diagnósticos (CIE-10) -->
+        <!-- ===================================================================== -->
+        <!--    NUEVA TARJETA UNIFICADA DE BÚSQUEDA (PARA TODOS LOS USUARIOS)     -->
+        <!-- ===================================================================== -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm border-info">
                 <div class="card-body text-center d-flex flex-column">
                     <div class="mb-3">
                         <i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i>
                     </div>
-                    <h5 class="card-title">Búsqueda de Diagnósticos</h5>
-                    <p class="card-text text-muted flex-grow-1">Busca códigos CIE-10 en la base de datos en tiempo real.</p>
-                    <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info mt-auto">Buscar</a>
+                    <h5 class="card-title">Herramientas de Búsqueda</h5>
+                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, medicamentos e insumos.</p>
+                    
+                    <div class="mt-auto">
+                        <!-- Botón para buscar diagnósticos -->
+                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
+                            <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
+                        </a>
+                        
+                        <!-- Botón para buscar items (medicamentos/insumos) -->
+                        <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
+                            <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,9 +154,7 @@
         </div>
         {% endif %}
 
-        <!-- ===================================================================== -->
-        <!--    TARJETA DE SEGURIDAD ACTUALIZADA CON NOTIFICACIÓN (SOLO ADMIN)    -->
-        <!-- ===================================================================== -->
+        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-primary">
@@ -157,7 +168,6 @@
                     <div class="mt-auto">
                         <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
                         
-                        <!-- Botón con la nueva insignia de notificación -->
                         <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2 position-relative">
                             Validar Dispositivos
                             {% if solicitudes_pendientes_count > 0 %}
@@ -174,19 +184,7 @@
             </div>
         </div>
         {% endif %}
-        <!-- Tarjeta para Búsqueda de Items Médicos (Texto Actualizado) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-search" style="font-size: 3rem; color: #198754;"></i>
-                    </div>
-                    <h5 class="card-title">Medicamentos e Insumos</h5>
-                    <p class="card-text text-muted flex-grow-1">Busca en el petitorio unificado por código o descripción.</p>
-                    <a href="{{ url_for('buscar_items') }}" class="btn btn-success mt-auto">Buscar Medicamento/Insumo</a>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 {% endblock %}
