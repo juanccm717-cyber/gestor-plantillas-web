@@ -527,6 +527,7 @@ def detalle_plantilla(plantilla_id):
     else:
         return "Plantilla no encontrada", 404
 
+# --- RUTA DE DESCARGA PDF (TU CÓDIGO + CAPA DE PROTECCIÓN) ---
 @app.route('/plantilla/<int:plantilla_id>/descargar_pdf')
 def descargar_pdf_plantilla(plantilla_id):
     if 'username' not in session:
@@ -542,65 +543,85 @@ def descargar_pdf_plantilla(plantilla_id):
     if not plantilla_data:
         return "Plantilla no encontrada", 404
 
+    # ==================================================================
+    #    (¡NUEVO!) FUNCIÓN PARA LIMPIAR EL TEXTO ANTES DE USARLO
+    # ==================================================================
+    def limpiar_texto_para_pdf(texto):
+        if not texto:
+            return ""
+        # Convierte el texto a un formato seguro para FPDF, reemplazando
+        # caracteres problemáticos en lugar de causar un error.
+        return str(texto).encode('latin-1', 'replace').decode('latin-1')
+
     class PDF(FPDF):
         def header(self):
             self.set_font('Arial', 'B', 16)
-            self.cell(0, 10, 'Detalle de Plantilla', 0, 1, 'C')
+            # (¡MODIFICADO!) Limpiamos el título por si acaso
+            titulo_limpio = limpiar_texto_para_pdf('Detalle de Plantilla')
+            self.cell(0, 10, titulo_limpio, 0, 1, 'C')
             self.ln(5)
 
         def footer(self):
             self.set_y(-15)
             self.set_font('Arial', 'I', 8)
-            self.cell(0, 10, f'Página {self.page_no()}', 0, 0, 'C')
+            # (¡MODIFICADO!) Limpiamos el número de página
+            pagina_limpia = limpiar_texto_para_pdf(f'Pagina {self.page_no()}')
+            self.cell(0, 10, pagina_limpia, 0, 0, 'C')
 
         def chapter_title(self, title):
             self.set_font('Arial', 'B', 12)
             self.set_fill_color(230, 230, 230)
-            self.cell(0, 8, title, 0, 1, 'L', True)
+            # (¡MODIFICADO!) Limpiamos el título del capítulo
+            titulo_limpio = limpiar_texto_para_pdf(title)
+            self.cell(0, 8, titulo_limpio, 0, 1, 'L', True)
             self.ln(4)
 
         def chapter_body(self, content):
             self.set_font('Arial', '', 10)
-            if isinstance(content, list):
-                for item in content:
-                    self.multi_cell(0, 5, f'- {item}')
-                self.ln()
-            else:
-                self.multi_cell(0, 5, str(content))
-                self.ln()
+            # (¡MODIFICADO!) Limpiamos el contenido del cuerpo
+            contenido_limpio = limpiar_texto_para_pdf(content)
+            self.multi_cell(0, 5, contenido_limpio)
+            self.ln()
 
     pdf = PDF()
     pdf.add_page()
     
-    pdf.chapter_title('Información General')
+    pdf.chapter_title('Informacion General')
     pdf.chapter_body(f"ID de Plantilla: {plantilla_data['id']}")
-    pdf.chapter_body(f"Tipo de Atención: {plantilla_data['tipo_atencion']}")
-    pdf.chapter_body(f"Código Prestacional: {plantilla_data['codigo_prestacional']}")
-    pdf.chapter_body(f"Descripción: {plantilla_data['descripcion_prestacional']}")
+    pdf.chapter_body(f"Tipo de Atencion: {plantilla_data['tipo_atencion']}")
+    pdf.chapter_body(f"Codigo Prestacional: {plantilla_data['codigo_prestacional']}")
+    pdf.chapter_body(f"Descripcion: {plantilla_data['descripcion_prestacional']}")
 
+    # Función auxiliar para mostrar secciones de forma segura
     def display_section(title, data):
+        # (¡MODIFICADO!) Nos aseguramos de que 'data' no sea None
         if data and len(data) > 0:
             pdf.chapter_title(title)
-            pdf.chapter_body(data)
+            # Si es una lista, iteramos sobre ella
+            if isinstance(data, list):
+                for item in data:
+                    # Limpiamos cada item de la lista
+                    pdf.chapter_body(f'- {item}')
+            else: # Si no es una lista, lo tratamos como texto simple
+                pdf.chapter_body(data)
 
+    # Usamos la función auxiliar para todas las secciones
     display_section('Actividades Preventivas', plantilla_data.get('actividades_preventivas'))
-    display_section('Diagnóstico Principal', plantilla_data.get('diagnostico_principal'))
+    display_section('Diagnostico Principal', plantilla_data.get('diagnostico_principal'))
+    display_section('Diagnosticos Excluyentes', plantilla_data.get('diagnosticos_excluyentes'))
+    display_section('Diagnosticos Complementarios', plantilla_data.get('diagnosticos_complementarios'))
+    display_section('Medicamentos Relacionados', plantilla_data.get('medicamentos_relacionados'))
+    display_section('Insumos Relacionados', plantilla_data.get('insumos_relacionados'))
+    display_section('Procedimientos Obligatorios', plantilla_data.get('procedimientos_obligatorios'))
+    display_section('Procedimientos Excluyentes', plantilla_data.get('procedimientos_excluyentes'))
     display_section('Otros Procedimientos', plantilla_data.get('otros_procedimientos'))
     
-    if plantilla_data.get('observaciones'):
-        pdf.chapter_title('Observaciones')
-        texto_observaciones = plantilla_data.get('observaciones', '')
-        if texto_observaciones:
-            texto_observaciones = texto_observaciones.replace('<p>', '').replace('</p>', '\n')
-            texto_observaciones = texto_observaciones.replace('<strong>', '').replace('</strong>', '')
-            texto_observaciones = texto_observaciones.replace('<em>', '').replace('</em>', '')
-            texto_observaciones = texto_observaciones.replace('<u>', '').replace('</u>', '')
-            texto_observaciones = texto_observaciones.replace('<li>', '  - ').replace('</li>', '\n')
-            texto_observaciones = texto_observaciones.replace('<ol>', '').replace('</ol>', '')
-            texto_observaciones = texto_observaciones.replace('<ul>', '').replace('</ul>', '')
-            texto_observaciones = texto_observaciones.replace('  ', '\n')
-            texto_observaciones = re.sub('<[^<]+?>', '', texto_observaciones).strip()
-        pdf.multi_cell(0, 5, texto_observaciones)
+    # (¡MODIFICADO!) Limpieza especial para el campo de observaciones
+    observaciones = plantilla_data.get('observaciones')
+    if observaciones:
+        # Quitamos las etiquetas HTML antes de limpiar y mostrar
+        texto_sin_html = re.sub('<[^<]+?>', '', observaciones)
+        display_section('Observaciones', texto_sin_html)
 
     pdf_output = pdf.output(dest='S')
     
