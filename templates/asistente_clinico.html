@@ -2,24 +2,60 @@
 
 {% block title %}Asistente Clínico{% endblock %}
 
+{% block head %}
+{{ super() }}
+<style>
+    /* Estilos para mejorar la legibilidad y el diseño */
+    .card-header .h2 {
+        font-weight: 300; /* Título más ligero */
+    }
+    .list-group-item {
+        border-left: 4px solid transparent; /* Prepara para el borde de color */
+        transition: all 0.2s ease-in-out;
+    }
+    .list-group-item strong {
+        display: block; /* El nombre del item en su propia línea */
+        margin-bottom: 0.25rem;
+    }
+    /* Colores para las diferentes secciones */
+    .medicamentos-header, .procedimientos-header, .insumos-header {
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .medicamentos-header { background-color: #0d6efd; } /* Azul */
+    .procedimientos-header { background-color: #198754; } /* Verde */
+    .insumos-header { background-color: #fd7e14; } /* Naranja */
+
+    .list-group-item-medicamento { border-left-color: #0d6efd; }
+    .list-group-item-procedimiento { border-left-color: #198754; }
+    .list-group-item-insumo { border-left-color: #fd7e14; }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg">
-                <div class="card-header text-center">
-                    <h2 class="h3"><i class="bi bi-robot me-2"></i>Asistente de Consulta Clínica</h2>
-                    <p class="text-muted mb-0">Basado en Guías de Práctica Clínica</p>
+        <div class="col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light text-center py-3">
+                    <h2 class="h3 mb-0"><i class="bi bi-robot me-2 text-primary"></i>Asistente de Consulta Clínica</h2>
+                    <p class="text-muted mb-0">Basado en Guías de Práctica Clínica Institucionales</p>
                 </div>
-                <div class="card-body">
-                    <label for="input-diagnostico" class="form-label fw-bold">Buscar Diagnóstico (CIE-10)</label>
+                <div class="card-body p-4">
+                    <label for="input-diagnostico" class="form-label fw-bold">1. Seleccione un Diagnóstico (CIE-10)</label>
                     <div class="input-group mb-3">
-                        <input type="text" id="input-diagnostico" class="form-control" placeholder="Escribe el código o nombre del diagnóstico...">
+                        <input type="text" id="input-diagnostico" class="form-control form-control-lg" placeholder="Escriba el código o nombre del diagnóstico...">
                     </div>
                     
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 fw-bold">2. Recomendaciones del Asistente</h5>
                     <div id="asistente-ia-sugerencias" class="mt-3">
                         <div class="alert alert-secondary text-center">
-                            Selecciona un diagnóstico para ver las recomendaciones de tratamiento.
+                            <i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico para ver las recomendaciones.
                         </div>
                     </div>
                 </div>
@@ -36,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
+    // 1. Carga de diagnósticos para autocompletado
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -52,12 +89,13 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
+    // 2. Función para consultar al asistente
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
-            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">Selecciona un diagnóstico válido.</div>';
+            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
             return;
         }
-        contenedorSugerencias.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Buscando...</span></div></div>';
+        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Buscando...</span></div><p class="mt-2">Consultando base de conocimiento...</p></div>';
 
         fetch(`/api/asistente_sugerencias?cie10=${codigoCIE10}`)
             .then(response => {
@@ -68,30 +106,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 mostrarSugerencias(data);
             })
             .catch(error => {
-                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
+                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center"><i class="bi bi-exclamation-triangle me-2"></i>${error.message}</div>`;
             });
     }
 
+    // 3. Función MEJORADA para mostrar las sugerencias
     function mostrarSugerencias(data) {
         let html = '';
         if (data.notas_clinicas) {
             html += `<div class="alert alert-info">${data.notas_clinicas}</div>`;
         }
 
-        if (data.tratamiento_sugerido && data.tratamiento_sugerido.medicamentos.length > 0) {
-            html += '<h5>Medicamentos Recomendados</h5><ul class="list-group">';
+        let haySugerencias = false;
+
+        // Sección de Medicamentos
+        if (data.tratamiento_sugerido && data.tratamiento_sugerido.medicamentos && data.tratamiento_sugerido.medicamentos.length > 0) {
+            haySugerencias = true;
+            html += '<h6 class="medicamentos-header"><i class="bi bi-capsule-pill me-2"></i>Medicamentos Recomendados</h6><ul class="list-group list-group-flush">';
             data.tratamiento_sugerido.medicamentos.sort((a, b) => a.prioridad - b.prioridad);
             data.tratamiento_sugerido.medicamentos.forEach(med => {
-                html += `<li class="list-group-item"><strong>${med.nombre}</strong>  
-<small class="text-muted">${med.posologia}</small></li>`;
+                html += `<li class="list-group-item list-group-item-medicamento"><strong>${med.nombre}</strong><small class="text-muted d-block">${med.posologia}</small></li>`;
             });
             html += '</ul>';
-        } else {
-            html += '<p>No hay medicamentos sugeridos para este diagnóstico.</p>';
         }
+
+        // Sección de Procedimientos
+        if (data.tratamiento_sugerido && data.tratamiento_sugerido.procedimientos && data.tratamiento_sugerido.procedimientos.length > 0) {
+            haySugerencias = true;
+            html += '<h6 class="procedimientos-header"><i class="bi bi-heart-pulse me-2"></i>Procedimientos a Considerar</h6><ul class="list-group list-group-flush">';
+            data.tratamiento_sugerido.procedimientos.sort((a, b) => a.prioridad - b.prioridad);
+            data.tratamiento_sugerido.procedimientos.forEach(proc => {
+                html += `<li class="list-group-item list-group-item-procedimiento"><strong>${proc.nombre}</strong><small class="text-muted d-block">${proc.indicacion}</small></li>`;
+            });
+            html += '</ul>';
+        }
+        
+        // Si después de todo no hay sugerencias de tratamiento
+        if (!haySugerencias) {
+             html += '<div class="alert alert-light mt-3 text-center">No hay sugerencias específicas de tratamiento en la base de conocimiento para este diagnóstico.</div>';
+        }
+
         contenedorSugerencias.innerHTML = html;
     }
 
+    // 4. Evento que dispara la consulta
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
         const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
