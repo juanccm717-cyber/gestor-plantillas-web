@@ -43,34 +43,6 @@ CONOCIMIENTO_CLINICO = cargar_conocimiento_clinico()
 
 # ==============================================================================
 
-
-# ==============================================================================
-#           CARGA DEL CONOCIMIENTO PARA EL ASISTENTE DE IA
-# ==============================================================================
-
-def cargar_conocimiento_clinico():
-    """Carga la base de conocimiento desde el archivo JSON."""
-    try:
-        # Asume que el archivo está en la misma carpeta que index.py
-        with open('conocimiento_clinico.json', 'r', encoding='utf-8') as f:
-            print("INFO: Cargando la base de conocimiento clínico 'conocimiento_clinico.json'...")
-            conocimiento = json.load(f)
-            print(f"INFO: ¡Éxito! Se cargaron {len(conocimiento)} reglas de conocimiento.")
-            return conocimiento
-    except FileNotFoundError:
-        print("ADVERTENCIA: No se encontró 'conocimiento_clinico.json'. El asistente de IA no funcionará.")
-        return []
-    except json.JSONDecodeError:
-        print("ERROR: El archivo 'conocimiento_clinico.json' tiene un formato JSON inválido.")
-        return []
-
-# Cargamos el conocimiento UNA SOLA VEZ al iniciar la aplicación.
-CONOCIMIENTO_CLINICO = cargar_conocimiento_clinico()
-
-# ==============================================================================
-
-
-
 # --- CONFIGURACIÓN DE LA BASE DE DATOS REAL (SUPABASE) ---
 load_dotenv() # Carga las variables desde el archivo .env
 
@@ -1160,6 +1132,34 @@ def asistente_sugerencias():
         return jsonify(sugerencia_encontrada)
     else:
         return jsonify({}), 404 # Devuelve un objeto vacío y un 404 si no hay regla
+
+# --- RUTA PARA LA PÁGINA DEL ASISTENTE CLÍNICO DE IA (¡NUEVO!) ---
+@app.route('/asistente_clinico')
+def asistente_clinico():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('asistente_clinico.html')
+
+# --- API PARA EL ASISTENTE DE SUGERENCIAS DE IA (¡EXISTENTE!) ---
+@app.route('/api/asistente_sugerencias')
+def asistente_sugerencias():
+    if 'username' not in session:
+        return jsonify({"error": "No autorizado"}), 401
+    
+    codigo_cie10 = request.args.get('cie10', '')
+    if not codigo_cie10:
+        return jsonify({"error": "Se requiere un código CIE-10"}), 400
+    
+    sugerencia_encontrada = None
+    for regla in CONOCIMIENTO_CLINICO:
+        if regla.get('diagnostico_cie10') == codigo_cie10:
+            sugerencia_encontrada = regla
+            break
+    
+    if sugerencia_encontrada:
+        return jsonify(sugerencia_encontrada)
+    else:
+        return jsonify({}), 404
 
 
 if __name__ == '__main__':
