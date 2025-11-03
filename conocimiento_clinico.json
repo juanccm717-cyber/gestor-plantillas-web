@@ -26,19 +26,7 @@
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
   },
-  {
-    "diagnostico_cie10": "M169",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21726", "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
-        { "codigo_item": "21673", "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
-        { "codigo_item": "21827", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
-        { "codigo_item": "21830", "nombre": "Inyección de Triamcinolona Intra-articular (Bajo guía ecográfica)", "prioridad": 3, "posologia": "40mg. Considerar si no hay respuesta a AINEs." }
-      ],
-      "procedimientos": [], "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
-  },
+  { "diagnostico_cie10": "M169", "tratamiento_sugerido": {}, "referencia_a": "M179" },
   {
     "diagnostico_cie10": "Q210",
     "tratamiento_sugerido": {
@@ -69,19 +57,59 @@
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°70 de EsSalud para Síndrome Coronario Crónico. El manejo incluye fármacos para prevención de eventos (AAS, Estatinas) y para el control de síntomas (Betabloqueadores, Nitratos)."
   },
+  { "diagnostico_cie10": "I251", "tratamiento_sugerido": {}, "referencia_a": "I209" },
+  { "diagnostico_cie10": "I255", "tratamiento_sugerido": {}, "referencia_a": "I209" },
+  { "diagnostico_cie10": "I259", "tratamiento_sugerido": {}, "referencia_a": "I209" },
   {
-    "diagnostico_cie10": "I251",
-    "tratamiento_sugerido": {},
-    "referencia_a": "I209"
+    "diagnostico_cie10": "I270",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "21731", "nombre": "Nifedipino / Diltiazem / Amlodipino (BCC)", "prioridad": 1, "posologia": "Tratamiento de elección en pacientes con Test de Vasorreactividad (TVR) POSITIVO." },
+        { "codigo_item": "21538", "nombre": "Bosentán (ARE) + Sildenafilo (IPDE5)", "prioridad": 2, "posologia": "Terapia oral combinada de inicio para pacientes con TVR NEGATIVO y riesgo bajo/intermedio." },
+        { "codigo_item": "", "nombre": "Prostaciclinas EV (Epoprostenol/Iloprost)", "prioridad": 3, "posologia": "Añadir a terapia combinada en pacientes con TVR NEGATIVO y riesgo ALTO." },
+        { "codigo_item": "21848", "nombre": "Warfarina (Anticoagulante)", "prioridad": 4, "posologia": "Terapia de soporte. Considerar en HAP idiopática, hereditaria o asociada a fármacos." },
+        { "codigo_item": "21644", "nombre": "Furosemida (Diurético)", "prioridad": 5, "posologia": "Terapia de soporte para manejo de sobrecarga de volumen / Insuficiencia Cardíaca Derecha." }
+      ],
+      "procedimientos": [
+        { "nombre": "Test de Vasorreactividad Pulmonar (TVR)", "prioridad": 1, "indicacion": "Fundamental para definir la estrategia de tratamiento inicial (respuesta a Calcioantagonistas)." }
+      ],
+      "insumos": [
+        { "codigo_item": "", "nombre": "Oxigenoterapia", "prioridad": 1, "indicacion": "Terapia de soporte para mantener Saturación de O2 > 90%." }
+      ]
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°69 de EsSalud para Hipertensión Arterial Pulmonar (Grupo 1). El tratamiento es escalonado y depende críticamente del resultado del Test de Vasorreactividad (TVR) y de la estratificación de riesgo del paciente."
+  },
+  { "diagnostico_cie10": "I272", "tratamiento_sugerido": {}, "referencia_a": "I270" },
+  {
+    "diagnostico_cie10": "C220",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "", "nombre": "Atezolizumab + Bevacizumab", "prioridad": 1, "posologia": "Primera línea de tratamiento sistémico para CHC avanzado/inoperable, Child-Pugh A." },
+        { "codigo_item": "21800", "nombre": "Sorafenib", "prioridad": 2, "posologia": "Alternativa de primera línea o segunda línea tras progresión a Atezolizumab/Bevacizumab." }
+      ],
+      "procedimientos": [
+        { "nombre": "Resección Quirúrgica / Trasplante Hepático", "prioridad": 1, "indicacion": "Opción curativa en estadios tempranos (BCLC 0-A)." },
+        { "nombre": "Ablación por Radiofrecuencia (RFA)", "prioridad": 2, "indicacion": "Opción curativa en estadios tempranos (BCLC 0-A), especialmente si no es candidato a cirugía." },
+        { "nombre": "Quimioembolización Transarterial (TACE)", "prioridad": 3, "indicacion": "Tratamiento de elección para estadio intermedio (BCLC B)." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°68 de EsSalud para Carcinoma Hepatocelular (CHC). El tratamiento depende estrictamente del estadio BCLC. Las opciones van desde curativas (cirugía, RFA) hasta sistémicas (Atezolizumab/Bevacizumab) y paliativas."
   },
   {
-    "diagnostico_cie10": "I255",
-    "tratamiento_sugerido": {},
-    "referencia_a": "I209"
+    "diagnostico_cie10": "I500",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "21617", "nombre": "IECA / ARA-II (Enalapril, Losartán, etc.)", "prioridad": 1, "posologia": "Pilar 1 del tratamiento. Iniciar y titular hasta dosis máxima tolerada." },
+        { "codigo_item": "21553", "nombre": "Betabloqueador (Carvedilol, Bisoprolol)", "prioridad": 1, "posologia": "Pilar 2 del tratamiento. Iniciar y titular hasta dosis máxima tolerada." },
+        { "codigo_item": "21625", "nombre": "Antagonista del Receptor de Mineralocorticoides (Espironolactona)", "prioridad": 1, "posologia": "Pilar 3 del tratamiento. Vigilar función renal y potasio." },
+        { "codigo_item": "", "nombre": "Inhibidor de SGLT-2 (Dapagliflozina, Empagliflozina)", "prioridad": 1, "posologia": "Pilar 4 del tratamiento. Iniciar según función renal." },
+        { "codigo_item": "21644", "nombre": "Diurético de Asa (Furosemida)", "prioridad": 2, "posologia": "Para manejo de la congestión. Ajustar dosis según síntomas y peso." }
+      ],
+      "procedimientos": [],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°67 de EsSalud para Insuficiencia Cardíaca Crónica con FEVI reducida (≤40%). El tratamiento se basa en los 4 pilares farmacológicos (IECA/ARNI, BB, ARM, iSGLT2) que deben iniciarse de forma conjunta y titularse. Los diuréticos son para el manejo de síntomas."
   },
-  {
-    "diagnostico_cie10": "I259",
-    "tratamiento_sugerido": {},
-    "referencia_a": "I209"
-  }
+  { "diagnostico_cie10": "I509", "tratamiento_sugerido": {}, "referencia_a": "I500" }
 ]
