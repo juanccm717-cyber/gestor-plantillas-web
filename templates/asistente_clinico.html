@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Asistente Clínico{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h2 class="h3"><i class="bi bi-robot me-2"></i>Asistente de Consulta Clínica</h2>
+                    <p class="text-muted mb-0">Basado en Guías de Práctica Clínica</p>
+                </div>
+                <div class="card-body">
+                    <label for="input-diagnostico" class="form-label fw-bold">Buscar Diagnóstico (CIE-10)</label>
+                    <div class="input-group mb-3">
+                        <input type="text" id="input-diagnostico" class="form-control" placeholder="Escribe el código o nombre del diagnóstico...">
+                    </div>
+                    
+                    <div id="asistente-ia-sugerencias" class="mt-3">
+                        <div class="alert alert-secondary text-center">
+                            Selecciona un diagnóstico para ver las recomendaciones de tratamiento.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputDiagnostico = document.getElementById('input-diagnostico');
+    const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
+    let allDiagnosticos = [];
+
+    fetch('/api/get_all_diagnosticos')
+        .then(response => response.json())
+        .then(data => {
+            allDiagnosticos = data.map(d => ({ label: `${d.codigo} - ${d.descripcion}`, value: d.codigo }));
+            
+            const dataList = document.createElement('datalist');
+            dataList.id = 'diagnosticos-list';
+            allDiagnosticos.forEach(d => {
+                const option = document.createElement('option');
+                option.value = d.label;
+                dataList.appendChild(option);
+            });
+            document.body.appendChild(dataList);
+            inputDiagnostico.setAttribute('list', 'diagnosticos-list');
+        });
+
+    function consultarAsistenteIA(codigoCIE10) {
+        if (!codigoCIE10) {
+            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">Selecciona un diagnóstico válido.</div>';
+            return;
+        }
+        contenedorSugerencias.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Buscando...</span></div></div>';
+
+        fetch(`/api/asistente_sugerencias?cie10=${codigoCIE10}`)
+            .then(response => {
+                if (!response.ok) throw new Error('No hay sugerencias predefinidas para este diagnóstico.');
+                return response.json();
+            })
+            .then(data => {
+                mostrarSugerencias(data);
+            })
+            .catch(error => {
+                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
+            });
+    }
+
+    function mostrarSugerencias(data) {
+        let html = '';
+        if (data.notas_clinicas) {
+            html += `<div class="alert alert-info">${data.notas_clinicas}</div>`;
+        }
+
+        if (data.tratamiento_sugerido && data.tratamiento_sugerido.medicamentos.length > 0) {
+            html += '<h5>Medicamentos Recomendados</h5><ul class="list-group">';
+            data.tratamiento_sugerido.medicamentos.sort((a, b) => a.prioridad - b.prioridad);
+            data.tratamiento_sugerido.medicamentos.forEach(med => {
+                html += `<li class="list-group-item"><strong>${med.nombre}</strong>  
+<small class="text-muted">${med.posologia}</small></li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p>No hay medicamentos sugeridos para este diagnóstico.</p>';
+        }
+        contenedorSugerencias.innerHTML = html;
+    }
+
+    inputDiagnostico.addEventListener('input', function() {
+        const valorInput = inputDiagnostico.value;
+        const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
+        
+        if (diagnosticoSeleccionado) {
+            consultarAsistenteIA(diagnosticoSeleccionado.value);
+        }
+    });
+});
+</script>
+{% endblock %}

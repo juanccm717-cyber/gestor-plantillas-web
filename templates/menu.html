@@ -40,7 +40,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- ================================================== -->
+        <!--    TARJETA PARA EL ASISTENTE CLÍNICO DE IA (¡NUEVO!)    -->
+        <!-- ================================================== -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
+                    </div>
+                    <h5 class="card-title">Asistente Clínico (IA)</h5>
+                    <p class="card-text text-muted flex-grow-1">Consulta tratamientos recomendados por Guías de Práctica Clínica.</p>
+                    <a href="{{ url_for('asistente_clinico') }}" class="btn btn-info mt-auto">Consultar Asistente</a>
+                </div>
+            </div>
+        </div>
         
+        <!-- TARJETA UNIFICADA DE BÚSQUEDA -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm border-info">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i>
+                    </div>
+                    <h5 class="card-title">Herramientas de Búsqueda</h5>
+                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, medicamentos e insumos.</p>
+                    
+                    <div class="mt-auto">
+                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
+                            <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
+                        </a>
+                        <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
+                            <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Tarjeta para la Calculadora de IMC -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
@@ -111,29 +149,7 @@
             </div>
         </div>
 
-        <!-- TARJETA UNIFICADA DE BÚSQUEDA -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm border-info">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i>
-                    </div>
-                    <h5 class="card-title">Herramientas de Búsqueda</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, medicamentos e insumos.</p>
-                    
-                    <div class="mt-auto">
-                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
-                            <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
-                        </a>
-                        <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
-                            <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta para Enviar Sugerencia (¡NUEVO!) -->
+        <!-- Tarjeta para Enviar Sugerencia -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
                 <div class="card-body text-center d-flex flex-column">
@@ -163,7 +179,7 @@
         </div>
         {% endif %}
 
-        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) - ACTUALIZADA -->
+        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-primary">
@@ -186,7 +202,6 @@
                             {% endif %}
                         </a>
 
-                        <!-- ¡NUEVO BOTÓN AQUÍ! -->
                         <a href="{{ url_for('ver_sugerencias') }}" class="btn btn-primary d-block mb-2">Ver Sugerencias</a>
 
                         <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>

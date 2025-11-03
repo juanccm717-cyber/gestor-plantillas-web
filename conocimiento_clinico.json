@@ -1,0 +1,42 @@
+[
+  {
+    "diagnostico_cie10": "J18.9",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        {
+          "codigo_item": "AMOX_ORAL",
+          "nombre": "Amoxicilina (Primera Línea Ambulatorio)",
+          "prioridad": 1,
+          "posologia": "80-90 mg/kg/día, Vía Oral, por 5 días. Dosis máxima: 4g/día."
+        },
+        {
+          "codigo_item": "CEFUROX_ORAL",
+          "nombre": "Cefuroxima (Alternativa en alergia no severa)",
+          "prioridad": 2,
+          "posologia": "30 mg/kg/día, Vía Oral, cada 12h, por 7 días. Dosis máxima: 1g/día."
+        },
+        {
+          "codigo_item": "CLORAN_ORAL",
+          "nombre": "Cloranfenicol (Alternativa en alergia severa)",
+          "prioridad": 3,
+          "posologia": "50 mg/kg/día, Vía Oral, cada 6h, por 7 días. Dosis máxima: 4g/día."
+        },
+        {
+          "codigo_item": "AMPICILINA_EV",
+          "nombre": "Ampicilina o Penicilina G (Manejo Hospitalario >2 meses)",
+          "prioridad": 4,
+          "posologia": "150-200 mg/kg/día, Vía Endovenosa, cada 6h. Dosis máxima: 4g/día."
+        },
+        {
+          "codigo_item": "AMPI_GENTA_EV",
+          "nombre": "Ampicilina + Gentamicina/Amikacina (Manejo Hospitalario <2 meses)",
+          "prioridad": 5,
+          "posologia": "Ampicilina 150-200mg/kg/día + Gentamicina 5-7.5mg/kg/día. Ambas EV."
+        }
+      ],
+      "procedimientos": [],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°73 de EsSalud para Neumonía Adquirida en la Comunidad (NAC) en pediatría. La elección depende del manejo (ambulatorio/hospitalario) y las alergias del paciente."
+  }
+]
