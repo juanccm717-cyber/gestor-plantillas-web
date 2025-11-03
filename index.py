@@ -5,6 +5,7 @@
 # --- Librerías Estándar de Python ---
 import os
 import re
+import json  # <--- ¡CORRECCIÓN AÑADIDA AQUÍ!
 from datetime import datetime, timedelta
 
 # --- Librerías de Terceros (Instaladas) ---
@@ -20,6 +21,7 @@ import bcrypt
 # ==============================================================================
 #           CARGA DEL CONOCIMIENTO PARA EL ASISTENTE DE IA
 # ==============================================================================
+
 
 def cargar_conocimiento_clinico():
     """Carga la base de conocimiento desde el archivo JSON."""
