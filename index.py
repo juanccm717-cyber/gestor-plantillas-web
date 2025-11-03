@@ -1124,6 +1124,7 @@ def asistente_clinico():
     return render_template('asistente_clinico.html')
 
 # --- API QUE PROPORCIONA LAS SUGERENCIAS DE LA IA ---
+
 @app.route('/api/asistente_sugerencias')
 def asistente_sugerencias():
     if 'username' not in session:
@@ -1133,16 +1134,21 @@ def asistente_sugerencias():
     if not codigo_cie10:
         return jsonify({"error": "Se requiere un código CIE-10"}), 400
     
-    sugerencia_encontrada = None
-    for regla in CONOCIMIENTO_CLINICO:
-        if regla.get('diagnostico_cie10') == codigo_cie10:
-            sugerencia_encontrada = regla
-            break
+    # Creamos un diccionario para buscar reglas rápidamente
+    conocimiento_map = {regla['diagnostico_cie10']: regla for regla in CONOCIMIENTO_CLINICO}
     
-    if sugerencia_encontrada:
-        return jsonify(sugerencia_encontrada)
+    regla_actual = conocimiento_map.get(codigo_cie10)
+    
+    # ¡NUEVA LÓGICA! Si la regla es una referencia, buscamos la regla principal
+    if regla_actual and 'referencia_a' in regla_actual:
+        codigo_referencia = regla_actual['referencia_a']
+        regla_actual = conocimiento_map.get(codigo_referencia)
+
+    if regla_actual:
+        return jsonify(regla_actual)
     else:
         return jsonify({}), 404
+
 
 # ==============================================================================
 #           PUNTO DE ENTRADA DE LA APLICACIÓN

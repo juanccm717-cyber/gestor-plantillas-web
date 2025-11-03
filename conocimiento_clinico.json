@@ -9,8 +9,7 @@
         { "codigo_item": "2100004", "nombre": "Ampicilina o Penicilina G (Manejo Hospitalario >2 meses)", "prioridad": 4, "posologia": "150-200 mg/kg/día, Vía Endovenosa, cada 6h. Dosis máxima: 4g/día." },
         { "codigo_item": "2100005", "nombre": "Ampicilina + Gentamicina/Amikacina (Manejo Hospitalario <2 meses)", "prioridad": 5, "posologia": "Ampicilina 150-200mg/kg/día + Gentamicina 5-7.5mg/kg/día. Ambas EV." }
       ],
-      "procedimientos": [],
-      "insumos": []
+      "procedimientos": [], "insumos": []
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°73 de EsSalud para Neumonía Adquirida en la Comunidad (NAC) en pediatría."
   },
@@ -23,8 +22,7 @@
         { "codigo_item": "2100008", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
         { "codigo_item": "2100009", "nombre": "Inyección de Corticoide Intra-articular (Manejo agudo)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
       ],
-      "procedimientos": [],
-      "insumos": []
+      "procedimientos": [], "insumos": []
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
   },
@@ -37,8 +35,7 @@
         { "codigo_item": "2100008", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
         { "codigo_item": "2100009", "nombre": "Inyección de Corticoide Intra-articular (Bajo guía ecográfica)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
       ],
-      "procedimientos": [],
-      "insumos": []
+      "procedimientos": [], "insumos": []
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
   },
@@ -57,5 +54,34 @@
       "insumos": []
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°71 de EsSalud para Comunicación Interventricular (CIV). El manejo depende del tamaño del defecto y la presencia de complicaciones."
+  },
+  {
+    "diagnostico_cie10": "I209",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "2100013", "nombre": "Ácido Acetilsalicílico (AAS)", "prioridad": 1, "posologia": "Prevención de eventos. Dosis bajas (75-100 mg/día)." },
+        { "codigo_item": "2100014", "nombre": "Atorvastatina / Rosuvastatina", "prioridad": 1, "posologia": "Prevención de eventos. Terapia con estatinas de alta intensidad. Objetivo LDL < 55 mg/dL." },
+        { "codigo_item": "2100015", "nombre": "Bisoprolol / Carvedilol (Betabloqueador)", "prioridad": 2, "posologia": "Tratamiento antianginoso de primera línea." },
+        { "codigo_item": "2100016", "nombre": "Dinitrato de Isosorbide / Nitroglicerina", "prioridad": 3, "posologia": "Alivio de síntomas de angina. Acción corta." },
+        { "codigo_item": "2100017", "nombre": "Enalapril / Losartán (IECA / ARA-II)", "prioridad": 4, "posologia": "Añadir si el paciente tiene HTA, Diabetes, Disfunción Ventricular o ERC." }
+      ],
+      "procedimientos": [], "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°70 de EsSalud para Síndrome Coronario Crónico. El manejo incluye fármacos para prevención de eventos (AAS, Estatinas) y para el control de síntomas (Betabloqueadores, Nitratos)."
+  },
+  {
+    "diagnostico_cie10": "I251",
+    "tratamiento_sugerido": { "medicamentos": [], "procedimientos": [], "insumos": [] },
+    "referencia_a": "I209"
+  },
+  {
+    "diagnostico_cie10": "I255",
+    "tratamiento_sugerido": { "medicamentos": [], "procedimientos": [], "insumos": [] },
+    "referencia_a": "I209"
+  },
+  {
+    "diagnostico_cie10": "I259",
+    "tratamiento_sugerido": { "medicamentos": [], "procedimientos": [], "insumos": [] },
+    "referencia_a": "I209"
   }
 ]
