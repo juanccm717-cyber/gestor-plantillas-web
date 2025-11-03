@@ -1163,42 +1163,45 @@ def buscar_procedimientos_page():
 
 
 # --- API INTERNA PARA BUSCAR PROCEDIMIENTOS EN SUPABASE ---
+# ==============================================================================
+#           (¡NUEVO Y CORREGIDO!) API PARA BUSCAR PROCEDIMIENTOS
+# ==============================================================================
+#  Esta versión busca tanto por CÓDIGO como por DESCRIPCIÓN.
+
 @app.route('/api/search_procedimientos')
 def api_search_procedimientos():
     if 'username' not in session: 
         return jsonify({'error': 'No autorizado'}), 401
     
-    # 1. Obtenemos el término de búsqueda que envía el frontend
     query = request.args.get('q', '')
     
-    # 2. No buscamos si el texto es muy corto para no sobrecargar la base de datos
-    if len(query) < 3: 
+    if len(query) < 2: # Reducimos a 2 para buscar códigos cortos como '144'
         return jsonify([])
 
-    # 3. Verificamos que el cliente de Supabase se inicializó correctamente
     if not supabase:
         return jsonify({'error': 'El servidor no pudo conectar con la base de datos de procedimientos.'}), 503
 
     try:
-        # 4. Usamos 'ilike' para una búsqueda parcial e insensible a mayúsculas/minúsculas
         search_pattern = f'%{query}%'
         
+        # --- ¡LÓGICA CORREGIDA AQUÍ! ---
+        # Usamos .or() para buscar el patrón en CUALQUIERA de las dos columnas.
+        # 1. nombre_prest.ilike.{pattern} -> Busca en la descripción.
+        # 2. cod_cpms.ilike.{pattern}     -> Busca en el código.
         response = supabase.table('procedimientos').select(
             'cod_cpms', 
             'nombre_prest', 
             'tarifa_sis'
-        ).ilike('nombre_prest', search_pattern).limit(50).execute()
+        ).or_(
+            f'nombre_prest.ilike.{search_pattern},'
+            f'cod_cpms.ilike.{search_pattern}'
+        ).limit(50).execute()
 
-        # 5. Devolvemos los datos encontrados en formato JSON
         return jsonify(response.data)
             
     except Exception as e:
         print(f"Error en la búsqueda de procedimientos: {e}")
         return jsonify({'error': 'Error en el servidor al buscar procedimientos.'}), 500
-
-# ==============================================================================
-#           PUNTO DE ENTRADA DE LA APLICACIÓN
-# ==============================================================================
 
 if __name__ == '__main__':
     app.run(debug=True)
