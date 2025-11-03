@@ -5,10 +5,7 @@
 {% block head %}
 {{ super() }}
 <style>
-    /* Estilos para mejorar la legibilidad y el diseño */
-    .card-header .h2 {
-        font-weight: 300;
-    }
+    .card-header .h2 { font-weight: 300; }
     .list-group-item {
         border-left: 4px solid transparent;
         padding-left: 1.25rem;
@@ -17,7 +14,6 @@
         display: block;
         margin-bottom: 0.25rem;
     }
-    /* Colores para las diferentes secciones */
     .medicamentos-header, .procedimientos-header, .insumos-header {
         color: #fff;
         padding: 0.5rem 1rem;
@@ -25,9 +21,9 @@
         margin-top: 1.5rem;
         margin-bottom: 1rem;
     }
-    .medicamentos-header { background-color: #0d6efd; } /* Azul */
-    .procedimientos-header { background-color: #198754; } /* Verde */
-    .insumos-header { background-color: #fd7e14; } /* Naranja */
+    .medicamentos-header { background-color: #0d6efd; }
+    .procedimientos-header { background-color: #198754; }
+    .insumos-header { background-color: #fd7e14; }
 
     .list-group-item-medicamento { border-left-color: #0d6efd; }
     .list-group-item-procedimiento { border-left-color: #198754; }
@@ -72,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // 1. Carga de diagnósticos para autocompletado
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -89,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // 2. Función para consultar al asistente
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
             contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
@@ -110,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // 3. Función MEJORADA para mostrar las sugerencias
     function mostrarSugerencias(data) {
         let html = '';
         if (data.notas_clinicas) {
@@ -125,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<h6 class="medicamentos-header"><i class="bi bi-capsule-pill me-2"></i>Medicamentos Recomendados</h6><ul class="list-group list-group-flush">';
             data.tratamiento_sugerido.medicamentos.sort((a, b) => a.prioridad - b.prioridad);
             data.tratamiento_sugerido.medicamentos.forEach(med => {
-                // ¡IMPLEMENTACIÓN! Añadimos el código del item si existe
                 const codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2" style="font-size: 0.8em; vertical-align: middle;">${med.codigo_item}</span>` : '';
                 
                 html += `<li class="list-group-item list-group-item-medicamento">
@@ -157,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function () {
         contenedorSugerencias.innerHTML = html;
     }
 
-    // 4. Evento que dispara la consulta
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
         const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
