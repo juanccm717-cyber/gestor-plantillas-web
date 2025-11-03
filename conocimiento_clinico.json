@@ -165,5 +165,24 @@
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°64 de EsSalud para Crisis Asmática en niños/adolescentes. El manejo es escalonado según la severidad, iniciando siempre con Salbutamol y Oxígeno, y añadiendo corticoides, ipratropio y magnesio según la respuesta."
   },
-  { "diagnostico_cie10": "J46", "tratamiento_sugerido": {}, "referencia_a": "J459" }
+  { "diagnostico_cie10": "J46", "tratamiento_sugerido": {}, "referencia_a": "J459" },
+  {
+    "diagnostico_cie10": "F321",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "21639", "nombre": "Fluoxetina (ISRS)", "prioridad": 1, "posologia": "Fármaco de primera línea. Iniciar con 20mg/día." },
+        { "codigo_item": "21793", "nombre": "Sertralina (ISRS)", "prioridad": 1, "posologia": "Fármaco de primera línea. Iniciar con 50mg/día." },
+        { "codigo_item": "", "nombre": "Venlafaxina (IRSN)", "prioridad": 2, "posologia": "Alternativa si no hay respuesta a ISRS. Iniciar con 75mg/día." },
+        { "codigo_item": "", "nombre": "Mirtazapina", "prioridad": 2, "posologia": "Alternativa o para potenciar un ISRS si no hay respuesta. Iniciar con 15mg/día." }
+      ],
+      "procedimientos": [
+        { "nombre": "Psicoterapia", "prioridad": 1, "indicacion": "Considerar como tratamiento inicial combinado con fármacos. Tipos: TCC, Terapia de activación conductual, etc." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°63 de EsSalud para Episodio Depresivo Moderado. Se recomienda iniciar con un ISRS (Fluoxetina/Sertralina) y/o psicoterapia. Si no hay respuesta, se puede cambiar de fármaco o potenciar."
+  },
+  { "diagnostico_cie10": "F322", "tratamiento_sugerido": {}, "referencia_a": "F321" },
+  { "diagnostico_cie10": "F331", "tratamiento_sugerido": {}, "referencia_a": "F321" },
+  { "diagnostico_cie10": "F332", "tratamiento_sugerido": {}, "referencia_a": "F321" }
 ]
