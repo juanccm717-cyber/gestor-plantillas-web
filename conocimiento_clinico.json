@@ -184,5 +184,32 @@
   },
   { "diagnostico_cie10": "F322", "tratamiento_sugerido": {}, "referencia_a": "F321" },
   { "diagnostico_cie10": "F331", "tratamiento_sugerido": {}, "referencia_a": "F321" },
-  { "diagnostico_cie10": "F332", "tratamiento_sugerido": {}, "referencia_a": "F321" }
+  { "diagnostico_cie10": "F332", "tratamiento_sugerido": {}, "referencia_a": "F321" },
+  {
+    "diagnostico_cie10": "C18",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "", "nombre": "Quimioterapia Adyuvante (basada en Fluoropirimidinas +/- Oxaliplatino)", "prioridad": 1, "indicacion": "Indicada en Estadio II con factores de riesgo y en Estadio III. La duración (3 o 6 meses) depende del riesgo." },
+        { "codigo_item": "", "nombre": "Atezolizumab + Bevacizumab", "prioridad": 2, "indicacion": "Primera línea para Carcinoma Hepatocelular (CHC) avanzado, que puede ser una metástasis de cáncer de colon." },
+        { "codigo_item": "21800", "nombre": "Sorafenib", "prioridad": 3, "indicacion": "Alternativa en CHC avanzado." }
+      ],
+      "procedimientos": [
+        { "nombre": "Tomografía Computarizada (TC) de Tórax, Abdomen y Pelvis", "prioridad": 1, "indicacion": "Procedimiento estándar para el estadiaje inicial." },
+        { "nombre": "Resección Quirúrgica (Colectomía)", "prioridad": 1, "indicacion": "Tratamiento de elección para Estadios I-III. Puede ser abierta o laparoscópica." },
+        { "nombre": "Quimioembolización Transarterial (TACE)", "prioridad": 2, "indicacion": "Opción para metástasis hepáticas en estadio intermedio." },
+        { "nombre": "Colectomía Simultánea o por Etapas", "prioridad": 2, "indicacion": "Para metástasis hepáticas resecables en Estadio IV." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°62 de EsSalud para Cáncer de Colon. El tratamiento es altamente dependiente del estadio clínico (AJCC). Las decisiones deben tomarse en un comité multidisciplinario.",
+    "logica_adicional": {
+      "Estadio_I": "Recomendación principal: Resección Quirúrgica. No se recomienda quimioterapia adyuvante.",
+      "Estadio_II_sin_riesgo": "Recomendación principal: Resección Quirúrgica. No se recomienda quimioterapia adyuvante de rutina.",
+      "Estadio_II_con_riesgo": "Recomendación principal: Resección Quirúrgica + Quimioterapia Adyuvante.",
+      "Estadio_III_bajo_riesgo": "Recomendación principal: Resección Quirúrgica + Quimioterapia Adyuvante por 3 meses.",
+      "Estadio_III_alto_riesgo": "Recomendación principal: Resección Quirúrgica + Considerar Quimioterapia Adyuvante por 6 meses.",
+      "Estadio_IV_resecable": "Recomendación principal: Manejo quirúrgico de metástasis (simultáneo o por etapas) + quimioterapia.",
+      "Estadio_IV_irresecable": "Recomendación principal: Quimioterapia sistémica. Evaluar resección del tumor primario en casos seleccionados."
+    }
+  }
 ]
