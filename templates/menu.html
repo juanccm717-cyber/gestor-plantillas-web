@@ -57,7 +57,9 @@
             </div>
         </div>
         
-        <!-- TARJETA UNIFICADA DE BÚSQUEDA -->
+        <!-- ================================================== -->
+        <!--    TARJETA UNIFICADA DE BÚSQUEDA (¡ACTUALIZADA!)    -->
+        <!-- ================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-info">
                 <div class="card-body text-center d-flex flex-column">
@@ -65,11 +67,15 @@
                         <i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i>
                     </div>
                     <h5 class="card-title">Herramientas de Búsqueda</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, medicamentos e insumos.</p>
+                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, procedimientos y medicamentos.</p>
                     
                     <div class="mt-auto">
                         <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
                             <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
+                        </a>
+                        <!-- ¡NUEVO BOTÓN AÑADIDO AQUÍ! -->
+                        <a href="{{ url_for('buscar_procedimientos_page') }}" class="btn btn-info d-block mb-2">
+                            <i class="bi bi-heart-pulse me-1"></i> Buscar Procedimiento
                         </a>
                         <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
                             <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
@@ -78,6 +84,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Tarjeta para la Calculadora de IMC -->
         <div class="col-lg-4 col-md-6">

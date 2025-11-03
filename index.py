@@ -1149,6 +1149,52 @@ def asistente_sugerencias():
     else:
         return jsonify({}), 404
 
+# ==============================================================================
+#           (¡NUEVO!) RUTAS PARA BÚSQUEDA DE PROCEDIMIENTOS
+# ==============================================================================
+
+# --- RUTA PARA MOSTRAR LA PÁGINA DE BÚSQUEDA DE PROCEDIMIENTOS ---
+@app.route('/buscar_procedimientos')
+def buscar_procedimientos_page():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    # Simplemente renderiza el HTML. La magia la hará JavaScript.
+    return render_template('buscar_procedimientos.html')
+
+
+# --- API INTERNA PARA BUSCAR PROCEDIMIENTOS EN SUPABASE ---
+@app.route('/api/search_procedimientos')
+def api_search_procedimientos():
+    if 'username' not in session: 
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    # 1. Obtenemos el término de búsqueda que envía el frontend
+    query = request.args.get('q', '')
+    
+    # 2. No buscamos si el texto es muy corto para no sobrecargar la base de datos
+    if len(query) < 3: 
+        return jsonify([])
+
+    # 3. Verificamos que el cliente de Supabase se inicializó correctamente
+    if not supabase:
+        return jsonify({'error': 'El servidor no pudo conectar con la base de datos de procedimientos.'}), 503
+
+    try:
+        # 4. Usamos 'ilike' para una búsqueda parcial e insensible a mayúsculas/minúsculas
+        search_pattern = f'%{query}%'
+        
+        response = supabase.table('procedimientos').select(
+            'cod_cpms', 
+            'nombre_prest', 
+            'tarifa_sis'
+        ).ilike('nombre_prest', search_pattern).limit(50).execute()
+
+        # 5. Devolvemos los datos encontrados en formato JSON
+        return jsonify(response.data)
+            
+    except Exception as e:
+        print(f"Error en la búsqueda de procedimientos: {e}")
+        return jsonify({'error': 'Error en el servidor al buscar procedimientos.'}), 500
 
 # ==============================================================================
 #           PUNTO DE ENTRADA DE LA APLICACIÓN
@@ -1156,4 +1202,5 @@ def asistente_sugerencias():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 

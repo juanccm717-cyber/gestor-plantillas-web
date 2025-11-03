@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Búsqueda de Procedimientos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="text-center mb-4">
+                <i class="bi bi-heart-pulse" style="font-size: 3rem; color: #0dcaf0;"></i>
+                <h1 class="mt-2">Buscador de Procedimientos</h1>
+                <p class="lead text-muted">
+                    Escribe parte del nombre de un procedimiento para encontrar su código (CPMS) y tarifa referencial.
+                </p>
+            </div>
+
+            <!-- Barra de Búsqueda -->
+            <div class="input-group input-group-lg mb-4 shadow-sm">
+                <span class="input-group-text" id="search-icon"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" id="searchInput" placeholder="Ej: Anestesia, Colecistectomía, Endoscopia..." aria-label="Buscar procedimiento" aria-describedby="search-icon">
+            </div>
+
+            <!-- Contenedor para los Resultados y Mensajes -->
+            <div id="resultsContainer">
+                <!-- Mensaje inicial -->
+                <div id="initialMessage" class="text-center text-muted mt-5">
+                    <p><i class="bi bi-keyboard fs-2"></i></p>
+                    <p>Los resultados de la búsqueda aparecerán aquí.</p>
+                </div>
+
+                <!-- Spinner de carga -->
+                <div id="loadingSpinner" class="text-center mt-5 d-none">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Buscando...</span>
+                    </div>
+                    <p class="mt-2">Buscando...</p>
+                </div>
+
+                <!-- Mensaje de no encontrados -->
+                <div id="noResultsMessage" class="text-center text-muted mt-5 d-none">
+                    <p><i class="bi bi-emoji-frown fs-2"></i></p>
+                    <p>No se encontraron procedimientos que coincidan con tu búsqueda.</p>
+                </div>
+
+                <!-- Tabla de Resultados -->
+                <div class="table-responsive d-none" id="resultsTableContainer">
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Código (CPMS)</th>
+                                <th scope="col">Nombre del Procedimiento</th>
+                                <th scope="col">Tarifa SIS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTbody">
+                            <!-- Las filas de resultados se insertarán aquí con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const resultsTbody = document.getElementById('resultsTbody');
+    const initialMessage = document.getElementById('initialMessage');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const resultsTableContainer = document.getElementById('resultsTableContainer');
+    let searchTimeout;
+
+    // --- Función principal que se ejecuta al escribir ---
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.trim();
+
+        // Limpiamos el temporizador anterior para no hacer búsquedas en cada tecla
+        clearTimeout(searchTimeout);
+
+        if (query.length < 3) {
+            // Si el texto es muy corto, reseteamos la vista
+            resetView();
+            return;
+        }
+
+        // Mostramos el spinner de carga
+        showLoading();
+
+        // Esperamos 300ms después de que el usuario deja de teclear para buscar
+        searchTimeout = setTimeout(() => {
+            fetch(`/api/search_procedimientos?q=${encodeURIComponent(query)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la red o en el servidor');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error('Error en la búsqueda:', error);
+                    showErrorState(); // Función para manejar errores visualmente
+                });
+        }, 300);
+    });
+
+    // --- Funciones para controlar la interfaz ---
+
+    function displayResults(data) {
+        // Limpiamos la tabla y ocultamos todos los mensajes
+        resultsTbody.innerHTML = '';
+        hideAllMessages();
+
+        if (data && data.length > 0) {
+            // Si hay datos, los mostramos en la tabla
+            data.forEach(proc => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${proc.cod_cpms || 'N/A'}</td>
+                    <td>${proc.nombre_prest || 'Sin descripción'}</td>
+                    <td>${proc.tarifa_sis || 'N/C'}</td>
+                `;
+                resultsTbody.appendChild(row);
+            });
+            resultsTableContainer.classList.remove('d-none'); // Mostramos la tabla
+        } else {
+            // Si no hay datos, mostramos el mensaje de "no encontrados"
+            noResultsMessage.classList.remove('d-none');
+        }
+    }
+
+    function resetView() {
+        hideAllMessages();
+        initialMessage.classList.remove('d-none');
+    }
+
+    function showLoading() {
+        hideAllMessages();
+        loadingSpinner.classList.remove('d-none');
+    }
+
+    function showErrorState() {
+        hideAllMessages();
+        noResultsMessage.querySelector('p:last-child').textContent = 'Ocurrió un error al realizar la búsqueda. Inténtalo de nuevo.';
+        noResultsMessage.classList.remove('d-none');
+    }
+
+    function hideAllMessages() {
+        initialMessage.classList.add('d-none');
+        loadingSpinner.classList.add('d-none');
+        noResultsMessage.classList.add('d-none');
+        resultsTableContainer.classList.add('d-none');
+    }
+});
+</script>
+{% endblock %}
