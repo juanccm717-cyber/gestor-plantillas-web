@@ -186,7 +186,7 @@
   { "diagnostico_cie10": "F331", "tratamiento_sugerido": {}, "referencia_a": "F321" },
   { "diagnostico_cie10": "F332", "tratamiento_sugerido": {}, "referencia_a": "F321" },
   {
-    "diagnostico_cie10": "C18",
+    "diagnostico_cie10": "C189",
     "tratamiento_sugerido": {
       "medicamentos": [
         { "codigo_item": "", "nombre": "Quimioterapia Adyuvante (basada en Fluoropirimidinas +/- Oxaliplatino)", "prioridad": 1, "indicacion": "Indicada en Estadio II con factores de riesgo y en Estadio III. La duración (3 o 6 meses) depende del riesgo." },
@@ -210,6 +210,48 @@
       "Estadio_III_alto_riesgo": "Recomendación principal: Resección Quirúrgica + Considerar Quimioterapia Adyuvante por 6 meses.",
       "Estadio_IV_resecable": "Recomendación principal: Manejo quirúrgico de metástasis (simultáneo o por etapas) + quimioterapia.",
       "Estadio_IV_irresecable": "Recomendación principal: Quimioterapia sistémica. Evaluar resección del tumor primario en casos seleccionados."
+    }
+  },
+  {
+    "diagnostico_cie10": "I489",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "21848", "nombre": "Warfarina", "prioridad": 1, "indicacion": "Anticoagulante de elección en FA valvular. Requiere monitoreo de INR." },
+        { "codigo_item": "", "nombre": "Anticoagulantes Orales Directos (ACOD)", "prioridad": 1, "indicacion": "Sugeridos sobre Warfarina en FA no valvular, según disponibilidad y características del paciente." },
+        { "codigo_item": "21553", "nombre": "Betabloqueadores (ej. Bisoprolol, Carvedilol)", "prioridad": 2, "indicacion": "Primera línea para control de frecuencia a largo plazo." },
+        { "codigo_item": "21731", "nombre": "Calcioantagonistas no dihidropiridínicos (ej. Diltiazem)", "prioridad": 3, "indicacion": "Alternativa para control de frecuencia si FEVI >= 40%." },
+        { "codigo_item": "", "nombre": "Amiodarona", "prioridad": 4, "indicacion": "Considerar para control de ritmo en pacientes con disfunción ventricular izquierda o insuficiencia cardíaca." }
+      ],
+      "procedimientos": [
+        { "nombre": "Evaluar Riesgo Tromboembólico (CHA2DS2-VASc)", "prioridad": 1, "indicacion": "Fundamental para decidir inicio de anticoagulación en FA no valvular." },
+        { "nombre": "Evaluar Riesgo de Sangrado (HAS-BLED)", "prioridad": 1, "indicacion": "Utilizar para identificar y controlar factores de riesgo de sangrado modificables." },
+        { "nombre": "Cardioversión Eléctrica de Emergencia", "prioridad": 2, "indicacion": "Recomendada en pacientes con FA y respuesta ventricular rápida que presenten inestabilidad hemodinámica." },
+        { "nombre": "Ablación con Catéter", "prioridad": 3, "indicacion": "Sugerida en pacientes sintomáticos (paroxísticos o persistentes) refractarios o intolerantes a fármacos antiarrítmicos." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°61 (Actualización 2023) de EsSalud para Fibrilación Auricular. El manejo se centra en 3 pilares: prevención de eventos tromboembólicos, control de síntomas (frecuencia o ritmo) y manejo de comorbilidades. La decisión de anticoagular se basa en el score CHA2DS2-VASc."
+  },
+  {
+    "diagnostico_cie10": "C61X",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "", "nombre": "Terapia de Deprivación Androgénica (TDA)", "prioridad": 1, "indicacion": "Pilar del tratamiento. Puede ser farmacológica (agonistas LHRH) o quirúrgica (orquiectomía bilateral)." },
+        { "codigo_item": "", "nombre": "Docetaxel", "prioridad": 2, "indicacion": "Recomendado en combinación con TDA para pacientes de novo y de alto volumen metastásico. Dosis: 75 mg/m² EV cada 21 días por 6 ciclos." },
+        { "codigo_item": "", "nombre": "Acetato de Abiraterona", "prioridad": 3, "indicacion": "Alternativa de tratamiento sistémico disponible en EsSalud para establecimientos III-2, posterior a evaluación comparativa." }
+      ],
+      "procedimientos": [
+        { "nombre": "Orquiectomía Bilateral", "prioridad": 1, "indicacion": "Opción de TDA quirúrgica. Considerar si el uso de agonistas LHRH está contraindicado o si hay alto riesgo cardiovascular." },
+        { "nombre": "Radioterapia (RT) al Cáncer Primario", "prioridad": 2, "indicacion": "Recomendada en combinación con TDA para pacientes de novo y de bajo volumen metastásico." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°59 de EsSalud para Cáncer de Próstata Metastásico Hormonosensible. El tratamiento varía significativamente según la presentación (de novo vs. recurrente) y el volumen metastásico (alto vs. bajo).",
+    "logica_adicional": {
+      "De_Novo_Alto_Volumen": "Recomendación fuerte: TDA + Docetaxel.",
+      "De_Novo_Bajo_Volumen": "Recomendación fuerte: TDA + Radioterapia (RT) al primario. No se sugiere TDA + Docetaxel.",
+      "Recurrente_Alto_Volumen": "Sugerencia en contra de TDA + Docetaxel.",
+      "Recurrente_Bajo_Volumen": "Recomendación fuerte en contra de TDA + Docetaxel."
     }
   }
 ]
