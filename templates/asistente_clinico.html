@@ -7,14 +7,14 @@
 <style>
     /* Estilos para mejorar la legibilidad y el diseño */
     .card-header .h2 {
-        font-weight: 300; /* Título más ligero */
+        font-weight: 300;
     }
     .list-group-item {
-        border-left: 4px solid transparent; /* Prepara para el borde de color */
-        transition: all 0.2s ease-in-out;
+        border-left: 4px solid transparent;
+        padding-left: 1.25rem;
     }
     .list-group-item strong {
-        display: block; /* El nombre del item en su propia línea */
+        display: block;
         margin-bottom: 0.25rem;
     }
     /* Colores para las diferentes secciones */
@@ -125,7 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<h6 class="medicamentos-header"><i class="bi bi-capsule-pill me-2"></i>Medicamentos Recomendados</h6><ul class="list-group list-group-flush">';
             data.tratamiento_sugerido.medicamentos.sort((a, b) => a.prioridad - b.prioridad);
             data.tratamiento_sugerido.medicamentos.forEach(med => {
-                html += `<li class="list-group-item list-group-item-medicamento"><strong>${med.nombre}</strong><small class="text-muted d-block">${med.posologia}</small></li>`;
+                // ¡IMPLEMENTACIÓN! Añadimos el código del item si existe
+                const codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2" style="font-size: 0.8em; vertical-align: middle;">${med.codigo_item}</span>` : '';
+                
+                html += `<li class="list-group-item list-group-item-medicamento">
+                            <div>
+                                ${codigoHtml}
+                                <strong>${med.nombre}</strong>
+                            </div>
+                            <small class="text-muted d-block mt-1">${med.posologia}</small>
+                         </li>`;
             });
             html += '</ul>';
         }
@@ -141,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '</ul>';
         }
         
-        // Si después de todo no hay sugerencias de tratamiento
         if (!haySugerencias) {
              html += '<div class="alert alert-light mt-3 text-center">No hay sugerencias específicas de tratamiento en la base de conocimiento para este diagnóstico.</div>';
         }

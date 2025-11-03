@@ -3,52 +3,52 @@
     "diagnostico_cie10": "J189",
     "tratamiento_sugerido": {
       "medicamentos": [
-        { "nombre": "Amoxicilina (Primera Línea Ambulatorio)", "prioridad": 1, "posologia": "80-90 mg/kg/día, Vía Oral, por 5 días. Dosis máxima: 4g/día." },
-        { "nombre": "Cefuroxima (Alternativa en alergia no severa)", "prioridad": 2, "posologia": "30 mg/kg/día, Vía Oral, cada 12h, por 7 días. Dosis máxima: 1g/día." },
-        { "nombre": "Cloranfenicol (Alternativa en alergia severa)", "prioridad": 3, "posologia": "50 mg/kg/día, Vía Oral, cada 6h, por 7 días. Dosis máxima: 4g/día." },
-        { "nombre": "Ampicilina o Penicilina G (Manejo Hospitalario >2 meses)", "prioridad": 4, "posologia": "150-200 mg/kg/día, Vía Endovenosa, cada 6h. Dosis máxima: 4g/día." },
-        { "nombre": "Ampicilina + Gentamicina/Amikacina (Manejo Hospitalario <2 meses)", "prioridad": 5, "posologia": "Ampicilina 150-200mg/kg/día + Gentamicina 5-7.5mg/kg/día. Ambas EV." }
+        { "codigo_item": "2100001", "nombre": "Amoxicilina (Primera Línea Ambulatorio)", "prioridad": 1, "posologia": "80-90 mg/kg/día, Vía Oral, por 5 días. Dosis máxima: 4g/día." },
+        { "codigo_item": "2100002", "nombre": "Cefuroxima (Alternativa en alergia no severa)", "prioridad": 2, "posologia": "30 mg/kg/día, Vía Oral, cada 12h, por 7 días. Dosis máxima: 1g/día." },
+        { "codigo_item": "2100003", "nombre": "Cloranfenicol (Alternativa en alergia severa)", "prioridad": 3, "posologia": "50 mg/kg/día, Vía Oral, cada 6h, por 7 días. Dosis máxima: 4g/día." },
+        { "codigo_item": "2100004", "nombre": "Ampicilina o Penicilina G (Manejo Hospitalario >2 meses)", "prioridad": 4, "posologia": "150-200 mg/kg/día, Vía Endovenosa, cada 6h. Dosis máxima: 4g/día." },
+        { "codigo_item": "2100005", "nombre": "Ampicilina + Gentamicina/Amikacina (Manejo Hospitalario <2 meses)", "prioridad": 5, "posologia": "Ampicilina 150-200mg/kg/día + Gentamicina 5-7.5mg/kg/día. Ambas EV." }
       ],
       "procedimientos": [],
       "insumos": []
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°73 de EsSalud para Neumonía Adquirida en la Comunidad (NAC) en pediatría. La elección depende del manejo (ambulatorio/hospitalario) y las alergias del paciente."
+    "notas_clinicas": "Sugerencias basadas en la GPC N°73 de EsSalud para Neumonía Adquirida en la Comunidad (NAC) en pediatría."
   },
   {
     "diagnostico_cie10": "M179",
     "tratamiento_sugerido": {
       "medicamentos": [
-        { "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
-        { "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
-        { "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
-        { "nombre": "Inyección de Corticoide Intra-articular (Manejo agudo)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
+        { "codigo_item": "2100006", "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
+        { "codigo_item": "2100007", "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
+        { "codigo_item": "2100008", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
+        { "codigo_item": "2100009", "nombre": "Inyección de Corticoide Intra-articular (Manejo agudo)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
       ],
       "procedimientos": [],
       "insumos": []
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Paracetamol y Tramadol son de segunda línea. Glucosamina, Ácido Hialurónico y Acupuntura NO son recomendados."
+    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
   },
   {
     "diagnostico_cie10": "M169",
     "tratamiento_sugerido": {
       "medicamentos": [
-        { "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
-        { "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
-        { "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
-        { "nombre": "Inyección de Corticoide Intra-articular (Bajo guía ecográfica)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
+        { "codigo_item": "2100006", "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
+        { "codigo_item": "2100007", "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
+        { "codigo_item": "2100008", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
+        { "codigo_item": "2100009", "nombre": "Inyección de Corticoide Intra-articular (Bajo guía ecográfica)", "prioridad": 3, "posologia": "Triamcinolona acetónido 40mg. Considerar si no hay respuesta a AINEs." }
       ],
       "procedimientos": [],
       "insumos": []
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Paracetamol y Tramadol son de segunda línea. Glucosamina, Ácido Hialurónico y Acupuntura NO son recomendados."
+    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
   },
   {
     "diagnostico_cie10": "Q210",
     "tratamiento_sugerido": {
       "medicamentos": [
-        { "nombre": "Furosemida", "prioridad": 1, "posologia": "Para manejo de Insuficiencia Cardíaca Congestiva (ICC) si está presente." },
-        { "nombre": "Espironolactona", "prioridad": 2, "posologia": "Para manejo de ICC, usualmente en combinación con Furosemida." },
-        { "nombre": "Captopril / Enalapril (IECA)", "prioridad": 3, "posologia": "Para reducir la postcarga en manejo de ICC." }
+        { "codigo_item": "2100010", "nombre": "Furosemida", "prioridad": 1, "posologia": "Para manejo de Insuficiencia Cardíaca Congestiva (ICC) si está presente." },
+        { "codigo_item": "2100011", "nombre": "Espironolactona", "prioridad": 2, "posologia": "Para manejo de ICC, usualmente en combinación con Furosemida." },
+        { "codigo_item": "2100012", "nombre": "Captopril / Enalapril (IECA)", "prioridad": 3, "posologia": "Para reducir la postcarga en manejo de ICC." }
       ],
       "procedimientos": [
         { "nombre": "Cierre del defecto (Quirúrgico o Percutáneo)", "prioridad": 1, "indicacion": "Indicado en CIV grande, o CIV moderada/pequeña con complicaciones (ICC, HTP, endocarditis, etc.)." },
@@ -56,6 +56,6 @@
       ],
       "insumos": []
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°71 de EsSalud para Comunicación Interventricular (CIV). El manejo depende del tamaño del defecto y la presencia de complicaciones. El tratamiento médico es para la ICC, mientras que el tratamiento definitivo (cierre) es para casos seleccionados."
+    "notas_clinicas": "Sugerencias basadas en la GPC N°71 de EsSalud para Comunicación Interventricular (CIV). El manejo depende del tamaño del defecto y la presencia de complicaciones."
   }
 ]
