@@ -1112,35 +1112,18 @@ def ver_sugerencias():
 
     return render_template('ver_sugerencias.html', sugerencias=lista_sugerencias)
 
-# --- API PARA EL ASISTENTE DE SUGERENCIAS DE IA (¡NUEVO!) ---
-@app.route('/api/asistente_sugerencias')
-def asistente_sugerencias():
-    if 'username' not in session:
-        return jsonify({"error": "No autorizado"}), 401
+# ==============================================================================
+#           RUTAS PARA EL MÓDULO DE ASISTENTE CLÍNICO (IA)
+# ==============================================================================
 
-    codigo_cie10 = request.args.get('cie10', '')
-    if not codigo_cie10:
-        return jsonify({"error": "Se requiere un código CIE-10"}), 400
-
-    sugerencia_encontrada = None
-    for regla in CONOCIMIENTO_CLINICO:
-        if regla.get('diagnostico_cie10') == codigo_cie10:
-            sugerencia_encontrada = regla
-            break
-    
-    if sugerencia_encontrada:
-        return jsonify(sugerencia_encontrada)
-    else:
-        return jsonify({}), 404 # Devuelve un objeto vacío y un 404 si no hay regla
-
-# --- RUTA PARA LA PÁGINA DEL ASISTENTE CLÍNICO DE IA (¡NUEVO!) ---
+# --- RUTA PARA MOSTRAR LA PÁGINA DEL ASISTENTE ---
 @app.route('/asistente_clinico')
 def asistente_clinico():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('asistente_clinico.html')
 
-# --- API PARA EL ASISTENTE DE SUGERENCIAS DE IA (¡EXISTENTE!) ---
+# --- API QUE PROPORCIONA LAS SUGERENCIAS DE LA IA ---
 @app.route('/api/asistente_sugerencias')
 def asistente_sugerencias():
     if 'username' not in session:
@@ -1161,6 +1144,9 @@ def asistente_sugerencias():
     else:
         return jsonify({}), 404
 
+# ==============================================================================
+#           PUNTO DE ENTRADA DE LA APLICACIÓN
+# ==============================================================================
 
 if __name__ == '__main__':
     app.run(debug=True)
