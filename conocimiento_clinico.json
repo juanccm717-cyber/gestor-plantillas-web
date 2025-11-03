@@ -106,10 +106,64 @@
         { "codigo_item": "", "nombre": "Inhibidor de SGLT-2 (Dapagliflozina, Empagliflozina)", "prioridad": 1, "posologia": "Pilar 4 del tratamiento. Iniciar según función renal." },
         { "codigo_item": "21644", "nombre": "Diurético de Asa (Furosemida)", "prioridad": 2, "posologia": "Para manejo de la congestión. Ajustar dosis según síntomas y peso." }
       ],
-      "procedimientos": [],
-      "insumos": []
+      "procedimientos": [], "insumos": []
     },
     "notas_clinicas": "Sugerencias basadas en la GPC N°67 de EsSalud para Insuficiencia Cardíaca Crónica con FEVI reducida (≤40%). El tratamiento se basa en los 4 pilares farmacológicos (IECA/ARNI, BB, ARM, iSGLT2) que deben iniciarse de forma conjunta y titularse. Los diuréticos son para el manejo de síntomas."
   },
-  { "diagnostico_cie10": "I509", "tratamiento_sugerido": {}, "referencia_a": "I500" }
+  { "diagnostico_cie10": "I509", "tratamiento_sugerido": {}, "referencia_a": "I500" },
+  {
+    "diagnostico_cie10": "K922",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "21740", "nombre": "Omeprazol IV (IBP)", "prioridad": 1, "posologia": "Administrar antes de la endoscopia. Dosis sugerida: 80mg en bolo, seguido de infusión de 8mg/hora." },
+        { "codigo_item": "", "nombre": "Octreotida / Terlipresina", "prioridad": 2, "posologia": "Iniciar si se sospecha HDA Variceal. Octreotida: 50mcg en bolo, seguido de 50mcg/hora por 5 días." },
+        { "codigo_item": "21564", "nombre": "Ceftriaxona (Profilaxis antibiótica)", "prioridad": 3, "posologia": "Administrar si se sospecha o confirma HDA Variceal en paciente cirrótico. Dosis: 1g/24h por 7 días." }
+      ],
+      "procedimientos": [
+        { "nombre": "Endoscopia Digestiva Alta (EDA)", "prioridad": 1, "indicacion": "Realizar idealmente en las primeras 24 horas. Urgente (<12h) si hay inestabilidad hemodinámica." },
+        { "nombre": "Terapia Dual Endoscópica (No Variceal)", "prioridad": 2, "indicacion": "Para úlceras de alto riesgo (Forrest I, IIa, IIb). Ej: Inyección de adrenalina + clips." },
+        { "nombre": "Ligadura con Bandas (Variceal)", "prioridad": 2, "indicacion": "Tratamiento de elección para várices esofágicas sangrantes." }
+      ],
+      "insumos": []
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°66 de EsSalud para Hemorragia Digestiva Alta (HDA). El manejo inicial se centra en la estabilización y el uso de IBP. El manejo específico depende de la causa (variceal vs. no variceal) y los hallazgos endoscópicos."
+  },
+  { "diagnostico_cie10": "K25", "tratamiento_sugerido": {}, "referencia_a": "K922" },
+  { "diagnostico_cie10": "K26", "tratamiento_sugerido": {}, "referencia_a": "K922" },
+  { "diagnostico_cie10": "K27", "tratamiento_sugerido": {}, "referencia_a": "K922" },
+  { "diagnostico_cie10": "I850", "tratamiento_sugerido": {}, "referencia_a": "K922" },
+  { "diagnostico_cie10": "I859", "tratamiento_sugerido": {}, "referencia_a": "K922" },
+  {
+    "diagnostico_cie10": "H259",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "", "nombre": "Antibiótico Tópico Perioperatorio (ej. Levofloxacina)", "prioridad": 2, "posologia": "Sugerido para la prevención de endoftalmitis." },
+        { "codigo_item": "", "nombre": "Corticoide Tópico (ej. Prednisolona)", "prioridad": 3, "posologia": "Recomendado para el manejo de la inflamación postoperatoria." }
+      ],
+      "procedimientos": [
+        { "nombre": "Cirugía de Catarata (Facoemulsificación)", "prioridad": 1, "indicacion": "Tratamiento definitivo para la catarata que afecta la visión." }
+      ],
+      "insumos": [
+        { "codigo_item": "", "nombre": "Povidona Yodada", "prioridad": 1, "indicacion": "Utilizar diluida al 5% o 10% como antiséptico preoperatorio." }
+      ]
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°65 de EsSalud para Catarata. El tratamiento es principalmente quirúrgico (Facoemulsificación). Las recomendaciones farmacológicas se centran en el manejo perioperatorio para prevenir infecciones y controlar la inflamación."
+  },
+  {
+    "diagnostico_cie10": "J459",
+    "tratamiento_sugerido": {
+      "medicamentos": [
+        { "codigo_item": "", "nombre": "Salbutamol (Agonista β2)", "prioridad": 1, "posologia": "Tratamiento de primera línea para todas las crisis. Administrar con IDM+espaciador o nebulización." },
+        { "codigo_item": "", "nombre": "Prednisona / Prednisolona (Corticoide Sistémico)", "prioridad": 2, "posologia": "Añadir en crisis leves a moderadas. Preferible vía oral." },
+        { "codigo_item": "", "nombre": "Bromuro de Ipratropio (Anticolinérgico)", "prioridad": 3, "posologia": "Añadir al Salbutamol en crisis moderadas a severas." },
+        { "codigo_item": "", "nombre": "Sulfato de Magnesio EV", "prioridad": 4, "posologia": "Tratamiento de segunda línea si no hay respuesta al manejo inicial en crisis moderadas/severas." }
+      ],
+      "procedimientos": [],
+      "insumos": [
+        { "codigo_item": "", "nombre": "Oxígeno Suplementario", "prioridad": 1, "indicacion": "Mantener SatO2 > 92% en todos los niveles de crisis." }
+      ]
+    },
+    "notas_clinicas": "Sugerencias basadas en la GPC N°64 de EsSalud para Crisis Asmática en niños/adolescentes. El manejo es escalonado según la severidad, iniciando siempre con Salbutamol y Oxígeno, y añadiendo corticoides, ipratropio y magnesio según la respuesta."
+  },
+  { "diagnostico_cie10": "J46", "tratamiento_sugerido": {}, "referencia_a": "J459" }
 ]
