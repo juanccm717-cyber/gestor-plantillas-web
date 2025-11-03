@@ -53,6 +53,40 @@ if not DATABASE_URL:
 engine = create_engine(DATABASE_URL)
 # ---------------------------------------------------------
 
+# ==============================================================================
+#           (¡NUEVO!) INSERTA EL CÓDIGO DE CORRECCIÓN AQUÍ
+# ==============================================================================
+#           CONFIGURACIÓN DEL CLIENTE DE SUPABASE
+# ==============================================================================
+# Este cliente es necesario para las nuevas búsquedas (procedimientos, etc.)
+
+# 1. Importamos las librerías necesarias para el cliente de Supabase
+from supabase import create_client, Client
+
+# 2. Inicializamos la variable como None para asegurar que siempre exista
+supabase: Client = None 
+
+try:
+    # 3. Intentamos leer las variables de entorno que configuraste en Vercel
+    SUPABASE_URL = os.environ.get('SUPABASE_URL')
+    SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY')
+    
+    # 4. Si ambas claves existen, creamos el cliente de Supabase
+    if SUPABASE_URL and SUPABASE_ANON_KEY:
+        supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        print("INFO: Conexión con el cliente de Supabase establecida con éxito.")
+    else:
+        # 5. Si falta alguna clave, lo registramos como un error claro
+        print("ERROR: Faltan las variables de entorno SUPABASE_URL o SUPABASE_ANON_KEY. Las búsquedas en tablas nuevas no funcionarán.")
+
+except Exception as e:
+    # 6. Si ocurre cualquier otro error, también lo registramos
+    print(f"ERROR: No se pudo inicializar el cliente de Supabase. Error: {e}")
+# ==============================================================================
+#           FIN DEL BLOQUE DE CORRECCIÓN
+# ==============================================================================
+
+
 # --- IMPORTACIÓN DE LISTAS ESTÁTICAS ---
 # ==============================================================================
 #  Este archivo contiene todas las listas de datos estáticos para la aplicación.
