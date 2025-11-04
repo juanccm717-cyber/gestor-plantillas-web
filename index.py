@@ -50,7 +50,9 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:
     raise RuntimeError("La variable de entorno DATABASE_URL no está configurada.")
     
-engine = create_engine(DATABASE_URL)
+# --- ¡LÍNEA CORREGIDA PARA MANEJAR CARACTERES ESPECIALES! ---
+engine = create_engine(DATABASE_URL, connect_args={'options': '-cclient_encoding=latin1'})
+
 # ---------------------------------------------------------
 
 # ==============================================================================
@@ -1241,3 +1243,4 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+engine
