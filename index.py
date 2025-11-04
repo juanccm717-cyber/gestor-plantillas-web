@@ -1211,19 +1211,19 @@ def api_search_procedimientos():
     
     query = request.args.get('q', '')
     
-    if len(query) < 2: # Reducimos a 2 para buscar códigos cortos como '144'
+    if len(query) < 2:
         return jsonify([])
 
     if not supabase:
         return jsonify({'error': 'El servidor no pudo conectar con la base de datos de procedimientos.'}), 503
 
     try:
-        search_pattern = f'%{query}%'
+        # --- ¡LÓGICA SIMPLIFICADA! ---
+        # 1. Normalizamos el término de búsqueda del usuario (mayúsculas y sin tildes)
+        query_normalizada = ''.join(c for c in query.upper() if c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ')
+        search_pattern = f'%{query_normalizada}%'
         
-        # --- ¡LÓGICA CORREGIDA AQUÍ! ---
-        # Usamos .or() para buscar el patrón en CUALQUIERA de las dos columnas.
-        # 1. nombre_prest.ilike.{pattern} -> Busca en la descripción.
-        # 2. cod_cpms.ilike.{pattern}     -> Busca en el código.
+        # 2. Buscamos directamente en las columnas ya normalizadas
         response = supabase.table('procedimientos').select(
             'cod_cpms', 
             'nombre_prest', 
