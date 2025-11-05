@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 from pypdf import PdfReader
 import bcrypt
+import requests
 
 # ==============================================================================
 
@@ -1311,6 +1312,90 @@ def analizar_documento_api():
 
     return jsonify({'error': 'Formato de archivo no válido. Solo se aceptan PDFs.'}), 400
 
+@app.route('/api/analizar_documento', methods=['POST'])
+def analizar_documento_api():
+    if session.get('role') != 'administrador':
+        return jsonify({'error': 'No autorizado'}), 403
+
+    if 'pdf_file' not in request.files:
+        return jsonify({'error': 'No se encontró ningún archivo.'}), 400
+
+    file = request.files['pdf_file']
+    if file.filename == '' or not file.filename.endswith('.pdf'):
+        return jsonify({'error': 'Archivo no válido. Solo se aceptan PDFs.'}), 400
+
+    try:
+        # 1. Extraemos el texto del PDF (esto ya lo teníamos)
+        pdf_reader = PdfReader(file)
+        texto_completo = ""
+        for page in pdf_reader.pages:
+            texto_completo += page.extract_text() + "\n"
+        
+        # Limitamos el texto para no exceder los límites de las APIs gratuitas
+        texto_limitado = texto_completo[:15000] 
+        print(f"INFO: Texto extraído y limitado a {len(texto_limitado)} caracteres para análisis.")
+
+        # 2. Obtenemos la clave de la API de IA desde las variables de entorno
+        # (En el siguiente paso, te diré cómo obtener esta clave)
+        AI_API_KEY = os.environ.get('AI_API_KEY')
+        if not AI_API_KEY:
+            # Si la clave no está, devolvemos un error amigable en lugar de crashear
+            print("ERROR: La variable de entorno AI_API_KEY no está configurada.")
+            return jsonify({'error': 'La clave de la API de IA no está configurada en el servidor.'}), 500
+
+        # 3. Preparamos la llamada a la API de IA
+        api_url = "URL_DE_LA_API_DE_IA_GRATUITA" # Reemplazaremos esto en el siguiente paso
+        
+        headers = {
+            "Authorization": f"Bearer {AI_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        
+        prompt_instruccion = """
+        Analiza el siguiente texto de una Guía de Práctica Clínica y genera un único bloque de conocimiento en formato JSON. 
+        La estructura debe ser exactamente la siguiente:
+        {
+          "diagnostico_cie10": "CODIGO_PRINCIPAL (ej. K358)",
+          "tratamiento_sugerido": {
+            "medicamentos": [{"nombre": "...", "prioridad": 1, "indicacion": "..."}],
+            "procedimientos": [{"nombre": "...", "prioridad": 1, "indicacion": "..."}],
+            "insumos": []
+          },
+          "notas_clinicas": "Un resumen conciso de las recomendaciones generales.",
+          "logica_adicional": {
+            "escenario_1": "Recomendación para este escenario.",
+            "escenario_2": "Recomendación para este otro escenario."
+          }
+        }
+        Asegúrate de que el JSON sea válido y no incluyas texto antes o después de él.
+        """
+
+        payload = {
+            "model": "gpt-3.5-turbo", # Usaremos un modelo rápido y eficiente
+            "messages": [
+                {"role": "system", "content": prompt_instruccion},
+                {"role": "user", "content": texto_limitado}
+            ]
+        }
+
+        # 4. Realizamos la llamada a la API
+        # (Por ahora, la comentaremos para no causar un error hasta que tengamos la URL y la clave)
+        # response_ia = requests.post(api_url, headers=headers, json=payload)
+        # response_ia.raise_for_status() # Lanza un error si la petición falla
+        # json_resultado = response_ia.json()['choices'][0]['message']['content']
+        
+        # --- RESPUESTA DE PRUEBA MIENTRAS CONFIGURAMOS LA API ---
+        json_resultado = {
+            "status": "CONFIGURACIÓN PENDIENTE",
+            "mensaje": "El backend está listo para llamar a la IA. El siguiente paso es configurar la AI_API_KEY."
+        }
+        # ---------------------------------------------------------
+
+        return jsonify(json_resultado)
+
+    except Exception as e:
+        print(f"ERROR al procesar el PDF o llamar a la IA: {e}")
+        return jsonify({'error': f'Error interno del servidor: {str(e)}'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
