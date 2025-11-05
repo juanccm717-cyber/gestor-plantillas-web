@@ -63,6 +63,7 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Referencias a los elementos del DOM ---
     const pdfFile = document.getElementById('pdfFile');
     const analyzeButton = document.getElementById('analyzeButton');
     const buttonText = document.getElementById('button-text');
@@ -72,16 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const jsonOutput = document.getElementById('jsonOutput');
     const copyButton = document.getElementById('copyButton');
 
-    // Habilitar el botón solo si hay un archivo
+    // --- Habilitar el botón solo si hay un archivo ---
     pdfFile.addEventListener('change', () => {
         analyzeButton.disabled = pdfFile.files.length === 0;
     });
 
-    // Lógica del botón "Analizar"
+    // --- Lógica del botón "Analizar" ---
     analyzeButton.addEventListener('click', () => {
-        // ESTA ALERTA YA NO DEBE EXISTIR
-        // alert('¡Funcionalidad en construcción!...'); 
-
         if (pdfFile.files.length === 0) {
             alert("Por favor, selecciona un archivo PDF primero.");
             return;
@@ -90,34 +88,66 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append('pdf_file', pdfFile.files[0]);
 
-        setLoading(true);
+        setLoading(true); // <-- Esta es la línea que daba el error
 
-        // Llamada a la API del backend
         fetch('/api/analizar_documento', {
             method: 'POST',
             body: formData
         })
         .then(response => {
             if (!response.ok) {
-                // Si la respuesta no es exitosa (ej. 403, 500), leemos el error
                 return response.json().then(err => { throw new Error(err.error || 'Error desconocido del servidor') });
             }
             return response.json();
         })
         .then(data => {
             setLoading(false);
-            displayResults(data);
+            displayResults(data); // <-- Esta función también faltaba
         })
         .catch(error => {
             setLoading(false);
             console.error('Error al analizar:', error);
-            // Mostramos un error más específico al usuario
             alert('Ocurrió un error: ' + error.message);
         });
     });
 
-    // (El resto de tu código JS: copyButton, setLoading, displayResults...)
-    // ...
+    // --- Lógica del botón "Copiar" ---
+    copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
+            copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
+            setTimeout(() => {
+                copyButton.innerHTML = '<i class="bi bi-clipboard me-1"></i> Copiar Código';
+            }, 2000);
+        });
+    });
+
+    // ==================================================================
+    //           (¡NUEVO!) FUNCIONES QUE FALTABAN
+    // ==================================================================
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            buttonText.textContent = 'Analizando...';
+            buttonSpinner.classList.remove('d-none');
+            analyzeButton.disabled = true;
+        } else {
+            buttonText.textContent = 'Analizar Guía';
+            buttonSpinner.classList.add('d-none');
+            analyzeButton.disabled = false;
+        }
+    }
+
+    function displayResults(data) {
+        initialMessage.classList.add('d-none');
+        resultsContainer.classList.remove('d-none');
+        
+        // Usamos JSON.stringify para formatear el JSON de manera legible
+        jsonOutput.textContent = JSON.stringify(data, null, 2);
+        
+        // Si en el futuro añades una librería como Prism.js o Highlight.js,
+        // aquí llamarías a la función para resaltar la sintaxis.
+        // Por ejemplo: Prism.highlightElement(jsonOutput);
+    }
 });
 </script>
 {% endblock %}
