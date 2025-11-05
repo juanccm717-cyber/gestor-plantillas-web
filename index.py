@@ -1261,62 +1261,6 @@ def analizar_documento_api():
     if session.get('role') != 'administrador':
         return jsonify({'error': 'No autorizado'}), 403
 
-    # 1. Verificamos que se haya enviado un archivo
-    if 'pdf_file' not in request.files:
-        return jsonify({'error': 'No se encontró ningún archivo en la solicitud.'}), 400
-
-    file = request.files['pdf_file']
-
-    if file.filename == '':
-        return jsonify({'error': 'No se seleccionó ningún archivo.'}), 400
-
-    if file and file.filename.endswith('.pdf'):
-        try:
-            # 2. Leemos el contenido del PDF directamente desde la memoria
-            pdf_reader = PdfReader(file)
-            texto_completo = ""
-            for page in pdf_reader.pages:
-                texto_completo += page.extract_text() + "\n"
-
-            # 3. SIMULACIÓN DE ANÁLISIS DE IA
-            # En el futuro, aquí es donde le pasaríamos 'texto_completo' a un modelo de lenguaje.
-            # Por ahora, devolvemos un resultado de ejemplo para probar la interfaz.
-            print(f"INFO: Texto extraído del PDF ({len(texto_completo)} caracteres).")
-            
-            # Simulamos una respuesta JSON basada en el texto.
-            # Por ejemplo, si encontramos la palabra "Apendicitis".
-            if "apendicitis" in texto_completo.lower():
-                json_resultado = {
-                    "diagnostico_cie10": "K358",
-                    "tratamiento_sugerido": {
-                        "procedimientos": [
-                            {"nombre": "Apendicectomía Laparoscópica", "prioridad": 1}
-                        ]
-                    },
-                    "notas_clinicas": "Resultado generado por IA a partir del PDF subido. Se identificó Apendicitis Aguda.",
-                    "logica_adicional": {
-                        "no_complicada": "Sugerir cirugía laparoscópica."
-                    }
-                }
-            else:
-                json_resultado = {
-                    "error": "No se pudo identificar un diagnóstico claro en el documento."
-                }
-
-            # 4. Devolvemos el resultado
-            return jsonify(json_resultado)
-
-        except Exception as e:
-            print(f"ERROR al procesar el PDF: {e}")
-            return jsonify({'error': f'Error interno al procesar el PDF: {str(e)}'}), 500
-
-    return jsonify({'error': 'Formato de archivo no válido. Solo se aceptan PDFs.'}), 400
-
-@app.route('/api/analizar_documento', methods=['POST'])
-def analizar_documento_api():
-    if session.get('role') != 'administrador':
-        return jsonify({'error': 'No autorizado'}), 403
-
     if 'pdf_file' not in request.files:
         return jsonify({'error': 'No se encontró ningún archivo.'}), 400
 
