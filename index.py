@@ -1261,6 +1261,9 @@ def analizar_guia_page():
     # Renderizamos la página del analizador (analizar_guia.html)
     return render_template('analizar_guia.html')
 
+#
+# --- ESTA ES LA ÚNICA VERSIÓN QUE DEBE EXISTIR ---
+#
 @app.route('/api/analizar_documento', methods=['POST'])
 def analizar_documento_api():
     if session.get('role') != 'administrador':
@@ -1285,13 +1288,13 @@ def analizar_documento_api():
         print(f"INFO: Texto extraído y limitado a {len(texto_limitado)} caracteres para análisis.")
 
         # 2. Obtenemos la clave de la API de IA desde las variables de entorno
-        AI_API_KEY = os.environ.get('OPENAI_API_KEY') # <-- CORREGIDO: Usar OPENAI_API_KEY
+        AI_API_KEY = os.environ.get('OPENAI_API_KEY')
         if not AI_API_KEY:
             print("ERROR: La variable de entorno OPENAI_API_KEY no está configurada.")
             return jsonify({'error': 'La clave de la API de IA no está configurada en el servidor.'}), 500
 
         # 3. Preparamos la llamada a la API de OpenAI
-        api_url = "https://api.openai.com/v1/chat/completions" # <-- CORREGIDO: URL oficial de OpenAI
+        api_url = "https://api.openai.com/v1/chat/completions"
         
         headers = {
             "Authorization": f"Bearer {AI_API_KEY}",
@@ -1323,27 +1326,26 @@ def analizar_documento_api():
                 {"role": "system", "content": prompt_instruccion},
                 {"role": "user", "content": texto_limitado}
             ],
-            "response_format": {"type": "json_object"} # <-- ¡NUEVO Y CRUCIAL! Fuerza a la IA a devolver un JSON válido.
+            "response_format": {"type": "json_object"}
         }
 
-        # 4. Realizamos la llamada a la API (¡AHORA ACTIVADA!)
-        response_ia = requests.post(api_url, headers=headers, json=payload, timeout=120) # Timeout de 2 minutos
-        response_ia.raise_for_status() # Lanza un error si la petición HTTP falla (ej. 401, 404)
+        # 4. Realizamos la llamada a la API
+        response_ia = requests.post(api_url, headers=headers, json=payload, timeout=120)
+        response_ia.raise_for_status()
         
-        # Extraemos el contenido JSON de la respuesta de la IA
         json_string_resultado = response_ia.json()['choices'][0]['message']['content']
-        
-        # Convertimos el string JSON en un objeto Python para enviarlo correctamente
         json_final = json.loads(json_string_resultado)
 
         return jsonify(json_final)
 
     except requests.exceptions.RequestException as e:
         print(f"ERROR al llamar a la API de IA: {e}")
-        return jsonify({'error': f'No se pudo conectar con el servicio de IA: {str(e)}'}), 503 # 503 Service Unavailable
+        return jsonify({'error': f'No se pudo conectar con el servicio de IA: {str(e)}'}), 503
     except Exception as e:
         print(f"ERROR al procesar el PDF o la respuesta de la IA: {e}")
         return jsonify({'error': f'Error interno del servidor: {str(e)}'}), 500
+
+# --- NO INCLUIR LA SEGUNDA DEFINICIÓN DE 'analizar_documento_api' ---
 
 if __name__ == '__main__':
     app.run(debug=True)
