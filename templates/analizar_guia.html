@@ -9,7 +9,7 @@
             
             <div class="text-center mb-4">
                 <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
+                <h1 class="mt-2">Analizador de Guías Clínicas (IA) - v2</h1>
                 <p class="lead text-muted">
                     Sube un archivo PDF de una Guía de Práctica Clínica para que la IA extraiga el conocimiento y genere el código JSON.
                 </p>
@@ -61,26 +61,63 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- (Aquí irá el JavaScript para la lógica de subida y análisis en el siguiente paso) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const pdfFile = document.getElementById('pdfFile');
     const analyzeButton = document.getElementById('analyzeButton');
+    const buttonText = document.getElementById('button-text');
+    const buttonSpinner = document.getElementById('button-spinner');
+    const initialMessage = document.getElementById('initialMessage');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const jsonOutput = document.getElementById('jsonOutput');
+    const copyButton = document.getElementById('copyButton');
 
-    // Habilitar el botón solo cuando se selecciona un archivo
-    pdfFile.addEventListener('change', function() {
-        if (pdfFile.files.length > 0) {
-            analyzeButton.disabled = false;
-        } else {
-            analyzeButton.disabled = true;
+    // Habilitar el botón solo si hay un archivo
+    pdfFile.addEventListener('change', () => {
+        analyzeButton.disabled = pdfFile.files.length === 0;
+    });
+
+    // Lógica del botón "Analizar"
+    analyzeButton.addEventListener('click', () => {
+        // ESTA ALERTA YA NO DEBE EXISTIR
+        // alert('¡Funcionalidad en construcción!...'); 
+
+        if (pdfFile.files.length === 0) {
+            alert("Por favor, selecciona un archivo PDF primero.");
+            return;
         }
+
+        const formData = new FormData();
+        formData.append('pdf_file', pdfFile.files[0]);
+
+        setLoading(true);
+
+        // Llamada a la API del backend
+        fetch('/api/analizar_documento', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                // Si la respuesta no es exitosa (ej. 403, 500), leemos el error
+                return response.json().then(err => { throw new Error(err.error || 'Error desconocido del servidor') });
+            }
+            return response.json();
+        })
+        .then(data => {
+            setLoading(false);
+            displayResults(data);
+        })
+        .catch(error => {
+            setLoading(false);
+            console.error('Error al analizar:', error);
+            // Mostramos un error más específico al usuario
+            alert('Ocurrió un error: ' + error.message);
+        });
     });
 
-    // Lógica de análisis (la implementaremos a continuación)
-    analyzeButton.addEventListener('click', function() {
-        alert("¡Funcionalidad en construcción! En el siguiente paso conectaremos esto con la IA.");
-        // Aquí irá la lógica para subir el archivo y mostrar los resultados.
-    });
+    // (El resto de tu código JS: copyButton, setLoading, displayResults...)
+    // ...
 });
 </script>
 {% endblock %}
