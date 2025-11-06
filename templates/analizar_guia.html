@@ -85,23 +85,22 @@
         <p class="text-muted">&copy; 2025 Gestor de Plantillas Médicas.</p>
     </footer>
 
-    <!-- Librerías JS con el atributo 'defer' -->
+    <!-- Librerías JS con el atributo 'defer' para asegurar el orden de carga -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" defer></script>
 
     <!-- Nuestro script principal, también con 'defer' -->
     <script defer>
-        // Esperamos a que el DOM esté completamente cargado
         document.addEventListener('DOMContentLoaded', (event ) => {
             
             // Verificación #1: Nos aseguramos de que el script de pdf.js se haya ejecutado
             if (typeof pdfjsLib === 'undefined') {
-                alert('Error crítico: La librería pdf.js no se cargó a tiempo. Por favor, recarga la página.');
+                alert('Error crítico: La librería pdf.js no se pudo cargar. Esto puede ser un problema de red o un bloqueador de scripts. Por favor, recarga la página o intenta en otro navegador.');
                 return;
             }
 
-            // Configuración del worker de pdf.js
-            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://mozilla.github.io/pdf.js/build/pdf.worker.js`;
+            // Configuración del worker de pdf.js desde el nuevo CDN
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
 
             // --- Referencias a los elementos del DOM ---
             const pdfFile = document.getElementById('pdfFile' );
