@@ -9,7 +9,8 @@
             
             <div class="text-center mb-4">
                 <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                <h1 class="mt-2">Analizador de Guías Clínicas (IA) - v2</h1>
+                <!-- Podemos quitar el "- v2" si quieres, ya que solucionamos el problema de caché -->
+                <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
                 <p class="lead text-muted">
                     Sube un archivo PDF de una Guía de Práctica Clínica para que la IA extraiga el conocimiento y genere el código JSON.
                 </p>
@@ -37,12 +38,10 @@
                 <div class="card-body">
                     <h5 class="card-title">Paso 2: Resultado del Análisis</h5>
                     
-                    <!-- Mensaje Inicial -->
                     <div id="initialMessage" class="text-center text-muted py-4">
                         <p>El código JSON generado aparecerá aquí.</p>
                     </div>
 
-                    <!-- Contenedor de Resultados -->
                     <div id="resultsContainer" class="d-none">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6>Bloque de Conocimiento JSON:</h6>
@@ -78,40 +77,73 @@ document.addEventListener('DOMContentLoaded', function() {
         analyzeButton.disabled = pdfFile.files.length === 0;
     });
 
-    // --- Lógica del botón "Analizar" ---
+    // --- Lógica del botón "Analizar" (NUEVA VERSIÓN CON GOOGLE SCRIPT) ---
     analyzeButton.addEventListener('click', () => {
         if (pdfFile.files.length === 0) {
             alert("Por favor, selecciona un archivo PDF primero.");
             return;
         }
 
-        const formData = new FormData();
-        formData.append('pdf_file', pdfFile.files[0]);
+        setLoading(true);
+        const file = pdfFile.files[0];
+        const reader = new FileReader();
 
-        setLoading(true); // <-- Esta es la línea que daba el error
+        reader.onload = function(event) {
+            const pdfData = new Uint8Array(event.target.result);
+            
+            // Usamos pdf.js para leer el contenido del PDF en el navegador
+            pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+                let fullText = '';
+                let pagePromises = [];
 
-        fetch('/api/analizar_documento', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.error || 'Error desconocido del servidor') });
-            }
-            return response.json();
-        })
-        .then(data => {
-            setLoading(false);
-            displayResults(data); // <-- Esta función también faltaba
-        })
-        .catch(error => {
-            setLoading(false);
-            console.error('Error al analizar:', error);
-            alert('Ocurrió un error: ' + error.message);
-        });
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    pagePromises.push(
+                        pdf.getPage(i).then(page => page.getTextContent())
+                    );
+                }
+
+                // Cuando todas las páginas se hayan procesado...
+                Promise.all(pagePromises).then(function(textContents) {
+                    textContents.forEach(function(textContent) {
+                        textContent.items.forEach(item => fullText += item.str + ' ');
+                        fullText += '\n';
+                    });
+
+                    // --- ¡AQUÍ ESTÁ LA LLAMADA A TU SCRIPT! ---
+                    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz64fhdPlanwLhZ-M2Q2Cx2i1TWjxC0sErSbFX1xQuAmHwmzOt6BpbbXaMzo9N5auVE/exec";
+
+                    fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Importante para evitar problemas de CORS
+                        redirect: 'follow',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: fullText // Enviamos el texto extraído directamente
+                    } )
+                    .then(response => response.text())
+                    .then(text => {
+                        // El texto es el JSON que devuelve el script de Google
+                        const data = JSON.parse(text);
+                        setLoading(false);
+                        if (data.error) {
+                            throw new Error('Error desde el script de Google: ' + data.error);
+                        }
+                        displayResults(data);
+                    })
+                    .catch(error => {
+                        setLoading(false);
+                        console.error('Error al analizar:', error);
+                        alert('Ocurrió un error: ' + error.message);
+                    });
+                });
+            }).catch(err => {
+                setLoading(false);
+                alert('Error al leer el archivo PDF: ' + err.message);
+            });
+        };
+        reader.readAsArrayBuffer(file);
     });
 
-    // --- Lógica del botón "Copiar" ---
+    // --- El resto de las funciones auxiliares no cambian ---
     copyButton.addEventListener('click', () => {
         navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
             copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
@@ -120,10 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         });
     });
-
-    // ==================================================================
-    //           (¡NUEVO!) FUNCIONES QUE FALTABAN
-    // ==================================================================
 
     function setLoading(isLoading) {
         if (isLoading) {
@@ -140,13 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayResults(data) {
         initialMessage.classList.add('d-none');
         resultsContainer.classList.remove('d-none');
-        
-        // Usamos JSON.stringify para formatear el JSON de manera legible
         jsonOutput.textContent = JSON.stringify(data, null, 2);
-        
-        // Si en el futuro añades una librería como Prism.js o Highlight.js,
-        // aquí llamarías a la función para resaltar la sintaxis.
-        // Por ejemplo: Prism.highlightElement(jsonOutput);
     }
 });
 </script>
