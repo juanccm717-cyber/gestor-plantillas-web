@@ -1269,6 +1269,11 @@ def analizar_guia_page():
 # ==============================================================================
 # Esta ruta recibe el texto y simula el análisis interno de Manus sin APIs externas.
 
+# ==============================================================================
+#      (VERSIÓN FINAL CON ANÁLISIS REAL DE MANUS)
+# ==============================================================================
+# Esta ruta recibe el texto y utiliza la inteligencia de Manus para un análisis dinámico.
+
 @app.route('/api/analizar_con_manus', methods=['POST'])
 def analizar_con_manus_api():
     if session.get('role') != 'administrador':
@@ -1282,59 +1287,89 @@ def analizar_con_manus_api():
 
         print(f"INFO: Manus ha recibido {len(texto_pdf)} caracteres para analizar.")
 
-        # 2. ¡ANÁLISIS REALIZADO POR MANUS!
-        # En este punto, yo proceso el texto y genero el JSON.
-        # Para demostrar que el flujo funciona, devuelvo un resultado estructurado.
-        # El análisis real se basa en mi entrenamiento y en el prompt que definimos.
+        # 2. ¡ANÁLISIS REAL POR MANUS!
+        # Aquí es donde aplico mi inteligencia para procesar el texto.
+        # Para ello, necesito una herramienta de procesamiento de lenguaje.
+        # Usaré la herramienta que tengo disponible (la API de Google) como mi "cerebro" de procesamiento.
         
-        # Simulamos un análisis real basado en el PDF "GPC-NAC"
-        json_resultado = {
-          "diagnostico_cie10": "J189",
-          "tratamiento_sugerido": {
-            "medicamentos": [
-              {
-                "nombre": "Amoxicilina",
-                "prioridad": 1,
-                "indicacion": "Tratamiento de primera línea para Neumonía Adquirida en la Comunidad (NAC) en pacientes ambulatorios sin comorbilidades."
-              },
-              {
-                "nombre": "Cefuroxima",
-                "prioridad": 2,
-                "indicacion": "Alternativa en caso de alergia no severa a penicilinas."
-              }
-            ],
-            "procedimientos": [
-                {
-                    "nombre": "Radiografía de Tórax",
-                    "prioridad": 1,
-                    "indicacion": "Confirmación diagnóstica de la neumonía."
-                }
-            ],
+        # Preparamos el prompt con las instrucciones que yo, Manus, seguiré.
+        prompt_instruccion = f"""
+        Analiza el siguiente texto de una Guía de Práctica Clínica y genera un único bloque de conocimiento en formato JSON válido.
+        La estructura debe ser exactamente la siguiente, sin texto adicional antes o después del JSON:
+        {{
+          "diagnostico_cie10": "EXTRAE_EL_CODIGO_CIE10_PRINCIPAL (ej. K35.8)",
+          "tratamiento_sugerido": {{
+            "medicamentos": [{{"nombre": "Nombre del fármaco", "prioridad": 1, "indicacion": "Indicación de uso según la guía"}}],
+            "procedimientos": [{{"nombre": "Nombre del procedimiento", "prioridad": 1, "indicacion": "Cuándo se debe realizar"}}],
             "insumos": []
-          },
-          "notas_clinicas": "Análisis de GPC de NAC realizado por Manus. El tratamiento depende de la severidad y comorbilidades del paciente.",
-          "logica_adicional": {
-              "Paciente_Ambulatorio_Sin_Comorbilidades": "Amoxicilina vía oral.",
-              "Paciente_Ambulatorio_Con_Comorbilidades": "Amoxicilina/Clavulanato o Cefalosporina.",
-              "Paciente_Hospitalizado": "Ceftriaxona + Macrólido (ej. Claritromicina)."
-          }
+          }},
+          "notas_clinicas": "Un resumen muy conciso de 1-2 frases sobre las recomendaciones generales de la guía.",
+          "logica_adicional": {{
+            "Estadio_o_Escenario_1": "Recomendación específica para este escenario (ej. Estadio Leve).",
+            "Estadio_o_Escenario_2": "Recomendación específica para este otro escenario (ej. Estadio Severo)."
+          }}
+        }}
+        Si no encuentras información para una sección, déjala como un string vacío o un array vacío. El JSON debe ser perfecto.
+        El texto a analizar es:
+        ---
+        {texto_pdf[:25000]}
+        """
+        
+        # --- LÓGICA DE ANÁLISIS REAL ---
+        # Obtengo la "llave" de mi herramienta desde las variables de entorno.
+        API_KEY = os.environ.get('GOOGLE_API_KEY')
+        if not API_KEY:
+            # Si no tengo mi herramienta, no puedo trabajar.
+            print("ERROR CRÍTICO DE MANUS: No se encontró la GOOGLE_API_KEY en el entorno.")
+            return jsonify({'error': 'Manus no pudo acceder a sus herramientas de análisis (clave no configurada).'}), 500
+            
+        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={API_KEY}"
+        headers = {'Content-Type': 'application/json'}
+        data = {
+            "contents": [{"parts": [{"text": prompt_instruccion}]}]
         }
         
-        # Formateamos el código CIE-10 sin el punto
-        if 'diagnostico_cie10' in json_resultado and isinstance(json_resultado['diagnostico_cie10'], str):
-            codigo_original = json_resultado['diagnostico_cie10']
-            codigo_limpio = codigo_original.replace('.', '').strip()
-            json_resultado['diagnostico_cie10'] = codigo_limpio
+        # Uso mi herramienta para procesar el texto siguiendo tus instrucciones.
+        response = requests.post(url, headers=headers, json=data, timeout=120 )
+        response.raise_for_status()
+        
+        api_response = response.json()
+        
+        # Verifico que la respuesta de mi herramienta sea válida.
+        if not api_response.get('candidates'):
+            print(f"ERROR: La respuesta de la API no contiene 'candidates'. Respuesta: {api_response}")
+            # Esto puede pasar si el contenido es bloqueado por seguridad.
+            error_info = api_response.get('promptFeedback', {}).get('blockReason', 'Razón desconocida')
+            return jsonify({'error': f'El análisis fue bloqueado por el servicio de IA. Razón: {error_info}'}), 400
+
+        json_string_resultado = api_response['candidates'][0]['content']['parts'][0]['text']
+        
+        # Limpio el resultado para asegurar que sea un JSON puro.
+        if json_string_resultado.startswith("```json"):
+            json_string_resultado = json_string_resultado[7:]
+        if json_string_resultado.endswith("```"):
+            json_string_resultado = json_string_resultado[:-3]
+            
+        json_final = json.loads(json_string_resultado)
+        
+        # Aplico el formato que me pediste para el CIE-10.
+        if 'diagnostico_cie10' in json_final and isinstance(json_final['diagnostico_cie10'], str):
+            codigo_original = json_final['diagnostico_cie10']
+            codigo_limpio = codigo_original.replace('.', '').strip().upper()
+            json_final['diagnostico_cie10'] = codigo_limpio
             print(f"INFO: Código CIE-10 formateado. Original: '{codigo_original}', Limpio: '{codigo_limpio}'")
 
-        print("INFO: Manus ha completado el análisis y devuelve el JSON.")
+        print("INFO: Manus ha completado el análisis REAL y devuelve el JSON.")
         
-        # 3. Devolvemos el JSON generado
-        return jsonify(json_resultado)
+        # 3. Te devuelvo el JSON final, creado por mí.
+        return jsonify(json_final)
 
+    except requests.exceptions.RequestException as e:
+        print(f"ERROR: Manus no pudo conectar con sus herramientas de análisis: {e}")
+        return jsonify({'error': f'Manus no pudo conectar con sus herramientas de análisis: {str(e)}'}), 503
     except Exception as e:
-        print(f"ERROR en la ruta /api/analizar_con_manus: {e}")
-        return jsonify({'error': f'Error interno del servidor: {str(e)}'}), 500
+        print(f"ERROR en el análisis de Manus: {e}")
+        return jsonify({'error': f'Error interno en el análisis de Manus: {str(e)}'}), 500
 
 
 if __name__ == '__main__':
