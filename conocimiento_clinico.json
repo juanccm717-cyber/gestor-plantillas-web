@@ -1,269 +1,247 @@
 [
-  {
-    "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica",
-    "version": "GPC Nº 73",
-    "fecha_publicacion": "2025-10-27",
-    "institucion": "EsSalud (IETSI)",
-    "diagnostico_cie10": "J189",
-    "poblacion_objetivo": {
-      "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. No incluye pacientes prematuros, ni aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
-      "edad_min_meses": 1,
-      "edad_max_anos": 18,
-      "criterios_inclusion": [],
-      "criterios_exclusion": [
-        "Pacientes prematuros",
-        "NAC complicada",
-        "Pacientes que requieran manejo en UCI"
-      ]
-    },
-    "etiologia": {
-      "descripcion": "La neumonía en población pediátrica puede estar originada por diferentes agentes causales, cuya frecuencia varía según el grupo etario.",
-      "factores_riesgo": [],
-      "grupos_etarios": [
-        {
-          "rango_edad": "< 2 años",
-          "agentes_comunes": "Mayor prevalencia de causas virales (VSR, Rinovirus, Adenovirus, Influenza). Causa bacteriana principal: Streptococcus pneumoniae."
-        },
-        {
-          "rango_edad": "2 - 5 años",
-          "agentes_comunes": "Alta prevalencia viral. Causa bacteriana principal: Streptococcus pneumoniae. Considerar atípicos (Mycoplasma, Chlamydia)."
-        },
-        {
-          "rango_edad": "5 - 12 años",
-          "agentes_comunes": "Agentes bacterianos son la principal causa. Aumenta prevalencia de atípicos. Streptococcus pneumoniae sigue siendo principal."
-        },
-        {
-          "rango_edad": "12 - 18 años",
-          "agentes_comunes": "Predominio de Streptococcus pneumoniae y agentes atípicos. Prevalencia viral disminuye."
-        }
-      ]
-    },
-    "diagnostico": {
-      "signos_sintomas": [
-        "Fiebre",
-        "Síntomas respiratorios (tos, dificultad para respirar)",
-        "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes radiográficas"
-      ],
-      "examenes_auxiliares": [
-        {
-          "nombre": "Radiografía de tórax",
-          "codigo_proc": "340301",
-          "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización.",
-          "fuerza_recomendacion": "Condicional en contra (ambulatorio)",
-          "certeza_evidencia": "Muy baja"
-        },
-        {
-          "nombre": "Ecografía de tórax",
-          "codigo_proc": "",
-          "recomendacion": "Usar cuando no sea posible realizar una radiografía o si se sospechan complicaciones (derrame pleural, empiema).",
-          "fuerza_recomendacion": "Condicional en contra",
-          "certeza_evidencia": "Muy baja"
-        },
-        {
-          "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
-          "codigo_proc": "",
-          "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento.",
-          "fuerza_recomendacion": "Condicional en contra",
-          "certeza_evidencia": "Muy baja"
-        }
-      ]
-    },
-    "criterios_hospitalizacion": [
-      "Saturación de oxígeno baja o presencia de cianosis.",
-      "Dificultad respiratoria: tirajes, quejido, aleteo nasal, apnea.",
-      "Intolerancia oral.",
-      "Mal estado general: somnolencia, hiporexia, palidez, hipoactividad, apariencia tóxica, deshidratación.",
-      "Neumonía complicada.",
-      "Comorbilidades: enfermedad cardiopulmonar crónica, malformaciones congénitas, trastornos neuromusculares, inmunosupresión, desnutrición severa, prematuridad.",
-      "Lactantes menores de 6 meses.",
-      "Cuidador incapaz de proporcionar la observación apropiada o de cumplir con la terapia domiciliaria.",
-      "Difícil accesibilidad al establecimiento de salud.",
-      "Fracaso de la terapia ambulatoria (ausencia de mejoría clínica tras 48 horas)."
-    ],
-    "tratamiento_ambulatorio": {
-      "descripcion_general": "El tratamiento se basa en Amoxicilina como primera línea, con alternativas claras para casos de alergia y sospecha de atípicos.",
-      "tratamientos_no_farmacologicos": [],
-      "primera_linea_farmacologica": {
-        "descripcion": "Antibioticoterapia empírica de primera línea para NAC de probable etiología bacteriana.",
-        "medicamentos": [
-          {
-            "nombre": "Amoxicilina",
-            "codigo_item": "00794",
-            "dosis": "80-90 mg/kg/día",
-            "frecuencia": "Cada 8 o 12 horas",
-            "duracion_dias": 5,
-            "consideraciones": "Dosis máxima: 4g/día. Se sugiere un curso de 5 días en lugar de 10."
-          }
-        ]
-      },
-      "alternativas_farmacologicas": [
-        {
-          "condicion": "Alergia a penicilinas (no mediada por IgE)",
-          "medicamento": "Cefuroxima",
-          "codigo_item": "010250239",
-          "dosis": "30 mg/kg/día",
-          "frecuencia": "Cada 12 horas",
-          "duracion_dias": 7,
-          "consideraciones": "Dosis máxima: 1 g/día."
-        },
-        {
-          "condicion": "Reacciones adversas severas a penicilinas (mediada por IgE)",
-          "medicamento": "Cloranfenicol",
-          "codigo_item": "010250148",
-          "dosis": "50 mg/kg/día",
-          "frecuencia": "Cada 6 horas",
-          "duracion_dias": 7,
-          "consideraciones": "Dosis máxima: 4 g/día. Administrar preferentemente 1 hora antes o 2 horas después de los alimentos."
-        }
-      ],
-      "tratamientos_no_recomendados": []
-    },
-    "tratamiento_hospitalario": {
-      "descripcion_general": "El tratamiento varía significativamente según la edad del paciente.",
-      "grupos_etarios": [
-        {
-          "rango_edad": "1 mes a < 2 meses",
-          "primera_linea": {
-            "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)",
-            "dosis": {
-              "Ampicilina": "150-200 mg/kg/día EV",
-              "Gentamicina": "5-7.5 mg/kg/día EV",
-              "Amikacina": "15 mg/kg/día EV"
-            },
-            "frecuencia": {
-              "Ampicilina": "Cada 6 horas",
-              "Gentamicina": "Cada 8 horas",
-              "Amikacina": "Cada 24 horas"
-            },
-            "duracion_dias": "No menor de 7",
-            "consideraciones": "En caso de no respuesta, considerar complicaciones, gérmenes resistentes o infecciones secundarias."
-          },
-          "alternativas": []
-        },
-        {
-          "rango_edad": "2 meses a < 18 años",
-          "primera_linea": {
-            "medicamento": "Ampicilina o Penicilina G sódica",
-            "dosis": {
-              "Ampicilina": "150-200 mg/kg/día EV",
-              "Penicilina G sódica": "200-250 mil UI/kg/día EV"
-            },
-            "frecuencia": "Cada 6 horas",
-            "duracion_dias": "No menor de 7",
-            "consideraciones": "En caso de mejoría clínica y tolerancia a la vía oral, cambiar a Amoxicilina oral (90mg/kg/día cada 12h)."
-          },
-          "alternativas": [
-            {
-              "condicion": "Alergia a penicilinas (no mediada por IgE)",
-              "medicamento": "Ceftriaxona o Cefotaxima",
-              "dosis": {
-                "Ceftriaxona": "75-100 mg/kg/día EV",
-                "Cefotaxima": "150 mg/kg/día EV"
-              },
-              "consideraciones": "En caso de mejoría, cambiar a Cefuroxima oral (30mg/kg/día cada 12h)."
-            },
-            {
-              "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
-              "medicamento": "Cloranfenicol",
-              "dosis": "75-100 mg/kg/día EV",
-              "consideraciones": "En caso de mejoría, cambiar a Cloranfenicol oral (50mg/kg/día cada 6h). Realizar hemograma."
-            }
-          ]
-        }
-      ]
-    },
-    "referencias_clave": [
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de Neumonía Adquirida en la Comunidad en Población Pediátrica",
+  "version": "GPC Nº 73",
+  "fecha_publicacion": "2025-10-27",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "J189",
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. Esta GPC no aborda el manejo en pacientes prematuros, ni a aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
+    "edad_min_meses": 1,
+    "edad_max_anos": 18
+  },
+  "etiologia": {
+    "descripcion": "La neumonía en población pediátrica puede estar originada por diferentes agentes causales, cuya frecuencia varía según el grupo etario.",
+    "grupos_etarios": [
       {
-        "id": "GPC_NAC_PEDIATRICA_2025",
-        "cita": "Instituto de Evaluación de Tecnologías en Salud e Investigación. Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica: Guía en Versión Extensa. Lima: EsSalud; 2025."
+        "rango_edad": "< 2 años",
+        "agentes_comunes": "Mayor prevalencia de causas virales (VSR, RVH, adenovirus, influenza). Causa bacteriana principal: Streptococcus pneumoniae."
+      },
+      {
+        "rango_edad": "2 - 5 años",
+        "agentes_comunes": "Alta prevalencia de causas virales. Streptococcus pneumoniae sigue siendo la principal causa bacteriana. Considerar agentes atípicos (Mycoplasma, Chlamydia)."
+      },
+      {
+        "rango_edad": "5 - 12 años",
+        "agentes_comunes": "Agentes bacterianos son la principal causa. Aumenta prevalencia de atípicos. Streptococcus pneumoniae sigue siendo principal."
+      },
+      {
+        "rango_edad": "12 - 18 años",
+        "agentes_comunes": "Predominio de Streptococcus pneumoniae y agentes atípicos. Prevalencia viral disminuida."
       }
     ]
   },
-  {
+  "diagnostico": {
+    "signos_sintomas": [
+      "Fiebre",
+      "Síntomas respiratorios (tos, dificultad para respirar)",
+      "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes radiográficas"
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Radiografía de tórax",
+        "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización.",
+        "codigo_proc": "71020"
+      },
+      {
+        "nombre": "Ecografía torácica",
+        "recomendacion": "Usar cuando no sea posible realizar una radiografía o si se sospechan complicaciones (derrame pleural, empiema).",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
+        "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento.",
+        "codigo_proc": ""
+      }
+    ]
+  },
+  "criterios_hospitalizacion": [
+    "Saturación de oxígeno baja o cianosis.",
+    "Dificultad respiratoria (tirajes, quejido, aleteo nasal, apnea).",
+    "Intolerancia oral.",
+    "Mal estado general (somnolencia, hiporexia, etc.).",
+    "Neumonía complicada.",
+    "Comorbilidades (cardiopulmonar crónica, inmunosupresión, etc.).",
+    "Lactantes menores de 6 meses.",
+    "Cuidador incapaz de cumplir terapia domiciliaria.",
+    "Difícil accesibilidad al centro de salud.",
+    "Fracaso de la terapia ambulatoria (sin mejoría en 48h)."
+  ],
+  "tratamiento_ambulatorio": {
+    "primera_linea": {
+      "medicamento": "Amoxicilina",
+      "dosis": "80-90 mg/kg/día",
+      "frecuencia": "Cada 8 o 12 horas",
+      "duracion_dias": 5,
+      "consideraciones": "Dosis máxima: 4g/día.",
+      "codigo_item": "00794"
+    },
+    "alternativas": [
+      {
+        "condicion": "Alergia a penicilinas (no mediada por IgE)",
+        "medicamento": "Cefuroxima",
+        "dosis": "30 mg/kg/día",
+        "frecuencia": "Cada 12 horas",
+        "duracion_dias": 7,
+        "consideraciones": "Dosis máxima: 1 g/día.",
+        "codigo_item": "010250239"
+      },
+      {
+        "condicion": "Reacciones adversas severas a penicilinas (mediada por IgE)",
+        "medicamento": "Cloranfenicol",
+        "dosis": "50 mg/kg/día",
+        "frecuencia": "Cada 6 horas",
+        "duracion_dias": 7,
+        "consideraciones": "Dosis máxima: 4 g/día.",
+        "codigo_item": "010250148"
+      }
+    ],
+    "sospecha_atipicos": {
+      "medicamentos": [
+        {
+          "nombre": "Azitromicina",
+          "dosis": "10 mg/kg el primer día, luego 5 mg/kg/día",
+          "frecuencia": "Cada 24 horas",
+          "duracion_dias": 5,
+          "codigo_item": "010250266"
+        },
+        {
+          "nombre": "Claritromicina",
+          "dosis": "15 mg/kg/día",
+          "frecuencia": "Cada 12 horas",
+          "duracion_dias": 7,
+          "codigo_item": "01930"
+        },
+        {
+          "nombre": "Eritromicina",
+          "dosis": "40 mg/kg/día",
+          "frecuencia": "Cada 6 horas",
+          "duracion_dias": 7,
+          "codigo_item": "03191"
+        }
+      ]
+    }
+  },
+  "tratamiento_hospitalario": {
+    "grupos_etarios": [
+      {
+        "rango_edad": "1 mes a < 2 meses",
+        "primera_linea": {
+          "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)",
+          "dosis": {
+            "Ampicilina": "150-200 mg/kg/día EV",
+            "Gentamicina": "5-7.5 mg/kg/día EV",
+            "Amikacina": "15 mg/kg/día EV"
+          },
+          "frecuencia": {
+            "Ampicilina": "Cada 6 horas",
+            "Gentamicina": "Cada 8 horas",
+            "Amikacina": "Cada 24 horas"
+          },
+          "duracion_dias": "No menor de 7 días"
+        },
+        "alternativas": []
+      },
+      {
+        "rango_edad": "2 meses a < 18 años",
+        "primera_linea": {
+          "medicamento": "Ampicilina o Penicilina G sódica",
+          "dosis": {
+            "Ampicilina": "150-200 mg/kg/día EV",
+            "Penicilina G sódica": "200-250 mil UI/kg/día EV"
+          },
+          "frecuencia": "Cada 6 horas",
+          "duracion_dias": "No menor de 7 días"
+        },
+        "alternativas": [
+          {
+            "condicion": "Alergia a penicilinas (no mediada por IgE)",
+            "medicamento": "Ceftriaxona o Cefotaxima",
+            "dosis": {
+              "Ceftriaxona": "75-100 mg/kg/día EV",
+              "Cefotaxima": "150 mg/kg/día EV"
+            }
+          },
+          {
+            "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
+            "medicamento": "Cloranfenicol",
+            "dosis": "75-100 mg/kg/día EV"
+          }
+        ]
+      }
+    ]
+  },
+  "referencias_clave": [
+    {
+      "id": "GPC_NAC_PEDIATRICA_2025",
+      "cita": "Instituto de Evaluación de Tecnologías en Salud e Investigación. Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica: Guía en Versión Extensa. Lima: EsSalud; 2025."
+    }
+  ]
+  
+},
+{
   "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
   "version": "Actualización 2024",
   "fecha_publicacion": "2025-01-02",
   "institucion": "EsSalud",
   "diagnostico_cie10": "M199",
   "poblacion_objetivo": {
-    "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente.",
-    "edad_min_meses": 216,
-    "edad_max_anos": null,
-    "criterios_inclusion": ["Adultos con osteoartritis primaria"],
-    "criterios_exclusion": ["Pacientes con tratamiento quirúrgico previo"]
-  },
-  "etiologia": {
-    "descripcion": "Enfermedad degenerativa de las articulaciones por degradación del cartílago y hueso subyacente.",
-    "factores_riesgo": ["Sexo femenino", "Antecedentes familiares", "Obesidad", "Sobrecarga física", "Tabaquismo", "Bajo nivel socioeconómico"],
-    "grupos_etarios": []
+    "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente."
   },
   "diagnostico": {
-    "signos_sintomas": [
-      "Tener 45 años o más.",
-      "Tener dolor articular persistente relacionado al uso de la articulación.",
-      "No tener rigidez articular matutina, o tenerla por menos de 30 minutos."
-    ],
-    "examenes_auxiliares": [
+    "recomendaciones_generales": [
       {
-        "nombre": "Imágenes Radiológicas",
-        "codigo_proc": "",
-        "recomendacion": "NO solicitar de forma rutinaria. CONSIDERAR solo si hay características atípicas (pacientes jóvenes, historia de fractura, signos de inflamación, dolor nocturno, pérdida de peso) que sugieran otro diagnóstico.",
-        "fuerza_recomendacion": "Buena Práctica Clínica",
-        "certeza_evidencia": null
+        "tipo": "Buena Práctica Clínica",
+        "descripcion": "En pacientes con sospecha clínica de osteoartritis (OA), no se deberían solicitar imágenes radiológicas de forma rutinaria para la confirmación diagnóstica.",
+        "codigo_proc": ""
+      },
+      {
+        "tipo": "Buena Práctica Clínica",
+        "descripcion": "Considerar el uso de imágenes radiológicas si presentan características atípicas que sugieren otro diagnóstico (pacientes jóvenes, historia de fractura, alteración del eje, signos de inflamación, dolor nocturno, pérdida de peso).",
+        "codigo_proc": "71020"
+      },
+      {
+        "tipo": "Buena Práctica Clínica",
+        "descripcion": "Realizar el diagnóstico clínico de OA si se cumplen los siguientes tres criterios: 1) Tener 45 años o más, 2) Tener dolor articular persistente relacionado al uso, 3) No tener rigidez matutina o que dure menos de 30 minutos.",
+        "codigo_proc": ""
       }
     ]
   },
-  "criterios_hospitalizacion": [],
   "tratamiento_ambulatorio": {
-    "descripcion_general": "El manejo se centra en medidas no farmacológicas y el uso de AINEs para el dolor. Muchas terapias alternativas no están recomendadas.",
     "tratamientos_no_farmacologicos": [
       {
         "nombre": "Educación y Autocuidado",
-        "recomendacion": "Brindar un plan individualizado sobre la enfermedad, disminución de peso, uso de calzado adecuado y actividad física.",
-        "fuerza_recomendacion": "Fuerte"
+        "recomendacion": "Brindar un plan individualizado sobre la enfermedad, recomendaciones de autocuidado como disminución de peso, uso de calzado adecuado y actividad física."
       },
       {
         "nombre": "Ejercicio Físico",
-        "recomendacion": "Indicar ejercicio que incluya fortalecimiento muscular local, estiramiento y actividad aeróbica general.",
-        "fuerza_recomendacion": "Fuerte"
+        "recomendacion": "Indicar la realización de ejercicio físico, incluyendo fortalecimiento muscular local, estiramiento y actividad aeróbica general."
       },
       {
         "nombre": "Pérdida de Peso",
-        "recomendacion": "En pacientes con obesidad o sobrepeso, ofrecer intervenciones para lograr la pérdida de peso.",
-        "fuerza_recomendacion": "Condicional"
+        "recomendacion": "En pacientes con OA que tienen obesidad o sobrepeso, ofrecer intervenciones para lograr la pérdida de peso."
       },
       {
         "nombre": "Ortesis y Dispositivos de Asistencia",
-        "recomendacion": "Considerar uso de calzado adecuado y bastones. Para ortesis, buscar asesoramiento con Medicina Física y Rehabilitación.",
-        "fuerza_recomendacion": "Buena Práctica Clínica"
+        "recomendacion": "Considerar el uso de calzado adecuado y dispositivos de asistencia como bastones. Para ortesis, buscar asesoramiento con Medicina Física y Rehabilitación."
       }
     ],
     "primera_linea_farmacologica": {
-      "descripcion": "En pacientes que requieran usar algún fármaco para el manejo del dolor, se sugieren AINEs orales.",
       "medicamentos": [
         {
           "nombre": "Naproxeno",
-          "codigo_item": "21726",
           "dosis": "Dosis inicial 550mg, luego 275-550mg cada 8-12 horas.",
-          "frecuencia": null,
-          "duracion_dias": null,
-          "consideraciones": "Dosis máxima 1100mg por día."
+          "codigo_item": "21726"
         },
         {
           "nombre": "Ibuprofeno",
-          "codigo_item": "21673",
-          "dosis": "200 - 400mg, hasta 3 veces al día.",
-          "frecuencia": null,
-          "duracion_dias": null,
-          "consideraciones": "No tomar más de 1200mg en 24 horas."
+          "dosis": "Dosis de 200-400mg, hasta 3 veces al día.",
+          "codigo_item": "21673"
         },
         {
           "nombre": "Indometacina",
-          "codigo_item": "",
-          "dosis": "25mg cada 8 horas.",
-          "frecuencia": null,
-          "duracion_dias": null,
-          "consideraciones": null
+          "dosis": "Dosis de 25mg cada 8 horas.",
+          "codigo_item": ""
         }
       ]
     },
@@ -271,16 +249,14 @@
       {
         "condicion": "No tolera AINEs o tiene contraindicaciones",
         "medicamento": "Paracetamol",
-        "codigo_item": "",
         "dosis": "No especificada en la guía para uso rutinario.",
-        "consideraciones": "No usar de manera rutinaria."
+        "codigo_item": ""
       },
       {
         "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
         "medicamento": "Tramadol",
-        "codigo_item": "21827",
         "dosis": "No especificada en la guía como primer fármaco.",
-        "consideraciones": "No usar como primer fármaco."
+        "codigo_item": "21827"
       }
     ],
     "tratamientos_no_recomendados": [
@@ -292,153 +268,154 @@
     ]
   },
   "tratamiento_hospitalario": {
-    "descripcion_general": "Se reserva para procedimientos invasivos o manejo de dolor agudo no controlado.",
-    "intervenciones": [
+    "grupos_etarios": [
       {
-        "nombre": "Inyección de Corticoide Intra-articular",
-        "recomendacion": "En OA de rodilla o cadera con dolor que no responde a AINEs, para manejo agudo. En cadera, debe ser bajo guía ecográfica.",
-        "medicamentos_asociados": [
-          {
-            "nombre": "Triamcinolona acetónido",
-            "codigo_item": "21830",
-            "dosis": "40mg por articulación. Dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
-          }
-        ]
-      },
-      {
-        "nombre": "Tratamiento Quirúrgico",
-        "recomendacion": "Considerar cuando las terapias no logran controlar el dolor y la limitación funcional. Requiere opinión previa de Reumatología y/o Medicina Física.",
-        "procedimientos_asociados": []
+        "rango_edad": "Pacientes con dolor agudo que no responden a AINEs",
+        "primera_linea": {
+          "medicamento": "Inyección de Corticoide Intra-articular (ej. Triamcinolona)",
+          "dosis": {
+            "Rodilla": "40mg",
+            "Cadera": "40mg (bajo guía ecográfica)"
+          },
+          "codigo_item": "21830"
+        }
       }
-    ]
+    ],
+    "manejo_quirurgico": {
+      "descripcion": "Considerar el tratamiento quirúrgico cuando las terapias farmacológicas y no farmacológicas no logren controlar el dolor y la limitación de la funcionalidad. Requiere opinión previa de Reumatología y/o Medicina Física y Rehabilitación."
+    }
   },
   "referencias_clave": [
     {
-      "id": "GPC_OA_2018",
-      "cita": "IETSI, Essalud. Guía de práctica clínica para el diagnóstico y tratamiento de pacientes con osteoartritis. 2018."
+      "numero": 1,
+      "cita": "Guía de práctica clínica para el diagnóstico y tratamiento de pacientes con osteoartritis [Internet]. IETSI, Essalud; 2018."
     }
   ]
 },
 {
-  "nombre_guia": "Guía de Práctica Clínica para el manejo de Comunicación Interventricular en menores de 18 años",
-  "version": "GPC-ESSALUD-785-2023",
-  "fecha_publicacion": "2023-12-29",
+  "nombre_guia": "Guía de práctica clínica para el manejo de Comunicación Interventricular en menores de 18 años",
+  "version": "GPC Nº 71",
+  "fecha_publicacion": "2025-11-01",
   "institucion": "EsSalud",
   "diagnostico_cie10": "Q210",
   "poblacion_objetivo": {
-    "descripcion": "Pacientes menores de 18 años con comunicación interventricular.",
-    "edad_min_meses": 0,
-    "edad_max_anos": 18,
-    "criterios_inclusion": [],
-    "criterios_exclusion": []
+    "descripcion": "Pacientes menores de 18 años con comunicación interventricular (CIV)."
   },
   "etiologia": {
-    "descripcion": "La CIV es un defecto congénito con una abertura en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por ubicación en perimembranosa, muscular, de entrada y de salida.",
-    "factores_riesgo": [],
-    "grupos_etarios": []
+    "descripcion": "La CIV es un defecto congénito con una abertura anormal en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por su ubicación en perimembranosa, muscular, de entrada y de salida."
   },
   "diagnostico": {
     "signos_sintomas": [
-      "CIV pequeña: Soplo holosistólico intenso y áspero.",
-      "CIV moderada/grande: Síntomas de insuficiencia cardíaca (disnea al alimentar, escaso crecimiento, taquipnea, infecciones respiratorias recurrentes), retumbo diastólico, hepatomegalia."
+      "Soplo holosistólico intenso y áspero (CIV pequeña)",
+      "Síntomas de insuficiencia cardíaca: disnea durante la alimentación, escaso crecimiento, taquipnea, infecciones respiratorias recurrentes (CIV moderada/grande)"
     ],
     "examenes_auxiliares": [
       {
         "nombre": "Ecocardiografía transtorácica",
-        "codigo_proc": "",
-        "recomendacion": "Confirma el diagnóstico, establece tamaño, ubicación y evalúa consecuencias hemodinámicas.",
-        "fuerza_recomendacion": "Buena Práctica Clínica",
-        "certeza_evidencia": null
+        "recomendacion": "Confirma el diagnóstico, establece tamaño, ubicación y consecuencias hemodinámicas.",
+        "codigo_proc": ""
       },
       {
         "nombre": "Cateterismo cardíaco",
-        "codigo_proc": "",
-        "recomendacion": "Realizar para medir la Resistencia Vascular Pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) y criterios específicos (ej. Edad > 2 años, Qp/Qs < 1.5, etc.).",
-        "fuerza_recomendacion": "Buena Práctica Clínica",
-        "certeza_evidencia": null
+        "recomendacion": "Realizar para obtener la resistencia vascular pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) bajo criterios específicos.",
+        "codigo_proc": ""
       },
       {
         "nombre": "Prueba de vasorreactividad pulmonar",
-        "codigo_proc": "",
-        "recomendacion": "Necesaria en pacientes con HTP y RVP en 'zona gris' o 'crítica' antes de evaluar el cierre.",
-        "fuerza_recomendacion": "Buena Práctica Clínica",
-        "certeza_evidencia": null
+        "recomendacion": "Necesaria en pacientes con CIV, HTP y valores de RVP en 'zona gris' o 'crítica' antes de evaluar el cierre.",
+        "codigo_proc": ""
       }
     ]
   },
-  "criterios_hospitalizacion": [],
   "manejo_medico_y_seguimiento": {
-    "descripcion_general": "El manejo inicial se centra en el seguimiento para CIV pequeñas o el tratamiento de la insuficiencia cardíaca en defectos más grandes.",
     "tratamiento_farmacologico_icc": [
       {
         "nombre": "Furosemida",
-        "codigo_item": "21644",
-        "indicacion": "Para manejo de Insuficiencia Cardíaca Congestiva (ICC) si está presente."
+        "indicacion": "Manejo de la congestión en Insuficiencia Cardíaca.",
+        "codigo_item": "21644"
       },
       {
         "nombre": "Espironolactona",
-        "codigo_item": "21625",
-        "indicacion": "Para manejo de ICC, usualmente en combinación con Furosemida."
+        "indicacion": "Manejo de la congestión, usualmente combinado con Furosemida.",
+        "codigo_item": "21625"
       },
       {
         "nombre": "Captopril / Enalapril (IECA)",
-        "codigo_item": "21549",
-        "indicacion": "Para reducir la postcarga en manejo de ICC."
+        "indicacion": "Para reducir la postcarga en manejo de ICC.",
+        "codigo_item": "21549"
+      },
+      {
+        "nombre": "Vasodilatadores pulmonares",
+        "indicacion": "Considerar en pacientes con CIV e HTP con una primera prueba de vasorreactividad pulmonar negativa, para luego re-evaluar.",
+        "codigo_item": ""
       }
     ],
     "seguimiento_sin_cierre": [
       {
-        "condicion": "CIV pequeña",
-        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) con ecocardiografía hasta oclusión espontánea."
+        "condicion": "CIV Pequeña",
+        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) hasta oclusión espontánea."
       },
       {
-        "condicion": "CIV moderada (asintomática)",
-        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego, controles anuales con EKG y ecocardiografía."
+        "condicion": "CIV Moderada",
+        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego controles anuales."
       },
       {
-        "condicion": "CIV grande (evolución favorable)",
+        "condicion": "CIV Grande",
         "descripcion": "Reevaluaciones clínicas y ecocardiográficas al menos cada 3 meses durante el primer año."
       }
     ]
   },
   "manejo_intervencionista_cierre": {
-    "descripcion_general": "El cierre del defecto (quirúrgico o percutáneo) se indica según el tamaño de la CIV y la presencia de complicaciones.",
     "indicaciones_cierre": [
       {
-        "condicion": "CIV Pequeña",
-        "criterios": "Endocarditis, prolapso de velo aórtico con regurgitación, CIV de salida, o Qp/Qs > 1.5 con repercusión hemodinámica."
+        "condicion": "CIV Grande (>2/3 del anillo aórtico)",
+        "criterios": "Realizar el cierre preferiblemente antes del año de vida. Indicar a la brevedad si hay insuficiencia cardíaca refractaria y/o ganancia ponderal inadecuada."
       },
       {
-        "condicion": "CIV Moderada",
-        "criterios": "Síntomas persistentes, aumento de presión pulmonar, defectos subpulmonares con regurgitación aórtica, o Qp/Qs > 2."
+        "condicion": "CIV Moderada (1/3 a 2/3 del anillo aórtico)",
+        "criterios": "Cerrar si persisten síntomas a pesar de tto. médico, aumenta la presión pulmonar, hay prolapso/regurgitación aórtica, o repercusión hemodinámica (Qp/Qs>2)."
       },
       {
-        "condicion": "CIV Grande",
-        "criterios": "Realizar preferiblemente antes del año de vida. A la brevedad si hay ICC refractaria o fallo de medro."
+        "condicion": "CIV Pequeña (<1/3 del anillo aórtico)",
+        "criterios": "Considerar cierre si presentan: Endocarditis infecciosa, prolapso de velo aórtico con regurgitación progresiva, o Qp/Qs > 1.5 con repercusión hemodinámica."
       }
     ],
-    "tipos_cierre": [
+    "tipos_de_cierre": [
       {
-        "nombre": "Cierre Percutáneo",
-        "recomendacion": "Sugerido sobre el cierre quirúrgico en casos elegibles de CIV perimembranosa (peso > 10kg) y muscular (peso > 8kg) con criterios específicos."
+        "nombre": "Cierre percutáneo de CIV perimembranosa",
+        "descripcion": "Sugerido sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 10 kg, Qp/Qs > 1.5, etc.)."
       },
       {
-        "nombre": "Cierre Quirúrgico",
-        "recomendacion": "Opción estándar cuando el cierre percutáneo no es posible o está contraindicado."
+        "nombre": "Cierre percutáneo de CIV muscular",
+        "descripcion": "Se puede elegir sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 8 kg, Qp/Qs > 1.5, etc.)."
       },
       {
-        "nombre": "Cerclaje de Arteria Pulmonar",
-        "recomendacion": "Considerar como puente a la cirugía en pacientes en quienes no se puede realizar un cierre definitivo inicialmente."
+        "nombre": "Cerclaje de arteria pulmonar",
+        "descripcion": "Considerar en pacientes en quienes no se pueda realizar un cierre quirúrgico del defecto."
+      }
+    ],
+    "contraindicaciones": [
+      {
+        "procedimiento": "Cierre del defecto (general)",
+        "criterios": "Pacientes con CIV, HTP y una segunda prueba de vasorreactividad pulmonar negativa se consideran no elegibles."
+      },
+      {
+        "procedimiento": "Cierre percutáneo",
+        "criterios": "Enfermedad vascular pulmonar irreversible (RVP > 8UW/m²), bloqueo AV preexistente, regurgitación aórtica, infección activa, anatomía no favorable."
+      },
+      {
+        "procedimiento": "Cierre quirúrgico",
+        "criterios": "Peso < 2,5kg, condición del paciente no permite circulación extracorpórea, CIV múltiples tipo 'Swiss cheese'."
       }
     ]
   },
   "flujogramas": [
     {
-      "titulo": "Manejo de sospecha de CIV",
+      "titulo": "Flujograma para manejo de paciente con sospecha de CIV",
       "url_imagen": "https://i.imgur.com/8pS1o4c.png"
     },
     {
-      "titulo": "Manejo de CIV con sospecha de Hipertensión Pulmonar",
+      "titulo": "Flujograma para manejo de paciente con CIV y sospecha de HTP",
       "url_imagen": "https://i.imgur.com/2Xk0b4n.png"
     }
   ]

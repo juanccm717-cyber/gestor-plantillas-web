@@ -100,10 +100,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
-            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">...</div>';
+            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">Seleccione un diagnóstico válido.</div>';
             return;
         }
-        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando...</p></div>';
+        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando base de conocimiento...</p></div>';
 
         fetch(`/api/asistente_sugerencias?cie10=${codigoCIE10}`)
             .then(response => {
@@ -119,11 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //      RENDERIZADOR INTELIGENTE v4.2 (COMPLETO Y DETALLADO)
+    //      RENDERIZADOR INTELIGENTE v4.2 (COMPLETO Y UNIVERSAL)
     // ==================================================================
     function mostrarSugerencias(data) {
-        // --- Función Auxiliar para mostrar códigos ---
-        const renderCodigo = (codigo) => codigo ? `<span class="badge bg-secondary me-2">${codigo}</span>` : '';
+        const renderCodigo = (codigo) => codigo ? `<span class="badge bg-dark me-2">${codigo}</span>` : '';
 
         let html = `
             <div class="card border-light-subtle shadow-sm">
@@ -133,16 +132,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
                 <div class="card-body">`;
 
-        // --- RENDERIZADOR DE SECCIONES DINÁMICAS (v4.2) ---
+        // --- RENDERIZADORES DE SECCIÓN (MODULARES Y ADAPTATIVOS) ---
 
-        const renderPoblacion = (d) => d.poblacion_objetivo ? `<h6><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6><p class="text-muted small">${d.poblacion_objetivo.descripcion}</p>` : '';
+        const renderPoblacion = (d) => d.poblacion_objetivo ? `<h6 class="mt-3"><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6><p class="text-muted small">${d.poblacion_objetivo.descripcion}</p>` : '';
         
         const renderDiagnostico = (d) => {
             if (!d.diagnostico) return '';
             let content = `<h6 class="mt-4"><i class="bi bi-file-earmark-medical-fill text-info me-2"></i>Diagnóstico</h6>`;
             if (d.diagnostico.signos_sintomas && d.diagnostico.signos_sintomas.length > 0) content += `<p class="small"><strong>Signos/Síntomas:</strong> ${d.diagnostico.signos_sintomas.join(', ')}.</p>`;
             if (d.diagnostico.examenes_auxiliares && d.diagnostico.examenes_auxiliares.length > 0) {
-                content += `<p class="small mt-2"><strong>Exámenes Auxiliares:</strong></p><ul class="small">`;
+                content += `<p class="small mt-2"><strong>Exámenes Auxiliares:</strong></p><ul class="small list-unstyled">`;
                 d.diagnostico.examenes_auxiliares.forEach(e => {
                     content += `<li>${renderCodigo(e.codigo_proc)}<strong>${e.nombre}:</strong> ${e.recomendacion}</li>`;
                 });
@@ -188,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (grupo.primera_linea) {
                         const tto = grupo.primera_linea;
                         let dosisStr = typeof tto.dosis === 'object' ? Object.entries(tto.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : tto.dosis;
-                        content += `<p class="small"><strong>1ª Línea:</strong> ${tto.medicamento} (${dosisStr}).</p>`;
+                        content += `<p class="small"><strong>1ª Línea:</strong> ${renderCodigo(tto.codigo_item)}${tto.medicamento} (${dosisStr}).</p>`;
                     }
                     if (grupo.alternativas && grupo.alternativas.length > 0) {
                          content += `<ul>`;
@@ -226,6 +225,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (d.manejo_intervencionista_cierre.indicaciones_cierre && d.manejo_intervencionista_cierre.indicaciones_cierre.length > 0) {
                 content += `<h6>Indicaciones de Cierre</h6><ul>`;
                 d.manejo_intervencionista_cierre.indicaciones_cierre.forEach(i => { content += `<li class="small"><strong>${i.condicion}:</strong> ${i.criterios}</li>`; });
+                content += `</ul>`;
+            }
+            if (d.manejo_intervencionista_cierre.tipos_de_cierre && d.manejo_intervencionista_cierre.tipos_de_cierre.length > 0) {
+                content += `<h6 class="mt-3">Tipos de Cierre</h6><ul>`;
+                d.manejo_intervencionista_cierre.tipos_de_cierre.forEach(t => { content += `<li class="small"><strong>${t.nombre}:</strong> ${t.descripcion}</li>`; });
+                content += `</ul>`;
+            }
+            if (d.manejo_intervencionista_cierre.contraindicaciones && d.manejo_intervencionista_cierre.contraindicaciones.length > 0) {
+                content += `<h6 class="mt-3 text-danger">Contraindicaciones</h6><ul>`;
+                d.manejo_intervencionista_cierre.contraindicaciones.forEach(c => { content += `<li class="small"><strong>${c.procedimiento}:</strong> ${c.criterios}</li>`; });
                 content += `</ul>`;
             }
             return content;
