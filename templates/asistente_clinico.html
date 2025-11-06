@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //      RENDERIZADOR INTELIGENTE v4.3 (CORREGIDO Y UNIVERSAL)
+    //      RENDERIZADOR INTELIGENTE v4.4 (LA VERSIÓN DEFINITIVA)
     // ==================================================================
     function mostrarSugerencias(data) {
         const renderCodigo = (codigo) => codigo ? `<span class="badge bg-dark me-2">${codigo}</span>` : '';
@@ -150,39 +150,42 @@ document.addEventListener('DOMContentLoaded', function () {
             return content;
         };
 
-        // ¡VERSIÓN CORREGIDA!
+        // ¡VERSIÓN FINAL! Comprueba cada sub-sección de forma independiente.
         const renderTratamientoAmbulatorio = (d) => {
             if (!d.tratamiento_ambulatorio) return '';
             
             const tto = d.tratamiento_ambulatorio;
-            let hasContent = tto.tratamientos_no_farmacologicos || tto.primera_linea_farmacologica || tto.alternativas_farmacologicas || tto.tratamientos_no_recomendados;
-            if (!hasContent) return '';
+            let content = '';
 
-            let content = `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
-            
             if (tto.tratamientos_no_farmacologicos && tto.tratamientos_no_farmacologicos.length > 0) {
                 content += `<h6>No Farmacológico</h6><ul>`;
                 tto.tratamientos_no_farmacologicos.forEach(t => { content += `<li class="small"><strong>${t.nombre}:</strong> ${t.recomendacion}</li>`; });
                 content += `</ul>`;
             }
-            if (tto.primera_linea_farmacologica && tto.primera_linea_farmacologica.medicamentos) {
+            
+            const primeraLinea = tto.primera_linea_farmacologica || tto.primera_linea;
+            if (primeraLinea && primeraLinea.medicamentos) {
                 content += `<h6 class="mt-3">1ª Línea Farmacológica</h6><ul>`;
-                tto.primera_linea_farmacologica.medicamentos.forEach(m => {
+                primeraLinea.medicamentos.forEach(m => {
                     content += `<li class="small">${renderCodigo(m.codigo_item)}<strong>${m.nombre}:</strong> ${m.dosis || ''} ${m.frecuencia || ''} ${m.duracion_dias ? 'por ' + m.duracion_dias + ' días' : ''}.</li>`;
                 });
                 content += `</ul>`;
             }
-            if (tto.alternativas_farmacologicas && tto.alternativas_farmacologicas.length > 0) {
+
+            const alternativas = tto.alternativas_farmacologicas || tto.alternativas;
+            if (alternativas && alternativas.length > 0) {
                 content += `<h6 class="mt-3">Alternativas Farmacológicas</h6><ul>`;
-                tto.alternativas_farmacologicas.forEach(a => {
+                alternativas.forEach(a => {
                     content += `<li class="small">${renderCodigo(a.codigo_item)}<strong>Si el paciente presenta "${a.condicion}":</strong> Usar ${a.medicamento} (${a.dosis}).</li>`;
                 });
                 content += `</ul>`;
             }
+
             if (tto.tratamientos_no_recomendados && tto.tratamientos_no_recomendados.length > 0) {
                 content += `<h6 class="mt-3 text-danger">Tratamientos NO Recomendados</h6><p class="small text-muted">${tto.tratamientos_no_recomendados.join(', ')}.</p>`;
             }
-            return content;
+
+            return content ? `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>${content}` : '';
         };
 
         const renderTratamientoHospitalario = (d) => {
