@@ -78,12 +78,11 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // --- REFERENCIAS AL DOM (sin cambios) ---
+    // --- SECCIÓN 1: CONFIGURACIÓN INICIAL (sin cambios) ---
     const inputDiagnostico = document.getElementById('input-diagnostico');
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // --- CARGA DE DIAGNÓSTICOS (sin cambios) ---
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -99,30 +98,27 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // --- CONSULTA A LA API (sin cambios) ---
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
-            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
+            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">...</div>';
             return;
         }
-        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Buscando...</span></div><p class="mt-2">Consultando base de conocimiento...</p></div>';
+        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando...</p></div>';
 
         fetch(`/api/asistente_sugerencias?cie10=${codigoCIE10}`)
             .then(response => {
-                if (!response.ok) throw new Error('No se encontraron recomendaciones para este diagnóstico en la base de conocimiento.');
+                if (!response.ok) throw new Error('No se encontraron recomendaciones para este diagnóstico.');
                 return response.json();
             })
             .then(data => {
                 mostrarSugerencias(data);
             })
             .catch(error => {
-                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center"><i class="bi bi-exclamation-triangle me-2"></i>${error.message}</div>`;
+                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
             });
     }
 
-    // ==================================================================
-    //      (¡NUEVO!) RENDERIZADOR UNIVERSAL v3.0
-    // ==================================================================
+    // --- SECCIÓN 2: RENDERIZADOR INTELIGENTE v4.0 ---
     function mostrarSugerencias(data) {
         let html = `
             <div class="card border-light-subtle shadow-sm">
@@ -133,98 +129,115 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="card-body">`;
 
         // --- RENDERIZADOR DE SECCIONES DINÁMICAS ---
-        // Cada 'if' comprueba si la sección existe en el JSON antes de intentar mostrarla.
+        // Cada función se encarga de renderizar una sección si existe en el JSON.
 
-        if (data.poblacion_objetivo) {
-            html += `<h6 class="mt-3"><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6>
-                     <p class="text-muted small">${data.poblacion_objetivo.descripcion}</p>`;
-        }
-
-        if (data.diagnostico && data.diagnostico.signos_sintomas) {
-            html += `<h6 class="mt-4"><i class="bi bi-file-earmark-medical-fill text-info me-2"></i>Diagnóstico Clínico</h6>
-                     <p class="small"><strong>Signos y Síntomas Clave:</strong></p>
-                     <ul class="small">`;
-            data.diagnostico.signos_sintomas.forEach(s => { html += `<li>${s}</li>`; });
-            html += `</ul>`;
-            if (data.diagnostico.examenes_auxiliares) {
-                html += `<p class="small mt-2"><strong>Exámenes Auxiliares:</strong></p><ul class="small">`;
-                data.diagnostico.examenes_auxiliares.forEach(e => {
-                    html += `<li><strong>${e.nombre}:</strong> ${e.recomendacion}</li>`;
-                });
-                html += `</ul>`;
-            }
-        }
-
-        if (data.criterios_hospitalizacion && data.criterios_hospitalizacion.length > 0) {
-            html += `<h6 class="mt-4"><i class="bi bi-door-open-fill text-danger me-2"></i>Criterios de Hospitalización</h6>
-                     <ul class="list-unstyled small">`;
-            data.criterios_hospitalizacion.forEach(c => { html += `<li><i class="bi bi-caret-right-fill text-danger me-1"></i>${c}</li>`; });
-            html += `</ul>`;
-        }
-
-        if (data.tratamiento_ambulatorio) {
-            html += `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
-            if (data.tratamiento_ambulatorio.tratamientos_no_farmacologicos && data.tratamiento_ambulatorio.tratamientos_no_farmacologicos.length > 0) {
-                html += `<h6>No Farmacológico</h6><ul>`;
-                data.tratamiento_ambulatorio.tratamientos_no_farmacologicos.forEach(t => {
-                    html += `<li class="small"><strong>${t.nombre}:</strong> ${t.recomendacion}</li>`;
-                });
-                html += `</ul>`;
-            }
-            if (data.tratamiento_ambulatorio.primera_linea_farmacologica) {
-                html += `<h6 class="mt-3">Primera Línea Farmacológica</h6><ul>`;
-                data.tratamiento_ambulatorio.primera_linea_farmacologica.medicamentos.forEach(m => {
-                    html += `<li class="small"><strong>${m.nombre}:</strong> ${m.dosis} ${m.frecuencia || ''} ${m.duracion_dias ? 'por ' + m.duracion_dias + ' días' : ''}.</li>`;
-                });
-                html += `</ul>`;
-            }
-            if (data.tratamiento_ambulatorio.tratamientos_no_recomendados && data.tratamiento_ambulatorio.tratamientos_no_recomendados.length > 0) {
-                html += `<h6 class="mt-3 text-danger">Tratamientos NO Recomendados</h6>
-                         <p class="small text-muted">${data.tratamiento_ambulatorio.tratamientos_no_recomendados.join(', ')}.</p>`;
-            }
-        }
+        const renderPoblacion = (d) => d.poblacion_objetivo ? `<h6><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6><p class="text-muted small">${d.poblacion_objetivo.descripcion}</p>` : '';
         
-        if (data.manejo_medico_y_seguimiento) {
-            html += `<h5 class="mt-4 mb-3 text-primary"><i class="bi bi-clipboard2-pulse-fill me-2"></i>Manejo Médico y Seguimiento</h6>`;
-            if (data.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc) {
-                html += `<h6>Tratamiento Farmacológico (si hay ICC)</h6><ul>`;
-                data.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc.forEach(m => {
-                    html += `<li class="small"><strong>${m.nombre}:</strong> ${m.indicacion}</li>`;
-                });
-                html += `</ul>`;
+        const renderDiagnostico = (d) => {
+            if (!d.diagnostico) return '';
+            let content = `<h6 class="mt-4"><i class="bi bi-file-earmark-medical-fill text-info me-2"></i>Diagnóstico</h6>`;
+            if (d.diagnostico.signos_sintomas) content += `<p class="small"><strong>Signos/Síntomas:</strong> ${d.diagnostico.signos_sintomas.join(', ')}.</p>`;
+            if (d.diagnostico.examenes_auxiliares) {
+                content += `<p class="small mt-2"><strong>Exámenes Auxiliares:</strong></p><ul class="small">`;
+                d.diagnostico.examenes_auxiliares.forEach(e => { content += `<li><strong>${e.nombre}:</strong> ${e.recomendacion}</li>`; });
+                content += `</ul>`;
             }
-            if (data.manejo_medico_y_seguimiento.seguimiento_sin_cierre) {
-                html += `<h6 class="mt-3">Seguimiento (si no hay cierre)</h6><ul>`;
-                data.manejo_medico_y_seguimiento.seguimiento_sin_cierre.forEach(s => {
-                    html += `<li class="small"><strong>${s.condicion}:</strong> ${s.descripcion}</li>`;
-                });
-                html += `</ul>`;
+            return content;
+        };
+
+        const renderTratamientoAmbulatorio = (d) => {
+            if (!d.tratamiento_ambulatorio) return '';
+            let content = `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
+            if (d.tratamiento_ambulatorio.tratamientos_no_farmacologicos && d.tratamiento_ambulatorio.tratamientos_no_farmacologicos.length > 0) {
+                content += `<h6>No Farmacológico</h6><ul>`;
+                d.tratamiento_ambulatorio.tratamientos_no_farmacologicos.forEach(t => { content += `<li class="small"><strong>${t.nombre}:</strong> ${t.recomendacion}</li>`; });
+                content += `</ul>`;
             }
-        }
-
-        if (data.manejo_intervencionista_cierre) {
-            html += `<h5 class="mt-4 mb-3 text-warning"><i class="bi bi-scissors me-2"></i>Manejo Intervencionista (Cierre)</h5>`;
-            if (data.manejo_intervencionista_cierre.indicaciones_cierre) {
-                html += `<h6>Indicaciones de Cierre</h6><ul>`;
-                data.manejo_intervencionista_cierre.indicaciones_cierre.forEach(i => {
-                    html += `<li class="small"><strong>${i.condicion}:</strong> ${i.criterios}</li>`;
+            if (d.tratamiento_ambulatorio.primera_linea_farmacologica) {
+                content += `<h6 class="mt-3">1ª Línea Farmacológica</h6><ul>`;
+                d.tratamiento_ambulatorio.primera_linea_farmacologica.medicamentos.forEach(m => {
+                    content += `<li class="small"><strong>${m.nombre}:</strong> ${m.dosis} ${m.frecuencia || ''} ${m.duracion_dias ? 'por ' + m.duracion_dias + ' días' : ''}.</li>`;
                 });
-                html += `</ul>`;
+                content += `</ul>`;
             }
-        }
+            if (d.tratamiento_ambulatorio.alternativas_farmacologicas && d.tratamiento_ambulatorio.alternativas_farmacologicas.length > 0) {
+                content += `<h6 class="mt-3">Alternativas Farmacológicas</h6><ul>`;
+                d.tratamiento_ambulatorio.alternativas_farmacologicas.forEach(a => {
+                    content += `<li class="small"><strong>Si ${a.condicion}:</strong> ${a.medicamento} (${a.dosis}).</li>`;
+                });
+                content += `</ul>`;
+            }
+            if (d.tratamiento_ambulatorio.tratamientos_no_recomendados && d.tratamiento_ambulatorio.tratamientos_no_recomendados.length > 0) {
+                content += `<h6 class="mt-3 text-danger">Tratamientos NO Recomendados</h6><p class="small text-muted">${d.tratamiento_ambulatorio.tratamientos_no_recomendados.join(', ')}.</p>`;
+            }
+            return content;
+        };
 
-        if (data.flujogramas && data.flujogramas.length > 0) {
-            html += `<h6 class="mt-4"><i class="bi bi-diagram-3-fill text-secondary me-2"></i>Flujogramas</h6>`;
-            data.flujogramas.forEach(f => {
-                html += `<a href="${f.url_imagen}" target="_blank" class="btn btn-outline-secondary btn-sm me-2 mb-2">${f.titulo}</a>`;
-            });
-        }
+        const renderTratamientoHospitalario = (d) => {
+            if (!d.tratamiento_hospitalario) return '';
+            let content = `<h5 class="mt-4 mb-3 text-danger"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
+            if (d.tratamiento_hospitalario.grupos_etarios && d.tratamiento_hospitalario.grupos_etarios.length > 0) {
+                d.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
+                    content += `<div class="mb-3"><h6>Grupo: ${grupo.rango_edad}</h6>`;
+                    if (grupo.primera_linea) {
+                        const tto = grupo.primera_linea;
+                        let dosisStr = typeof tto.dosis === 'object' ? Object.entries(tto.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : tto.dosis;
+                        content += `<p class="small"><strong>1ª Línea:</strong> ${tto.medicamento} (${dosisStr}).</p>`;
+                    }
+                    if (grupo.alternativas && grupo.alternativas.length > 0) {
+                         content += `<ul>`;
+                         grupo.alternativas.forEach(alt => {
+                            let dosisAltStr = typeof alt.dosis === 'object' ? Object.entries(alt.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : alt.dosis;
+                            content += `<li class="small"><strong>Alt. (si ${alt.condicion}):</strong> ${alt.medicamento} (${dosisAltStr}).</li>`;
+                         });
+                         content += `</ul>`;
+                    }
+                    content += `</div>`;
+                });
+            }
+            return content;
+        };
 
+        const renderManejoMedico = (d) => {
+            if (!d.manejo_medico_y_seguimiento) return '';
+            let content = `<h5 class="mt-4 mb-3 text-primary"><i class="bi bi-clipboard2-pulse-fill me-2"></i>Manejo Médico y Seguimiento</h6>`;
+            if (d.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc) {
+                content += `<h6>Tratamiento Farmacológico (si hay ICC)</h6><ul>`;
+                d.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc.forEach(m => { content += `<li class="small"><strong>${m.nombre}:</strong> ${m.indicacion}</li>`; });
+                content += `</ul>`;
+            }
+            if (d.manejo_medico_y_seguimiento.seguimiento_sin_cierre) {
+                content += `<h6 class="mt-3">Seguimiento (si no hay cierre)</h6><ul>`;
+                d.manejo_medico_y_seguimiento.seguimiento_sin_cierre.forEach(s => { content += `<li class="small"><strong>${s.condicion}:</strong> ${s.descripcion}</li>`; });
+                content += `</ul>`;
+            }
+            return content;
+        };
+
+        const renderManejoIntervencionista = (d) => {
+            if (!d.manejo_intervencionista_cierre) return '';
+            let content = `<h5 class="mt-4 mb-3 text-warning"><i class="bi bi-scissors me-2"></i>Manejo Intervencionista (Cierre)</h5>`;
+            if (d.manejo_intervencionista_cierre.indicaciones_cierre) {
+                content += `<h6>Indicaciones de Cierre</h6><ul>`;
+                d.manejo_intervencionista_cierre.indicaciones_cierre.forEach(i => { content += `<li class="small"><strong>${i.condicion}:</strong> ${i.criterios}</li>`; });
+                content += `</ul>`;
+            }
+            return content;
+        };
+
+        // --- CONSTRUCCIÓN DEL HTML FINAL ---
+        html += renderPoblacion(data);
+        html += renderDiagnostico(data);
+        html += renderTratamientoAmbulatorio(data);
+        html += renderTratamientoHospitalario(data);
+        html += renderManejoMedico(data);
+        html += renderManejoIntervencionista(data);
+        
         html += `</div></div>`; // Cierre de card-body y card
         contenedorSugerencias.innerHTML = html;
     }
 
-    // --- EVENT LISTENER DEL INPUT (sin cambios) ---
+    // --- SECCIÓN 3: EVENT LISTENER DEL INPUT (sin cambios) ---
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
         const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
