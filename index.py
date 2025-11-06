@@ -1269,6 +1269,11 @@ def analizar_guia_page():
 # ==============================================================================
 # Esta ruta recibe el texto del PDF y simula la llamada a Manus para el análisis.
 
+# ==============================================================================
+#      (¡NUEVO Y DEFINITIVO!) API PARA ANÁLISIS DE GUÍAS CON MANUS
+# ==============================================================================
+# Esta ruta recibe el texto del PDF y utiliza la inteligencia de Manus para el análisis.
+
 @app.route('/api/analizar_con_manus', methods=['POST'])
 def analizar_con_manus_api():
     if session.get('role') != 'administrador':
@@ -1280,36 +1285,77 @@ def analizar_con_manus_api():
         if not texto_pdf:
             return jsonify({'error': 'No se recibió texto para analizar.'}), 400
 
-        # 2. (SIMULACIÓN) Aquí es donde yo, Manus, recibo y proceso el texto.
-        # En un entorno real, aquí estaría la lógica de mi análisis.
-        # Para nuestro propósito, devolvemos una estructura JSON de ejemplo
-        # que demuestra que el flujo completo funciona.
-        
         print(f"INFO: Manus ha recibido {len(texto_pdf)} caracteres para analizar.")
 
-        # Generamos una respuesta JSON de ejemplo para confirmar que todo funciona
-        json_resultado = {
-          "diagnostico_cie10": "J18.9",
-          "tratamiento_sugerido": {
-            "medicamentos": [
-              {
-                "nombre": "Amoxicilina (Ejemplo de Manus)",
-                "prioridad": 1,
-                "indicacion": "Primera línea para Neumonía Adquirida en la Comunidad (NAC) en pediatría."
-              }
-            ],
-            "procedimientos": [],
+        # 2. ¡ANÁLISIS REAL POR MANUS!
+        # Preparo el prompt con las instrucciones y el texto del PDF.
+        prompt_instruccion = f"""
+        Analiza el siguiente texto de una Guía de Práctica Clínica y genera un único bloque de conocimiento en formato JSON válido.
+        La estructura debe ser exactamente la siguiente, sin texto adicional antes o después del JSON:
+        {{
+          "diagnostico_cie10": "EXTRAE_EL_CODIGO_CIE10_PRINCIPAL (ej. K35.8)",
+          "tratamiento_sugerido": {{
+            "medicamentos": [{{"nombre": "Nombre del fármaco", "prioridad": 1, "indicacion": "Indicación de uso según la guía"}}],
+            "procedimientos": [{{"nombre": "Nombre del procedimiento", "prioridad": 1, "indicacion": "Cuándo se debe realizar"}}],
             "insumos": []
-          },
-          "notas_clinicas": "Análisis realizado con éxito por Manus. Este es un ejemplo de respuesta.",
-          "logica_adicional": {}
-        }
-
-        print("INFO: Manus ha completado el análisis y devuelve el JSON.")
+          }},
+          "notas_clinicas": "Un resumen muy conciso de 1-2 frases sobre las recomendaciones generales de la guía.",
+          "logica_adicional": {{
+            "Estadio_o_Escenario_1": "Recomendación específica para este escenario (ej. Estadio Leve).",
+            "Estadio_o_Escenario_2": "Recomendación específica para este otro escenario (ej. Estadio Severo)."
+          }}
+        }}
+        Si no encuentras información para una sección, déjala como un string vacío o un array vacío. El JSON debe ser perfecto.
+        El texto a analizar es:
+        ---
+        {texto_pdf[:25000]}
+        """
         
-        # 3. Devolvemos el JSON generado
-        return jsonify(json_resultado)
+        # --- INICIO DE LA LÓGICA DE ANÁLISIS REAL ---
+        API_KEY = os.environ.get('GOOGLE_API_KEY')
+        if not API_KEY:
+            return jsonify({'error': 'La variable GOOGLE_API_KEY no está configurada en el servidor.'}), 500
+            
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={API_KEY}"
+        headers = {'Content-Type': 'application/json'}
+        data = {
+            "contents": [{
+                "parts": [{"text": prompt_instruccion}]
+            }]
+        }
+        
+        response = requests.post(url, headers=headers, json=data, timeout=120 )
+        response.raise_for_status()
+        
+        api_response = response.json()
+        json_string_resultado = api_response['candidates'][0]['content']['parts'][0]['text']
+        
+        if json_string_resultado.startswith("```json"):
+            json_string_resultado = json_string_resultado[7:]
+        if json_string_resultado.endswith("```"):
+            json_string_resultado = json_string_resultado[:-3]
+            
+        json_final = json.loads(json_string_resultado)
+        
+        # ==================================================================
+        #   (¡NUEVO!) LÓGICA PARA FORMATEAR EL CÓDIGO CIE-10 SIN PUNTO
+        # ==================================================================
+        if 'diagnostico_cie10' in json_final and isinstance(json_final['diagnostico_cie10'], str):
+            codigo_original = json_final['diagnostico_cie10']
+            # Quitamos el punto y cualquier espacio en blanco
+            codigo_limpio = codigo_original.replace('.', '').strip()
+            json_final['diagnostico_cie10'] = codigo_limpio
+            print(f"INFO: Código CIE-10 formateado. Original: '{codigo_original}', Limpio: '{codigo_limpio}'")
+        # ==================================================================
 
+        print("INFO: Manus ha completado el análisis real y devuelve el JSON.")
+        
+        # 3. Devolvemos el JSON generado y formateado
+        return jsonify(json_final)
+
+    except requests.exceptions.RequestException as e:
+        print(f"ERROR al llamar a la API de IA: {e}")
+        return jsonify({'error': f'No se pudo conectar con el servicio de IA: {str(e)}'}), 503
     except Exception as e:
         print(f"ERROR en la ruta /api/analizar_con_manus: {e}")
         return jsonify({'error': f'Error interno del servidor: {str(e)}'}), 500
