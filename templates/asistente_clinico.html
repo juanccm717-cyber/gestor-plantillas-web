@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // Carga la lista de diagnósticos (sin cambios)
+    // --- BLOQUE 1: Carga de diagnósticos (sin cambios) ---
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // Función principal de consulta (sin cambios)
+    // --- BLOQUE 2: Consulta a la API (sin cambios) ---
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
             contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
@@ -120,8 +120,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //      (¡VERSIÓN 3!) RENDERIZADOR ADAPTATIVO Y PROFUNDO
+    //      (¡VERSIÓN FINAL!) RENDERIZADOR UNIVERSAL Y DETALLADO
     // ==================================================================
+
+    // --- BLOQUE 3: Funciones Auxiliares de Renderizado ---
+
+    // Función para renderizar un medicamento (reutilizable y detallada)
+    function renderizarMedicamento(med) {
+        if (!med) return '';
+        const nombre = med.medicamento || med.nombre || 'Medicamento no especificado';
+        const codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2">${med.codigo_item}</span>` : '';
+        const dosisHtml = med.dosis ? `${med.dosis}` : '';
+        const frecHtml = med.frecuencia ? `${med.frecuencia}` : '';
+        const duracionHtml = med.duracion_dias ? `por ${med.duracion_dias} días` : '';
+        const consHtml = med.consideraciones ? `<small class="text-muted d-block mt-1">(${med.consideraciones})</small>` : '';
+
+        return `
+            <li class="list-group-item list-group-item-medicamento">
+                ${codigoHtml}<strong>${nombre}</strong>
+                <p class="mb-0 small">${dosisHtml} ${frecHtml} ${duracionHtml}</p>
+                ${consHtml}
+            </li>`;
+    }
+
+    // --- BLOQUE 4: La Función Maestra `mostrarSugerencias` ---
 
     function mostrarSugerencias(data) {
         let html = `
@@ -132,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
                 <div class="card-body">`;
 
-        // --- SECCIONES COMUNES ---
+        // --- Renderizado de Secciones Comunes ---
         if (data.poblacion_objetivo && data.poblacion_objetivo.descripcion) {
             html += `<h6><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6>
                      <p class="text-muted small">${data.poblacion_objetivo.descripcion}</p>`;
@@ -146,11 +168,11 @@ document.addEventListener('DOMContentLoaded', function () {
             html += `</ul>`;
         }
 
-        // --- TRATAMIENTO AMBULATORIO (LÓGICA ADAPTATIVA) ---
+        // --- Renderizado Adaptativo del Tratamiento Ambulatorio ---
         if (data.tratamiento_ambulatorio) {
             html += `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
             
-            // Lógica para Osteoartritis (y guías futuras con esta estructura)
+            // Estructura Detallada (Osteoartritis)
             if (data.tratamiento_ambulatorio.tratamientos_no_farmacologicos) {
                 html += `<h6>Tratamientos No Farmacológicos</h6><ul>`;
                 data.tratamiento_ambulatorio.tratamientos_no_farmacologicos.forEach(tto => {
@@ -159,9 +181,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 html += `</ul>`;
             }
             if (data.tratamiento_ambulatorio.primera_linea_farmacologica) {
-                html += `<h6 class="mt-3">Primera Línea Farmacológica</h6><p>${data.tratamiento_ambulatorio.primera_linea_farmacologica.descripcion}</p><ul>`;
+                html += `<h6 class="mt-3">Primera Línea Farmacológica</h6><p>${data.tratamiento_ambulatorio.primera_linea_farmacologica.descripcion}</p><ul class="list-group list-group-flush">`;
                 data.tratamiento_ambulatorio.primera_linea_farmacologica.medicamentos.forEach(med => {
-                    html += `<li><strong>${med.nombre}:</strong> ${med.dosis}</li>`;
+                    html += renderizarMedicamento(med);
                 });
                 html += `</ul>`;
             }
@@ -170,19 +192,53 @@ document.addEventListener('DOMContentLoaded', function () {
                          <p class="small text-muted">${data.tratamiento_ambulatorio.tratamientos_no_recomendados.join(', ')}.</p>`;
             }
 
-            // Lógica para Neumonía (la estructura "antigua")
+            // Estructura Clásica (Neumonía)
             if (data.tratamiento_ambulatorio.primera_linea) {
-                const tto = data.tratamiento_ambulatorio.primera_linea;
-                html += `<h6>Primera Línea</h6>
-                         <p><strong>${tto.medicamento}:</strong> ${tto.dosis} ${tto.frecuencia} por ${tto.duracion_dias} días.</p>`;
+                html += `<h6>Primera Línea</h6><ul class="list-group list-group-flush mb-3">${renderizarMedicamento(data.tratamiento_ambulatorio.primera_linea)}</ul>`;
             }
+            if (data.tratamiento_ambulatorio.alternativas) {
+                html += `<h6>Alternativas</h6><ul class="list-group list-group-flush mb-3">`;
+                data.tratamiento_ambulatorio.alternativas.forEach(alt => {
+                    html += `<li class="list-group-item"><strong class="small">${alt.condicion}</strong>${renderizarMedicamento(alt)}</li>`;
+                });
+                html += `</ul>`;
+            }
+        }
+
+        // --- Renderizado Adaptativo del Tratamiento Hospitalario ---
+        if (data.tratamiento_hospitalario && data.tratamiento_hospitalario.grupos_etarios) {
+            html += `<h5 class="mt-4 mb-3 text-info"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
+            data.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
+                html += `<div class="mb-3">
+                            <h6>Grupo: ${grupo.rango_edad}</h6>`;
+                if (grupo.primera_linea) {
+                    html += `<p class="mb-1"><strong>1ª Línea:</strong> ${grupo.primera_linea.medicamento}</p>
+                             <ul class="list-group list-group-flush mb-3">`;
+                    if (typeof grupo.primera_linea.dosis === 'object') {
+                        for (const [med, dos] of Object.entries(grupo.primera_linea.dosis)) {
+                            html += `<li class="list-group-item small"><strong>${med}:</strong> ${dos}</li>`;
+                        }
+                    }
+                    html += `</ul>`;
+                }
+                if (grupo.alternativas && grupo.alternativas.length > 0) {
+                     html += `<p class="mb-1"><strong>Alternativas:</strong></p>`;
+                     grupo.alternativas.forEach(alt => {
+                        html += `<div class="ms-3 mb-2">
+                                    <strong class="small d-block">${alt.condicion}:</strong>
+                                    <p class="small mb-0">${alt.medicamento}</p>
+                                 </div>`;
+                     });
+                }
+                html += `</div>`;
+            });
         }
 
         html += `</div></div>`; // Cierre de card-body y card
         contenedorSugerencias.innerHTML = html;
     }
 
-    // Lógica del input no cambia
+    // --- BLOQUE 5: Event Listener del Input (sin cambios) ---
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
         const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
