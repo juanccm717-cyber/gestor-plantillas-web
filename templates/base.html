@@ -19,7 +19,7 @@
     <!-- Quill Rich Text Editor CSS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
-    <!-- Font Awesome Icons (si los necesitas para otros iconos  ) -->
+    <!-- Font Awesome Icons (si los necesitas para otros iconos   ) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
@@ -55,7 +55,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('menu'  ) }}">
+                <a class="navbar-brand" href="{{ url_for('menu'   ) }}">
                     <i class="bi bi-journal-text me-2"></i>Gestor de Plantillas
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,17 +109,17 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- ================================================================== -->
-    <!-- (¡NUEVO! ) LIBRERÍA PDF.JS PARA LEER PDFS EN EL NAVEGADOR -->
+    <!-- (¡CORREGIDO! ) LIBRERÍA PDF.JS CARGADA ANTES DE LOS SCRIPTS DE PÁGINA -->
     <!-- ================================================================== -->
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script>
         // Configuración necesaria para que pdf.js encuentre su "worker"
-        if (typeof pdfjsLib !== 'undefined' ) {
+        if (typeof pdfjsLib !== 'undefined'  ) {
             pdfjsLib.GlobalWorkerOptions.workerSrc = `https://mozilla.github.io/pdf.js/build/pdf.worker.js`;
         }
     </script>
 
-    {# Este bloque permite a las plantillas hijas añadir sus propios scripts al final del body #}
+    {# Este bloque AHORA ESTÁ AL FINAL, asegurando que todas las librerías se carguen primero #}
     {% block scripts %}{% endblock %}
 </body>
 </html>
