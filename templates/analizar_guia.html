@@ -9,7 +9,6 @@
             
             <div class="text-center mb-4">
                 <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                <!-- Podemos quitar el "- v2" si quieres, ya que solucionamos el problema de caché -->
                 <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
                 <p class="lead text-muted">
                     Sube un archivo PDF de una Guía de Práctica Clínica para que la IA extraiga el conocimiento y genere el código JSON.
@@ -61,7 +60,10 @@
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+// Usamos window.onload para asegurarnos de que TODAS las librerías,
+// incluyendo pdf.js desde base.html, se hayan cargado antes de ejecutar nuestro código.
+window.onload = function() {
+    
     // --- Referencias a los elementos del DOM ---
     const pdfFile = document.getElementById('pdfFile');
     const analyzeButton = document.getElementById('analyzeButton');
@@ -77,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         analyzeButton.disabled = pdfFile.files.length === 0;
     });
 
-    // --- Lógica del botón "Analizar" (NUEVA VERSIÓN CON GOOGLE SCRIPT) ---
+    // --- Lógica del botón "Analizar" ---
     analyzeButton.addEventListener('click', () => {
         if (pdfFile.files.length === 0) {
             alert("Por favor, selecciona un archivo PDF primero.");
@@ -91,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.onload = function(event) {
             const pdfData = new Uint8Array(event.target.result);
             
-            // Usamos pdf.js para leer el contenido del PDF en el navegador
+            // Ahora, pdfjsLib SÍ O SÍ estará definido.
             pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
                 let fullText = '';
                 let pagePromises = [];
@@ -102,32 +104,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     );
                 }
 
-                // Cuando todas las páginas se hayan procesado...
                 Promise.all(pagePromises).then(function(textContents) {
                     textContents.forEach(function(textContent) {
                         textContent.items.forEach(item => fullText += item.str + ' ');
                         fullText += '\n';
                     });
 
-                    // --- ¡AQUÍ ESTÁ LA LLAMADA A TU SCRIPT! ---
                     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz64fhdPlanwLhZ-M2Q2Cx2i1TWjxC0sErSbFX1xQuAmHwmzOt6BpbbXaMzo9N5auVE/exec";
 
                     fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors', // Importante para evitar problemas de CORS
+                        // mode: 'no-cors', // Comentado por ahora, puede causar problemas al leer la respuesta
                         redirect: 'follow',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: fullText // Enviamos el texto extraído directamente
+                        body: fullText
                     } )
-                    .then(response => response.text())
-                    .then(text => {
-                        // El texto es el JSON que devuelve el script de Google
-                        const data = JSON.parse(text);
-                        setLoading(false);
-                        if (data.error) {
-                            throw new Error('Error desde el script de Google: ' + data.error);
+                    .then(response => {
+                        if (!response.ok) {
+                           // Si la respuesta no es OK, intentamos leer el texto de todas formas
+                           return response.text().then(text => {
+                               throw new Error(`Error del servidor (status ${response.status}): ${text}`);
+                           });
                         }
-                        displayResults(data);
+                        return response.text();
+                    })
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            setLoading(false);
+                            if (data.error) {
+                                throw new Error('Error desde el script de Google: ' + data.error);
+                            }
+                            displayResults(data);
+                        } catch (e) {
+                            // Si el texto no es un JSON válido, es un error de CORS
+                            throw new Error("Error de CORS. La respuesta del script de Google no pudo ser leída. Revisa la configuración de la implementación del script.");
+                        }
                     })
                     .catch(error => {
                         setLoading(false);
@@ -143,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsArrayBuffer(file);
     });
 
-    // --- El resto de las funciones auxiliares no cambian ---
+    // --- Funciones auxiliares ---
     copyButton.addEventListener('click', () => {
         navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
             copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
@@ -170,6 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsContainer.classList.remove('d-none');
         jsonOutput.textContent = JSON.stringify(data, null, 2);
     }
-});
+};
 </script>
 {% endblock %}
