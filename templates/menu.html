@@ -217,25 +217,6 @@
             </div>
         </div>
         {% endif %}
-
-        <!-- ================================================== -->
-        <!--    TARJETA PARA EL ANALIZADOR DE GUÍAS (¡NUEVO!)     -->
-        <!-- ================================================== -->
-        {% if session.role == 'administrador' %}
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-file-earmark-arrow-up-fill" style="font-size: 3rem; color: #0d6efd;"></i>
-                    </div>
-                    <h5 class="card-title">Analizar Nueva Guía</h5>
-                    <p class="card-text text-muted flex-grow-1">Sube un PDF para que la IA lo procese y genere el código JSON.</p>
-                    <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-primary mt-auto">Iniciar Análisis</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
     </div>
 </div>
 {% endblock %}
