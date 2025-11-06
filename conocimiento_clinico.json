@@ -104,244 +104,99 @@
 {
   "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
   "version": "Actualización 2024",
-  "fecha_publicacion": "2025-01-02",
+  "fecha_publicacion": "2024-12",
   "institucion": "EsSalud",
-  "diagnostico_cie10": "M199",
   "poblacion_objetivo": {
     "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente."
   },
   "diagnostico": {
-    "recomendaciones_generales": [
+    "signos_sintomas": [
+      "Tener 45 años o más.",
+      "Tener dolor articular persistente relacionado al uso de la articulación.",
+      "No tener rigidez articular matutina, o tener rigidez articular matutina que no dure más de 30 minutos."
+    ],
+    "examenes_auxiliares": [
       {
-        "tipo": "Buena Práctica Clínica",
-        "descripcion": "En pacientes con sospecha clínica de osteoartritis (OA), no se deberían solicitar imágenes radiológicas de forma rutinaria para la confirmación diagnóstica.",
-        "codigo_proc": ""
-      },
-      {
-        "tipo": "Buena Práctica Clínica",
-        "descripcion": "Considerar el uso de imágenes radiológicas si presentan características atípicas que sugieren otro diagnóstico (pacientes jóvenes, historia de fractura, alteración del eje, signos de inflamación, dolor nocturno, pérdida de peso).",
-        "codigo_proc": "71020"
-      },
-      {
-        "tipo": "Buena Práctica Clínica",
-        "descripcion": "Realizar el diagnóstico clínico de OA si se cumplen los siguientes tres criterios: 1) Tener 45 años o más, 2) Tener dolor articular persistente relacionado al uso, 3) No tener rigidez matutina o que dure menos de 30 minutos.",
-        "codigo_proc": ""
+        "nombre": "Imágenes radiológicas",
+        "recomendacion": "En pacientes con sospecha clínica de osteoartritis (OA), no se deberían solicitar imágenes radiológicas de forma rutinaria para la confirmación diagnóstica. Considerar su uso si presentan características que sugieren otro diagnóstico como: pacientes jóvenes, historia de fractura, alteración del eje, signos de inflamación articular, dolor marcado al reposo o en la noche, dolor rápidamente progresivo, o pérdida de peso."
       }
     ]
   },
   "tratamiento_ambulatorio": {
     "tratamientos_no_farmacologicos": [
       {
-        "nombre": "Educación y Autocuidado",
-        "recomendacion": "Brindar un plan individualizado sobre la enfermedad, recomendaciones de autocuidado como disminución de peso, uso de calzado adecuado y actividad física."
+        "nombre": "Plan individualizado de educación y autocuidado",
+        "recomendacion": "En pacientes con OA, recomendamos brindar un plan individualizado de medidas de educación y autocuidado. Este plan debería incluir información sobre la enfermedad, disminución de peso, uso de calzado adecuado y realización de actividad física."
       },
       {
-        "nombre": "Ejercicio Físico",
-        "recomendacion": "Indicar la realización de ejercicio físico, incluyendo fortalecimiento muscular local, estiramiento y actividad aeróbica general."
+        "nombre": "Ejercicio físico",
+        "recomendacion": "En pacientes con OA, recomendamos indicar la realización de ejercicio físico. El ejercicio debe incluir fortalecimiento muscular local, estiramiento y actividad aeróbica general."
       },
       {
-        "nombre": "Pérdida de Peso",
-        "recomendacion": "En pacientes con OA que tienen obesidad o sobrepeso, ofrecer intervenciones para lograr la pérdida de peso."
+        "nombre": "Intervenciones para bajar de peso",
+        "recomendacion": "En pacientes con OA que tienen obesidad o sobrepeso, sugerimos ofrecer intervenciones para lograr la pérdida de peso."
       },
       {
-        "nombre": "Ortesis y Dispositivos de Asistencia",
-        "recomendacion": "Considerar el uso de calzado adecuado y dispositivos de asistencia como bastones. Para ortesis, buscar asesoramiento con Medicina Física y Rehabilitación."
+        "nombre": "Uso de ortesis",
+        "recomendacion": "De ser necesario el uso de algún tipo de ortesis para disminuir el dolor y/o aumentar la adherencia al plan de ejercicio físico, buscar asesoramiento con la especialidad de Medicina Física y Rehabilitación. Considerar el uso de calzado adecuado y dispositivos de asistencia como bastones."
       }
     ],
     "primera_linea_farmacologica": {
       "medicamentos": [
         {
           "nombre": "Naproxeno",
-          "dosis": "Dosis inicial 550mg, luego 275-550mg cada 8-12 horas.",
+          "dosis": "Dosis inicial recomendada de 550mg, luego 550mg cada 12 horas o 275mg cada 8-12 horas. Dosis máxima 1100mg por día.",
           "codigo_item": "21726"
         },
         {
           "nombre": "Ibuprofeno",
-          "dosis": "Dosis de 200-400mg, hasta 3 veces al día.",
+          "dosis": "Dosis de 200 - 400mg, hasta un máximo de 3 veces al día en caso sea necesario. No tomar más de 1200mg en un periodo de 24 horas.",
           "codigo_item": "21673"
-        },
-        {
-          "nombre": "Indometacina",
-          "dosis": "Dosis de 25mg cada 8 horas.",
-          "codigo_item": ""
         }
       ]
     },
     "alternativas_farmacologicas": [
       {
-        "condicion": "No tolera AINEs o tiene contraindicaciones",
+        "condicion": "Pacientes que no toleren un AINE o en los que tengan contraindicaciones para su uso.",
         "medicamento": "Paracetamol",
-        "dosis": "No especificada en la guía para uso rutinario.",
-        "codigo_item": ""
+        "dosis": "Se podría considerar el uso de paracetamol para el manejo de dolor."
       },
       {
-        "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
+        "condicion": "Pacientes con OA que no tengan alivio del dolor al utilizar un AINE o paracetamol.",
         "medicamento": "Tramadol",
-        "dosis": "No especificada en la guía como primer fármaco.",
+        "dosis": "Se podría considerar el uso de tramadol, según la evaluación de cada caso individual y presencia de comorbilidades.",
         "codigo_item": "21827"
       }
     ],
     "tratamientos_no_recomendados": [
-      "Glucosamina ni Condroitin Sulfato (Sugerencia Condicional)",
-      "Ácido Hialurónico intra-articular (Recomendación Fuerte)",
-      "Proloterapia (Sugerencia Condicional)",
-      "Agentes físicos (TENS, láser, etc.) como única medida (Sugerencia Condicional)",
-      "Acupuntura (Sugerencia Condicional)"
+      "Paracetamol de manera rutinaria.",
+      "Tramadol como primer fármaco.",
+      "Glucosamina ni condroitin sulfato.",
+      "Ácido hialurónico intra-articular.",
+      "Proloterapia.",
+      "Agentes físicos (terapia con ondas cortas, interferencial, TENS, láser, ultrasonido) como única medida.",
+      "Acupuntura."
     ]
   },
   "tratamiento_hospitalario": {
     "grupos_etarios": [
       {
-        "rango_edad": "Pacientes con dolor agudo que no responden a AINEs",
-        "primera_linea": {
-          "medicamento": "Inyección de Corticoide Intra-articular (ej. Triamcinolona)",
-          "dosis": {
-            "Rodilla": "40mg",
-            "Cadera": "40mg (bajo guía ecográfica)"
+        "rango_edad": "Adultos",
+        "alternativas": [
+          {
+            "condicion": "Pacientes con OA de rodilla con dolor y que no respondan a los AINE.",
+            "medicamento": "Corticoide intra-articular",
+            "dosis": "Utilizar triamcinolona acetónido 40mg. La dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
           },
-          "codigo_item": "21830"
-        }
-      }
-    ],
-    "manejo_quirurgico": {
-      "descripcion": "Considerar el tratamiento quirúrgico cuando las terapias farmacológicas y no farmacológicas no logren controlar el dolor y la limitación de la funcionalidad. Requiere opinión previa de Reumatología y/o Medicina Física y Rehabilitación."
-    }
-  },
-  "referencias_clave": [
-    {
-      "numero": 1,
-      "cita": "Guía de práctica clínica para el diagnóstico y tratamiento de pacientes con osteoartritis [Internet]. IETSI, Essalud; 2018."
-    }
-  ]
-},
-{
-  "nombre_guia": "Guía de práctica clínica para el manejo de Comunicación Interventricular en menores de 18 años",
-  "version": "GPC Nº 71",
-  "fecha_publicacion": "2025-11-01",
-  "institucion": "EsSalud",
-  "diagnostico_cie10": "Q210",
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes menores de 18 años con comunicación interventricular (CIV)."
-  },
-  "etiologia": {
-    "descripcion": "La CIV es un defecto congénito con una abertura anormal en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por su ubicación en perimembranosa, muscular, de entrada y de salida."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Soplo holosistólico intenso y áspero (CIV pequeña)",
-      "Síntomas de insuficiencia cardíaca: disnea durante la alimentación, escaso crecimiento, taquipnea, infecciones respiratorias recurrentes (CIV moderada/grande)"
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Ecocardiografía transtorácica",
-        "recomendacion": "Confirma el diagnóstico, establece tamaño, ubicación y consecuencias hemodinámicas.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Cateterismo cardíaco",
-        "recomendacion": "Realizar para obtener la resistencia vascular pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) bajo criterios específicos.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Prueba de vasorreactividad pulmonar",
-        "recomendacion": "Necesaria en pacientes con CIV, HTP y valores de RVP en 'zona gris' o 'crítica' antes de evaluar el cierre.",
-        "codigo_proc": ""
+          {
+            "condicion": "Pacientes con OA de cadera con dolor y que no respondan a los AINE.",
+            "medicamento": "Corticoide intra-articular",
+            "dosis": "Utilizar triamcinolona acetónido 40mg, bajo guía ecográfica. La dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
+          }
+        ]
       }
     ]
-  },
-  "manejo_medico_y_seguimiento": {
-    "tratamiento_farmacologico_icc": [
-      {
-        "nombre": "Furosemida",
-        "indicacion": "Manejo de la congestión en Insuficiencia Cardíaca.",
-        "codigo_item": "21644"
-      },
-      {
-        "nombre": "Espironolactona",
-        "indicacion": "Manejo de la congestión, usualmente combinado con Furosemida.",
-        "codigo_item": "21625"
-      },
-      {
-        "nombre": "Captopril / Enalapril (IECA)",
-        "indicacion": "Para reducir la postcarga en manejo de ICC.",
-        "codigo_item": "21549"
-      },
-      {
-        "nombre": "Vasodilatadores pulmonares",
-        "indicacion": "Considerar en pacientes con CIV e HTP con una primera prueba de vasorreactividad pulmonar negativa, para luego re-evaluar.",
-        "codigo_item": ""
-      }
-    ],
-    "seguimiento_sin_cierre": [
-      {
-        "condicion": "CIV Pequeña",
-        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) hasta oclusión espontánea."
-      },
-      {
-        "condicion": "CIV Moderada",
-        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego controles anuales."
-      },
-      {
-        "condicion": "CIV Grande",
-        "descripcion": "Reevaluaciones clínicas y ecocardiográficas al menos cada 3 meses durante el primer año."
-      }
-    ]
-  },
-  "manejo_intervencionista_cierre": {
-    "indicaciones_cierre": [
-      {
-        "condicion": "CIV Grande (>2/3 del anillo aórtico)",
-        "criterios": "Realizar el cierre preferiblemente antes del año de vida. Indicar a la brevedad si hay insuficiencia cardíaca refractaria y/o ganancia ponderal inadecuada."
-      },
-      {
-        "condicion": "CIV Moderada (1/3 a 2/3 del anillo aórtico)",
-        "criterios": "Cerrar si persisten síntomas a pesar de tto. médico, aumenta la presión pulmonar, hay prolapso/regurgitación aórtica, o repercusión hemodinámica (Qp/Qs>2)."
-      },
-      {
-        "condicion": "CIV Pequeña (<1/3 del anillo aórtico)",
-        "criterios": "Considerar cierre si presentan: Endocarditis infecciosa, prolapso de velo aórtico con regurgitación progresiva, o Qp/Qs > 1.5 con repercusión hemodinámica."
-      }
-    ],
-    "tipos_de_cierre": [
-      {
-        "nombre": "Cierre percutáneo de CIV perimembranosa",
-        "descripcion": "Sugerido sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 10 kg, Qp/Qs > 1.5, etc.)."
-      },
-      {
-        "nombre": "Cierre percutáneo de CIV muscular",
-        "descripcion": "Se puede elegir sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 8 kg, Qp/Qs > 1.5, etc.)."
-      },
-      {
-        "nombre": "Cerclaje de arteria pulmonar",
-        "descripcion": "Considerar en pacientes en quienes no se pueda realizar un cierre quirúrgico del defecto."
-      }
-    ],
-    "contraindicaciones": [
-      {
-        "procedimiento": "Cierre del defecto (general)",
-        "criterios": "Pacientes con CIV, HTP y una segunda prueba de vasorreactividad pulmonar negativa se consideran no elegibles."
-      },
-      {
-        "procedimiento": "Cierre percutáneo",
-        "criterios": "Enfermedad vascular pulmonar irreversible (RVP > 8UW/m²), bloqueo AV preexistente, regurgitación aórtica, infección activa, anatomía no favorable."
-      },
-      {
-        "procedimiento": "Cierre quirúrgico",
-        "criterios": "Peso < 2,5kg, condición del paciente no permite circulación extracorpórea, CIV múltiples tipo 'Swiss cheese'."
-      }
-    ]
-  },
-  "flujogramas": [
-    {
-      "titulo": "Flujograma para manejo de paciente con sospecha de CIV",
-      "url_imagen": "https://i.imgur.com/8pS1o4c.png"
-    },
-    {
-      "titulo": "Flujograma para manejo de paciente con CIV y sospecha de HTP",
-      "url_imagen": "https://i.imgur.com/2Xk0b4n.png"
-    }
-  ]
+  }
 }
-
 
 ]
