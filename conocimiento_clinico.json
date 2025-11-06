@@ -318,6 +318,131 @@
       "cita": "IETSI, Essalud. Guía de práctica clínica para el diagnóstico y tratamiento de pacientes con osteoartritis. 2018."
     }
   ]
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Comunicación Interventricular en menores de 18 años",
+  "version": "GPC-ESSALUD-785-2023",
+  "fecha_publicacion": "2023-12-29",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "Q210",
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes menores de 18 años con comunicación interventricular.",
+    "edad_min_meses": 0,
+    "edad_max_anos": 18,
+    "criterios_inclusion": [],
+    "criterios_exclusion": []
+  },
+  "etiologia": {
+    "descripcion": "La CIV es un defecto congénito con una abertura en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por ubicación en perimembranosa, muscular, de entrada y de salida.",
+    "factores_riesgo": [],
+    "grupos_etarios": []
+  },
+  "diagnostico": {
+    "signos_sintomas": [
+      "CIV pequeña: Soplo holosistólico intenso y áspero.",
+      "CIV moderada/grande: Síntomas de insuficiencia cardíaca (disnea al alimentar, escaso crecimiento, taquipnea, infecciones respiratorias recurrentes), retumbo diastólico, hepatomegalia."
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Ecocardiografía transtorácica",
+        "codigo_proc": "",
+        "recomendacion": "Confirma el diagnóstico, establece tamaño, ubicación y evalúa consecuencias hemodinámicas.",
+        "fuerza_recomendacion": "Buena Práctica Clínica",
+        "certeza_evidencia": null
+      },
+      {
+        "nombre": "Cateterismo cardíaco",
+        "codigo_proc": "",
+        "recomendacion": "Realizar para medir la Resistencia Vascular Pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) y criterios específicos (ej. Edad > 2 años, Qp/Qs < 1.5, etc.).",
+        "fuerza_recomendacion": "Buena Práctica Clínica",
+        "certeza_evidencia": null
+      },
+      {
+        "nombre": "Prueba de vasorreactividad pulmonar",
+        "codigo_proc": "",
+        "recomendacion": "Necesaria en pacientes con HTP y RVP en 'zona gris' o 'crítica' antes de evaluar el cierre.",
+        "fuerza_recomendacion": "Buena Práctica Clínica",
+        "certeza_evidencia": null
+      }
+    ]
+  },
+  "criterios_hospitalizacion": [],
+  "manejo_medico_y_seguimiento": {
+    "descripcion_general": "El manejo inicial se centra en el seguimiento para CIV pequeñas o el tratamiento de la insuficiencia cardíaca en defectos más grandes.",
+    "tratamiento_farmacologico_icc": [
+      {
+        "nombre": "Furosemida",
+        "codigo_item": "21644",
+        "indicacion": "Para manejo de Insuficiencia Cardíaca Congestiva (ICC) si está presente."
+      },
+      {
+        "nombre": "Espironolactona",
+        "codigo_item": "21625",
+        "indicacion": "Para manejo de ICC, usualmente en combinación con Furosemida."
+      },
+      {
+        "nombre": "Captopril / Enalapril (IECA)",
+        "codigo_item": "21549",
+        "indicacion": "Para reducir la postcarga en manejo de ICC."
+      }
+    ],
+    "seguimiento_sin_cierre": [
+      {
+        "condicion": "CIV pequeña",
+        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) con ecocardiografía hasta oclusión espontánea."
+      },
+      {
+        "condicion": "CIV moderada (asintomática)",
+        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego, controles anuales con EKG y ecocardiografía."
+      },
+      {
+        "condicion": "CIV grande (evolución favorable)",
+        "descripcion": "Reevaluaciones clínicas y ecocardiográficas al menos cada 3 meses durante el primer año."
+      }
+    ]
+  },
+  "manejo_intervencionista_cierre": {
+    "descripcion_general": "El cierre del defecto (quirúrgico o percutáneo) se indica según el tamaño de la CIV y la presencia de complicaciones.",
+    "indicaciones_cierre": [
+      {
+        "condicion": "CIV Pequeña",
+        "criterios": "Endocarditis, prolapso de velo aórtico con regurgitación, CIV de salida, o Qp/Qs > 1.5 con repercusión hemodinámica."
+      },
+      {
+        "condicion": "CIV Moderada",
+        "criterios": "Síntomas persistentes, aumento de presión pulmonar, defectos subpulmonares con regurgitación aórtica, o Qp/Qs > 2."
+      },
+      {
+        "condicion": "CIV Grande",
+        "criterios": "Realizar preferiblemente antes del año de vida. A la brevedad si hay ICC refractaria o fallo de medro."
+      }
+    ],
+    "tipos_cierre": [
+      {
+        "nombre": "Cierre Percutáneo",
+        "recomendacion": "Sugerido sobre el cierre quirúrgico en casos elegibles de CIV perimembranosa (peso > 10kg) y muscular (peso > 8kg) con criterios específicos."
+      },
+      {
+        "nombre": "Cierre Quirúrgico",
+        "recomendacion": "Opción estándar cuando el cierre percutáneo no es posible o está contraindicado."
+      },
+      {
+        "nombre": "Cerclaje de Arteria Pulmonar",
+        "recomendacion": "Considerar como puente a la cirugía en pacientes en quienes no se puede realizar un cierre definitivo inicialmente."
+      }
+    ]
+  },
+  "flujogramas": [
+    {
+      "titulo": "Manejo de sospecha de CIV",
+      "url_imagen": "https://i.imgur.com/8pS1o4c.png"
+    },
+    {
+      "titulo": "Manejo de CIV con sospecha de Hipertensión Pulmonar",
+      "url_imagen": "https://i.imgur.com/2Xk0b4n.png"
+    }
+  ]
 }
+
 
 ]
