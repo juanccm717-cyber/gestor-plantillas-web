@@ -1274,6 +1274,11 @@ def analizar_guia_page():
 # ==============================================================================
 # Esta ruta recibe el texto del PDF y utiliza la inteligencia de Manus para el análisis.
 
+# ==============================================================================
+#      (¡NUEVO Y DEFINITIVO!) API PARA ANÁLISIS DE GUÍAS CON MANUS
+# ==============================================================================
+# Esta ruta recibe el texto del PDF y utiliza la inteligencia de Manus para el análisis.
+
 @app.route('/api/analizar_con_manus', methods=['POST'])
 def analizar_con_manus_api():
     if session.get('role') != 'administrador':
@@ -1288,7 +1293,6 @@ def analizar_con_manus_api():
         print(f"INFO: Manus ha recibido {len(texto_pdf)} caracteres para analizar.")
 
         # 2. ¡ANÁLISIS REAL POR MANUS!
-        # Preparo el prompt con las instrucciones y el texto del PDF.
         prompt_instruccion = f"""
         Analiza el siguiente texto de una Guía de Práctica Clínica y genera un único bloque de conocimiento en formato JSON válido.
         La estructura debe ser exactamente la siguiente, sin texto adicional antes o después del JSON:
@@ -1316,7 +1320,11 @@ def analizar_con_manus_api():
         if not API_KEY:
             return jsonify({'error': 'La variable GOOGLE_API_KEY no está configurada en el servidor.'}), 500
             
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={API_KEY}"
+        # ==================================================================
+        #        (¡CORRECCIÓN!) USANDO LA URL ESTABLE v1 EN LUGAR DE v1beta
+        # ==================================================================
+        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={API_KEY}"
+        
         headers = {'Content-Type': 'application/json'}
         data = {
             "contents": [{
@@ -1337,20 +1345,14 @@ def analizar_con_manus_api():
             
         json_final = json.loads(json_string_resultado)
         
-        # ==================================================================
-        #   (¡NUEVO!) LÓGICA PARA FORMATEAR EL CÓDIGO CIE-10 SIN PUNTO
-        # ==================================================================
         if 'diagnostico_cie10' in json_final and isinstance(json_final['diagnostico_cie10'], str):
             codigo_original = json_final['diagnostico_cie10']
-            # Quitamos el punto y cualquier espacio en blanco
             codigo_limpio = codigo_original.replace('.', '').strip()
             json_final['diagnostico_cie10'] = codigo_limpio
             print(f"INFO: Código CIE-10 formateado. Original: '{codigo_original}', Limpio: '{codigo_limpio}'")
-        # ==================================================================
 
         print("INFO: Manus ha completado el análisis real y devuelve el JSON.")
         
-        # 3. Devolvemos el JSON generado y formateado
         return jsonify(json_final)
 
     except requests.exceptions.RequestException as e:
