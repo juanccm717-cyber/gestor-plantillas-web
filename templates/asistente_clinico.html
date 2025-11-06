@@ -97,7 +97,11 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    function consultarAsistenteIA(codigoCIE10) {
+    // ¡VERSIÓN CORREGIDA!
+    function consultarAsistenteIA(textoInput) {
+        // Extraemos solo el código CIE-10 del texto del input.
+        const codigoCIE10 = textoInput.split(' - ')[0].trim();
+
         if (!codigoCIE10) {
             contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">Seleccione un diagnóstico válido.</div>';
             return;
@@ -118,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //      RENDERIZADOR INTELIGENTE v4.6 (LA VERSIÓN DEFINITIVA)
+    //      EL RESTO DE LA LÓGICA DE RENDERIZADO (v4.6) NO CAMBIA
     // ==================================================================
     function mostrarSugerencias(data) {
         const renderCodigo = (codigo) => codigo ? `<span class="badge bg-dark me-2">${codigo}</span>` : '';
@@ -130,8 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     <small class="text-muted">${data.institucion || ''} - ${data.version || ''} (${data.fecha_publicacion || 'N/A'})</small>
                 </div>
                 <div class="card-body">`;
-
-        // --- RENDERIZADORES DE SECCIÓN (MODULARES Y ADAPTATIVOS) ---
 
         const renderPoblacion = (d) => d.poblacion_objetivo ? `<h6 class="mt-3"><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6><p class="text-muted small">${d.poblacion_objetivo.descripcion}</p>` : '';
         
@@ -149,10 +151,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return content;
         };
 
-        // ¡VERSIÓN FINAL! Comprueba cada sub-sección de forma independiente.
         const renderTratamientoAmbulatorio = (d) => {
             if (!d.tratamiento_ambulatorio) return '';
-            
             const tto = d.tratamiento_ambulatorio;
             let content = '';
 
@@ -247,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return content;
         };
 
-        // --- CONSTRUCCIÓN DEL HTML FINAL ---
         html += renderPoblacion(data);
         html += renderDiagnostico(data);
         html += renderTratamientoAmbulatorio(data);
@@ -259,14 +258,12 @@ document.addEventListener('DOMContentLoaded', function () {
         contenedorSugerencias.innerHTML = html;
     }
 
-    // --- SECCIÓN 3: EVENT LISTENER DEL INPUT (sin cambios) ---
+    // --- SECCIÓN 3: EVENT LISTENER DEL INPUT (¡CORREGIDO!) ---
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
-        const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
-        
-        if (diagnosticoSeleccionado) {
-            consultarAsistenteIA(diagnosticoSeleccionado.value);
-        }
+        // No necesitamos buscar en el array, simplemente pasamos el valor.
+        // La función consultarAsistenteIA se encargará de extraer el código.
+        consultarAsistenteIA(valorInput);
     });
 });
 </script>
