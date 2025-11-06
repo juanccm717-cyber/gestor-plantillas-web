@@ -1,72 +1,11 @@
-{% extends "base.html" %}
-
-{% block title %}Analizador de Guías Clínicas{% endblock %}
-
-{% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            
-            <div class="text-center mb-4">
-                <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
-                <p class="lead text-muted">
-                    Sube un archivo PDF de una Guía de Práctica Clínica para que la IA extraiga el conocimiento y genere el código JSON.
-                </p>
-            </div>
-
-            <!-- Área para subir el archivo -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Paso 1: Sube tu archivo</h5>
-                    <div class="mb-3">
-                        <label for="pdfFile" class="form-label">Selecciona el archivo PDF de la guía:</label>
-                        <input class="form-control form-control-lg" type="file" id="pdfFile" accept=".pdf">
-                    </div>
-                    <div class="d-grid">
-                        <button class="btn btn-primary btn-lg" id="analyzeButton" disabled>
-                            <span id="button-text">Analizar Guía</span>
-                            <span id="button-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Área de Resultados -->
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Paso 2: Resultado del Análisis</h5>
-                    
-                    <div id="initialMessage" class="text-center text-muted py-4">
-                        <p>El código JSON generado aparecerá aquí.</p>
-                    </div>
-
-                    <div id="resultsContainer" class="d-none">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6>Bloque de Conocimiento JSON:</h6>
-                            <button class="btn btn-sm btn-outline-secondary" id="copyButton">
-                                <i class="bi bi-clipboard me-1"></i> Copiar Código
-                            </button>
-                        </div>
-                        <pre><code class="language-json" id="jsonOutput" style="max-height: 400px; border-radius: 0.25rem;"></code></pre>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-{% endblock %}
-
 {% block scripts %}
 <script>
-// Usamos window.onload para asegurarnos de que TODAS las librerías,
-// incluyendo pdf.js desde base.html, se hayan cargado antes de ejecutar nuestro código.
-window.onload = function() {
-    
+document.addEventListener('DOMContentLoaded', function() {
+
     // --- Referencias a los elementos del DOM ---
     const pdfFile = document.getElementById('pdfFile');
     const analyzeButton = document.getElementById('analyzeButton');
+    // ... (el resto de las referencias no cambian)
     const buttonText = document.getElementById('button-text');
     const buttonSpinner = document.getElementById('button-spinner');
     const initialMessage = document.getElementById('initialMessage');
@@ -85,27 +24,66 @@ window.onload = function() {
             alert("Por favor, selecciona un archivo PDF primero.");
             return;
         }
-
         setLoading(true);
+        
+        // ¡NUEVA LÓGICA! Primero cargamos la librería y LUEGO procesamos el PDF.
+        loadPdfJsAndProcess();
+    });
+
+    // ==================================================================
+    //           NUEVA FUNCIÓN DE CARGA DINÁMICA (A PRUEBA DE BALAS)
+    // ==================================================================
+    function loadPdfJsAndProcess() {
+        // Si la librería ya está cargada, la usamos directamente.
+        if (typeof pdfjsLib !== 'undefined') {
+            console.log('pdf.js ya estaba cargado.');
+            processPdf();
+            return;
+        }
+
+        console.log('Cargando pdf.js dinámicamente...');
+        const script = document.createElement('script');
+        script.src = 'https://mozilla.github.io/pdf.js/build/pdf.js';
+        
+        // Cuando el script termine de cargarse...
+        script.onload = function( ) {
+            console.log('¡pdf.js cargado con éxito!');
+            // Configuramos el worker necesario
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://mozilla.github.io/pdf.js/build/pdf.worker.js`;
+            // Y ahora sí, procesamos el PDF
+            processPdf( );
+        };
+
+        // Si hay un error al cargar el script...
+        script.onerror = function() {
+            setLoading(false);
+            alert('Error crítico: No se pudo cargar la librería pdf.js. Revisa tu conexión a internet.');
+        };
+
+        // Añadimos el script a la página para que empiece la descarga.
+        document.head.appendChild(script);
+    }
+
+    // ==================================================================
+    //           NUEVA FUNCIÓN PARA PROCESAR EL PDF
+    // ==================================================================
+    function processPdf() {
         const file = pdfFile.files[0];
         const reader = new FileReader();
 
         reader.onload = function(event) {
             const pdfData = new Uint8Array(event.target.result);
             
-            // Ahora, pdfjsLib SÍ O SÍ estará definido.
             pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
                 let fullText = '';
                 let pagePromises = [];
 
                 for (let i = 1; i <= pdf.numPages; i++) {
-                    pagePromises.push(
-                        pdf.getPage(i).then(page => page.getTextContent())
-                    );
+                    pagePromises.push(pdf.getPage(i).then(page => page.getTextContent()));
                 }
 
                 Promise.all(pagePromises).then(function(textContents) {
-                    textContents.forEach(function(textContent) {
+                    textContents.forEach(textContent => {
                         textContent.items.forEach(item => fullText += item.str + ' ');
                         fullText += '\n';
                     });
@@ -114,37 +92,25 @@ window.onload = function() {
 
                     fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
-                        // mode: 'no-cors', // Comentado por ahora, puede causar problemas al leer la respuesta
                         redirect: 'follow',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: fullText
                     } )
-                    .then(response => {
-                        if (!response.ok) {
-                           // Si la respuesta no es OK, intentamos leer el texto de todas formas
-                           return response.text().then(text => {
-                               throw new Error(`Error del servidor (status ${response.status}): ${text}`);
-                           });
-                        }
-                        return response.text();
-                    })
+                    .then(response => response.text())
                     .then(text => {
                         try {
                             const data = JSON.parse(text);
                             setLoading(false);
-                            if (data.error) {
-                                throw new Error('Error desde el script de Google: ' + data.error);
-                            }
+                            if (data.error) throw new Error('Error desde Google Script: ' + data.error);
                             displayResults(data);
                         } catch (e) {
-                            // Si el texto no es un JSON válido, es un error de CORS
-                            throw new Error("Error de CORS. La respuesta del script de Google no pudo ser leída. Revisa la configuración de la implementación del script.");
+                            throw new Error("Respuesta inválida del script de Google. Posible error de CORS o del script. Respuesta: " + text);
                         }
                     })
                     .catch(error => {
                         setLoading(false);
-                        console.error('Error al analizar:', error);
-                        alert('Ocurrió un error: ' + error.message);
+                        console.error('Error en fetch:', error);
+                        alert('Ocurrió un error al contactar al analizador: ' + error.message);
                     });
                 });
             }).catch(err => {
@@ -153,9 +119,14 @@ window.onload = function() {
             });
         };
         reader.readAsArrayBuffer(file);
-    });
+    }
 
-    // --- Funciones auxiliares ---
+    // --- Funciones auxiliares (sin cambios) ---
+    copyButton.addEventListener('click', () => { /* ...código sin cambios... */ });
+    function setLoading(isLoading) { /* ...código sin cambios... */ }
+    function displayResults(data) { /* ...código sin cambios... */ }
+
+    // (Pega aquí las funciones completas de copyButton, setLoading y displayResults que ya tenías)
     copyButton.addEventListener('click', () => {
         navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
             copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
@@ -182,6 +153,6 @@ window.onload = function() {
         resultsContainer.classList.remove('d-none');
         jsonOutput.textContent = JSON.stringify(data, null, 2);
     }
-};
+});
 </script>
 {% endblock %}

@@ -108,17 +108,6 @@
     <!-- Quill Rich Text Editor JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-    <!-- ================================================================== -->
-    <!-- (¡CORREGIDO! ) LIBRERÍA PDF.JS CARGADA ANTES DE LOS SCRIPTS DE PÁGINA -->
-    <!-- ================================================================== -->
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-    <script>
-        // Configuración necesaria para que pdf.js encuentre su "worker"
-        if (typeof pdfjsLib !== 'undefined'  ) {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://mozilla.github.io/pdf.js/build/pdf.worker.js`;
-        }
-    </script>
-
     {# Este bloque AHORA ESTÁ AL FINAL, asegurando que todas las librerías se carguen primero #}
     {% block scripts %}{% endblock %}
 </body>
