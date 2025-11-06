@@ -1,257 +1,90 @@
 [
   {
+    "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de Neumonía Adquirida en la Comunidad en Población Pediátrica",
+    "version": "GPC Nº 73",
+    "fecha_publicacion": "2025-10-27",
+    "institucion": "EsSalud",
     "diagnostico_cie10": "J189",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21513", "nombre": "Amoxicilina (Primera Línea Ambulatorio)", "prioridad": 1, "posologia": "80-90 mg/kg/día, Vía Oral, por 5 días. Dosis máxima: 4g/día." },
-        { "codigo_item": "21565", "nombre": "Cefuroxima (Alternativa en alergia no severa)", "prioridad": 2, "posologia": "30 mg/kg/día, Vía Oral, cada 12h, por 7 días. Dosis máxima: 1g/día." },
-        { "codigo_item": "21571", "nombre": "Cloranfenicol (Alternativa en alergia severa)", "prioridad": 3, "posologia": "50 mg/kg/día, Vía Oral, cada 6h, por 7 días. Dosis máxima: 4g/día." },
-        { "codigo_item": "21514", "nombre": "Ampicilina o Penicilina G (Manejo Hospitalario >2 meses)", "prioridad": 4, "posologia": "150-200 mg/kg/día, Vía Endovenosa, cada 6h. Dosis máxima: 4g/día." },
-        { "codigo_item": "21648", "nombre": "Ampicilina + Gentamicina/Amikacina (Manejo Hospitalario <2 meses)", "prioridad": 5, "posologia": "Ampicilina 150-200mg/kg/día + Gentamicina 5-7.5mg/kg/día. Ambas EV." }
-      ],
-      "procedimientos": [], "insumos": []
+    "poblacion_objetivo": {
+      "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. Esta GPC no aborda el manejo en pacientes prematuros, ni a aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
+      "edad_min_meses": 1,
+      "edad_max_anos": 18
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°73 de EsSalud para Neumonía Adquirida en la Comunidad (NAC) en pediatría."
-  },
-  {
-    "diagnostico_cie10": "M179",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21726", "nombre": "Naproxeno (AINE de primera línea)", "prioridad": 1, "posologia": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día." },
-        { "codigo_item": "21673", "nombre": "Ibuprofeno (AINE de primera línea)", "prioridad": 1, "posologia": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día." },
-        { "codigo_item": "21827", "nombre": "Tramadol (Segunda línea si AINE/Paracetamol fallan)", "prioridad": 2, "posologia": "Evaluar individualmente. Usar con precaución." },
-        { "codigo_item": "21830", "nombre": "Inyección de Triamcinolona Intra-articular (Manejo agudo)", "prioridad": 3, "posologia": "40mg. Considerar si no hay respuesta a AINEs." }
-      ],
-      "procedimientos": [], "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°72 de EsSalud para Osteoartritis. La guía sugiere AINEs como primera línea. Glucosamina y Ácido Hialurónico NO son recomendados."
-  },
-  { "diagnostico_cie10": "M169", "tratamiento_sugerido": {}, "referencia_a": "M179" },
-  {
-    "diagnostico_cie10": "Q210",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21644", "nombre": "Furosemida", "prioridad": 1, "posologia": "Para manejo de Insuficiencia Cardíaca Congestiva (ICC) si está presente." },
-        { "codigo_item": "21625", "nombre": "Espironolactona", "prioridad": 2, "posologia": "Para manejo de ICC, usualmente en combinación con Furosemida." },
-        { "codigo_item": "21549", "nombre": "Captopril / Enalapril (IECA)", "prioridad": 3, "posologia": "Para reducir la postcarga en manejo de ICC." }
-      ],
-      "procedimientos": [
-        { "nombre": "Cierre del defecto (Quirúrgico o Percutáneo)", "prioridad": 1, "indicacion": "Indicado en CIV grande, o CIV moderada/pequeña con complicaciones (ICC, HTP, endocarditis, etc.)." },
-        { "nombre": "Seguimiento y Reevaluación", "prioridad": 2, "indicacion": "En CIV pequeña sin complicaciones, realizar reevaluaciones periódicas para monitorear cierre espontáneo." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°71 de EsSalud para Comunicación Interventricular (CIV). El manejo depende del tamaño del defecto y la presencia de complicaciones."
-  },
-  {
-    "diagnostico_cie10": "I209",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21498", "nombre": "Ácido Acetilsalicílico (AAS)", "prioridad": 1, "posologia": "Prevención de eventos. Dosis bajas (75-100 mg/día)." },
-        { "codigo_item": "21523", "nombre": "Atorvastatina / Rosuvastatina", "prioridad": 1, "posologia": "Prevención de eventos. Terapia con estatinas de alta intensidad. Objetivo LDL < 55 mg/dL." },
-        { "codigo_item": "21535", "nombre": "Bisoprolol / Carvedilol (Betabloqueador)", "prioridad": 2, "posologia": "Tratamiento antianginoso de primera línea." },
-        { "codigo_item": "21685", "nombre": "Dinitrato de Isosorbide / Nitroglicerina", "prioridad": 3, "posologia": "Alivio de síntomas de angina. Acción corta." },
-        { "codigo_item": "21617", "nombre": "Enalapril / Losartán (IECA / ARA-II)", "prioridad": 4, "posologia": "Añadir si el paciente tiene HTA, Diabetes, Disfunción Ventricular o ERC." }
-      ],
-      "procedimientos": [], "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°70 de EsSalud para Síndrome Coronario Crónico. El manejo incluye fármacos para prevención de eventos (AAS, Estatinas) y para el control de síntomas (Betabloqueadores, Nitratos)."
-  },
-  { "diagnostico_cie10": "I251", "tratamiento_sugerido": {}, "referencia_a": "I209" },
-  { "diagnostico_cie10": "I255", "tratamiento_sugerido": {}, "referencia_a": "I209" },
-  { "diagnostico_cie10": "I259", "tratamiento_sugerido": {}, "referencia_a": "I209" },
-  {
-    "diagnostico_cie10": "I270",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21731", "nombre": "Nifedipino / Diltiazem / Amlodipino (BCC)", "prioridad": 1, "posologia": "Tratamiento de elección en pacientes con Test de Vasorreactividad (TVR) POSITIVO." },
-        { "codigo_item": "21538", "nombre": "Bosentán (ARE) + Sildenafilo (IPDE5)", "prioridad": 2, "posologia": "Terapia oral combinada de inicio para pacientes con TVR NEGATIVO y riesgo bajo/intermedio." },
-        { "codigo_item": "", "nombre": "Prostaciclinas EV (Epoprostenol/Iloprost)", "prioridad": 3, "posologia": "Añadir a terapia combinada en pacientes con TVR NEGATIVO y riesgo ALTO." },
-        { "codigo_item": "21848", "nombre": "Warfarina (Anticoagulante)", "prioridad": 4, "posologia": "Terapia de soporte. Considerar en HAP idiopática, hereditaria o asociada a fármacos." },
-        { "codigo_item": "21644", "nombre": "Furosemida (Diurético)", "prioridad": 5, "posologia": "Terapia de soporte para manejo de sobrecarga de volumen / Insuficiencia Cardíaca Derecha." }
-      ],
-      "procedimientos": [
-        { "nombre": "Test de Vasorreactividad Pulmonar (TVR)", "prioridad": 1, "indicacion": "Fundamental para definir la estrategia de tratamiento inicial (respuesta a Calcioantagonistas)." }
-      ],
-      "insumos": [
-        { "codigo_item": "", "nombre": "Oxigenoterapia", "prioridad": 1, "indicacion": "Terapia de soporte para mantener Saturación de O2 > 90%." }
+    "etiologia": {
+      "descripcion": "La neumonía en población pediátrica puede estar originada por diferentes agentes causales, cuya frecuencia varía según el grupo etario.",
+      "grupos_etarios": [
+        {
+          "rango_edad": "< 2 años",
+          "agentes_comunes": "Mayor prevalencia de causas virales (VSR, Rinovirus, Adenovirus, Influenza). Causa bacteriana principal: Streptococcus pneumoniae."
+        },
+        {
+          "rango_edad": "2 - 5 años",
+          "agentes_comunes": "Alta prevalencia viral. Streptococcus pneumoniae sigue siendo la principal causa bacteriana. Considerar atípicos (Mycoplasma, Chlamydia)."
+        },
+        {
+          "rango_edad": "> 5 años",
+          "agentes_comunes": "Predominio bacteriano (Streptococcus pneumoniae) y agentes atípicos."
+        }
       ]
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°69 de EsSalud para Hipertensión Arterial Pulmonar (Grupo 1). El tratamiento es escalonado y depende críticamente del resultado del Test de Vasorreactividad (TVR) y de la estratificación de riesgo del paciente."
-  },
-  { "diagnostico_cie10": "I272", "tratamiento_sugerido": {}, "referencia_a": "I270" },
-  {
-    "diagnostico_cie10": "C220",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "", "nombre": "Atezolizumab + Bevacizumab", "prioridad": 1, "posologia": "Primera línea de tratamiento sistémico para CHC avanzado/inoperable, Child-Pugh A." },
-        { "codigo_item": "21800", "nombre": "Sorafenib", "prioridad": 2, "posologia": "Alternativa de primera línea o segunda línea tras progresión a Atezolizumab/Bevacizumab." }
+    "diagnostico": {
+      "signos_sintomas": [
+        "Fiebre",
+        "Síntomas respiratorios (tos, dificultad para respirar)",
+        "Hallazgos auscultatorios o radiográficos de compromiso pulmonar"
       ],
-      "procedimientos": [
-        { "nombre": "Resección Quirúrgica / Trasplante Hepático", "prioridad": 1, "indicacion": "Opción curativa en estadios tempranos (BCLC 0-A)." },
-        { "nombre": "Ablación por Radiofrecuencia (RFA)", "prioridad": 2, "indicacion": "Opción curativa en estadios tempranos (BCLC 0-A), especialmente si no es candidato a cirugía." },
-        { "nombre": "Quimioembolización Transarterial (TACE)", "prioridad": 3, "indicacion": "Tratamiento de elección para estadio intermedio (BCLC B)." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°68 de EsSalud para Carcinoma Hepatocelular (CHC). El tratamiento depende estrictamente del estadio BCLC. Las opciones van desde curativas (cirugía, RFA) hasta sistémicas (Atezolizumab/Bevacizumab) y paliativas."
-  },
-  {
-    "diagnostico_cie10": "I500",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21617", "nombre": "IECA / ARA-II (Enalapril, Losartán, etc.)", "prioridad": 1, "posologia": "Pilar 1 del tratamiento. Iniciar y titular hasta dosis máxima tolerada." },
-        { "codigo_item": "21553", "nombre": "Betabloqueador (Carvedilol, Bisoprolol)", "prioridad": 1, "posologia": "Pilar 2 del tratamiento. Iniciar y titular hasta dosis máxima tolerada." },
-        { "codigo_item": "21625", "nombre": "Antagonista del Receptor de Mineralocorticoides (Espironolactona)", "prioridad": 1, "posologia": "Pilar 3 del tratamiento. Vigilar función renal y potasio." },
-        { "codigo_item": "", "nombre": "Inhibidor de SGLT-2 (Dapagliflozina, Empagliflozina)", "prioridad": 1, "posologia": "Pilar 4 del tratamiento. Iniciar según función renal." },
-        { "codigo_item": "21644", "nombre": "Diurético de Asa (Furosemida)", "prioridad": 2, "posologia": "Para manejo de la congestión. Ajustar dosis según síntomas y peso." }
-      ],
-      "procedimientos": [], "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°67 de EsSalud para Insuficiencia Cardíaca Crónica con FEVI reducida (≤40%). El tratamiento se basa en los 4 pilares farmacológicos (IECA/ARNI, BB, ARM, iSGLT2) que deben iniciarse de forma conjunta y titularse. Los diuréticos son para el manejo de síntomas."
-  },
-  { "diagnostico_cie10": "I509", "tratamiento_sugerido": {}, "referencia_a": "I500" },
-  {
-    "diagnostico_cie10": "K922",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21740", "nombre": "Omeprazol IV (IBP)", "prioridad": 1, "posologia": "Administrar antes de la endoscopia. Dosis sugerida: 80mg en bolo, seguido de infusión de 8mg/hora." },
-        { "codigo_item": "", "nombre": "Octreotida / Terlipresina", "prioridad": 2, "posologia": "Iniciar si se sospecha HDA Variceal. Octreotida: 50mcg en bolo, seguido de 50mcg/hora por 5 días." },
-        { "codigo_item": "21564", "nombre": "Ceftriaxona (Profilaxis antibiótica)", "prioridad": 3, "posologia": "Administrar si se sospecha o confirma HDA Variceal en paciente cirrótico. Dosis: 1g/24h por 7 días." }
-      ],
-      "procedimientos": [
-        { "nombre": "Endoscopia Digestiva Alta (EDA)", "prioridad": 1, "indicacion": "Realizar idealmente en las primeras 24 horas. Urgente (<12h) si hay inestabilidad hemodinámica." },
-        { "nombre": "Terapia Dual Endoscópica (No Variceal)", "prioridad": 2, "indicacion": "Para úlceras de alto riesgo (Forrest I, IIa, IIb). Ej: Inyección de adrenalina + clips." },
-        { "nombre": "Ligadura con Bandas (Variceal)", "prioridad": 2, "indicacion": "Tratamiento de elección para várices esofágicas sangrantes." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°66 de EsSalud para Hemorragia Digestiva Alta (HDA). El manejo inicial se centra en la estabilización y el uso de IBP. El manejo específico depende de la causa (variceal vs. no variceal) y los hallazgos endoscópicos."
-  },
-  { "diagnostico_cie10": "K25", "tratamiento_sugerido": {}, "referencia_a": "K922" },
-  { "diagnostico_cie10": "K26", "tratamiento_sugerido": {}, "referencia_a": "K922" },
-  { "diagnostico_cie10": "K27", "tratamiento_sugerido": {}, "referencia_a": "K922" },
-  { "diagnostico_cie10": "I850", "tratamiento_sugerido": {}, "referencia_a": "K922" },
-  { "diagnostico_cie10": "I859", "tratamiento_sugerido": {}, "referencia_a": "K922" },
-  {
-    "diagnostico_cie10": "H259",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "", "nombre": "Antibiótico Tópico Perioperatorio (ej. Levofloxacina)", "prioridad": 2, "posologia": "Sugerido para la prevención de endoftalmitis." },
-        { "codigo_item": "", "nombre": "Corticoide Tópico (ej. Prednisolona)", "prioridad": 3, "posologia": "Recomendado para el manejo de la inflamación postoperatoria." }
-      ],
-      "procedimientos": [
-        { "nombre": "Cirugía de Catarata (Facoemulsificación)", "prioridad": 1, "indicacion": "Tratamiento definitivo para la catarata que afecta la visión." }
-      ],
-      "insumos": [
-        { "codigo_item": "", "nombre": "Povidona Yodada", "prioridad": 1, "indicacion": "Utilizar diluida al 5% o 10% como antiséptico preoperatorio." }
+      "examenes_auxiliares": [
+        {
+          "nombre": "Radiografía de tórax",
+          "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización."
+        },
+        {
+          "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
+          "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento."
+        }
       ]
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°65 de EsSalud para Catarata. El tratamiento es principalmente quirúrgico (Facoemulsificación). Las recomendaciones farmacológicas se centran en el manejo perioperatorio para prevenir infecciones y controlar la inflamación."
-  },
-  {
-    "diagnostico_cie10": "J459",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "", "nombre": "Salbutamol (Agonista β2)", "prioridad": 1, "posologia": "Tratamiento de primera línea para todas las crisis. Administrar con IDM+espaciador o nebulización." },
-        { "codigo_item": "", "nombre": "Prednisona / Prednisolona (Corticoide Sistémico)", "prioridad": 2, "posologia": "Añadir en crisis leves a moderadas. Preferible vía oral." },
-        { "codigo_item": "", "nombre": "Bromuro de Ipratropio (Anticolinérgico)", "prioridad": 3, "posologia": "Añadir al Salbutamol en crisis moderadas a severas." },
-        { "codigo_item": "", "nombre": "Sulfato de Magnesio EV", "prioridad": 4, "posologia": "Tratamiento de segunda línea si no hay respuesta al manejo inicial en crisis moderadas/severas." }
-      ],
-      "procedimientos": [],
-      "insumos": [
-        { "codigo_item": "", "nombre": "Oxígeno Suplementario", "prioridad": 1, "indicacion": "Mantener SatO2 > 92% en todos los niveles de crisis." }
+    "criterios_hospitalizacion": [
+      "Saturación de O2 baja o cianosis",
+      "Dificultad respiratoria severa (tirajes, quejido, aleteo)",
+      "Intolerancia oral o deshidratación",
+      "Mal estado general (letargia, apariencia tóxica)",
+      "Lactantes menores de 6 meses",
+      "Comorbilidades importantes",
+      "Fracaso de la terapia ambulatoria tras 48h"
+    ],
+    "tratamiento_ambulatorio": {
+      "primera_linea": {
+        "medicamento": "Amoxicilina",
+        "dosis": "80-90 mg/kg/día",
+        "frecuencia": "Cada 8 o 12 horas",
+        "duracion_dias": 5
+      },
+      "alternativas": [
+        {
+          "condicion": "Alergia no severa a penicilinas",
+          "medicamento": "Cefuroxima",
+          "dosis": "30 mg/kg/día"
+        }
       ]
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°64 de EsSalud para Crisis Asmática en niños/adolescentes. El manejo es escalonado según la severidad, iniciando siempre con Salbutamol y Oxígeno, y añadiendo corticoides, ipratropio y magnesio según la respuesta."
-  },
-  { "diagnostico_cie10": "J46", "tratamiento_sugerido": {}, "referencia_a": "J459" },
-  {
-    "diagnostico_cie10": "F321",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21639", "nombre": "Fluoxetina (ISRS)", "prioridad": 1, "posologia": "Fármaco de primera línea. Iniciar con 20mg/día." },
-        { "codigo_item": "21793", "nombre": "Sertralina (ISRS)", "prioridad": 1, "posologia": "Fármaco de primera línea. Iniciar con 50mg/día." },
-        { "codigo_item": "", "nombre": "Venlafaxina (IRSN)", "prioridad": 2, "posologia": "Alternativa si no hay respuesta a ISRS. Iniciar con 75mg/día." },
-        { "codigo_item": "", "nombre": "Mirtazapina", "prioridad": 2, "posologia": "Alternativa o para potenciar un ISRS si no hay respuesta. Iniciar con 15mg/día." }
-      ],
-      "procedimientos": [
-        { "nombre": "Psicoterapia", "prioridad": 1, "indicacion": "Considerar como tratamiento inicial combinado con fármacos. Tipos: TCC, Terapia de activación conductual, etc." }
-      ],
-      "insumos": []
+    "tratamiento_hospitalario": {
+      "grupos_etarios": [
+        {
+          "rango_edad": "1 a < 2 meses",
+          "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)"
+        },
+        {
+          "rango_edad": "2 meses a < 18 años",
+          "medicamento": "Ampicilina o Penicilina G sódica"
+        }
+      ]
     },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°63 de EsSalud para Episodio Depresivo Moderado. Se recomienda iniciar con un ISRS (Fluoxetina/Sertralina) y/o psicoterapia. Si no hay respuesta, se puede cambiar de fármaco o potenciar."
-  },
-  { "diagnostico_cie10": "F322", "tratamiento_sugerido": {}, "referencia_a": "F321" },
-  { "diagnostico_cie10": "F331", "tratamiento_sugerido": {}, "referencia_a": "F321" },
-  { "diagnostico_cie10": "F332", "tratamiento_sugerido": {}, "referencia_a": "F321" },
-  {
-    "diagnostico_cie10": "C189",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "", "nombre": "Quimioterapia Adyuvante (basada en Fluoropirimidinas +/- Oxaliplatino)", "prioridad": 1, "indicacion": "Indicada en Estadio II con factores de riesgo y en Estadio III. La duración (3 o 6 meses) depende del riesgo." },
-        { "codigo_item": "", "nombre": "Atezolizumab + Bevacizumab", "prioridad": 2, "indicacion": "Primera línea para Carcinoma Hepatocelular (CHC) avanzado, que puede ser una metástasis de cáncer de colon." },
-        { "codigo_item": "21800", "nombre": "Sorafenib", "prioridad": 3, "indicacion": "Alternativa en CHC avanzado." }
-      ],
-      "procedimientos": [
-        { "nombre": "Tomografía Computarizada (TC) de Tórax, Abdomen y Pelvis", "prioridad": 1, "indicacion": "Procedimiento estándar para el estadiaje inicial." },
-        { "nombre": "Resección Quirúrgica (Colectomía)", "prioridad": 1, "indicacion": "Tratamiento de elección para Estadios I-III. Puede ser abierta o laparoscópica." },
-        { "nombre": "Quimioembolización Transarterial (TACE)", "prioridad": 2, "indicacion": "Opción para metástasis hepáticas en estadio intermedio." },
-        { "nombre": "Colectomía Simultánea o por Etapas", "prioridad": 2, "indicacion": "Para metástasis hepáticas resecables en Estadio IV." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°62 de EsSalud para Cáncer de Colon. El tratamiento es altamente dependiente del estadio clínico (AJCC). Las decisiones deben tomarse en un comité multidisciplinario.",
-    "logica_adicional": {
-      "Estadio_I": "Recomendación principal: Resección Quirúrgica. No se recomienda quimioterapia adyuvante.",
-      "Estadio_II_sin_riesgo": "Recomendación principal: Resección Quirúrgica. No se recomienda quimioterapia adyuvante de rutina.",
-      "Estadio_II_con_riesgo": "Recomendación principal: Resección Quirúrgica + Quimioterapia Adyuvante.",
-      "Estadio_III_bajo_riesgo": "Recomendación principal: Resección Quirúrgica + Quimioterapia Adyuvante por 3 meses.",
-      "Estadio_III_alto_riesgo": "Recomendación principal: Resección Quirúrgica + Considerar Quimioterapia Adyuvante por 6 meses.",
-      "Estadio_IV_resecable": "Recomendación principal: Manejo quirúrgico de metástasis (simultáneo o por etapas) + quimioterapia.",
-      "Estadio_IV_irresecable": "Recomendación principal: Quimioterapia sistémica. Evaluar resección del tumor primario en casos seleccionados."
-    }
-  },
-  {
-    "diagnostico_cie10": "I489",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "21848", "nombre": "Warfarina", "prioridad": 1, "indicacion": "Anticoagulante de elección en FA valvular. Requiere monitoreo de INR." },
-        { "codigo_item": "", "nombre": "Anticoagulantes Orales Directos (ACOD)", "prioridad": 1, "indicacion": "Sugeridos sobre Warfarina en FA no valvular, según disponibilidad y características del paciente." },
-        { "codigo_item": "21553", "nombre": "Betabloqueadores (ej. Bisoprolol, Carvedilol)", "prioridad": 2, "indicacion": "Primera línea para control de frecuencia a largo plazo." },
-        { "codigo_item": "21731", "nombre": "Calcioantagonistas no dihidropiridínicos (ej. Diltiazem)", "prioridad": 3, "indicacion": "Alternativa para control de frecuencia si FEVI >= 40%." },
-        { "codigo_item": "", "nombre": "Amiodarona", "prioridad": 4, "indicacion": "Considerar para control de ritmo en pacientes con disfunción ventricular izquierda o insuficiencia cardíaca." }
-      ],
-      "procedimientos": [
-        { "nombre": "Evaluar Riesgo Tromboembólico (CHA2DS2-VASc)", "prioridad": 1, "indicacion": "Fundamental para decidir inicio de anticoagulación en FA no valvular." },
-        { "nombre": "Evaluar Riesgo de Sangrado (HAS-BLED)", "prioridad": 1, "indicacion": "Utilizar para identificar y controlar factores de riesgo de sangrado modificables." },
-        { "nombre": "Cardioversión Eléctrica de Emergencia", "prioridad": 2, "indicacion": "Recomendada en pacientes con FA y respuesta ventricular rápida que presenten inestabilidad hemodinámica." },
-        { "nombre": "Ablación con Catéter", "prioridad": 3, "indicacion": "Sugerida en pacientes sintomáticos (paroxísticos o persistentes) refractarios o intolerantes a fármacos antiarrítmicos." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°61 (Actualización 2023) de EsSalud para Fibrilación Auricular. El manejo se centra en 3 pilares: prevención de eventos tromboembólicos, control de síntomas (frecuencia o ritmo) y manejo de comorbilidades. La decisión de anticoagular se basa en el score CHA2DS2-VASc."
-  },
-  {
-    "diagnostico_cie10": "C61X",
-    "tratamiento_sugerido": {
-      "medicamentos": [
-        { "codigo_item": "", "nombre": "Terapia de Deprivación Androgénica (TDA)", "prioridad": 1, "indicacion": "Pilar del tratamiento. Puede ser farmacológica (agonistas LHRH) o quirúrgica (orquiectomía bilateral)." },
-        { "codigo_item": "", "nombre": "Docetaxel", "prioridad": 2, "indicacion": "Recomendado en combinación con TDA para pacientes de novo y de alto volumen metastásico. Dosis: 75 mg/m² EV cada 21 días por 6 ciclos." },
-        { "codigo_item": "", "nombre": "Acetato de Abiraterona", "prioridad": 3, "indicacion": "Alternativa de tratamiento sistémico disponible en EsSalud para establecimientos III-2, posterior a evaluación comparativa." }
-      ],
-      "procedimientos": [
-        { "nombre": "Orquiectomía Bilateral", "prioridad": 1, "indicacion": "Opción de TDA quirúrgica. Considerar si el uso de agonistas LHRH está contraindicado o si hay alto riesgo cardiovascular." },
-        { "nombre": "Radioterapia (RT) al Cáncer Primario", "prioridad": 2, "indicacion": "Recomendada en combinación con TDA para pacientes de novo y de bajo volumen metastásico." }
-      ],
-      "insumos": []
-    },
-    "notas_clinicas": "Sugerencias basadas en la GPC N°59 de EsSalud para Cáncer de Próstata Metastásico Hormonosensible. El tratamiento varía significativamente según la presentación (de novo vs. recurrente) y el volumen metastásico (alto vs. bajo).",
-    "logica_adicional": {
-      "De_Novo_Alto_Volumen": "Recomendación fuerte: TDA + Docetaxel.",
-      "De_Novo_Bajo_Volumen": "Recomendación fuerte: TDA + Radioterapia (RT) al primario. No se sugiere TDA + Docetaxel.",
-      "Recurrente_Alto_Volumen": "Sugerencia en contra de TDA + Docetaxel.",
-      "Recurrente_Bajo_Volumen": "Recomendación fuerte en contra de TDA + Docetaxel."
-    }
+    "referencias_clave": [
+      {
+        "id": "GPC_NAC_PEDIATRICA_2025",
+        "cita": "IETSI. Guía de Práctica Clínica para NAC en población pediátrica. EsSalud; 2025."
+      }
+    ]
   }
 ]

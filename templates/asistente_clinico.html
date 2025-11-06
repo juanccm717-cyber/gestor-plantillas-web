@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
+    // Carga la lista de diagnósticos para el autocompletado
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -98,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
+    // Función principal que se activa al seleccionar un diagnóstico
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
             contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
@@ -118,127 +120,81 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    function renderizarTratamiento(tratamientoSugerido) {
-        let tratamientoHtml = '';
-        let hayTratamiento = false;
-
-        if (tratamientoSugerido && tratamientoSugerido.medicamentos && tratamientoSugerido.medicamentos.length > 0) {
-            hayTratamiento = true;
-            tratamientoHtml += '<h6 class="medicamentos-header"><i class="bi bi-capsule-pill me-2"></i>Medicamentos Recomendados</h6><ul class="list-group list-group-flush">';
-            tratamientoSugerido.medicamentos.sort((a, b) => a.prioridad - b.prioridad);
-            tratamientoSugerido.medicamentos.forEach((med, index) => {
-                const medId = `med-collapse-${Math.random().toString(36).substr(2, 9)}-${index}`;
-                const codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2">${med.codigo_item}</span>` : '';
-                let detallesHtml = '';
-                let evidenciaHtml = '';
-
-                if (med.evidencia) {
-                    evidenciaHtml = `<span class="badge bg-evidencia text-dark border border-secondary">Fuerza: ${med.evidencia.fuerza} / Calidad: ${med.evidencia.calidad}</span>`;
-                }
-                if (med.contraindicaciones_clave || med.efectos_adversos_comunes) {
-                    detallesHtml += '<ul class="list-unstyled mt-2 mb-0 small">';
-                    if (med.contraindicaciones_clave) detallesHtml += `<li><strong class="text-danger">Vigilar:</strong> ${med.contraindicaciones_clave.join(', ')}</li>`;
-                    if (med.efectos_adversos_comunes) detallesHtml += `<li><strong class="text-warning">Efectos adversos:</strong> ${med.efectos_adversos_comunes.join(', ')}</li>`;
-                    detallesHtml += '</ul>';
-                }
-
-                tratamientoHtml += `
-                    <li class="list-group-item list-group-item-medicamento">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                ${codigoHtml}
-                                <strong>${med.nombre}</strong>
-                                <small class="text-muted d-block mt-1">${med.posologia}</small>
-                            </div>
-                            <div class="text-end ms-2" style="min-width: 150px;">
-                                ${evidenciaHtml}
-                                ${detallesHtml ? `<button class="btn btn-sm btn-link text-decoration-none p-0 mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#${medId}" aria-expanded="false" aria-controls="${medId}">Ver detalles</button>` : ''}
-                            </div>
-                        </div>
-                        ${detallesHtml ? `<div class="collapse mt-2" id="${medId}"><div class="p-2 bg-light rounded">${detallesHtml}</div></div>` : ''}
-                    </li>`;
-            });
-            tratamientoHtml += '</ul>';
-        }
-
-        if (tratamientoSugerido && tratamientoSugerido.procedimientos && tratamientoSugerido.procedimientos.length > 0) {
-            hayTratamiento = true;
-            tratamientoHtml += '<h6 class="procedimientos-header"><i class="bi bi-heart-pulse me-2"></i>Procedimientos a Considerar</h6><ul class="list-group list-group-flush">';
-            tratamientoSugerido.procedimientos.sort((a, b) => a.prioridad - b.prioridad);
-            tratamientoSugerido.procedimientos.forEach(proc => {
-                const evidenciaHtml = proc.evidencia ? `<span class="badge bg-evidencia text-dark border border-secondary float-end">Fuerza: ${proc.evidencia.fuerza} / Calidad: ${proc.evidencia.calidad}</span>` : '';
-                tratamientoHtml += `<li class="list-group-item list-group-item-procedimiento"><div><strong>${proc.nombre}</strong>${evidenciaHtml}</div><small class="text-muted d-block">${proc.indicacion}</small></li>`;
-            });
-            tratamientoHtml += '</ul>';
-        }
-        
-        return { html: tratamientoHtml, hayContenido: hayTratamiento };
-    }
-
+    // ==================================================================
+    //  (¡NUEVO!) RENDERIZADOR MEJORADO PARA EL "ESTÁNDAR DORADO"
+    // ==================================================================
     function mostrarSugerencias(data) {
-        let html = '';
-        if (data.notas_clinicas) {
-            html += `<div class="alert alert-info">${data.notas_clinicas}</div>`;
+        let html = `
+            <div class="card border-light-subtle">
+                <div class="card-header bg-light-subtle">
+                    <h5 class="mb-1">${data.nombre_guia || 'Guía sin nombre'}</h5>
+                    <small class="text-muted">${data.institucion || ''} - ${data.version || ''} (${data.fecha_publicacion || 'N/A'})</small>
+                </div>
+                <div class="card-body">
+        `;
+
+        // Sección: Población Objetivo
+        if (data.poblacion_objetivo && data.poblacion_objetivo.descripcion) {
+            html += `<h6><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6>
+                     <p class="text-muted small">${data.poblacion_objetivo.descripcion}</p>`;
         }
 
-        if (data.logica_adicional && data.logica_adicional.pregunta_contexto) {
-            html += `<div class="card border-primary mt-4">
-                        <div class="card-header bg-primary bg-opacity-10 border-primary">
-                            <h6 class="mb-0">${data.logica_adicional.pregunta_contexto}</h6>
-                        </div>
-                        <div class="list-group list-group-flush">`;
-            
-            for (const key in data.logica_adicional.opciones) {
-                html += `<button type="button" class="list-group-item list-group-item-action" 
-                                 data-recomendacion="${encodeURIComponent(JSON.stringify(data.logica_adicional.opciones[key]))}">
-                            ${key.replace(/_/g, ' ')}
-                         </button>`;
+        // Sección: Criterios de Hospitalización
+        if (data.criterios_hospitalizacion && data.criterios_hospitalizacion.length > 0) {
+            html += `<h6 class="mt-4"><i class="bi bi-door-open-fill text-danger me-2"></i>Criterios de Hospitalización</h6>
+                     <ul class="list-unstyled small">`;
+            data.criterios_hospitalizacion.forEach(criterio => {
+                html += `<li><i class="bi bi-caret-right-fill text-danger me-1"></i>${criterio}</li>`;
+            });
+            html += `</ul>`;
+        }
+
+        // Sección: Tratamiento Ambulatorio
+        if (data.tratamiento_ambulatorio) {
+            html += `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
+            // Primera Línea
+            if (data.tratamiento_ambulatorio.primera_linea) {
+                const tto = data.tratamiento_ambulatorio.primera_linea;
+                html += `<h6>Primera Línea</h6>
+                         <p><strong>${tto.medicamento}:</strong> ${tto.dosis} ${tto.frecuencia} por ${tto.duracion_dias} días. <small class="text-muted">(${tto.consideraciones || ''})</small></p>`;
             }
-            html += `</div></div><div id="recomendacion-especifica" class="mt-3"></div>`;
+            // Alternativas
+            if (data.tratamiento_ambulatorio.alternativas && data.tratamiento_ambulatorio.alternativas.length > 0) {
+                html += `<h6>Alternativas</h6><ul>`;
+                data.tratamiento_ambulatorio.alternativas.forEach(alt => {
+                    html += `<li><strong>${alt.condicion}:</strong> ${alt.medicamento} (${alt.dosis}).</li>`;
+                });
+                html += `</ul>`;
+            }
         }
 
-        if (data.criterios_diagnosticos && data.criterios_diagnosticos.criterios) {
-            html += '<h6 class="diagnostico-header"><i class="bi bi-clipboard2-check me-2"></i>Criterios Diagnósticos</h6>';
-            if(data.criterios_diagnosticos.nota) html += `<p class="text-muted">${data.criterios_diagnosticos.nota}</p>`;
-            html += '<ul class="list-group list-group-flush">';
-            data.criterios_diagnosticos.criterios.forEach(criterio => {
-                html += `<li class="list-group-item list-group-item-diagnostico">${criterio}</li>`;
-            });
-            html += '</ul>';
-        }
-
-        const tratamientoRenderizado = renderizarTratamiento(data.tratamiento_sugerido);
-        html += tratamientoRenderizado.html;
-
-        if (!tratamientoRenderizado.hayContenido && !(data.logica_adicional && data.logica_adicional.pregunta_contexto)) {
-             html += '<div class="alert alert-light mt-3 text-center">No hay sugerencias específicas de tratamiento en la base de conocimiento para este diagnóstico.</div>';
-        }
-
-        contenedorSugerencias.innerHTML = html;
-
-        document.querySelectorAll('.list-group-item-action').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.list-group-item-action').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                const recomendacionData = JSON.parse(decodeURIComponent(this.dataset.recomendacion));
-                let recomendacionHtml = `<div class="card bg-light border-primary shadow-sm"><div class="card-body">
-                                            <p class="mb-1"><strong>Recomendación:</strong> ${recomendacionData.recomendacion_clave}</p>`;
-                if(recomendacionData.meta_presion_arterial) recomendacionHtml += `<p class="mb-1"><small><strong>Meta de P.A.:</strong> ${recomendacionData.meta_presion_arterial}</small></p>`;
-                if(recomendacionData.nota) recomendacionHtml += `<small class="text-muted">${recomendacionData.nota}</small>`;
-                
-                if (recomendacionData.tratamiento_adicional) {
-                    const tratamientoAdicional = renderizarTratamiento(recomendacionData.tratamiento_adicional);
-                    recomendacionHtml += `<hr>${tratamientoAdicional.html}`;
+        // Sección: Tratamiento Hospitalario
+        if (data.tratamiento_hospitalario && data.tratamiento_hospitalario.grupos_etarios) {
+            html += `<h5 class="mt-4 mb-3 text-info"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
+            data.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
+                html += `<div class="mb-3">
+                            <h6>Grupo: ${grupo.rango_edad}</h6>`;
+                if (grupo.primera_linea) {
+                    const tto = grupo.primera_linea;
+                    let dosisStr = typeof tto.dosis === 'object' ? Object.entries(tto.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : tto.dosis;
+                    html += `<p><strong>1ª Línea:</strong> ${tto.medicamento} (${dosisStr}).</p>`;
                 }
-
-                recomendacionHtml += `</div></div>`;
-
-                document.getElementById('recomendacion-especifica').innerHTML = recomendacionHtml;
+                if (grupo.alternativas && grupo.alternativas.length > 0) {
+                     html += `<ul>`;
+                     grupo.alternativas.forEach(alt => {
+                        html += `<li><strong>Alternativa (${alt.condicion}):</strong> ${alt.medicamento}.</li>`;
+                     });
+                     html += `</ul>`;
+                }
+                html += `</div>`;
             });
-        });
+        }
+
+        html += `</div></div>`; // Cierre de card-body y card
+        contenedorSugerencias.innerHTML = html;
     }
 
+    // Lógica del input no cambia
     inputDiagnostico.addEventListener('input', function() {
         const valorInput = inputDiagnostico.value;
         const diagnosticoSeleccionado = allDiagnosticos.find(d => d.label === valorInput);
@@ -249,4 +205,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 {% endblock %}
