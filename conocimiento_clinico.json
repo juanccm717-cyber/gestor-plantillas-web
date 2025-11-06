@@ -15,75 +15,194 @@
       "grupos_etarios": [
         {
           "rango_edad": "< 2 años",
-          "agentes_comunes": "Mayor prevalencia de causas virales (VSR, Rinovirus, Adenovirus, Influenza). Causa bacteriana principal: Streptococcus pneumoniae."
+          "agentes_comunes": "Mayor prevalencia de causas virales, sobre todo por virus sincitial respiratorio (VSR), además de rinovirus (RVH), adenovirus e influenza. Dentro de las causas bacterianas, el principal agente es el Streptococcus pneumoniae."
         },
         {
           "rango_edad": "2 - 5 años",
-          "agentes_comunes": "Alta prevalencia viral. Streptococcus pneumoniae sigue siendo la principal causa bacteriana. Considerar atípicos (Mycoplasma, Chlamydia)."
+          "agentes_comunes": "Se observa una alta prevalencia de causas virales, con el VSR, RVH, adenovirus e influenza. El Streptococcus pneumoniae sigue siendo la principal causa bacteriana, pero puede considerarse también algunos agentes atípicos, como Mycoplasma pneumoniae o Chlamydia pneumoniae."
         },
         {
-          "rango_edad": "> 5 años",
-          "agentes_comunes": "Predominio bacteriano (Streptococcus pneumoniae) y agentes atípicos."
+          "rango_edad": "5 - 12 años",
+          "agentes_comunes": "Los agentes bacterianos pasan a ser la principal causa de neumonía, aumentando también la prevalencia de los agentes atípicos. Sin embargo, Streptococcus pneumoniae sigue siendo una de las principales causas."
+        },
+        {
+          "rango_edad": "12 - 18 años",
+          "agentes_comunes": "Se observa un predominio del Streptococcus pneumoniae, pudiendo presentarse también agentes atípicos. La prevalencia de neumonías por agentes virales suele verse disminuida en este grupo etario."
         }
       ]
     },
     "diagnostico": {
       "signos_sintomas": [
         "Fiebre",
-        "Síntomas respiratorios (tos, dificultad para respirar)",
-        "Hallazgos auscultatorios o radiográficos de compromiso pulmonar"
+        "Síntomas respiratorios",
+        "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes radiográficas"
       ],
       "examenes_auxiliares": [
         {
           "nombre": "Radiografía de tórax",
-          "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización."
+          "recomendacion": "En pacientes pediátricos con sospecha de NAC de manejo ambulatorio (6 meses a <18 años), se sugiere no realizar radiografía de tórax. En pacientes con sospecha de NAC que requieran tratamiento hospitalario (1 mes a <18 años), se debe considerar realizar radiografía de tórax.",
+          "indicaciones_especificas": []
+        },
+        {
+          "nombre": "Ecografía torácica",
+          "recomendacion": "En pacientes pediátricos con NAC a quienes se les realizará una prueba de imagen (1 mes a <18 años), se sugiere realizar una radiografía de tórax en lugar de ecografía de tórax.",
+          "indicaciones_especificas": [
+            "Cuando no sea posible realizar una radiografía de tórax.",
+            "Cuando exista sospecha clínica de complicaciones como derrame pleural o empiema."
+          ]
         },
         {
           "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
-          "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento."
+          "recomendacion": "En pacientes pediátricos con sospecha de NAC (1 mes a <18 años), se sugiere no usar de manera rutinaria pruebas de detección viral.",
+          "indicaciones_especificas": [
+            "Presencia de una NAC grave: menores de 2 meses, dificultad respiratoria severa, incapacidad para alimentarse o beber, vómitos persistentes, convulsiones, letargia o coma.",
+            "Ausencia de respuesta clínica o empeoramiento durante el tratamiento."
+          ]
         }
       ]
     },
     "criterios_hospitalizacion": [
-      "Saturación de O2 baja o cianosis",
-      "Dificultad respiratoria severa (tirajes, quejido, aleteo)",
-      "Intolerancia oral o deshidratación",
-      "Mal estado general (letargia, apariencia tóxica)",
-      "Lactantes menores de 6 meses",
-      "Comorbilidades importantes",
-      "Fracaso de la terapia ambulatoria tras 48h"
+      "Saturación de oxígeno baja o presencia de cianosis.",
+      "Dificultad respiratoria: tirajes, quejido, aleteo nasal, apnea.",
+      "Intolerancia oral.",
+      "Mal estado general: somnolencia, hiporexia, palidez, hipoactividad, apariencia tóxica, deshidratación.",
+      "Neumonía complicada.",
+      "Comorbilidades: enfermedad cardiopulmonar crónica, malformaciones congénitas, trastornos neuromusculares, inmunosupresión, desnutrición severa, prematuridad.",
+      "Lactantes menores de 6 meses.",
+      "Cuidador incapaz de proporcionar la observación apropiada o de cumplir con la terapia domiciliaria.",
+      "Difícil accesibilidad al establecimiento de salud.",
+      "Fracaso de la terapia ambulatoria (ausencia de mejoría clínica tras 48 horas)."
     ],
     "tratamiento_ambulatorio": {
       "primera_linea": {
         "medicamento": "Amoxicilina",
         "dosis": "80-90 mg/kg/día",
         "frecuencia": "Cada 8 o 12 horas",
-        "duracion_dias": 5
+        "duracion_dias": 5,
+        "consideraciones": "La dosis máxima es de 4g/día. Considerar una frecuencia de 2 a 3 veces al día para favorecer la adherencia."
       },
       "alternativas": [
         {
-          "condicion": "Alergia no severa a penicilinas",
+          "condicion": "Alergia a penicilinas (no mediada por IgE)",
           "medicamento": "Cefuroxima",
-          "dosis": "30 mg/kg/día"
+          "dosis": "30 mg/kg/día",
+          "frecuencia": "Cada 12 horas",
+          "duracion_dias": 7,
+          "consideraciones": "Dosis máxima: 1 g/día."
+        },
+        {
+          "condicion": "Reacciones adversas severas a penicilinas (mediada por IgE)",
+          "medicamento": "Cloranfenicol",
+          "dosis": "50 mg/kg/día",
+          "frecuencia": "Cada 6 horas",
+          "duracion_dias": 7,
+          "consideraciones": "Dosis máxima: 4 g/día. Administrar preferentemente 1 hora antes o 2 horas después de los alimentos."
         }
-      ]
+      ],
+      "sospecha_atipicos": {
+        "medicamentos": [
+          {
+            "nombre": "Azitromicina",
+            "dosis": "10 mg/kg el primer día, luego 5 mg/kg/día",
+            "frecuencia": "Cada 24 horas",
+            "duracion_dias": 5,
+            "consideraciones": "Dosis máxima: 500 mg/día."
+          },
+          {
+            "nombre": "Claritromicina",
+            "dosis": "15 mg/kg/día",
+            "frecuencia": "Cada 12 horas",
+            "duracion_dias": 7,
+            "consideraciones": "Dosis máxima: 1 g/día."
+          },
+          {
+            "nombre": "Eritromicina",
+            "dosis": "40 mg/kg/día",
+            "frecuencia": "Cada 6 horas",
+            "duracion_dias": 7,
+            "consideraciones": "Dosis máxima: 2 g/día."
+          }
+        ]
+      }
     },
     "tratamiento_hospitalario": {
       "grupos_etarios": [
         {
-          "rango_edad": "1 a < 2 meses",
-          "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)"
+          "rango_edad": "1 mes a < 2 meses",
+          "primera_linea": {
+            "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)",
+            "dosis": {
+              "Ampicilina": "150-200 mg/kg/día EV",
+              "Gentamicina": "5-7.5 mg/kg/día EV",
+              "Amikacina": "15 mg/kg/día EV"
+            },
+            "frecuencia": {
+              "Ampicilina": "Cada 6 horas",
+              "Gentamicina": "Cada 8 horas",
+              "Amikacina": "Cada 24 horas"
+            },
+            "duracion_dias": "No menor de 7 días",
+            "consideraciones": "En caso de no respuesta, considerar complicaciones, gérmenes resistentes o infecciones secundarias."
+          },
+          "alternativas": []
         },
         {
           "rango_edad": "2 meses a < 18 años",
-          "medicamento": "Ampicilina o Penicilina G sódica"
+          "primera_linea": {
+            "medicamento": "Ampicilina o Penicilina G sódica",
+            "dosis": {
+              "Ampicilina": "150-200 mg/kg/día EV",
+              "Penicilina G sódica": "200-250 mil UI/kg/día EV"
+            },
+            "frecuencia": "Cada 6 horas",
+            "duracion_dias": "No menor de 7 días",
+            "consideraciones": "En caso de mejoría clínica y tolerancia a la vía oral, cambiar a Amoxicilina oral (90mg/kg/día cada 12h)."
+          },
+          "alternativas": [
+            {
+              "condicion": "Alergia a penicilinas (no mediada por IgE)",
+              "medicamento": "Ceftriaxona o Cefotaxima",
+              "dosis": {
+                "Ceftriaxona": "75-100 mg/kg/día EV",
+                "Cefotaxima": "150 mg/kg/día EV"
+              },
+              "frecuencia": {
+                "Ceftriaxona": "Cada 12 horas",
+                "Cefotaxima": "Cada 8 horas"
+              },
+              "duracion_dias": "No menor de 7 días",
+              "consideraciones": "En caso de mejoría, cambiar a Cefuroxima oral (30mg/kg/día cada 12h)."
+            },
+            {
+              "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
+              "medicamento": "Cloranfenicol",
+              "dosis": "75-100 mg/kg/día EV",
+              "frecuencia": "Cada 6 horas",
+              "duracion_dias": "No menor de 7 días",
+              "consideraciones": "En caso de mejoría, cambiar a Cloranfenicol oral (50mg/kg/día cada 6h). Realizar hemograma por riesgo de afectación hematológica."
+            },
+            {
+              "condicion": "Sin respuesta clínica al tratamiento de primera línea",
+              "medicamento": "Ceftriaxona o Cefotaxima",
+              "dosis": {
+                "Ceftriaxona": "75-100 mg/kg/día EV",
+                "Cefotaxima": "150 mg/kg/día EV"
+              },
+              "frecuencia": {
+                "Ceftriaxona": "Cada 12 horas",
+                "Cefotaxima": "Cada 8 horas"
+              },
+              "duracion_dias": "No menor de 7 días",
+              "consideraciones": "En caso de mejoría, cambiar a Cefuroxima oral. Si no hay respuesta, considerar complicaciones o gérmenes resistentes."
+            }
+          ]
         }
       ]
     },
     "referencias_clave": [
       {
         "id": "GPC_NAC_PEDIATRICA_2025",
-        "cita": "IETSI. Guía de Práctica Clínica para NAC en población pediátrica. EsSalud; 2025."
+        "cita": "Instituto de Evaluación de Tecnologías en Salud e Investigación. Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica: Guía en Versión Extensa. Lima: EsSalud; 2025."
       }
     ]
   }
