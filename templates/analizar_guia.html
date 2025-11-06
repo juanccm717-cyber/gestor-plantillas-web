@@ -10,9 +10,10 @@
 </head>
 <body>
     <header>
+        <!-- ... (Tu barra de navegación no cambia ) ... -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('menu' ) }}">
+                <a class="navbar-brand" href="{{ url_for('menu') }}">
                     <i class="bi bi-journal-text me-2"></i>Gestor de Plantillas
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,14 +36,14 @@
     </header>
 
     <main class="container mt-5">
+        <!-- ... (El HTML del cuerpo no cambia) ... -->
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="text-center mb-4">
                     <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
                     <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
-                    <p class="lead text-muted">Sube un archivo PDF para que la IA extraiga el conocimiento y genere el código JSON.</p>
+                    <p class="lead text-muted">Sube un archivo PDF para que la IA (Manus) extraiga el conocimiento.</p>
                 </div>
-
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Paso 1: Sube tu archivo</h5>
@@ -58,7 +59,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Paso 2: Resultado del Análisis</h5>
@@ -85,24 +85,19 @@
         <p class="text-muted">&copy; 2025 Gestor de Plantillas Médicas.</p>
     </footer>
 
-    <!-- Librerías JS con el atributo 'defer' para asegurar el orden de carga -->
+    <!-- Librerías JS con 'defer' -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" defer></script>
 
-    <!-- Nuestro script principal, también con 'defer' -->
+    <!-- Nuestro script principal -->
     <script defer>
         document.addEventListener('DOMContentLoaded', (event ) => {
-            
-            // Verificación #1: Nos aseguramos de que el script de pdf.js se haya ejecutado
             if (typeof pdfjsLib === 'undefined') {
-                alert('Error crítico: La librería pdf.js no se pudo cargar. Esto puede ser un problema de red o un bloqueador de scripts. Por favor, recarga la página o intenta en otro navegador.');
+                alert('Error crítico: La librería pdf.js no se pudo cargar. Por favor, recarga la página.');
                 return;
             }
-
-            // Configuración del worker de pdf.js desde el nuevo CDN
             pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
 
-            // --- Referencias a los elementos del DOM ---
             const pdfFile = document.getElementById('pdfFile' );
             const analyzeButton = document.getElementById('analyzeButton');
             const buttonText = document.getElementById('button-text');
@@ -112,12 +107,10 @@
             const jsonOutput = document.getElementById('jsonOutput');
             const copyButton = document.getElementById('copyButton');
 
-            // --- Habilitar el botón solo si hay un archivo ---
             pdfFile.addEventListener('change', () => {
                 analyzeButton.disabled = pdfFile.files.length === 0;
             });
 
-            // --- Lógica del botón "Analizar" ---
             analyzeButton.addEventListener('click', () => {
                 if (pdfFile.files.length === 0) {
                     alert("Por favor, selecciona un archivo PDF primero.");
@@ -130,42 +123,35 @@
             function processPdf() {
                 const file = pdfFile.files[0];
                 const reader = new FileReader();
-
                 reader.onload = function(event) {
                     const pdfData = new Uint8Array(event.target.result);
-                    
                     pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
                         let fullText = '';
                         let pagePromises = [];
-
                         for (let i = 1; i <= pdf.numPages; i++) {
                             pagePromises.push(pdf.getPage(i).then(page => page.getTextContent()));
                         }
-
                         Promise.all(pagePromises).then(function(textContents) {
                             textContents.forEach(textContent => {
                                 textContent.items.forEach(item => fullText += item.str + ' ');
                                 fullText += '\n';
                             });
 
-                            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz64fhdPlanwLhZ-M2Q2Cx2i1TWjxC0sErSbFX1xQuAmHwmzOt6BpbbXaMzo9N5auVE/exec";
-
-                            fetch(GOOGLE_SCRIPT_URL, {
+                            // --- ¡CAMBIO CLAVE! Llamamos a nuestra propia API ---
+                            fetch('/api/analizar_con_manus', {
                                 method: 'POST',
-                                redirect: 'follow',
                                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                                 body: fullText
-                            } )
-                            .then(response => response.text())
-                            .then(text => {
-                                try {
-                                    const data = JSON.parse(text);
-                                    setLoading(false);
-                                    if (data.error) throw new Error('Error desde Google Script: ' + data.error);
-                                    displayResults(data);
-                                } catch (e) {
-                                    throw new Error("Respuesta inválida del script de Google. Posible error de CORS. Respuesta: " + text);
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    return response.json().then(err => { throw new Error(err.error || 'Error desconocido del servidor') });
                                 }
+                                return response.json();
+                            })
+                            .then(data => {
+                                setLoading(false);
+                                displayResults(data);
                             })
                             .catch(error => {
                                 setLoading(false);
@@ -180,15 +166,6 @@
                 };
                 reader.readAsArrayBuffer(file);
             }
-
-            // --- Funciones auxiliares ---
-            copyButton.addEventListener('click', () => {
-                navigator.clipboard.writeText(jsonOutput.textContent);
-                copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
-                setTimeout(() => {
-                    copyButton.innerHTML = '<i class="bi bi-clipboard me-1"></i> Copiar Código';
-                }, 2000);
-            });
 
             function setLoading(isLoading) {
                 if (isLoading) {
@@ -207,6 +184,14 @@
                 resultsContainer.classList.remove('d-none');
                 jsonOutput.textContent = JSON.stringify(data, null, 2);
             }
+
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(jsonOutput.textContent);
+                copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
+                setTimeout(() => {
+                    copyButton.innerHTML = '<i class="bi bi-clipboard me-1"></i> Copiar Código';
+                }, 2000);
+            });
         });
     </script>
 </body>
