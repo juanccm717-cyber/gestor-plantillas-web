@@ -1,41 +1,18 @@
 [
 {
-  "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de Neumonía Adquirida en la Comunidad en Población Pediátrica",
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica",
   "version": "GPC Nº 73",
   "fecha_publicacion": "2025-10-27",
   "institucion": "EsSalud",
   "diagnostico_cie10": "J189",
   "poblacion_objetivo": {
-    "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. Esta GPC no aborda el manejo en pacientes prematuros, ni a aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
-    "edad_min_meses": 1,
-    "edad_max_anos": 18
-  },
-  "etiologia": {
-    "descripcion": "La neumonía en población pediátrica puede estar originada por diferentes agentes causales, cuya frecuencia varía según el grupo etario.",
-    "grupos_etarios": [
-      {
-        "rango_edad": "< 2 años",
-        "agentes_comunes": "Mayor prevalencia de causas virales (VSR, RVH, adenovirus, influenza). Causa bacteriana principal: Streptococcus pneumoniae."
-      },
-      {
-        "rango_edad": "2 - 5 años",
-        "agentes_comunes": "Alta prevalencia de causas virales. Streptococcus pneumoniae sigue siendo la principal causa bacteriana. Considerar agentes atípicos (Mycoplasma, Chlamydia)."
-      },
-      {
-        "rango_edad": "5 - 12 años",
-        "agentes_comunes": "Agentes bacterianos son la principal causa. Aumenta prevalencia de atípicos. Streptococcus pneumoniae sigue siendo principal."
-      },
-      {
-        "rango_edad": "12 - 18 años",
-        "agentes_comunes": "Predominio de Streptococcus pneumoniae y agentes atípicos. Prevalencia viral disminuida."
-      }
-    ]
+    "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. No aborda el manejo en pacientes prematuros, ni con NAC complicada o que requieran manejo en UCI."
   },
   "diagnostico": {
     "signos_sintomas": [
       "Fiebre",
       "Síntomas respiratorios (tos, dificultad para respirar)",
-      "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes radiográficas"
+      "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes"
     ],
     "examenes_auxiliares": [
       {
@@ -44,7 +21,7 @@
         "codigo_proc": "71020"
       },
       {
-        "nombre": "Ecografía torácica",
+        "nombre": "Ecografía de tórax",
         "recomendacion": "Usar cuando no sea posible realizar una radiografía o si se sospechan complicaciones (derrame pleural, empiema).",
         "codigo_proc": ""
       },
@@ -55,72 +32,32 @@
       }
     ]
   },
-  "criterios_hospitalizacion": [
-    "Saturación de oxígeno baja o cianosis.",
-    "Dificultad respiratoria (tirajes, quejido, aleteo nasal, apnea).",
-    "Intolerancia oral.",
-    "Mal estado general (somnolencia, hiporexia, etc.).",
-    "Neumonía complicada.",
-    "Comorbilidades (cardiopulmonar crónica, inmunosupresión, etc.).",
-    "Lactantes menores de 6 meses.",
-    "Cuidador incapaz de cumplir terapia domiciliaria.",
-    "Difícil accesibilidad al centro de salud.",
-    "Fracaso de la terapia ambulatoria (sin mejoría en 48h)."
-  ],
   "tratamiento_ambulatorio": {
     "primera_linea": {
-      "medicamento": "Amoxicilina",
-      "dosis": "80-90 mg/kg/día",
-      "frecuencia": "Cada 8 o 12 horas",
-      "duracion_dias": 5,
-      "consideraciones": "Dosis máxima: 4g/día.",
-      "codigo_item": "00794"
+      "medicamentos": [
+        {
+          "nombre": "Amoxicilina",
+          "dosis": "80-90 mg/kg/día",
+          "frecuencia": "Cada 8 o 12 horas",
+          "duracion_dias": 5,
+          "codigo_item": "00794"
+        }
+      ]
     },
     "alternativas": [
       {
         "condicion": "Alergia a penicilinas (no mediada por IgE)",
         "medicamento": "Cefuroxima",
         "dosis": "30 mg/kg/día",
-        "frecuencia": "Cada 12 horas",
-        "duracion_dias": 7,
-        "consideraciones": "Dosis máxima: 1 g/día.",
-        "codigo_item": "010250239"
+        "codigo_item": "21565"
       },
       {
         "condicion": "Reacciones adversas severas a penicilinas (mediada por IgE)",
         "medicamento": "Cloranfenicol",
         "dosis": "50 mg/kg/día",
-        "frecuencia": "Cada 6 horas",
-        "duracion_dias": 7,
-        "consideraciones": "Dosis máxima: 4 g/día.",
-        "codigo_item": "010250148"
+        "codigo_item": "21571"
       }
-    ],
-    "sospecha_atipicos": {
-      "medicamentos": [
-        {
-          "nombre": "Azitromicina",
-          "dosis": "10 mg/kg el primer día, luego 5 mg/kg/día",
-          "frecuencia": "Cada 24 horas",
-          "duracion_dias": 5,
-          "codigo_item": "010250266"
-        },
-        {
-          "nombre": "Claritromicina",
-          "dosis": "15 mg/kg/día",
-          "frecuencia": "Cada 12 horas",
-          "duracion_dias": 7,
-          "codigo_item": "01930"
-        },
-        {
-          "nombre": "Eritromicina",
-          "dosis": "40 mg/kg/día",
-          "frecuencia": "Cada 6 horas",
-          "duracion_dias": 7,
-          "codigo_item": "03191"
-        }
-      ]
-    }
+    ]
   },
   "tratamiento_hospitalario": {
     "grupos_etarios": [
@@ -130,15 +67,9 @@
           "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)",
           "dosis": {
             "Ampicilina": "150-200 mg/kg/día EV",
-            "Gentamicina": "5-7.5 mg/kg/día EV",
-            "Amikacina": "15 mg/kg/día EV"
+            "Gentamicina": "5-7.5 mg/kg/día EV"
           },
-          "frecuencia": {
-            "Ampicilina": "Cada 6 horas",
-            "Gentamicina": "Cada 8 horas",
-            "Amikacina": "Cada 24 horas"
-          },
-          "duracion_dias": "No menor de 7 días"
+          "codigo_item": "18155"
         },
         "alternativas": []
       },
@@ -150,34 +81,25 @@
             "Ampicilina": "150-200 mg/kg/día EV",
             "Penicilina G sódica": "200-250 mil UI/kg/día EV"
           },
-          "frecuencia": "Cada 6 horas",
-          "duracion_dias": "No menor de 7 días"
+          "codigo_item": "18155"
         },
         "alternativas": [
           {
             "condicion": "Alergia a penicilinas (no mediada por IgE)",
             "medicamento": "Ceftriaxona o Cefotaxima",
-            "dosis": {
-              "Ceftriaxona": "75-100 mg/kg/día EV",
-              "Cefotaxima": "150 mg/kg/día EV"
-            }
+            "dosis": "75-100 mg/kg/día EV",
+            "codigo_item": "18158"
           },
           {
             "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
             "medicamento": "Cloranfenicol",
-            "dosis": "75-100 mg/kg/día EV"
+            "dosis": "75-100 mg/kg/día EV",
+            "codigo_item": "21571"
           }
         ]
       }
     ]
-  },
-  "referencias_clave": [
-    {
-      "id": "GPC_NAC_PEDIATRICA_2025",
-      "cita": "Instituto de Evaluación de Tecnologías en Salud e Investigación. Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica: Guía en Versión Extensa. Lima: EsSalud; 2025."
-    }
-  ]
-  
+  }
 },
 {
   "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
