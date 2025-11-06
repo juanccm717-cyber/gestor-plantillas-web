@@ -205,5 +205,125 @@
         "cita": "Instituto de Evaluación de Tecnologías en Salud e Investigación. Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica: Guía en Versión Extensa. Lima: EsSalud; 2025."
       }
     ]
-  }
+  },
+  {
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
+  "version": "Actualización 2024",
+  "fecha_publicacion": "2025-01-02",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "M199",
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente.",
+    "edad_min_meses": 216,
+    "edad_max_anos": null
+  },
+  "etiologia": {
+    "descripcion": "Enfermedad degenerativa de las articulaciones por degradación del cartílago y hueso subyacente. Factores asociados: sexo femenino, antecedentes familiares, obesidad, sobrecarga física, tabaco, entre otros.",
+    "grupos_etarios": []
+  },
+  "diagnostico": {
+    "signos_sintomas": [
+      "Tener 45 años o más.",
+      "Dolor articular persistente relacionado al uso de la articulación.",
+      "Rigidez articular matutina que no dure más de 30 minutos (o ausencia de la misma)."
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Imágenes Radiológicas",
+        "codigo_proc": "",
+        "recomendacion": "NO solicitar de forma rutinaria. CONSIDERAR solo si hay características atípicas (pacientes jóvenes, historia de fractura, signos de inflamación, dolor nocturno, pérdida de peso) que sugieran otro diagnóstico."
+      }
+    ]
+  },
+  "criterios_hospitalizacion": [],
+  "tratamiento_ambulatorio": {
+    "descripcion_general": "El manejo se centra en medidas no farmacológicas y el uso de AINEs para el dolor. Muchas terapias alternativas no están recomendadas.",
+    "tratamientos_no_farmacologicos": [
+      {
+        "nombre": "Educación y Autocuidado",
+        "recomendacion": "Brindar un plan individualizado sobre la enfermedad, disminución de peso, uso de calzado adecuado y actividad física.",
+        "fuerza_recomendacion": "Fuerte"
+      },
+      {
+        "nombre": "Ejercicio Físico",
+        "recomendacion": "Indicar ejercicio que incluya fortalecimiento muscular local, estiramiento y actividad aeróbica general.",
+        "fuerza_recomendacion": "Fuerte"
+      },
+      {
+        "nombre": "Pérdida de Peso",
+        "recomendacion": "En pacientes con obesidad o sobrepeso, ofrecer intervenciones para lograr la pérdida de peso.",
+        "fuerza_recomendacion": "Condicional"
+      }
+    ],
+    "primera_linea_farmacologica": {
+      "descripcion": "Para el manejo del dolor, se sugieren AINEs orales.",
+      "medicamentos": [
+        {
+          "nombre": "Naproxeno",
+          "codigo_item": "21726",
+          "dosis": "Inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día."
+        },
+        {
+          "nombre": "Ibuprofeno",
+          "codigo_item": "21673",
+          "dosis": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día."
+        },
+        {
+          "nombre": "Indometacina",
+          "codigo_item": "",
+          "dosis": "25mg cada 8 horas."
+        }
+      ]
+    },
+    "alternativas_farmacologicas": [
+      {
+        "condicion": "No tolera AINEs o tiene contraindicaciones",
+        "medicamento": "Paracetamol",
+        "codigo_item": "",
+        "consideraciones": "No usar de manera rutinaria."
+      },
+      {
+        "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
+        "medicamento": "Tramadol",
+        "codigo_item": "21827",
+        "consideraciones": "No usar como primer fármaco."
+      }
+    ],
+    "tratamientos_no_recomendados": [
+      "Glucosamina ni Condroitin Sulfato",
+      "Ácido Hialurónico intra-articular",
+      "Proloterapia",
+      "Agentes físicos (TENS, láser, ultrasonido) como única medida",
+      "Acupuntura"
+    ]
+  },
+  "tratamiento_hospitalario": {
+    "descripcion_general": "Se reserva para procedimientos invasivos o manejo de dolor agudo no controlado.",
+    "intervenciones": [
+      {
+        "nombre": "Inyección de Corticoide Intra-articular",
+        "recomendacion": "Considerar para el manejo agudo del dolor en rodilla o cadera si no responden a AINEs. En cadera, debe ser bajo guía ecográfica.",
+        "medicamentos_asociados": [
+          {
+            "nombre": "Triamcinolona acetónido",
+            "codigo_item": "21830",
+            "dosis": "40mg por articulación. Máx: 80mg (2 articulaciones)."
+          }
+        ]
+      },
+      {
+        "nombre": "Tratamiento Quirúrgico",
+        "recomendacion": "Considerar cuando las terapias no logran controlar el dolor y la limitación funcional. Requiere opinión previa de Reumatología y/o Medicina Física.",
+        "procedimientos_asociados": []
+      }
+    ]
+  },
+  "referencias_clave": [
+    {
+      "id": "GPC_OA_2018",
+      "cita": "IETSI, Essalud. Guía de práctica clínica para el diagnóstico y tratamiento de pacientes con osteoartritis. 2018."
+    }
+  ]
+}
+
 ]
