@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // Carga la lista de diagnósticos para el autocompletado (sin cambios)
+    // Carga la lista de diagnósticos (sin cambios)
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -120,26 +120,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //      (¡NUEVO!) RENDERIZADOR "PROFUNDO" PARA EL ESTÁNDAR DORADO
+    //      (¡VERSIÓN 3!) RENDERIZADOR ADAPTATIVO Y PROFUNDO
     // ==================================================================
 
-    // Función auxiliar para renderizar un medicamento con todos sus detalles
-    function renderizarMedicamento(med) {
-        let codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2">${med.codigo_item}</span>` : '';
-        let dosisHtml = med.dosis ? `${med.dosis}` : '';
-        let frecHtml = med.frecuencia ? `${med.frecuencia}` : '';
-        let duracionHtml = med.duracion_dias ? `por ${med.duracion_dias} días` : '';
-        let consHtml = med.consideraciones ? `<small class="text-muted d-block mt-1">(${med.consideraciones})</small>` : '';
-
-        return `
-            <li class="list-group-item list-group-item-medicamento">
-                ${codigoHtml}<strong>${med.medicamento || med.nombre}</strong>
-                <p class="mb-0 small">${dosisHtml} ${frecHtml} ${duracionHtml}</p>
-                ${consHtml}
-            </li>`;
-    }
-
-    // Función principal para mostrar todas las sugerencias
     function mostrarSugerencias(data) {
         let html = `
             <div class="card border-light-subtle">
@@ -149,13 +132,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
                 <div class="card-body">`;
 
-        // Sección: Población Objetivo
+        // --- SECCIONES COMUNES ---
         if (data.poblacion_objetivo && data.poblacion_objetivo.descripcion) {
             html += `<h6><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6>
                      <p class="text-muted small">${data.poblacion_objetivo.descripcion}</p>`;
         }
-
-        // Sección: Criterios de Hospitalización
         if (data.criterios_hospitalizacion && data.criterios_hospitalizacion.length > 0) {
             html += `<h6 class="mt-4"><i class="bi bi-door-open-fill text-danger me-2"></i>Criterios de Hospitalización</h6>
                      <ul class="list-unstyled small">`;
@@ -165,51 +146,36 @@ document.addEventListener('DOMContentLoaded', function () {
             html += `</ul>`;
         }
 
-        // Sección: Tratamiento Ambulatorio
+        // --- TRATAMIENTO AMBULATORIO (LÓGICA ADAPTATIVA) ---
         if (data.tratamiento_ambulatorio) {
             html += `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
-            if (data.tratamiento_ambulatorio.primera_linea) {
-                html += `<h6>Primera Línea</h6><ul class="list-group list-group-flush mb-3">${renderizarMedicamento(data.tratamiento_ambulatorio.primera_linea)}</ul>`;
-            }
-            if (data.tratamiento_ambulatorio.alternativas && data.tratamiento_ambulatorio.alternativas.length > 0) {
-                html += `<h6>Alternativas</h6><ul class="list-group list-group-flush mb-3">`;
-                data.tratamiento_ambulatorio.alternativas.forEach(alt => {
-                    html += `<li class="list-group-item"><strong class="small">${alt.condicion}</strong>${renderizarMedicamento(alt)}</li>`;
+            
+            // Lógica para Osteoartritis (y guías futuras con esta estructura)
+            if (data.tratamiento_ambulatorio.tratamientos_no_farmacologicos) {
+                html += `<h6>Tratamientos No Farmacológicos</h6><ul>`;
+                data.tratamiento_ambulatorio.tratamientos_no_farmacologicos.forEach(tto => {
+                    html += `<li><strong>${tto.nombre}:</strong> ${tto.recomendacion} <span class="badge bg-info text-dark">${tto.fuerza_recomendacion}</span></li>`;
                 });
                 html += `</ul>`;
             }
-        }
+            if (data.tratamiento_ambulatorio.primera_linea_farmacologica) {
+                html += `<h6 class="mt-3">Primera Línea Farmacológica</h6><p>${data.tratamiento_ambulatorio.primera_linea_farmacologica.descripcion}</p><ul>`;
+                data.tratamiento_ambulatorio.primera_linea_farmacologica.medicamentos.forEach(med => {
+                    html += `<li><strong>${med.nombre}:</strong> ${med.dosis}</li>`;
+                });
+                html += `</ul>`;
+            }
+            if (data.tratamiento_ambulatorio.tratamientos_no_recomendados) {
+                html += `<h6 class="mt-3 text-danger">Tratamientos NO Recomendados</h6>
+                         <p class="small text-muted">${data.tratamiento_ambulatorio.tratamientos_no_recomendados.join(', ')}.</p>`;
+            }
 
-        // Sección: Tratamiento Hospitalario (¡MEJORADA!)
-        if (data.tratamiento_hospitalario && data.tratamiento_hospitalario.grupos_etarios) {
-            html += `<h5 class="mt-4 mb-3 text-info"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
-            data.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
-                html += `<div class="mb-3">
-                            <h6>Grupo: ${grupo.rango_edad}</h6>`;
-                // Primera línea hospitalaria
-                if (grupo.primera_linea) {
-                    html += `<p class="mb-1"><strong>1ª Línea:</strong> ${grupo.primera_linea.medicamento}</p>
-                             <ul class="list-group list-group-flush mb-3">`;
-                    // Si las dosis son un objeto, iteramos sobre él
-                    if (typeof grupo.primera_linea.dosis === 'object') {
-                        for (const [med, dos] of Object.entries(grupo.primera_linea.dosis)) {
-                            html += `<li class="list-group-item small"><strong>${med}:</strong> ${dos}</li>`;
-                        }
-                    }
-                    html += `</ul>`;
-                }
-                // Alternativas hospitalarias
-                if (grupo.alternativas && grupo.alternativas.length > 0) {
-                     html += `<p class="mb-1"><strong>Alternativas:</strong></p>`;
-                     grupo.alternativas.forEach(alt => {
-                        html += `<div class="ms-3 mb-2">
-                                    <strong class="small d-block">${alt.condicion}:</strong>
-                                    <p class="small mb-0">${alt.medicamento}</p>
-                                 </div>`;
-                     });
-                }
-                html += `</div>`;
-            });
+            // Lógica para Neumonía (la estructura "antigua")
+            if (data.tratamiento_ambulatorio.primera_linea) {
+                const tto = data.tratamiento_ambulatorio.primera_linea;
+                html += `<h6>Primera Línea</h6>
+                         <p><strong>${tto.medicamento}:</strong> ${tto.dosis} ${tto.frecuencia} por ${tto.duracion_dias} días.</p>`;
+            }
         }
 
         html += `</div></div>`; // Cierre de card-body y card
