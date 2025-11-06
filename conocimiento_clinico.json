@@ -2,60 +2,67 @@
   {
     "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica",
     "version": "GPC Nº 73",
-    "fecha_publicacion": "Octubre 2025",
+    "fecha_publicacion": "2025-10-27",
     "institucion": "EsSalud (IETSI)",
     "diagnostico_cie10": "J189",
     "poblacion_objetivo": {
-      "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de Neumonía Adquirida en la Comunidad (NAC). No incluye pacientes prematuros, ni aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
+      "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. No incluye pacientes prematuros, ni aquellos con NAC complicada o que requieran manejo en unidades de cuidados intensivos.",
       "edad_min_meses": 1,
-      "edad_max_anos": 18
+      "edad_max_anos": 18,
+      "criterios_inclusion": [],
+      "criterios_exclusion": [
+        "Pacientes prematuros",
+        "NAC complicada",
+        "Pacientes que requieran manejo en UCI"
+      ]
     },
     "etiologia": {
       "descripcion": "La neumonía en población pediátrica puede estar originada por diferentes agentes causales, cuya frecuencia varía según el grupo etario.",
+      "factores_riesgo": [],
       "grupos_etarios": [
         {
           "rango_edad": "< 2 años",
-          "agentes_comunes": "Mayor prevalencia de causas virales, sobre todo por virus sincitial respiratorio (VSR), además de rinovirus (RVH), adenovirus e influenza. Dentro de las causas bacterianas, el principal agente es el Streptococcus pneumoniae."
+          "agentes_comunes": "Mayor prevalencia de causas virales (VSR, Rinovirus, Adenovirus, Influenza). Causa bacteriana principal: Streptococcus pneumoniae."
         },
         {
           "rango_edad": "2 - 5 años",
-          "agentes_comunes": "Se observa una alta prevalencia de causas virales, con el VSR, RVH, adenovirus e influenza. El Streptococcus pneumoniae sigue siendo la principal causa bacteriana, pero puede considerarse también algunos agentes atípicos, como Mycoplasma pneumoniae o Chlamydia pneumoniae."
+          "agentes_comunes": "Alta prevalencia viral. Causa bacteriana principal: Streptococcus pneumoniae. Considerar atípicos (Mycoplasma, Chlamydia)."
         },
         {
           "rango_edad": "5 - 12 años",
-          "agentes_comunes": "Los agentes bacterianos pasan a ser la principal causa de neumonía, aumentando también la prevalencia de los agentes atípicos. Sin embargo, Streptococcus pneumoniae sigue siendo una de las principales causas."
+          "agentes_comunes": "Agentes bacterianos son la principal causa. Aumenta prevalencia de atípicos. Streptococcus pneumoniae sigue siendo principal."
         },
         {
           "rango_edad": "12 - 18 años",
-          "agentes_comunes": "Se observa un predominio del Streptococcus pneumoniae, pudiendo presentarse también agentes atípicos. La prevalencia de neumonías por agentes virales suele verse disminuida en este grupo etario."
+          "agentes_comunes": "Predominio de Streptococcus pneumoniae y agentes atípicos. Prevalencia viral disminuye."
         }
       ]
     },
     "diagnostico": {
       "signos_sintomas": [
         "Fiebre",
-        "Síntomas respiratorios",
+        "Síntomas respiratorios (tos, dificultad para respirar)",
         "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes radiográficas"
       ],
       "examenes_auxiliares": [
         {
           "nombre": "Radiografía de tórax",
           "codigo_proc": "340301",
-          "recomendacion": "En manejo ambulatorio (6m a <18a), se sugiere NO realizarla. En manejo hospitalario (1m a <18a), se DEBE CONSIDERAR realizarla.",
+          "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización.",
           "fuerza_recomendacion": "Condicional en contra (ambulatorio)",
           "certeza_evidencia": "Muy baja"
         },
         {
           "nombre": "Ecografía de tórax",
           "codigo_proc": "",
-          "recomendacion": "Se sugiere realizar una radiografía de tórax en lugar de ecografía. Se puede optar por ecografía si la radiografía no está disponible o si se sospechan complicaciones (derrame pleural, empiema).",
+          "recomendacion": "Usar cuando no sea posible realizar una radiografía o si se sospechan complicaciones (derrame pleural, empiema).",
           "fuerza_recomendacion": "Condicional en contra",
           "certeza_evidencia": "Muy baja"
         },
         {
           "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
           "codigo_proc": "",
-          "recomendacion": "Se sugiere NO usar de manera rutinaria. Optar por ellas en NAC grave, sin respuesta clínica, o si el resultado puede orientar la terapia.",
+          "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento.",
           "fuerza_recomendacion": "Condicional en contra",
           "certeza_evidencia": "Muy baja"
         }
@@ -74,17 +81,22 @@
       "Fracaso de la terapia ambulatoria (ausencia de mejoría clínica tras 48 horas)."
     ],
     "tratamiento_ambulatorio": {
-      "primera_linea": {
-        "medicamento": "Amoxicilina",
-        "codigo_item": "00794",
-        "dosis": "80-90 mg/kg/día",
-        "frecuencia": "Cada 8 o 12 horas",
-        "duracion_dias": 5,
-        "consideraciones": "Se sugiere un curso de 5 días en lugar de 10. Dosis máxima: 4g/día. Frecuencia de 2-3 veces/día favorece adherencia.",
-        "fuerza_recomendacion": "Condicional a favor",
-        "certeza_evidencia": "Muy baja"
+      "descripcion_general": "El tratamiento se basa en Amoxicilina como primera línea, con alternativas claras para casos de alergia y sospecha de atípicos.",
+      "tratamientos_no_farmacologicos": [],
+      "primera_linea_farmacologica": {
+        "descripcion": "Antibioticoterapia empírica de primera línea para NAC de probable etiología bacteriana.",
+        "medicamentos": [
+          {
+            "nombre": "Amoxicilina",
+            "codigo_item": "00794",
+            "dosis": "80-90 mg/kg/día",
+            "frecuencia": "Cada 8 o 12 horas",
+            "duracion_dias": 5,
+            "consideraciones": "Dosis máxima: 4g/día. Se sugiere un curso de 5 días en lugar de 10."
+          }
+        ]
       },
-      "alternativas": [
+      "alternativas_farmacologicas": [
         {
           "condicion": "Alergia a penicilinas (no mediada por IgE)",
           "medicamento": "Cefuroxima",
@@ -104,37 +116,10 @@
           "consideraciones": "Dosis máxima: 4 g/día. Administrar preferentemente 1 hora antes o 2 horas después de los alimentos."
         }
       ],
-      "sospecha_atipicos": {
-        "descripcion": "En pacientes con sospecha de agentes atípicos, brindar macrólidos.",
-        "medicamentos": [
-          {
-            "nombre": "Azitromicina",
-            "codigo_item": "010250266",
-            "dosis": "10 mg/kg el primer día, luego 5 mg/kg/día",
-            "frecuencia": "Cada 24 horas",
-            "duracion_dias": 5,
-            "consideraciones": "Dosis máxima: 500 mg/día."
-          },
-          {
-            "nombre": "Claritromicina",
-            "codigo_item": "01930",
-            "dosis": "15 mg/kg/día",
-            "frecuencia": "Cada 12 horas",
-            "duracion_dias": 7,
-            "consideraciones": "Dosis máxima: 1 g/día."
-          },
-          {
-            "nombre": "Eritromicina",
-            "codigo_item": "03191",
-            "dosis": "40 mg/kg/día",
-            "frecuencia": "Cada 6 horas",
-            "duracion_dias": 7,
-            "consideraciones": "Dosis máxima: 2 g/día."
-          }
-        ]
-      }
+      "tratamientos_no_recomendados": []
     },
     "tratamiento_hospitalario": {
+      "descripcion_general": "El tratamiento varía significativamente según la edad del paciente.",
       "grupos_etarios": [
         {
           "rango_edad": "1 mes a < 2 meses",
@@ -150,7 +135,7 @@
               "Gentamicina": "Cada 8 horas",
               "Amikacina": "Cada 24 horas"
             },
-            "duracion_dias": "No menor de 7 días",
+            "duracion_dias": "No menor de 7",
             "consideraciones": "En caso de no respuesta, considerar complicaciones, gérmenes resistentes o infecciones secundarias."
           },
           "alternativas": []
@@ -164,7 +149,7 @@
               "Penicilina G sódica": "200-250 mil UI/kg/día EV"
             },
             "frecuencia": "Cada 6 horas",
-            "duracion_dias": "No menor de 7 días",
+            "duracion_dias": "No menor de 7",
             "consideraciones": "En caso de mejoría clínica y tolerancia a la vía oral, cambiar a Amoxicilina oral (90mg/kg/día cada 12h)."
           },
           "alternativas": [
@@ -175,25 +160,13 @@
                 "Ceftriaxona": "75-100 mg/kg/día EV",
                 "Cefotaxima": "150 mg/kg/día EV"
               },
-              "frecuencia": "Cada 12h (Ceftriaxona) o Cada 8h (Cefotaxima)",
-              "duracion_dias": "No menor de 7 días",
               "consideraciones": "En caso de mejoría, cambiar a Cefuroxima oral (30mg/kg/día cada 12h)."
             },
             {
               "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
               "medicamento": "Cloranfenicol",
               "dosis": "75-100 mg/kg/día EV",
-              "frecuencia": "Cada 6 horas",
-              "duracion_dias": "No menor de 7 días",
-              "consideraciones": "En caso de mejoría, cambiar a Cloranfenicol oral (50mg/kg/día cada 6h). Realizar hemograma por riesgo de afectación hematológica."
-            },
-            {
-              "condicion": "Sin respuesta clínica al tratamiento de primera línea",
-              "medicamento": "Ceftriaxona o Cefotaxima",
-              "dosis": "Ver dosis en alternativa por alergia no severa.",
-              "frecuencia": "Ver frecuencia en alternativa por alergia no severa.",
-              "duracion_dias": "No menor de 7 días",
-              "consideraciones": "Si no hay respuesta, considerar complicaciones, gérmenes resistentes o infecciones secundarias."
+              "consideraciones": "En caso de mejoría, cambiar a Cloranfenicol oral (50mg/kg/día cada 6h). Realizar hemograma."
             }
           ]
         }
@@ -215,23 +188,28 @@
   "poblacion_objetivo": {
     "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente.",
     "edad_min_meses": 216,
-    "edad_max_anos": null
+    "edad_max_anos": null,
+    "criterios_inclusion": ["Adultos con osteoartritis primaria"],
+    "criterios_exclusion": ["Pacientes con tratamiento quirúrgico previo"]
   },
   "etiologia": {
-    "descripcion": "Enfermedad degenerativa de las articulaciones por degradación del cartílago y hueso subyacente. Factores asociados: sexo femenino, antecedentes familiares, obesidad, sobrecarga física, tabaco, entre otros.",
+    "descripcion": "Enfermedad degenerativa de las articulaciones por degradación del cartílago y hueso subyacente.",
+    "factores_riesgo": ["Sexo femenino", "Antecedentes familiares", "Obesidad", "Sobrecarga física", "Tabaquismo", "Bajo nivel socioeconómico"],
     "grupos_etarios": []
   },
   "diagnostico": {
     "signos_sintomas": [
       "Tener 45 años o más.",
-      "Dolor articular persistente relacionado al uso de la articulación.",
-      "Rigidez articular matutina que no dure más de 30 minutos (o ausencia de la misma)."
+      "Tener dolor articular persistente relacionado al uso de la articulación.",
+      "No tener rigidez articular matutina, o tenerla por menos de 30 minutos."
     ],
     "examenes_auxiliares": [
       {
         "nombre": "Imágenes Radiológicas",
         "codigo_proc": "",
-        "recomendacion": "NO solicitar de forma rutinaria. CONSIDERAR solo si hay características atípicas (pacientes jóvenes, historia de fractura, signos de inflamación, dolor nocturno, pérdida de peso) que sugieran otro diagnóstico."
+        "recomendacion": "NO solicitar de forma rutinaria. CONSIDERAR solo si hay características atípicas (pacientes jóvenes, historia de fractura, signos de inflamación, dolor nocturno, pérdida de peso) que sugieran otro diagnóstico.",
+        "fuerza_recomendacion": "Buena Práctica Clínica",
+        "certeza_evidencia": null
       }
     ]
   },
@@ -253,25 +231,39 @@
         "nombre": "Pérdida de Peso",
         "recomendacion": "En pacientes con obesidad o sobrepeso, ofrecer intervenciones para lograr la pérdida de peso.",
         "fuerza_recomendacion": "Condicional"
+      },
+      {
+        "nombre": "Ortesis y Dispositivos de Asistencia",
+        "recomendacion": "Considerar uso de calzado adecuado y bastones. Para ortesis, buscar asesoramiento con Medicina Física y Rehabilitación.",
+        "fuerza_recomendacion": "Buena Práctica Clínica"
       }
     ],
     "primera_linea_farmacologica": {
-      "descripcion": "Para el manejo del dolor, se sugieren AINEs orales.",
+      "descripcion": "En pacientes que requieran usar algún fármaco para el manejo del dolor, se sugieren AINEs orales.",
       "medicamentos": [
         {
           "nombre": "Naproxeno",
           "codigo_item": "21726",
-          "dosis": "Inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día."
+          "dosis": "Dosis inicial 550mg, luego 275-550mg cada 8-12 horas.",
+          "frecuencia": null,
+          "duracion_dias": null,
+          "consideraciones": "Dosis máxima 1100mg por día."
         },
         {
           "nombre": "Ibuprofeno",
           "codigo_item": "21673",
-          "dosis": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día."
+          "dosis": "200 - 400mg, hasta 3 veces al día.",
+          "frecuencia": null,
+          "duracion_dias": null,
+          "consideraciones": "No tomar más de 1200mg en 24 horas."
         },
         {
           "nombre": "Indometacina",
           "codigo_item": "",
-          "dosis": "25mg cada 8 horas."
+          "dosis": "25mg cada 8 horas.",
+          "frecuencia": null,
+          "duracion_dias": null,
+          "consideraciones": null
         }
       ]
     },
@@ -280,21 +272,23 @@
         "condicion": "No tolera AINEs o tiene contraindicaciones",
         "medicamento": "Paracetamol",
         "codigo_item": "",
+        "dosis": "No especificada en la guía para uso rutinario.",
         "consideraciones": "No usar de manera rutinaria."
       },
       {
         "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
         "medicamento": "Tramadol",
         "codigo_item": "21827",
+        "dosis": "No especificada en la guía como primer fármaco.",
         "consideraciones": "No usar como primer fármaco."
       }
     ],
     "tratamientos_no_recomendados": [
-      "Glucosamina ni Condroitin Sulfato",
-      "Ácido Hialurónico intra-articular",
-      "Proloterapia",
-      "Agentes físicos (TENS, láser, ultrasonido) como única medida",
-      "Acupuntura"
+      "Glucosamina ni Condroitin Sulfato (Sugerencia Condicional)",
+      "Ácido Hialurónico intra-articular (Recomendación Fuerte)",
+      "Proloterapia (Sugerencia Condicional)",
+      "Agentes físicos (TENS, láser, etc.) como única medida (Sugerencia Condicional)",
+      "Acupuntura (Sugerencia Condicional)"
     ]
   },
   "tratamiento_hospitalario": {
@@ -302,12 +296,12 @@
     "intervenciones": [
       {
         "nombre": "Inyección de Corticoide Intra-articular",
-        "recomendacion": "Considerar para el manejo agudo del dolor en rodilla o cadera si no responden a AINEs. En cadera, debe ser bajo guía ecográfica.",
+        "recomendacion": "En OA de rodilla o cadera con dolor que no responde a AINEs, para manejo agudo. En cadera, debe ser bajo guía ecográfica.",
         "medicamentos_asociados": [
           {
             "nombre": "Triamcinolona acetónido",
             "codigo_item": "21830",
-            "dosis": "40mg por articulación. Máx: 80mg (2 articulaciones)."
+            "dosis": "40mg por articulación. Dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
           }
         ]
       },
