@@ -82,12 +82,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // Carga la lista de diagnósticos para el autocompletado
+    // Carga la lista de diagnósticos para el autocompletado (sin cambios)
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
             allDiagnosticos = data.map(d => ({ label: `${d.codigo} - ${d.descripcion}`, value: d.codigo }));
-            
             const dataList = document.createElement('datalist');
             dataList.id = 'diagnosticos-list';
             allDiagnosticos.forEach(d => {
@@ -99,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // Función principal que se activa al seleccionar un diagnóstico
+    // Función principal de consulta (sin cambios)
     function consultarAsistenteIA(codigoCIE10) {
         if (!codigoCIE10) {
             contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center"><i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico válido.</div>';
@@ -121,8 +120,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==================================================================
-    //  (¡NUEVO!) RENDERIZADOR MEJORADO PARA EL "ESTÁNDAR DORADO"
+    //      (¡NUEVO!) RENDERIZADOR "PROFUNDO" PARA EL ESTÁNDAR DORADO
     // ==================================================================
+
+    // Función auxiliar para renderizar un medicamento con todos sus detalles
+    function renderizarMedicamento(med) {
+        let codigoHtml = med.codigo_item ? `<span class="badge bg-secondary me-2">${med.codigo_item}</span>` : '';
+        let dosisHtml = med.dosis ? `${med.dosis}` : '';
+        let frecHtml = med.frecuencia ? `${med.frecuencia}` : '';
+        let duracionHtml = med.duracion_dias ? `por ${med.duracion_dias} días` : '';
+        let consHtml = med.consideraciones ? `<small class="text-muted d-block mt-1">(${med.consideraciones})</small>` : '';
+
+        return `
+            <li class="list-group-item list-group-item-medicamento">
+                ${codigoHtml}<strong>${med.medicamento || med.nombre}</strong>
+                <p class="mb-0 small">${dosisHtml} ${frecHtml} ${duracionHtml}</p>
+                ${consHtml}
+            </li>`;
+    }
+
+    // Función principal para mostrar todas las sugerencias
     function mostrarSugerencias(data) {
         let html = `
             <div class="card border-light-subtle">
@@ -130,8 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h5 class="mb-1">${data.nombre_guia || 'Guía sin nombre'}</h5>
                     <small class="text-muted">${data.institucion || ''} - ${data.version || ''} (${data.fecha_publicacion || 'N/A'})</small>
                 </div>
-                <div class="card-body">
-        `;
+                <div class="card-body">`;
 
         // Sección: Población Objetivo
         if (data.poblacion_objetivo && data.poblacion_objetivo.descripcion) {
@@ -152,39 +168,45 @@ document.addEventListener('DOMContentLoaded', function () {
         // Sección: Tratamiento Ambulatorio
         if (data.tratamiento_ambulatorio) {
             html += `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>`;
-            // Primera Línea
             if (data.tratamiento_ambulatorio.primera_linea) {
-                const tto = data.tratamiento_ambulatorio.primera_linea;
-                html += `<h6>Primera Línea</h6>
-                         <p><strong>${tto.medicamento}:</strong> ${tto.dosis} ${tto.frecuencia} por ${tto.duracion_dias} días. <small class="text-muted">(${tto.consideraciones || ''})</small></p>`;
+                html += `<h6>Primera Línea</h6><ul class="list-group list-group-flush mb-3">${renderizarMedicamento(data.tratamiento_ambulatorio.primera_linea)}</ul>`;
             }
-            // Alternativas
             if (data.tratamiento_ambulatorio.alternativas && data.tratamiento_ambulatorio.alternativas.length > 0) {
-                html += `<h6>Alternativas</h6><ul>`;
+                html += `<h6>Alternativas</h6><ul class="list-group list-group-flush mb-3">`;
                 data.tratamiento_ambulatorio.alternativas.forEach(alt => {
-                    html += `<li><strong>${alt.condicion}:</strong> ${alt.medicamento} (${alt.dosis}).</li>`;
+                    html += `<li class="list-group-item"><strong class="small">${alt.condicion}</strong>${renderizarMedicamento(alt)}</li>`;
                 });
                 html += `</ul>`;
             }
         }
 
-        // Sección: Tratamiento Hospitalario
+        // Sección: Tratamiento Hospitalario (¡MEJORADA!)
         if (data.tratamiento_hospitalario && data.tratamiento_hospitalario.grupos_etarios) {
             html += `<h5 class="mt-4 mb-3 text-info"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
             data.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
                 html += `<div class="mb-3">
                             <h6>Grupo: ${grupo.rango_edad}</h6>`;
+                // Primera línea hospitalaria
                 if (grupo.primera_linea) {
-                    const tto = grupo.primera_linea;
-                    let dosisStr = typeof tto.dosis === 'object' ? Object.entries(tto.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : tto.dosis;
-                    html += `<p><strong>1ª Línea:</strong> ${tto.medicamento} (${dosisStr}).</p>`;
+                    html += `<p class="mb-1"><strong>1ª Línea:</strong> ${grupo.primera_linea.medicamento}</p>
+                             <ul class="list-group list-group-flush mb-3">`;
+                    // Si las dosis son un objeto, iteramos sobre él
+                    if (typeof grupo.primera_linea.dosis === 'object') {
+                        for (const [med, dos] of Object.entries(grupo.primera_linea.dosis)) {
+                            html += `<li class="list-group-item small"><strong>${med}:</strong> ${dos}</li>`;
+                        }
+                    }
+                    html += `</ul>`;
                 }
+                // Alternativas hospitalarias
                 if (grupo.alternativas && grupo.alternativas.length > 0) {
-                     html += `<ul>`;
+                     html += `<p class="mb-1"><strong>Alternativas:</strong></p>`;
                      grupo.alternativas.forEach(alt => {
-                        html += `<li><strong>Alternativa (${alt.condicion}):</strong> ${alt.medicamento}.</li>`;
+                        html += `<div class="ms-3 mb-2">
+                                    <strong class="small d-block">${alt.condicion}:</strong>
+                                    <p class="small mb-0">${alt.medicamento}</p>
+                                 </div>`;
                      });
-                     html += `</ul>`;
                 }
                 html += `</div>`;
             });
@@ -205,5 +227,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-
 {% endblock %}
