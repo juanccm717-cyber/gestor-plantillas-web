@@ -106,6 +106,8 @@
   "version": "Actualización 2024",
   "fecha_publicacion": "2024-12",
   "institucion": "EsSalud",
+  "diagnostico_cie10": "M1990",
+  "referencias_cie10": ["M159", "M169", "M179", "M189"],
   "poblacion_objetivo": {
     "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente."
   },
@@ -118,7 +120,8 @@
     "examenes_auxiliares": [
       {
         "nombre": "Imágenes radiológicas",
-        "recomendacion": "En pacientes con sospecha clínica de osteoartritis (OA), no se deberían solicitar imágenes radiológicas de forma rutinaria para la confirmación diagnóstica. Considerar su uso si presentan características que sugieren otro diagnóstico como: pacientes jóvenes, historia de fractura, alteración del eje, signos de inflamación articular, dolor marcado al reposo o en la noche, dolor rápidamente progresivo, o pérdida de peso."
+        "recomendacion": "No se deberían solicitar de forma rutinaria. Considerar su uso si presentan características que sugieren otro diagnóstico (pacientes jóvenes, historia de fractura, alteración del eje, etc.).",
+        "codigo_proc": ""
       }
     ]
   },
@@ -126,56 +129,49 @@
     "tratamientos_no_farmacologicos": [
       {
         "nombre": "Plan individualizado de educación y autocuidado",
-        "recomendacion": "En pacientes con OA, recomendamos brindar un plan individualizado de medidas de educación y autocuidado. Este plan debería incluir información sobre la enfermedad, disminución de peso, uso de calzado adecuado y realización de actividad física."
+        "recomendacion": "Brindar información sobre la enfermedad, disminución de peso, uso de calzado adecuado y actividad física."
       },
       {
         "nombre": "Ejercicio físico",
-        "recomendacion": "En pacientes con OA, recomendamos indicar la realización de ejercicio físico. El ejercicio debe incluir fortalecimiento muscular local, estiramiento y actividad aeróbica general."
-      },
-      {
-        "nombre": "Intervenciones para bajar de peso",
-        "recomendacion": "En pacientes con OA que tienen obesidad o sobrepeso, sugerimos ofrecer intervenciones para lograr la pérdida de peso."
-      },
-      {
-        "nombre": "Uso de ortesis",
-        "recomendacion": "De ser necesario el uso de algún tipo de ortesis para disminuir el dolor y/o aumentar la adherencia al plan de ejercicio físico, buscar asesoramiento con la especialidad de Medicina Física y Rehabilitación. Considerar el uso de calzado adecuado y dispositivos de asistencia como bastones."
+        "recomendacion": "Indicar la realización de ejercicio físico (fortalecimiento muscular, estiramiento y actividad aeróbica)."
       }
     ],
     "primera_linea_farmacologica": {
       "medicamentos": [
         {
           "nombre": "Naproxeno",
-          "dosis": "Dosis inicial recomendada de 550mg, luego 550mg cada 12 horas o 275mg cada 8-12 horas. Dosis máxima 1100mg por día.",
+          "dosis": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día.",
           "codigo_item": "21726"
         },
         {
           "nombre": "Ibuprofeno",
-          "dosis": "Dosis de 200 - 400mg, hasta un máximo de 3 veces al día en caso sea necesario. No tomar más de 1200mg en un periodo de 24 horas.",
+          "dosis": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día.",
           "codigo_item": "21673"
         }
       ]
     },
     "alternativas_farmacologicas": [
       {
-        "condicion": "Pacientes que no toleren un AINE o en los que tengan contraindicaciones para su uso.",
+        "condicion": "No tolera AINEs o tiene contraindicaciones",
         "medicamento": "Paracetamol",
-        "dosis": "Se podría considerar el uso de paracetamol para el manejo de dolor."
+        "dosis": "Considerar su uso para el manejo del dolor.",
+        "codigo_item": ""
       },
       {
-        "condicion": "Pacientes con OA que no tengan alivio del dolor al utilizar un AINE o paracetamol.",
+        "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
         "medicamento": "Tramadol",
-        "dosis": "Se podría considerar el uso de tramadol, según la evaluación de cada caso individual y presencia de comorbilidades.",
+        "dosis": "Considerar su uso según evaluación individual.",
         "codigo_item": "21827"
       }
     ],
     "tratamientos_no_recomendados": [
-      "Paracetamol de manera rutinaria.",
-      "Tramadol como primer fármaco.",
-      "Glucosamina ni condroitin sulfato.",
-      "Ácido hialurónico intra-articular.",
-      "Proloterapia.",
-      "Agentes físicos (terapia con ondas cortas, interferencial, TENS, láser, ultrasonido) como única medida.",
-      "Acupuntura."
+      "Paracetamol de manera rutinaria",
+      "Tramadol como primer fármaco",
+      "Glucosamina ni Condroitin sulfato",
+      "Ácido hialurónico intra-articular",
+      "Proloterapia",
+      "Agentes físicos (TENS, láser, etc.) como única medida",
+      "Acupuntura"
     ]
   },
   "tratamiento_hospitalario": {
@@ -184,19 +180,125 @@
         "rango_edad": "Adultos",
         "alternativas": [
           {
-            "condicion": "Pacientes con OA de rodilla con dolor y que no respondan a los AINE.",
-            "medicamento": "Corticoide intra-articular",
-            "dosis": "Utilizar triamcinolona acetónido 40mg. La dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
-          },
-          {
-            "condicion": "Pacientes con OA de cadera con dolor y que no respondan a los AINE.",
-            "medicamento": "Corticoide intra-articular",
-            "dosis": "Utilizar triamcinolona acetónido 40mg, bajo guía ecográfica. La dosis máxima por tratamiento es de 80mg (2 articulaciones a la vez)."
+            "condicion": "OA de rodilla o cadera con dolor que no responde a AINEs",
+            "medicamento": "Corticoide intra-articular (Triamcinolona)",
+            "dosis": "40mg. Dosis máxima por tratamiento es de 80mg (2 articulaciones).",
+            "codigo_item": "21830"
           }
         ]
       }
     ]
   }
+},
+{
+  "nombre_guia": "Guía de práctica clínica para el manejo de Comunicación Interventricular en menores de 18 años",
+  "version": "GPC Nº 71",
+  "fecha_publicacion": "2024-12",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "Q210",
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes menores de 18 años con comunicación interventricular (CIV)."
+  },
+  "etiologia": {
+    "descripcion": "La CIV es un defecto congénito con una abertura anormal en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por su ubicación en perimembranosa, muscular, de entrada y de salida."
+  },
+  "diagnostico": {
+    "signos_sintomas": [
+      "Soplo holosistólico intenso y áspero (en CIV pequeña).",
+      "Síntomas de insuficiencia cardíaca como disnea durante la alimentación, escaso crecimiento, taquipnea (en CIV moderada o grande)."
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Ecocardiografía transtorácica",
+        "recomendacion": "Confirma el diagnóstico, establece el tamaño y la ubicación del defecto, y evalúa las consecuencias hemodinámicas.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Radiografía de tórax",
+        "recomendacion": "La cardiomegalia es una indicación para considerar el cierre del defecto.",
+        "codigo_proc": "71020"
+      },
+      {
+        "nombre": "Cateterismo cardíaco",
+        "recomendacion": "Se realiza para obtener la resistencia vascular pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) bajo criterios específicos.",
+        "codigo_proc": ""
+      }
+    ]
+  },
+  "manejo_medico_y_seguimiento": {
+    "tratamiento_farmacologico_icc": [
+      {
+        "nombre": "Furosemida",
+        "indicacion": "Manejo de la congestión en Insuficiencia Cardíaca.",
+        "codigo_item": "21644"
+      },
+      {
+        "nombre": "Espironolactona",
+        "indicacion": "Manejo de la congestión, usualmente combinado con Furosemida.",
+        "codigo_item": "21625"
+      },
+      {
+        "nombre": "Captopril / Enalapril (IECA)",
+        "indicacion": "Para reducir la postcarga en manejo de ICC.",
+        "codigo_item": "21549"
+      }
+    ],
+    "seguimiento_sin_cierre": [
+      {
+        "condicion": "CIV Pequeña",
+        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) hasta oclusión espontánea."
+      },
+      {
+        "condicion": "CIV Moderada",
+        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego controles anuales."
+      },
+      {
+        "condicion": "CIV Grande",
+        "descripcion": "Reevaluaciones clínicas y ecocardiográficas al menos cada 3 meses durante el primer año."
+      }
+    ]
+  },
+  "manejo_intervencionista_cierre": {
+    "indicaciones_cierre": [
+      {
+        "condicion": "CIV Grande (>2/3 del anillo aórtico)",
+        "criterios": "Realizar el cierre preferiblemente antes del año de vida. Indicar a la brevedad si hay insuficiencia cardíaca refractaria y/o ganancia ponderal inadecuada."
+      },
+      {
+        "condicion": "CIV Moderada (1/3 a 2/3 del anillo aórtico)",
+        "criterios": "Cerrar si persisten síntomas a pesar de tto. médico, aumenta la presión pulmonar, hay prolapso/regurgitación aórtica, o repercusión hemodinámica (Qp/Qs>2)."
+      },
+      {
+        "condicion": "CIV Pequeña (<1/3 del anillo aórtico)",
+        "criterios": "Considerar cierre si presentan: Endocarditis infecciosa, prolapso de velo aórtico con regurgitación progresiva, o Qp/Qs > 1.5 con repercusión hemodinámica."
+      }
+    ],
+    "tipos_de_cierre": [
+      {
+        "nombre": "Cierre percutáneo de CIV perimembranosa",
+        "descripcion": "Sugerido sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 10 kg, Qp/Qs > 1.5, etc.)."
+      },
+      {
+        "nombre": "Cierre percutáneo de CIV muscular",
+        "descripcion": "Se puede elegir sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 8 kg, Qp/Qs > 1.5, etc.)."
+      },
+      {
+        "nombre": "Cerclaje de arteria pulmonar",
+        "descripcion": "Considerar en pacientes en quienes no se pueda realizar un cierre quirúrgico del defecto."
+      }
+    ],
+    "contraindicaciones": [
+      {
+        "procedimiento": "Cierre percutáneo (general)",
+        "criterios": "Enfermedad vascular pulmonar irreversible (RVP > 8UW/m²), bloqueo AV preexistente, regurgitación aórtica, infección activa."
+      },
+      {
+        "procedimiento": "Cierre quirúrgico (general)",
+        "criterios": "Peso < 2,5kg, condición del paciente no permite circulación extracorpórea, CIV múltiples tipo 'Swiss cheese'."
+      }
+    ]
+  }
 }
+
 
 ]
