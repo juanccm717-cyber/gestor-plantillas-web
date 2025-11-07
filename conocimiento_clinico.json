@@ -106,8 +106,8 @@
   "version": "Actualización 2024",
   "fecha_publicacion": "2024-12",
   "institucion": "EsSalud",
-  "diagnostico_cie10": "M1990",
-  "referencias_cie10": ["M159", "M169", "M179", "M189"],
+  "diagnostico_cie10": "M199",
+  "referencias_cie10": ["M159", "M169", "M179", "M189", "M1990"],
   "poblacion_objetivo": {
     "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente."
   },
