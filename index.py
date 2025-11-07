@@ -1163,6 +1163,9 @@ def asistente_clinico():
 
 # --- API QUE PROPORCIONA LAS SUGERENCIAS DE LA IA ---
 
+# ==============================================================================
+#           (¡NUEVO Y CORREGIDO!) API QUE ENTIENDE EL ESTÁNDAR DORADO
+# ==============================================================================
 @app.route('/api/asistente_sugerencias')
 def asistente_sugerencias():
     if 'username' not in session:
@@ -1172,20 +1175,26 @@ def asistente_sugerencias():
     if not codigo_cie10:
         return jsonify({"error": "Se requiere un código CIE-10"}), 400
     
-    # Creamos un diccionario para buscar reglas rápidamente
-    conocimiento_map = {regla['diagnostico_cie10']: regla for regla in CONOCIMIENTO_CLINICO}
-    
-    regla_actual = conocimiento_map.get(codigo_cie10)
-    
-    # ¡NUEVA LÓGICA! Si la regla es una referencia, buscamos la regla principal
-    if regla_actual and 'referencia_a' in regla_actual:
-        codigo_referencia = regla_actual['referencia_a']
-        regla_actual = conocimiento_map.get(codigo_referencia)
+    # Buscamos en el cerebro la guía que coincida con el código CIE-10
+    # Esta lógica no cambia, pero es crucial.
+    regla_encontrada = None
+    for regla in CONOCIMIENTO_CLINICO:
+        if regla.get('diagnostico_cie10') == codigo_cie10:
+            regla_encontrada = regla
+            break
+        # Añadimos una lógica para manejar también los códigos de referencia
+        elif 'referencias_cie10' in regla and codigo_cie10 in regla['referencias_cie10']:
+            regla_encontrada = regla
+            break
 
-    if regla_actual:
-        return jsonify(regla_actual)
+    if regla_encontrada:
+        # ¡ÉXITO! Si la encontramos, simplemente la devolvemos completa.
+        # La nueva interfaz ya sabe cómo leer la estructura del "Estándar Dorado".
+        return jsonify(regla_encontrada)
     else:
-        return jsonify({}), 404
+        # Si no se encuentra, devolvemos un error 404.
+        return jsonify({"error": "No se encontraron recomendaciones para este diagnóstico."}), 404
+
 
 # ==============================================================================
 #           (¡NUEVO!) RUTAS PARA BÚSQUEDA DE PROCEDIMIENTOS
