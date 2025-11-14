@@ -1251,10 +1251,24 @@ def api_search_procedimientos():
         return jsonify({'error': 'Error en el servidor al buscar procedimientos.'}), 500
 
 # ==============================================================================
-#      (VERSIÓN FINAL CON ANÁLISIS REAL DE MANUS)
+#      (ARQUITECTURA DEFINITIVA) RUTAS PARA EL ANALIZADOR DE GUÍAS
 # ==============================================================================
-# Esta ruta recibe el texto y utiliza la inteligencia de Manus para un análisis dinámico.
 
+# --- RUTA PARA MOSTRAR LA PÁGINA DEL ANALIZADOR ---
+# Esta ruta es necesaria para que el botón del menú funcione.
+@app.route('/analizar_guia')
+def analizar_guia_page():
+    # Verificamos que el usuario sea un administrador
+    if session.get('role') != 'administrador':
+        flash('Acceso no autorizado. Esta sección es solo para administradores.', 'danger')
+        return redirect(url_for('menu'))
+    
+    # Renderizamos la página del analizador (analizar_guia.html)
+    return render_template('analizar_guia.html')
+
+
+# --- RUTA PARA REALIZAR EL ANÁLISIS INTERNO DE MANUS ---
+# Esta ruta recibe el texto y utiliza la inteligencia de Manus para un análisis dinámico.
 @app.route('/api/analizar_con_manus', methods=['POST'])
 def analizar_con_manus_api():
     if session.get('role') != 'administrador':
@@ -1269,10 +1283,8 @@ def analizar_con_manus_api():
         print(f"INFO: Manus ha recibido {len(texto_pdf)} caracteres para análisis interno.")
 
         # 2. ¡ANÁLISIS REAL POR MANUS!
-        # Aquí es donde aplico mi inteligencia para procesar el texto.
-        # Como no podemos usar APIs externas, usaré una lógica interna basada en patrones y palabras clave.
+        # Lógica interna basada en patrones y palabras clave.
         
-        # Lógica de extracción simple (ejemplo)
         diagnostico_cie10 = "No encontrado"
         match = re.search(r'[A-Z][0-9]{2}\.?[0-9]?', texto_pdf)
         if match:
@@ -1299,6 +1311,7 @@ def analizar_con_manus_api():
     except Exception as e:
         print(f"ERROR en el análisis de Manus: {e}")
         return jsonify({'error': f'Error interno en el análisis de Manus: {str(e)}'}), 500
+
 
 
 if __name__ == '__main__':
