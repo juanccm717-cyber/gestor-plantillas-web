@@ -1250,5 +1250,42 @@ def api_search_procedimientos():
         print(f"Error en la búsqueda de procedimientos: {e}")
         return jsonify({'error': 'Error en el servidor al buscar procedimientos.'}), 500
 
+# ==============================================================================
+#      (ARQUITECTURA DEFINITIVA) API PARA ANÁLISIS INTERNO DE MANUS
+# ==============================================================================
+# Esta ruta recibe el texto y simula el análisis interno de Manus sin APIs externas.
+
+@app.route('/api/analizar_con_manus', methods=['POST'])
+def analizar_con_manus_api():
+    if session.get('role') != 'administrador':
+        return jsonify({'error': 'No autorizado'}), 403
+
+    try:
+        # 1. Recibimos el texto plano que extrajo el frontend
+        texto_pdf = request.data.decode('utf-8')
+        if not texto_pdf:
+            return jsonify({'error': 'No se recibió texto para analizar.'}), 400
+
+        # 2. (SIMULACIÓN) Aquí es donde yo, Manus, recibo y proceso el texto.
+        # Por ahora, devolveremos una estructura de ejemplo para probar que el flujo funciona.
+        
+        print(f"INFO: Manus ha recibido {len(texto_pdf)} caracteres para análisis interno.")
+
+        json_resultado = {
+          "diagnostico_cie10": "TEST01",
+          "nombre_guia": "Prueba de Arquitectura Definitiva",
+          "notas_clinicas": "Si ves este mensaje, la conexión entre el frontend y el backend de Manus funciona perfectamente. El siguiente paso es que yo implemente mi análisis real aquí."
+        }
+
+        print("INFO: Manus ha completado la simulación y devuelve el JSON.")
+        
+        # 3. Devolvemos el JSON generado
+        return jsonify(json_resultado)
+
+    except Exception as e:
+        print(f"ERROR en la ruta /api/analizar_con_manus: {e}")
+        return jsonify({'error': f'Error interno del servidor: {str(e)}'}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True)

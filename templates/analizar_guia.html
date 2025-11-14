@@ -1,0 +1,95 @@
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js`;
+
+    document.addEventListener('DOMContentLoaded', function( ) {
+        const pdfFile = document.getElementById('pdfFile');
+        const analyzeButton = document.getElementById('analyzeButton');
+        const buttonText = document.getElementById('button-text');
+        const buttonSpinner = document.getElementById('button-spinner');
+        const initialMessage = document.getElementById('initialMessage');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const jsonOutput = document.getElementById('jsonOutput');
+        const copyButton = document.getElementById('copyButton');
+
+        pdfFile.addEventListener('change', () => {
+            analyzeButton.disabled = pdfFile.files.length === 0;
+        });
+
+        analyzeButton.addEventListener('click', function() {
+            if (pdfFile.files.length === 0) {
+                alert("Por favor, selecciona un archivo PDF primero.");
+                return;
+            }
+            setLoading(true);
+            const file = pdfFile.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const pdfData = new Uint8Array(event.target.result);
+                pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+                    let fullText = '';
+                    let pagePromises = [];
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        pagePromises.push(pdf.getPage(i).then(page => page.getTextContent()));
+                    }
+                    Promise.all(pagePromises).then(function(textContents) {
+                        textContents.forEach(function(textContent) {
+                            textContent.items.forEach(item => fullText += item.str + ' ');
+                            fullText += '\n';
+                        });
+
+                        // ¡LA LLAMADA CLAVE! Ahora apunta a nuestro propio backend.
+                        fetch('/api/analizar_con_manus', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                            body: fullText
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(err => { throw new Error(err.error || 'Error desconocido del servidor') });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            setLoading(false);
+                            displayResults(data);
+                        })
+                        .catch(error => {
+                            setLoading(false);
+                            alert('Ocurrió un error: ' + error.message);
+                        });
+                    });
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                buttonText.textContent = 'Analizando...';
+                buttonSpinner.classList.remove('d-none');
+                analyzeButton.disabled = true;
+            } else {
+                buttonText.textContent = 'Analizar Guía';
+                buttonSpinner.classList.add('d-none');
+                analyzeButton.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            initialMessage.classList.add('d-none');
+            resultsContainer.classList.remove('d-none');
+            jsonOutput.textContent = JSON.stringify(data, null, 2);
+        }
+
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
+                copyButton.innerHTML = '<i class="bi bi-check-lg me-1"></i> Copiado';
+                setTimeout(() => { copyButton.innerHTML = '<i class="bi bi-clipboard me-1"></i> Copiar Código'; }, 2000);
+            });
+        });
+    });
+</script>
+{% endblock %}
