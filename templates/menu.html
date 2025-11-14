@@ -217,6 +217,26 @@
             </div>
         </div>
         {% endif %}
+        <!-- ================================================== -->
+        <!--      TARJETA PARA EL ANALIZADOR DE GUÍAS (IA)      -->
+        <!-- ================================================== -->
+        {% if session.role == 'administrador' %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
+                    <h5 class="card-title mt-3">Analizador de Guías (IA)</h5>
+                    <p class="card-text text-muted">
+                        Sube un PDF de una GPC para que Manus extraiga el conocimiento.
+                    </p>
+                    <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-info text-white">
+                        <i class="bi bi-arrow-right-circle me-2"></i>Iniciar Análisis
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}
