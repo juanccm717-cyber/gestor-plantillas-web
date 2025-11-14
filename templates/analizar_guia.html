@@ -1,9 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Analizador de Guías Clínicas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <div class="text-center mb-4">
+                <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
+                <h1 class="mt-2">Analizador de Guías Clínicas (IA)</h1>
+                <p class="lead text-muted">
+                    Sube un archivo PDF de una Guía de Práctica Clínica para que Manus extraiga el conocimiento.
+                </p>
+            </div>
+
+            <!-- Área para subir el archivo -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Paso 1: Sube tu archivo</h5>
+                    <div class="mb-3">
+                        <label for="pdfFile" class="form-label">Selecciona el archivo PDF de la guía:</label>
+                        <input class="form-control form-control-lg" type="file" id="pdfFile" accept=".pdf">
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" id="analyzeButton" disabled>
+                            <span id="button-text">Analizar Guía</span>
+                            <span id="button-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de Resultados -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Paso 2: Resultado del Análisis</h5>
+                    
+                    <div id="initialMessage" class="text-center text-muted py-4">
+                        <p>El código JSON generado aparecerá aquí.</p>
+                    </div>
+
+                    <div id="resultsContainer" class="d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6>Bloque de Conocimiento JSON:</h6>
+                            <button class="btn btn-sm btn-outline-secondary" id="copyButton">
+                                <i class="bi bi-clipboard me-1"></i> Copiar Código
+                            </button>
+                        </div>
+                        <pre><code class="language-json" id="jsonOutput" style="max-height: 400px; border-radius: 0.25rem;"></code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block scripts %}
+<!-- Cargamos la librería pdf.js directamente aquí para asegurar que esté disponible -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
 <script>
+    // Configuración del "worker" de pdf.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js`;
 
+    // Esperamos a que todo el DOM esté cargado para ejecutar nuestro código
     document.addEventListener('DOMContentLoaded', function( ) {
+        // Referencias a los elementos del DOM
         const pdfFile = document.getElementById('pdfFile');
         const analyzeButton = document.getElementById('analyzeButton');
         const buttonText = document.getElementById('button-text');
@@ -13,10 +77,12 @@
         const jsonOutput = document.getElementById('jsonOutput');
         const copyButton = document.getElementById('copyButton');
 
+        // Habilitar el botón solo si hay un archivo
         pdfFile.addEventListener('change', () => {
             analyzeButton.disabled = pdfFile.files.length === 0;
         });
 
+        // Lógica del botón "Analizar"
         analyzeButton.addEventListener('click', function() {
             if (pdfFile.files.length === 0) {
                 alert("Por favor, selecciona un archivo PDF primero.");
@@ -28,6 +94,8 @@
 
             reader.onload = function(event) {
                 const pdfData = new Uint8Array(event.target.result);
+                
+                // Usamos pdf.js para leer el contenido del PDF
                 pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
                     let fullText = '';
                     let pagePromises = [];
@@ -40,7 +108,7 @@
                             fullText += '\n';
                         });
 
-                        // ¡LA LLAMADA CLAVE! Ahora apunta a nuestro propio backend.
+                        // Llamamos a nuestro backend con el texto extraído
                         fetch('/api/analizar_con_manus', {
                             method: 'POST',
                             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -66,6 +134,7 @@
             reader.readAsArrayBuffer(file);
         });
 
+        // Funciones auxiliares
         function setLoading(isLoading) {
             if (isLoading) {
                 buttonText.textContent = 'Analizando...';
