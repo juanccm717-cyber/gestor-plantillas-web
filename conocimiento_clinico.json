@@ -298,7 +298,122 @@
       }
     ]
   }
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo del paciente con Síndrome Coronario Crónico",
+  "version": "GPC N° 70",
+  "fecha_publicacion": "2024-12",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "I209",
+  "referencias_cie10": [
+    "I251",
+    "I255",
+    "I259"
+  ],
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes de 18 años a más con diagnóstico de síndrome coronario crónico."
+  },
+  "diagnostico": {
+    "signos_sintomas": [
+      "Dolor torácico tipo anginoso (opresivo, retroesternal, irradiado a cuello, mandíbula o brazo izquierdo, desencadenado por esfuerzo o estrés emocional, y que alivia con el reposo o nitratos).",
+      "Disnea de esfuerzo (considerado un equivalente anginoso)."
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Electrocardiograma (EKG) en reposo",
+        "recomendacion": "Realizar en todos los pacientes con sospecha de SCC. Un EKG normal no descarta el diagnóstico.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Prueba de esfuerzo (Ergometría)",
+        "recomendacion": "Considerar en pacientes con probabilidad pre-test intermedia de enfermedad coronaria, capaces de realizar ejercicio y con un EKG basal interpretable.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Ecocardiograma de estrés (con ejercicio o dobutamina)",
+        "recomendacion": "Considerar como prueba de isquemia inicial en pacientes con probabilidad pre-test intermedia o alta.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Angiotomografía coronaria",
+        "recomendacion": "Considerar como prueba diagnóstica inicial en pacientes con probabilidad pre-test baja a intermedia, o cuando otras pruebas no son concluyentes.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Coronariografía invasiva",
+        "recomendacion": "Indicada en pacientes con alta probabilidad de enfermedad coronaria, síntomas severos a pesar de tratamiento, o en aquellos con alto riesgo identificado en pruebas no invasivas, para confirmar diagnóstico y planificar revascularización.",
+        "codigo_proc": ""
+      }
+    ]
+  },
+  "tratamiento_ambulatorio": {
+    "tratamientos_no_farmacologicos": [
+      {
+        "nombre": "Educación y cambios en el estilo de vida",
+        "recomendacion": "Brindar educación sobre la enfermedad, cese del tabaco, dieta saludable (mediterránea), actividad física regular (30-60 min, 5-7 días/semana), y control de peso (IMC < 25 kg/m²)."
+      }
+    ],
+    "primera_linea_farmacologica": {
+      "descripcion": "El tratamiento tiene dos objetivos: prevención de eventos cardiovasculares y control de los síntomas (anti-anginoso).",
+      "medicamentos": [
+        {
+          "nombre": "Ácido Acetilsalicílico (AAS)",
+          "dosis": "75-100 mg/día para prevención de eventos.",
+          "codigo_item": "21498"
+        },
+        {
+          "nombre": "Estatinas de alta intensidad (Atorvastatina/Rosuvastatina)",
+          "dosis": "Para prevención de eventos. Objetivo de LDL < 55 mg/dL.",
+          "codigo_item": "21523"
+        },
+        {
+          "nombre": "Betabloqueadores (Bisoprolol/Carvedilol)",
+          "dosis": "Tratamiento antianginoso de primera línea para control de síntomas.",
+          "codigo_item": "21535"
+        },
+        {
+          "nombre": "Nitratos de acción corta (Nitroglicerina/Dinitrato de Isosorbide)",
+          "dosis": "Para alivio inmediato de los episodios de angina.",
+          "codigo_item": "21685"
+        }
+      ]
+    },
+    "alternativas_farmacologicas": [
+      {
+        "condicion": "Si el paciente tiene Hipertensión, Diabetes, Disfunción Ventricular Izquierda o Enfermedad Renal Crónica.",
+        "medicamento": "IECA o ARA-II (Enalapril/Losartán)",
+        "dosis": "Añadir al tratamiento para prevención de eventos.",
+        "codigo_item": "21617"
+      },
+      {
+        "condicion": "Si los síntomas de angina persisten a pesar de los betabloqueadores.",
+        "medicamento": "Calcioantagonistas (Amlodipino/Verapamilo) o Nitratos de acción larga.",
+        "dosis": "Añadir como tratamiento antianginoso de segunda línea.",
+        "codigo_item": ""
+      }
+    ]
+  },
+  "tratamiento_hospitalario": {
+    "grupos_etarios": [
+      {
+        "rango_edad": "Adultos",
+        "primera_linea": {
+          "medicamento": "Revascularización coronaria (ICP o CABG)",
+          "descripcion": "Considerar en pacientes con enfermedad coronaria significativa y síntomas limitantes a pesar de tratamiento médico óptimo, o en aquellos con alto riesgo anatómico/funcional.",
+          "procedimientos": [
+            {
+              "nombre": "Intervención Coronaria Percutánea (ICP) con stent",
+              "codigo_proc": ""
+            },
+            {
+              "nombre": "Cirugía de Bypass de Arteria Coronaria (CABG)",
+              "codigo_proc": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
-
 
 ]
