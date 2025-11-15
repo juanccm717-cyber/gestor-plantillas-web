@@ -414,6 +414,127 @@
       }
     ]
   }
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
+  "version": "GPC N° 20",
+  "fecha_publicacion": "2021-05",
+  "institucion": "EsSalud",
+  "diagnostico_cie10": "I270",
+  "referencias_cie10": [
+    "I272",
+    "I278"
+  ],
+  "poblacion_objetivo": {
+    "descripcion": "Pacientes adultos con sospecha o diagnóstico de Hipertensión Arterial Pulmonar (HAP) del Grupo 1 de la clasificación de Niza."
+  },
+  "diagnostico": {
+    "signos_sintomas": [
+      "Disnea de esfuerzo (síntoma más frecuente).",
+      "Fatiga, debilidad, angina, síncope o presíncope.",
+      "Edema de miembros inferiores.",
+      "Signos de insuficiencia cardíaca derecha (ingurgitación yugular, hepatomegalia, ascitis)."
+    ],
+    "examenes_auxiliares": [
+      {
+        "nombre": "Ecocardiograma transtorácico",
+        "recomendacion": "Es la herramienta de cribado fundamental. Se debe realizar en todo paciente con sospecha clínica de HAP para estimar la presión sistólica de la arteria pulmonar (PSAP).",
+        "codigo_proc": "88721"
+      },
+      {
+        "nombre": "Cateterismo Cardíaco Derecho (CCD)",
+        "recomendacion": "Es el GOLD STANDARD para confirmar el diagnóstico de HAP. Es mandatorio antes de iniciar tratamiento específico. Define HAP como una presión arterial pulmonar media (PAPm) ≥ 25 mmHg en reposo.",
+        "codigo_proc": "93451"
+      },
+      {
+        "nombre": "Prueba de caminata de 6 minutos (PC6M)",
+        "recomendacion": "Prueba fundamental para evaluar la capacidad funcional, estratificar el riesgo y valorar la respuesta al tratamiento.",
+        "codigo_proc": ""
+      },
+      {
+        "nombre": "Péptidos natriuréticos (BNP o NT-proBNP)",
+        "recomendacion": "Marcador pronóstico importante. Niveles elevados se asocian a peor pronóstico.",
+        "codigo_proc": ""
+      }
+    ]
+  },
+  "tratamiento_ambulatorio": {
+    "tratamientos_no_farmacologicos": [
+      {
+        "nombre": "Medidas generales",
+        "recomendacion": "Evitar el embarazo, vacunación anual contra influenza y neumococo, rehabilitación pulmonar supervisada, y apoyo psicosocial."
+      },
+      {
+        "nombre": "Oxigenoterapia",
+        "recomendacion": "Mantener una saturación de O2 > 90% de forma continua, especialmente en pacientes con hipoxemia en reposo."
+      }
+    ],
+    "primera_linea_farmacologica": {
+      "descripcion": "El tratamiento se basa en la estratificación de riesgo (bajo, intermedio, alto) y la vasorreactividad pulmonar evaluada en el cateterismo.",
+      "medicamentos": [
+        {
+          "nombre": "Antagonistas de los Receptores de Endotelina (ARE)",
+          "dosis": "Bosentán o Ambrisentán. Terapia oral de primera línea para pacientes de riesgo bajo o intermedio.",
+          "codigo_item": ""
+        },
+        {
+          "nombre": "Inhibidores de la Fosfodiesterasa 5 (IPDE-5)",
+          "dosis": "Sildenafilo o Tadalafilo. Terapia oral de primera línea, a menudo en combinación con ARE.",
+          "codigo_item": "21789"
+        },
+        {
+          "nombre": "Anticoagulantes (Warfarina)",
+          "dosis": "Considerar en pacientes con HAP idiopática, hereditaria o asociada a anorexígenos.",
+          "codigo_item": "21845"
+        },
+        {
+          "nombre": "Diuréticos (Furosemida, Espironolactona)",
+          "dosis": "Para manejar la sobrecarga de volumen y los síntomas de insuficiencia cardíaca derecha.",
+          "codigo_item": "21625"
+        }
+      ]
+    },
+    "alternativas_farmacologicas": [
+      {
+        "condicion": "Pacientes con respuesta positiva en el test de vasorreactividad.",
+        "medicamento": "Bloqueadores de canales de calcio a altas dosis (Nifedipino, Diltiazem, Amlodipino).",
+        "dosis": "Dosis elevadas y tituladas según respuesta y tolerancia.",
+        "codigo_item": ""
+      },
+      {
+        "condicion": "Pacientes de alto riesgo o que no responden a terapia oral combinada.",
+        "medicamento": "Prostanoides (Epoprostenol, Iloprost, Treprostinil).",
+        "dosis": "Requieren administración intravenosa continua, subcutánea o inhalada. Son el tratamiento más potente.",
+        "codigo_item": ""
+      }
+    ]
+  },
+  "tratamiento_hospitalario": {
+    "grupos_etarios": [
+      {
+        "rango_edad": "Adultos",
+        "primera_linea": {
+          "medicamento": "Manejo de la Insuficiencia Cardíaca Derecha Aguda",
+          "descripcion": "Optimización de la volemia con diuréticos, soporte inotrópico (Dobutamina), y manejo de arritmias. Considerar inicio o escalada de terapia específica para HAP.",
+          "procedimientos": []
+        }
+      },
+      {
+        "rango_edad": "Adultos",
+        "primera_linea": {
+          "medicamento": "Trasplante Pulmonar",
+          "descripcion": "Considerar en pacientes seleccionados que progresan a pesar de un tratamiento médico máximo.",
+          "procedimientos": [
+            {
+              "nombre": "Trasplante bipulmonar",
+              "codigo_proc": ""
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
+
 
 ]

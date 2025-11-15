@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Gestionar Ejemplo para Plantilla{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="text-center mb-4">
+                <i class="bi bi-file-earmark-arrow-up" style="font-size: 3rem; color: #198754;"></i>
+                <h1 class="mt-2">Actualizar PDF de Ejemplo</h1>
+                <p class="lead text-muted">
+                    Estás actualizando el ejemplo para la plantilla:   
+
+                    <strong>"{{ plantilla.tipo_atencion }}" (ID: {{ plantilla.id }})</strong>
+                </p>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('upload_ejemplo_api', plantilla_id=plantilla.id) }}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="ejemploPdf" class="form-label">Selecciona el nuevo archivo PDF:</label>
+                            <input class="form-control" type="file" id="ejemploPdf" name="ejemploPdf" accept=".pdf" required>
+                        </div>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
+                            <a href="{{ url_for('ver_plantillas') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Volver al Gestor
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-upload me-2"></i>Subir y Reemplazar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted">
+                    El archivo se guardará en <strong>static/ejemplos_plantillas/ejemplo_plantilla_{{ plantilla.id }}.pdf</strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

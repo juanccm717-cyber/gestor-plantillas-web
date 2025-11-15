@@ -1312,6 +1312,66 @@ def analizar_con_manus_api():
         print(f"ERROR en el análisis de Manus: {e}")
         return jsonify({'error': f'Error interno en el análisis de Manus: {str(e)}'}), 500
 
+# ==============================================================================
+#      RUTAS PARA GESTIONAR EJEMPLOS DE PLANTILLAS (SOLO ADMIN)
+# ==============================================================================
+
+# --- Ruta para MOSTRAR la página de subida de un ejemplo específico ---
+@app.route('/gestionar_ejemplo/<int:plantilla_id>')
+def gestionar_ejemplo_page(plantilla_id):
+    if session.get('role') != 'administrador':
+        flash('Acceso no autorizado.', 'danger')
+        return redirect(url_for('menu'))
+    
+    try:
+        with engine.connect() as connection:
+            sql = text("SELECT id, tipo_atencion FROM plantillas WHERE id = :id")
+            plantilla = connection.execute(sql, {'id': plantilla_id}).first()
+            if not plantilla:
+                flash(f"Error: No se encontró la plantilla con ID {plantilla_id}.", "danger")
+                return redirect(url_for('ver_plantillas'))
+            return render_template('gestionar_ejemplo.html', plantilla=plantilla)
+    except Exception as e:
+        flash(f"Error al cargar la plantilla: {e}", "danger")
+        return redirect(url_for('ver_plantillas'))
+
+
+# --- Ruta API para PROCESAR la subida del archivo de ejemplo ---
+@app.route('/api/upload_ejemplo/<int:plantilla_id>', methods=['POST'])
+def upload_ejemplo_api(plantilla_id):
+    if session.get('role') != 'administrador':
+        return jsonify({'error': 'No autorizado'}), 403
+
+    if 'ejemploPdf' not in request.files:
+        flash('No se encontró el archivo en la solicitud.', 'danger')
+        return redirect(url_for('gestionar_ejemplo_page', plantilla_id=plantilla_id))
+
+    file = request.files['ejemploPdf']
+
+    if file.filename == '':
+        flash('No se seleccionó ningún archivo.', 'warning')
+        return redirect(url_for('gestionar_ejemplo_page', plantilla_id=plantilla_id))
+
+    if file and file.filename.endswith('.pdf'):
+        try:
+            filename = f"ejemplo_plantilla_{plantilla_id}.pdf"
+            upload_folder = os.path.join(app.static_folder, 'ejemplos_plantillas')
+            
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)
+                
+            filepath = os.path.join(upload_folder, filename)
+            file.save(filepath)
+            
+            flash(f'El archivo de ejemplo para la plantilla ID {plantilla_id} se ha actualizado correctamente.', 'success')
+        except Exception as e:
+            flash(f'Ocurrió un error al guardar el archivo: {str(e)}', 'danger')
+    else:
+        flash('Formato de archivo no válido. Por favor, sube un archivo PDF.', 'danger')
+
+    return redirect(url_for('gestionar_ejemplo_page', plantilla_id=plantilla_id))
+
+
 
 
 if __name__ == '__main__':
