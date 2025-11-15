@@ -1337,7 +1337,7 @@ def gestionar_ejemplo_page(plantilla_id):
 
 
 # ==============================================================================
-#      (¡NUEVA VERSIÓN!) RUTA API PARA SUBIR EJEMPLO A SUPABASE STORAGE
+#      (¡VERSIÓN FINAL Y CORREGIDA!) RUTA API PARA SUBIR EJEMPLO
 # ==============================================================================
 @app.route('/api/upload_ejemplo/<int:plantilla_id>', methods=['POST'])
 def upload_ejemplo_api(plantilla_id):
@@ -1356,29 +1356,32 @@ def upload_ejemplo_api(plantilla_id):
 
     if file and file.filename.endswith('.pdf'):
         try:
-            # Nombre del archivo dentro del bucket de Supabase
-            file_path_in_bucket = f"ejemplo_plantilla_{plantilla_id}.pdf"
+            # --- ¡CAMBIO CRÍTICO AQUÍ! ---
+            # 1. Leemos las claves desde las variables de entorno.
+            url = os.environ.get('SUPABASE_URL')
+            service_key = os.environ.get('SUPABASE_SERVICE_KEY') # <-- Usamos la clave de servicio
+
+            # 2. Creamos un cliente de Supabase TEMPORAL solo para esta operación,
+            #    pero esta vez con los superpoderes de la clave de servicio.
+            supabase_admin = create_client(url, service_key)
             
-            # Leemos el contenido del archivo en memoria
+            # 3. El resto del código es igual, pero ahora se ejecuta con el cliente "admin".
+            file_path_in_bucket = f"ejemplo_plantilla_{plantilla_id}.pdf"
             file_bytes = file.read()
             
-            # ¡LA MAGIA OCURRE AQUÍ!
-            # Usamos el cliente de Supabase para subir el archivo
-            # El método .upload() puede crear o reemplazar un archivo (upsert=True)
-            supabase.storage.from_('ejemplos-plantillas').upload(
+            supabase_admin.storage.from_('ejemplos-plantillas').upload(
                 path=file_path_in_bucket,
                 file=file_bytes,
                 file_options={"content-type": "application/pdf", "upsert": "true"}
             )
             
-            flash(f'El archivo de ejemplo para la plantilla ID {plantilla_id} se ha actualizado correctamente en Supabase Storage.', 'success')
+            flash(f'¡Éxito! El archivo de ejemplo para la plantilla ID {plantilla_id} se ha actualizado.', 'success')
 
         except Exception as e:
-            # Capturamos errores específicos de la API de Supabase si es posible
             error_message = str(e)
             if hasattr(e, 'message'):
                 error_message = e.message
-            print(f"ERROR al subir a Supabase: {error_message}")
+            print(f"ERROR al subir a Supabase con clave de servicio: {error_message}")
             flash(f'Ocurrió un error al subir el archivo a Supabase: {error_message}', 'danger')
     else:
         flash('Formato de archivo no válido. Por favor, sube un archivo PDF.', 'danger')
