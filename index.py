@@ -572,7 +572,7 @@ def guardar_plantilla():
 @app.route('/ver_plantillas')
 def ver_plantillas():
     if 'username' not in session: return redirect(url_for('login'))
-    return render_template('ver_plantillas.html')
+    return render_template('ver_plantillas.html', os=os) # <-- ¡ESTE ES EL CAMBIO!
 
 @app.route('/plantilla/<int:plantilla_id>')
 def detalle_plantilla(plantilla_id):
@@ -1336,7 +1336,9 @@ def gestionar_ejemplo_page(plantilla_id):
         return redirect(url_for('ver_plantillas'))
 
 
-# --- Ruta API para PROCESAR la subida del archivo de ejemplo ---
+# ==============================================================================
+#      (¡NUEVA VERSIÓN!) RUTA API PARA SUBIR EJEMPLO A SUPABASE STORAGE
+# ==============================================================================
 @app.route('/api/upload_ejemplo/<int:plantilla_id>', methods=['POST'])
 def upload_ejemplo_api(plantilla_id):
     if session.get('role') != 'administrador':
@@ -1354,24 +1356,34 @@ def upload_ejemplo_api(plantilla_id):
 
     if file and file.filename.endswith('.pdf'):
         try:
-            filename = f"ejemplo_plantilla_{plantilla_id}.pdf"
-            upload_folder = os.path.join(app.static_folder, 'ejemplos_plantillas')
+            # Nombre del archivo dentro del bucket de Supabase
+            file_path_in_bucket = f"ejemplo_plantilla_{plantilla_id}.pdf"
             
-            if not os.path.exists(upload_folder):
-                os.makedirs(upload_folder)
-                
-            filepath = os.path.join(upload_folder, filename)
-            file.save(filepath)
+            # Leemos el contenido del archivo en memoria
+            file_bytes = file.read()
             
-            flash(f'El archivo de ejemplo para la plantilla ID {plantilla_id} se ha actualizado correctamente.', 'success')
+            # ¡LA MAGIA OCURRE AQUÍ!
+            # Usamos el cliente de Supabase para subir el archivo
+            # El método .upload() puede crear o reemplazar un archivo (upsert=True)
+            supabase.storage.from_('ejemplos-plantillas').upload(
+                path=file_path_in_bucket,
+                file=file_bytes,
+                file_options={"content-type": "application/pdf", "upsert": "true"}
+            )
+            
+            flash(f'El archivo de ejemplo para la plantilla ID {plantilla_id} se ha actualizado correctamente en Supabase Storage.', 'success')
+
         except Exception as e:
-            flash(f'Ocurrió un error al guardar el archivo: {str(e)}', 'danger')
+            # Capturamos errores específicos de la API de Supabase si es posible
+            error_message = str(e)
+            if hasattr(e, 'message'):
+                error_message = e.message
+            print(f"ERROR al subir a Supabase: {error_message}")
+            flash(f'Ocurrió un error al subir el archivo a Supabase: {error_message}', 'danger')
     else:
         flash('Formato de archivo no válido. Por favor, sube un archivo PDF.', 'danger')
 
     return redirect(url_for('gestionar_ejemplo_page', plantilla_id=plantilla_id))
-
-
 
 
 if __name__ == '__main__':

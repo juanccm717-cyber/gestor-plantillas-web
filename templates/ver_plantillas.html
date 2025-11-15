@@ -27,7 +27,7 @@
                             <th style="width: 10%;">ID</th>
                             <th>Tipo de Atención</th>
                             <th style="width: 20%;">Código Prestacional</th>
-                            <th style="width: 25%;" class="text-center">Acciones</th> <!-- Ancho ajustado para más botones -->
+                            <th style="width: 25%;" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="registrosBody">
@@ -44,26 +44,21 @@
     </div>
 </div>
 
-<!-- ============================================================= -->
-<!--               ¡MODIFICACIÓN REALIZADA AQUÍ! (1/2)             -->
-<!-- ============================================================= -->
-<!-- --- MODAL PARA VISUALIZAR EL PDF DE EJEMPLO --- -->
+<!-- MODAL PARA VISUALIZAR EL PDF DE EJEMPLO -->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="pdfModalLabel">Ejemplo de Plantilla</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-0" style="height: 80vh;">
-        <!-- El iframe se insertará aquí con JavaScript -->
         <div id="pdfViewerContainer" class="w-100 h-100"></div>
       </div>
     </div>
   </div>
 </div>
-<!-- --- FIN DEL MODAL --- -->
-<!-- ============================================================= -->
+<!-- FIN DEL MODAL -->
 
 {% endblock %}
 
@@ -76,14 +71,10 @@
         const resultsCount = document.getElementById('resultsCount');
         let allRegistros = [];
 
-        // =============================================================
-        //               ¡MODIFICACIÓN REALIZADA AQUÍ! (2/2)             -->
-        // =============================================================
-        // --- REFERENCIA AL MODAL Y SU CONTENEDOR ---
+        // Referencia al modal y sus componentes
         const pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
         const pdfViewerContainer = document.getElementById('pdfViewerContainer');
         const pdfModalLabel = document.getElementById('pdfModalLabel');
-        // --- FIN DE LA REFERENCIA ---
 
         function cargarRegistros() {
             spinner.style.display = 'block';
@@ -120,8 +111,8 @@
                 verEjemploBtn.innerHTML = '<i class="bi bi-file-earmark-text-fill"></i>';
                 verEjemploBtn.onclick = () => mostrarEjemplo(registro.id, registro.tipo_atencion);
                 accionesCell.appendChild(verEjemploBtn);
-                // --- FIN DEL BOTÓN ---
 
+                // --- BOTÓN DE VER DETALLES (Ojo) ---
                 const verBtn = document.createElement('a');
                 verBtn.href = `/plantilla/${registro.id}`;
                 verBtn.className = 'btn btn-sm btn-outline-info me-1';
@@ -129,6 +120,7 @@
                 verBtn.innerHTML = '<i class="bi bi-eye-fill"></i>';
                 accionesCell.appendChild(verBtn);
 
+                // --- BOTONES DE ADMINISTRADOR ---
                 if ('{{ session.role }}' === 'administrador') {
                     const subirEjemploBtn = document.createElement('a');
                     subirEjemploBtn.href = `/gestionar_ejemplo/${registro.id}`;
@@ -163,26 +155,26 @@
             actualizarContador(registros.length);
         }
 
-        // --- NUEVA FUNCIÓN PARA MOSTRAR EL PDF ---
+        // --- FUNCIÓN PARA MOSTRAR EL PDF DESDE SUPABASE ---
         function mostrarEjemplo(plantillaId, nombrePlantilla) {
-            const pdfUrl = `/static/ejemplos_plantillas/ejemplo_plantilla_${plantillaId}.pdf`;
+            // Obtenemos la URL base de tu proyecto de Supabase desde la variable de entorno
+            const supabaseUrl = '{{ os.environ.get("SUPABASE_URL") }}';
             
-            // Creamos el iframe para mostrar el PDF
+            // Construimos la URL pública completa del archivo en Supabase Storage
+            const pdfUrl = `${supabaseUrl}/storage/v1/object/public/ejemplos-plantillas/ejemplo_plantilla_${plantillaId}.pdf`;
+            
             const iframe = document.createElement('iframe');
             iframe.src = pdfUrl;
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = 'none';
 
-            // Limpiamos el contenedor y añadimos el nuevo iframe
             pdfViewerContainer.innerHTML = '';
             pdfViewerContainer.appendChild(iframe);
 
-            // Actualizamos el título del modal y lo mostramos
             pdfModalLabel.textContent = `Ejemplo: ${nombrePlantilla}`;
             pdfModal.show();
         }
-        // --- FIN DE LA NUEVA FUNCIÓN ---
 
         function eliminarRegistro(id, nombre) {
             if (confirm(`¿Estás seguro de que quieres eliminar la plantilla "${nombre}" (ID: ${id})?`)) {
@@ -217,7 +209,7 @@
         cargarRegistros();
         searchInput.addEventListener('keyup', filtrarTabla);
         window.eliminarRegistro = eliminarRegistro;
-        window.mostrarEjemplo = mostrarEjemplo; // Hacemos la función accesible globalmente
+        window.mostrarEjemplo = mostrarEjemplo;
     });
 </script>
 {% endblock %}
