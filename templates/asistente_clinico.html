@@ -5,7 +5,6 @@
 {% block head %}
 {{ super() }}
 <style>
-    /* Estilos para una presentación limpia y profesional */
     .guia-card { border-left: 4px solid #0d6efd; }
     .seccion-titulo { font-size: 1.1rem; font-weight: 500; color: #0d6efd; margin-top: 1.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
     .subseccion-titulo { font-size: 1rem; font-weight: 500; color: #343a40; margin-top: 1rem; }
@@ -45,14 +44,12 @@
 <script>
 // Usamos una función anónima para encapsular el código y evitar conflictos.
 (function() {
-    // Esperamos a que todo el contenido de la página esté cargado.
     document.addEventListener('DOMContentLoaded', function() {
 
         var inputDiagnostico = document.getElementById('input-diagnostico');
         var contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
 
-        // 1. Cargar la lista de diagnósticos para el autocompletado.
-        // Esta parte siempre ha funcionado y no se toca.
+        // 1. Cargar la lista de diagnósticos.
         fetch('/api/get_all_diagnosticos')
             .then(function(response) {
                 if (!response.ok) { throw new Error('Error de red al cargar diagnósticos'); }
@@ -86,14 +83,12 @@
 
             contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando...</p></div>';
 
-            // Llamada a la API para obtener los datos de la guía en JSON.
             fetch('/api/asistente_sugerencias?cie10=' + codigoCIE10)
                 .then(function(response) {
                     if (!response.ok) { throw new Error('No se encontró una guía para el CIE-10: ' + codigoCIE10); }
                     return response.json();
                 })
                 .then(function(data) {
-                    // Si la API responde bien, llamamos a la función que construye el HTML.
                     renderizarGuia(data);
                 })
                 .catch(function(error) {
@@ -103,7 +98,6 @@
         }
 
         // 3. LA FUNCIÓN CLAVE: Renderizar la guía.
-        // Escrita con la sintaxis más simple y segura posible.
         function renderizarGuia(guia) {
             var html = '';
             html += '<div class="card guia-card">';
