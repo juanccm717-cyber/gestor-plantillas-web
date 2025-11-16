@@ -5,7 +5,6 @@
 {% block head %}
 {{ super() }}
 <style>
-    /* Estilos para una presentación limpia y profesional */
     .guia-card { border-left: 4px solid #0d6efd; }
     .seccion-titulo { font-size: 1.1rem; font-weight: 500; color: #0d6efd; margin-top: 1.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
     .subseccion-titulo { font-size: 1rem; font-weight: 500; color: #343a40; margin-top: 1rem; }
@@ -43,55 +42,105 @@
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const inputDiagnostico = document.getElementById('input-diagnostico');
-    const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
-    
-    // --- 1. CARGA DE DIAGNÓSTICOS ---
-    fetch('/api/get_all_diagnosticos')
-        .then(response => response.json())
-        .then(data => {
-            const dataList = document.createElement('datalist');
-            dataList.id = 'diagnosticos-list';
-            data.forEach(d => {
-                const option = document.createElement('option');
-                option.value = d.codigo + ' - ' + d.descripcion;
-                dataList.appendChild(option);
-            });
-            document.body.appendChild(dataList);
-            inputDiagnostico.setAttribute('list', 'diagnosticos-list');
-        })
-        .catch(error => {
-            console.error("Error al cargar la lista de diagnósticos:", error);
-            contenedorSugerencias.innerHTML = '<div class="alert alert-danger">Error: No se pudo cargar la lista de diagnósticos. Verifique la consola.</div>';
-        });
+// Envolvemos todo en una función autoejecutable para evitar conflictos.
+(function() {
+    // Espera a que el DOM esté completamente cargado.
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        var inputDiagnostico = document.getElementById('input-diagnostico');
+        var contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
 
-    // --- 2. FUNCIÓN DE CONSULTA ---
-    function consultarAsistenteIA(textoInput) {
-        const codigoCIE10 = textoInput.split(' - ')[0].trim();
-        if (!codigoCIE10) return;
-
-        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando...</p></div>';
-        fetch('/api/asistente_sugerencias?cie10=' + codigoCIE10)
-            .then(response => {
-                if (!response.ok) throw new Error('Guía no encontrada.');
+        // 1. Cargar la lista de diagnósticos para el autocompletado.
+        fetch('/api/get_all_diagnosticos')
+            .then(function(response) {
                 return response.json();
             })
-            .then(data => renderizarGuia(data))
-            .catch(error => {
-                contenedorSugerencias.innerHTML = '<div class="alert alert-warning">' + error.message + '</div>';
+            .then(function(data) {
+                var dataList = document.createElement('datalist');
+                dataList.id = 'diagnosticos-list';
+                data.forEach(function(d) {
+                    var option = document.createElement('option');
+                    option.value = d.codigo + ' - ' + d.descripcion;
+                    dataList.appendChild(option);
+                });
+                document.body.appendChild(dataList);
+                inputDiagnostico.setAttribute('list', 'diagnosticos-list');
+            })
+            .catch(function(error) {
+                console.error('Error fatal al cargar diagnósticos:', error);
+                contenedorSugerencias.innerHTML = '<div class="alert alert-danger">Error crítico: No se pudo conectar con la API para cargar diagnósticos.</div>';
             });
-    }
 
-    // --- 3. RENDERIZADOR (VERSIÓN A PRUEBA DE ERRORES DE SINTAXIS) ---
-    function renderizarGuia(data) {
-        let html = '<div class="card guia-card"><div class="card-header bg-light">';
-        html += '<h5 class="mb-1">' + (data.nombre_guia || 'Guía sin nombre') + '</h5>';
-        html += '<small class="text-muted">Versión: ' + (data.version_guia || 'N/A') + ' | Actualizado: ' + (data.fecha_actualizacion || 'N/A') + '</small>';
-        html += '</div><div class="card-body">';
+        // 2. Función que se ejecuta cuando el usuario escribe en el input.
+        function consultarAsistenteIA() {
+            var textoInput = inputDiagnostico.value;
+            var codigoCIE10 = textoInput.split(' - ')[0].trim();
 
+            if (!codigoCIE10) {
+                return;
+            }
+
+            contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando base de conocimiento...</p></div>';
+
+            fetch('/api/asistente_sugerencias?cie10=' + codigoCIE10)
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('No se encontraron recomendaciones para este diagnóstico.');
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    renderizarGuia(data);
+                })
+                .catch(function(error) {
+                    contenedorSugerencias.innerHTML = '<div class="alert alert-warning text-center">' + error.message + '</div>';
+                });
+        }
+
+        // 3. Función para construir el HTML de la guía.
+        function renderizarGuia(data) {
+            var html = '';
+            html += '<div class="card guia-card">';
+            html += '<div class="card-header bg-light">';
+            html += '<h5 class="mb-1">' + (data.nombre_guia || 'Guía sin nombre') + '</h5>';
+            html += '<small class="text-muted">Versión: ' + (data.version_guia || 'N/A') + ' | Actualizado: ' + (data.fecha_actualizacion || 'N/A') + '</small>';
+            html += '</div>';
+            html += '<div class="card-body">';
+            
+            if (data.secciones) {
+                data.secciones.forEach(function(seccion) {
+                    html += '<h6 class="seccion-titulo">' + seccion.titulo + '</h6>';
+                    if (seccion.contenido) {
+                        html += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  
+') + '</p>';
+                    }
+                    if (seccion.items) {
+                        seccion.items.forEach(function(item) {
+                            html += renderItem(item);
+                        });
+                    }
+                    if (seccion.subsecciones) {
+                        seccion.subsecciones.forEach(function(sub) {
+                            html += '<div class="ms-3">';
+                            html += '<p class="subseccion-titulo">' + sub.titulo + '</p>';
+                            if (sub.items) {
+                                sub.items.forEach(function(item) {
+                                    html += renderItem(item);
+                                });
+                            }
+                            html += '</div>';
+                        });
+                    }
+                });
+            }
+
+            html += '</div></div>';
+            contenedorSugerencias.innerHTML = html;
+        }
+
+        // 4. Función para construir el HTML de un solo item.
         function renderItem(item) {
-            let itemHtml = '<div class="item-recomendacion">';
+            var itemHtml = '<div class="item-recomendacion">';
             itemHtml += '<span class="item-nombre">' + item.nombre + '</span>';
             if (item.codigo_item || item.codigo_procedimiento) {
                 itemHtml += ' <span class="badge bg-secondary item-codigo">' + (item.codigo_item || item.codigo_procedimiento) + '</span>';
@@ -103,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (item.ejemplos) {
                 itemHtml += '<ul>';
                 item.ejemplos.forEach(function(ej) {
-                    let codigoHtml = ej.codigo_item ? '<code>' + ej.codigo_item + '</code>' : '';
+                    var codigoHtml = ej.codigo_item ? '<code>' + ej.codigo_item + '</code>' : '';
                     itemHtml += '<li><small><strong>' + ej.nombre + '</strong> (' + codigoHtml + '): ' + ej.dosis + '</small></li>';
                 });
                 itemHtml += '</ul>';
@@ -112,45 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return itemHtml;
         }
 
-        function renderSecciones(secciones) {
-            let seccionesHtml = '';
-            if (!secciones) return '';
-            secciones.forEach(function(seccion) {
-                seccionesHtml += '<h6 class="seccion-titulo">' + seccion.titulo + '</h6>';
-                if (seccion.contenido) {
-                    seccionesHtml += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  
-') + '</p>';
-                }
-                if (seccion.items) {
-                    secciones.items.forEach(function(item) {
-                        seccionesHtml += renderItem(item);
-                    });
-                }
-                if (seccion.subsecciones) {
-                    seccion.subsecciones.forEach(function(sub) {
-                        seccionesHtml += '<div class="ms-3">';
-                        seccionesHtml += '<p class="subseccion-titulo">' + sub.titulo + '</p>';
-                        if (sub.items) {
-                            sub.items.forEach(function(item) {
-                                seccionesHtml += renderItem(item);
-                            });
-                        }
-                        seccionesHtml += '</div>';
-                    });
-                }
-            });
-            return seccionesHtml;
-        }
-
-        html += renderSecciones(data.secciones);
-        html += '</div></div>';
-        contenedorSugerencias.innerHTML = html;
-    }
-
-    // --- 4. EVENT LISTENER ---
-    inputDiagnostico.addEventListener('input', function() {
-        consultarAsistenteIA(this.value);
+        // 5. Asignar el evento al input.
+        inputDiagnostico.addEventListener('input', consultarAsistenteIA);
     });
-});
+})();
 </script>
 {% endblock %}
