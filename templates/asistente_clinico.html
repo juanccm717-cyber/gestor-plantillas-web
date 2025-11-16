@@ -111,8 +111,7 @@
                 guia.secciones.forEach(function(seccion) {
                     html += '<h6 class="seccion-titulo">' + seccion.titulo + '</h6>';
                     if (seccion.contenido) {
-                        html += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  
-') + '</p>';
+                        html += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  ') + '</p>';
                     }
                     if (seccion.items) {
                         seccion.items.forEach(function(item) {
