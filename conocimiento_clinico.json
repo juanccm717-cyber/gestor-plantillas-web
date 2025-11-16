@@ -1359,7 +1359,524 @@
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la Prevención y Manejo de la Injuria Renal Aguda",
+  "diagnostico_cie10": "N179",
+  "referencias_cie10": [
+    "N170",
+    "N171",
+    "N172",
+    "N178"
+  ],
+  "secciones": [
+    {
+      "titulo": "Definición y Diagnóstico (Criterios KDIGO)",
+      "contenido": "La Injuria Renal Aguda (IRA) se define por un deterioro rápido de la función renal. El diagnóstico se basa en el aumento de la creatinina sérica o la disminución del volumen urinario.",
+      "items": [
+        {
+          "nombre": "Criterio de Creatinina Sérica",
+          "recomendacion": "Aumento de ≥ 0.3 mg/dL en 48 horas, O aumento de ≥ 1.5 veces el valor basal en los últimos 7 días."
+        },
+        {
+          "nombre": "Criterio de Volumen Urinario",
+          "recomendacion": "Volumen urinario < 0.5 mL/kg/hora durante 6 horas."
+        }
+      ]
+    },
+    {
+      "titulo": "Estadificación de la Severidad (KDIGO)",
+      "items": [
+        {
+          "nombre": "Estadio 1",
+          "recomendacion": "Creatinina 1.5-1.9 veces el valor basal O diuresis < 0.5 mL/kg/h por 6-12 horas."
+        },
+        {
+          "nombre": "Estadio 2",
+          "recomendacion": "Creatinina 2.0-2.9 veces el valor basal O diuresis < 0.5 mL/kg/h por ≥ 12 horas."
+        },
+        {
+          "nombre": "Estadio 3",
+          "recomendacion": "Creatinina ≥ 3.0 veces el valor basal, O creatinina sérica ≥ 4.0 mg/dL, O inicio de Terapia de Reemplazo Renal (TRR), O diuresis < 0.3 mL/kg/h por ≥ 24 horas (anuria)."
+        }
+      ]
+    },
+    {
+      "titulo": "Prevención y Manejo General",
+      "contenido": "La prevención es clave en pacientes de riesgo. El manejo se centra en tratar la causa subyacente y dar soporte.",
+      "items": [
+        {
+          "nombre": "Optimización Hemodinámica",
+          "recomendacion": "Asegurar una perfusión renal adecuada manteniendo una presión arterial media (PAM) objetivo, generalmente > 65 mmHg."
+        },
+        {
+          "nombre": "Evitar Nefrotóxicos",
+          "recomendacion": "Suspender o ajustar dosis de fármacos nefrotóxicos como AINEs, aminoglucósidos, y contrastes yodados siempre que sea posible."
+        },
+        {
+          "nombre": "Manejo de Fluidos",
+          "recomendacion": "Evaluar cuidadosamente el estado de volemia. Administrar fluidos en pacientes hipovolémicos y restringir en pacientes con sobrecarga de volumen."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de Complicaciones",
+      "subsecciones": [
+        {
+          "titulo": "Sobrecarga de Volumen",
+          "items": [
+            {
+              "nombre": "Furosemida Inyectable",
+              "codigo_item": "3710",
+              "recomendacion": "Se puede administrar un bolo intravenoso para forzar la diuresis en pacientes con sobrecarga de volumen que aún producen orina. No previene ni trata la IRA per se."
+            }
+          ]
+        },
+        {
+          "titulo": "Hiperkalemia (Potasio alto)",
+          "recomendacion": "Manejo de urgencia con medidas para estabilizar la membrana miocárdica (gluconato de calcio), redistribuir el potasio (insulina + dextrosa, salbutamol) y eliminarlo del cuerpo (diuréticos, resinas, diálisis)."
+        },
+        {
+          "titulo": "Acidosis Metabólica Severa",
+          "recomendacion": "Considerar la administración de Bicarbonato de Sodio si el pH es < 7.1-7.2, aunque la indicación es controvertida y la diálisis es el tratamiento definitivo."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Reemplazo Renal (TRR) / Diálisis",
+      "contenido": "La diálisis está indicada de forma urgente ante complicaciones graves que no responden al tratamiento médico.",
+      "items": [
+        {
+          "nombre": "Indicaciones de Diálisis Urgente",
+          "recomendacion": "Acidosis metabólica severa refractaria, Encefalopatía urémica, Pericarditis urémica, Intoxicaciones por sustancias dializables, Sobrecarga de volumen refractaria a diuréticos, Hiperkalemia severa refractaria."
+        },
+        {
+          "nombre": "Procedimiento de Hemodiálisis",
+          "codigo_procedimiento": "90937",
+          "recomendacion": "Modalidad de TRR más común en el contexto agudo. Requiere la colocación de un catéter venoso central de alto flujo."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "injuria renal aguda",
+    "insuficiencia renal aguda",
+    "IRA",
+    "N179",
+    "KDIGO",
+    "creatinina",
+    "diuresis",
+    "hemodialisis",
+    "hiperkalemia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Manejo de la Pancreatitis Aguda",
+  "diagnostico_cie10": "K859",
+  "referencias_cie10": [
+    "K850",
+    "K851",
+    "K852",
+    "K85X"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "Se requieren al menos 2 de los siguientes 3 criterios para el diagnóstico de pancreatitis aguda:",
+      "items": [
+        {
+          "nombre": "Criterio 1: Dolor Abdominal",
+          "recomendacion": "Dolor agudo, persistente y severo en el epigastrio, que a menudo se irradia hacia la espalda."
+        },
+        {
+          "nombre": "Criterio 2: Enzimas Pancreáticas",
+          "recomendacion": "Elevación de la lipasa o amilasa sérica a un nivel ≥ 3 veces el límite superior de la normalidad."
+        },
+        {
+          "nombre": "Criterio 3: Hallazgos de Imagen",
+          "recomendacion": "Hallazgos característicos de pancreatitis aguda en una Tomografía Computarizada (TC) con contraste, Resonancia Magnética (RM) o ecografía abdominal."
+        }
+      ]
+    },
+    {
+      "titulo": "Estratificación de la Severidad (Clasificación de Atlanta Revisada)",
+      "items": [
+        {
+          "nombre": "Pancreatitis Aguda Leve",
+          "recomendacion": "Ausencia de fallo orgánico y de complicaciones locales o sistémicas. Generalmente se resuelve en la primera semana."
+        },
+        {
+          "nombre": "Pancreatitis Aguda Moderadamente Severa",
+          "recomendacion": "Presencia de fallo orgánico transitorio (< 48 horas) y/o complicaciones locales (ej. colección necrótica aguda) o sistémicas."
+        },
+        {
+          "nombre": "Pancreatitis Aguda Severa",
+          "recomendacion": "Presencia de fallo orgánico persistente (> 48 horas). Se asocia a una alta mortalidad."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Inicial (Primeras 24-48 horas)",
+      "contenido": "El manejo inicial es de soporte y es crucial para prevenir la progresión a pancreatitis severa.",
+      "items": [
+        {
+          "nombre": "Fluidoterapia Intravenosa Agresiva",
+          "recomendacion": "Es la piedra angular del tratamiento. Se recomienda la administración de 5-10 mL/kg/hora de una solución cristaloide isotónica (ej. Lactato de Ringer) para alcanzar objetivos de reanimación (mejoría de la frecuencia cardíaca, presión arterial y diuresis)."
+        },
+        {
+          "nombre": "Manejo del Dolor",
+          "recomendacion": "Se deben administrar analgésicos por vía intravenosa para un control adecuado del dolor. Los opioides como la morfina o el fentanilo son opciones efectivas y seguras."
+        },
+        {
+          "nombre": "Soporte Nutricional",
+          "recomendacion": "En la pancreatitis aguda leve, se puede reiniciar la alimentación oral una vez que el dolor abdominal ha mejorado. En casos moderados a severos, se prefiere la nutrición enteral (por sonda nasogástrica o nasoyeyunal) sobre la parenteral."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo según la Etiología y Complicaciones",
+      "contenido": "Una vez estabilizado el paciente, es crucial determinar y tratar la causa subyacente.",
+      "items": [
+        {
+          "nombre": "Pancreatitis Biliar con Colangitis",
+          "recomendacion": "En pacientes con pancreatitis aguda biliar y colangitis (fiebre, ictericia, dolor) concurrente, se indica una Colangiopancreatografía Retrógrada Endoscópica (CPRE) de urgencia (dentro de 24 horas) para drenar la vía biliar.",
+          "ejemplos": [
+            {
+              "nombre": "Colangiopancreatografía Endoscópica Retrógrada (CPRE)",
+              "codigo_procedimiento": "43260"
+            }
+          ]
+        },
+        {
+          "nombre": "Colecistectomía",
+          "recomendacion": "En pacientes con pancreatitis aguda biliar leve, se recomienda realizar la colecistectomía (extirpación de la vesícula biliar) durante la misma hospitalización para prevenir recurrencias."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "pancreatitis aguda",
+    "K859",
+    "dolor abdominal",
+    "lipasa",
+    "amilasa",
+    "fluidoterapia",
+    "CPRE",
+    "pancreatitis biliar"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Manejo de la Apendicitis Aguda",
+  "diagnostico_cie10": "K358",
+  "referencias_cie10": [
+    "K350",
+    "K351",
+    "K353",
+    "K359"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico Clínico y Escalas de Riesgo",
+      "contenido": "El diagnóstico se basa en la historia clínica y el examen físico. Las escalas de riesgo ayudan a objetivar la sospecha.",
+      "items": [
+        {
+          "nombre": "Síntomas y Signos Clásicos",
+          "recomendacion": "Dolor periumbilical que migra a la fosa ilíaca derecha, anorexia (pérdida de apetito), náuseas y fiebre. Al examen físico: dolor a la palpación en el punto de McBurney, signo de Blumberg (dolor al rebote)."
+        },
+        {
+          "nombre": "Score de Alvarado",
+          "recomendacion": "Es una herramienta útil para estratificar el riesgo. Un score bajo (0-4) hace el diagnóstico poco probable. Un score alto (7-10) lo hace muy probable. Un score intermedio (5-6) a menudo requiere estudios de imagen."
+        }
+      ]
+    },
+    {
+      "titulo": "Diagnóstico por Imagen",
+      "contenido": "Se recomienda en pacientes con presentación atípica o con score de riesgo intermedio.",
+      "items": [
+        {
+          "nombre": "Ecografía Abdominal",
+          "recomendacion": "Es el estudio de imagen inicial de elección en niños, mujeres embarazadas y adultos jóvenes delgados. Busca un apéndice no compresible, dilatado (> 6 mm) y con cambios inflamatorios."
+        },
+        {
+          "nombre": "Tomografía Computarizada (TC) de Abdomen y Pelvis con Contraste",
+          "recomendacion": "Es el método más preciso para el diagnóstico en adultos. Es especialmente útil para identificar complicaciones como abscesos o perforación."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento",
+      "contenido": "El tratamiento de elección para la apendicitis aguda es la apendicectomía.",
+      "subsecciones": [
+        {
+          "titulo": "Profilaxis Antibiótica Preoperatoria",
+          "contenido": "Debe administrarse dentro de los 60 minutos previos a la incisión quirúrgica para reducir el riesgo de infección del sitio operatorio.",
+          "items": [
+            {
+              "nombre": "Régimen Antibiótico Recomendado",
+              "recomendacion": "Se requiere cobertura para gérmenes gram-negativos y anaerobios. Una combinación común es una cefalosporina más metronidazol.",
+              "ejemplos": [
+                { "nombre": "Cefazolina 1g Inyectable", "codigo_item": "1639", "dosis": "Administrar una dosis única IV." },
+                { "nombre": "Metronidazol 500mg Inyectable", "codigo_item": "4776", "dosis": "Administrar una dosis única IV." }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Procedimiento Quirúrgico",
+          "items": [
+            {
+              "nombre": "Apendicectomía Laparoscópica",
+              "codigo_procedimiento": "44970",
+              "recomendacion": "Es el abordaje de elección en la mayoría de los centros. Se asocia con menos dolor postoperatorio, menor tasa de infección de herida y una recuperación más rápida en comparación con la cirugía abierta."
+            }
+          ]
+        },
+        {
+          "titulo": "Manejo Postoperatorio",
+          "items": [
+            {
+              "nombre": "Apendicitis No Complicada",
+              "recomendacion": "No se requieren antibióticos postoperatorios adicionales más allá de la dosis profiláctica."
+            },
+            {
+              "nombre": "Apendicitis Complicada (Perforada, con Peritonitis)",
+              "recomendacion": "Se requiere un curso de tratamiento antibiótico postoperatorio por vía intravenosa durante varios días (generalmente 3-7 días), hasta que el paciente esté afebril y con recuento de leucocitos normalizado."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "apendicitis aguda",
+    "K358",
+    "dolor abdominal",
+    "fosa iliaca derecha",
+    "Alvarado",
+    "apendicectomia",
+    "laparoscopia",
+    "cefazolina",
+    "metronidazol"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Manejo de la Hipertensión Arterial Esencial",
+  "diagnostico_cie10": "I10X",
+  "referencias_cie10": [
+    "I119",
+    "I129",
+    "I139"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación",
+      "contenido": "El diagnóstico de hipertensión arterial (HTA) se establece con la medición repetida de la presión arterial (PA) por encima de los umbrales normales.",
+      "items": [
+        {
+          "nombre": "Umbral Diagnóstico",
+          "recomendacion": "Se diagnostica HTA si la PA en consulta es consistentemente ≥ 140/90 mmHg. Se prefiere la confirmación con mediciones fuera de la consulta (MAPA o AMPA)."
+        },
+        {
+          "nombre": "Clasificación de la PA (Adultos)",
+          "recomendacion": "Normal: <120/80. Elevada: 120-129/<80. HTA Grado 1: 130-139/80-89. HTA Grado 2: ≥140/90."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Estilo de Vida",
+      "contenido": "Es la base del tratamiento para todos los pacientes con HTA.",
+      "items": [
+        {
+          "nombre": "Restricción de Sodio",
+          "recomendacion": "Limitar la ingesta de sal a < 5 gramos al día (equivalente a < 2 gramos de sodio)."
+        },
+        {
+          "nombre": "Dieta Saludable",
+          "recomendacion": "Adoptar un patrón de dieta rica en frutas, verduras, granos integrales y productos lácteos bajos en grasa (ej. dieta DASH)."
+        },
+        {
+          "nombre": "Actividad Física",
+          "recomendacion": "Realizar al menos 150 minutos por semana de ejercicio aeróbico de intensidad moderada (ej. caminar a paso ligero)."
+        },
+        {
+          "nombre": "Control de Peso y Alcohol",
+          "recomendacion": "Mantener un IMC entre 20-25 kg/m² y limitar el consumo de alcohol."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Farmacológico",
+      "contenido": "La mayoría de los pacientes requerirán tratamiento farmacológico para alcanzar los objetivos de PA.",
+      "subsecciones": [
+        {
+          "titulo": "Estrategia de Tratamiento Inicial",
+          "items": [
+            {
+              "nombre": "Terapia Combinada Inicial",
+              "recomendacion": "Para la mayoría de los pacientes, se recomienda iniciar con una combinación de dos fármacos, preferiblemente en una sola pastilla (terapia de combinación en un solo comprimido - SPC) para mejorar la adherencia."
+            },
+            {
+              "nombre": "Combinación Preferida",
+              "recomendacion": "Un bloqueador del sistema renina-angiotensina (IECA o ARA-II) + un calcioantagonista o un diurético tiazídico."
+            }
+          ]
+        },
+        {
+          "titulo": "Fármacos de Primera Línea",
+          "items": [
+            {
+              "nombre": "IECA (Inhibidor de la ECA)",
+              "ejemplos": [{ "nombre": "Enalapril 10 mg Tabletas", "codigo_item": "3078" }]
+            },
+            {
+              "nombre": "ARA-II (Antagonista del Receptor de Angiotensina II)",
+              "ejemplos": [{ "nombre": "Losartán 50 mg Tabletas", "codigo_item": "4523" }]
+            },
+            {
+              "nombre": "Calcioantagonistas (Tipo Dihidropiridínico)",
+              "ejemplos": [{ "nombre": "Amlodipino 5 mg Tabletas", "codigo_item": "673" }]
+            },
+            {
+              "nombre": "Diuréticos Tiazídicos/Similares a Tiazidas",
+              "ejemplos": [{ "nombre": "Hidroclorotiazida 25 mg Tabletas", "codigo_item": "3911" }]
+            }
+          ]
+        },
+        {
+          "titulo": "Tratamiento Escalonado",
+          "items": [
+            {
+              "nombre": "Paso 1: Terapia Dual",
+              "recomendacion": "IECA/ARA-II + Calcioantagonista o Diurético."
+            },
+            {
+              "nombre": "Paso 2: Terapia Triple",
+              "recomendacion": "IECA/ARA-II + Calcioantagonista + Diurético."
+            },
+            {
+              "nombre": "Paso 3: HTA Resistente",
+              "recomendacion": "Añadir Espironolactona u otro fármaco (ej. betabloqueante, alfabloqueante) a la terapia triple."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Objetivos de Presión Arterial",
+      "contenido": "El objetivo del tratamiento es reducir la PA a un nivel que disminuya el riesgo de eventos cardiovasculares.",
+      "items": [
+        {
+          "nombre": "Objetivo General",
+          "recomendacion": "Para la mayoría de los pacientes, el objetivo inicial es reducir la PA a < 140/90 mmHg. Si se tolera bien, el objetivo ideal es < 130/80 mmHg."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hipertension arterial",
+    "HTA",
+    "I10X",
+    "presion arterial",
+    "enalapril",
+    "losartan",
+    "amlodipino",
+    "hidroclorotiazida",
+    "dieta DASH"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Tamizaje de Cáncer de Mama",
+  "diagnostico_cie10": "Z123",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Población Objetivo y Frecuencia del Tamizaje",
+      "contenido": "El objetivo del tamizaje es detectar el cáncer de mama en etapas tempranas en mujeres asintomáticas.",
+      "items": [
+        {
+          "nombre": "Grupo de Edad para Tamizaje",
+          "recomendacion": "Se recomienda iniciar el tamizaje con mamografía en mujeres de riesgo promedio a partir de los 40-50 años de edad."
+        },
+        {
+          "nombre": "Frecuencia",
+          "recomendacion": "La mamografía de tamizaje se debe realizar cada 1 a 2 años, según las guías locales y la evaluación de riesgo individual."
+        }
+      ]
+    },
+    {
+      "titulo": "Métodos de Tamizaje",
+      "contenido": "La mamografía es la única modalidad de imagen que ha demostrado reducir la mortalidad por cáncer de mama.",
+      "items": [
+        {
+          "nombre": "Mamografía Bilateral de Tamizaje",
+          "codigo_procedimiento": "77057",
+          "recomendacion": "Es el método de elección para el tamizaje. Consiste en la toma de dos proyecciones radiográficas de cada mama (craneocaudal y mediolateral oblicua)."
+        },
+        {
+          "nombre": "Ecografía Mamaria",
+          "codigo_procedimiento": "76645",
+          "recomendacion": "No se recomienda como método de tamizaje primario de forma aislada. Su rol principal es como estudio complementario a una mamografía con hallazgos inconclusos (BI-RADS 0) o en mujeres con mamas densas."
+        },
+        {
+          "nombre": "Autoexamen Mamario y Examen Clínico",
+          "recomendacion": "Aunque no han demostrado reducir la mortalidad, se recomienda que las mujeres conozcan sus mamas (conciencia mamaria) y consulten ante cualquier cambio. El examen clínico por un profesional puede ser parte del control de salud anual."
+        }
+      ]
+    },
+    {
+      "titulo": "Sistema de Reporte y Clasificación (BI-RADS)",
+      "contenido": "Los hallazgos de los estudios de imagen mamaria se reportan utilizando el sistema Breast Imaging Reporting and Data System (BI-RADS) para estandarizar la comunicación y la conducta a seguir.",
+      "items": [
+        {
+          "nombre": "BI-RADS 0: Incompleto",
+          "recomendacion": "Se necesitan estudios de imagen adicionales (ej. proyecciones mamográficas adicionales, ecografía) para una evaluación completa."
+        },
+        {
+          "nombre": "BI-RADS 1: Negativo",
+          "recomendacion": "No hay hallazgos sospechosos. Continuar con el tamizaje de rutina."
+        },
+        {
+          "nombre": "BI-RADS 2: Benigno",
+          "recomendacion": "Hallazgos definitivamente benignos (ej. quistes simples, calcificaciones benignas). Continuar con el tamizaje de rutina."
+        },
+        {
+          "nombre": "BI-RADS 3: Probablemente Benigno",
+          "recomendacion": "Hallazgo con una probabilidad de malignidad < 2%. Se recomienda un seguimiento a corto plazo (generalmente a los 6 meses) para demostrar estabilidad."
+        },
+        {
+          "nombre": "BI-RADS 4: Sospechoso",
+          "recomendacion": "Hallazgo sospechoso de malignidad (probabilidad del 2% al 95%). Se recomienda realizar una biopsia. Se subclasifica en 4A (baja sospecha), 4B (sospecha intermedia) y 4C (alta sospecha)."
+        },
+        {
+          "nombre": "BI-RADS 5: Altamente Sugestivo de Malignidad",
+          "recomendacion": "Hallazgo con una probabilidad de malignidad ≥ 95%. Se requiere una biopsia y manejo apropiado."
+        },
+        {
+          "nombre": "BI-RADS 6: Malignidad Conocida",
+          "recomendacion": "Se utiliza en pacientes con un diagnóstico de cáncer de mama ya confirmado por biopsia, que se realizan estudios de imagen para evaluar la respuesta al tratamiento."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "tamizaje",
+    "screening",
+    "cancer de mama",
+    "Z123",
+    "mamografia",
+    "ecografia mamaria",
+    "BI-RADS"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
 }
-
 
 ]
