@@ -2,95 +2,356 @@
   {
     "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
     "diagnostico_cie10": "M199",
-    "referencias_cie10": ["M159", "M169", "M179"],
-    "secciones": [
-      {"titulo": "Diagnóstico de la Osteoartritis (OA)", "contenido": "El diagnóstico de la osteoartritis es fundamentalmente clínico. Se basa en la presencia de dolor articular de características mecánicas, rigidez de corta duración (< 30 min) y limitación funcional en un paciente mayor de 45 años. Las radiografías simples se recomiendan para confirmar el diagnóstico, evaluar la severidad del daño articular (ej. pinzamiento del espacio articular, osteofitos) y descartar otras patologías, pero no son necesarias si la presentación clínica es típica."},
-      {"titulo": "Tratamiento No Farmacológico (Pilar Fundamental)", "contenido": "Es la primera línea de tratamiento y debe recomendarse a todos los pacientes. Incluye:\n- **Educación del paciente:** Informar sobre la naturaleza crónica de la enfermedad y la importancia del autocuidado.\n- **Ejercicio terapéutico:** Programas de fortalecimiento muscular (ej. cuádriceps en OA de rodilla), ejercicio aeróbico de bajo impacto (caminar, nadar, bicicleta) y ejercicios de rango de movimiento.\n- **Pérdida de peso:** En pacientes con sobrepeso u obesidad, es una de las intervenciones más efectivas para reducir el dolor y mejorar la función, especialmente en articulaciones de carga como rodilla y cadera."},
-      {"titulo": "Tratamiento Farmacológico para el Dolor", "subsecciones": [
-        {"titulo": "Primera Línea", "items": [{"nombre": "Paracetamol (Acetaminofén)", "codigo_item": "00204", "recomendacion": "Dosis de hasta 3-4 g/día. Se considera por su perfil de seguridad, aunque su efectividad es modesta."}]},
-        {"titulo": "Segunda Línea (o 1ra si hay inflamación)", "items": [
-          {"nombre": "AINEs Tópicos (ej. Diclofenaco gel)", "recomendacion": "De elección para OA de rodilla y mano por su menor riesgo de efectos adversos sistémicos."},
-          {"nombre": "AINEs Orales (ej. Ibuprofeno, Naproxeno, Celecoxib)", "codigo_item": "13101", "recomendacion": "Usar a la dosis más baja y por el menor tiempo posible, evaluando riesgo gastrointestinal y cardiovascular. (Códigos de referencia: Naproxeno 04979, Celecoxib 01712)."}
-        ]}
-      ]},
-      {"titulo": "Otras Terapias Farmacológicas", "items": [
-        {"nombre": "Infiltración intraarticular de corticoides", "recomendacion": "Proporciona alivio del dolor a corto plazo en brotes agudos. No se recomienda su uso repetido y frecuente."},
-        {"nombre": "Tramadol", "codigo_item": "06237", "recomendacion": "Puede considerarse para dolor moderado a severo en pacientes que no responden o tienen contraindicaciones para los AINEs."}
-      ]},
-      {"titulo": "Tratamiento Quirúrgico", "contenido": "La cirugía de reemplazo articular (artroplastia) se reserva para pacientes con osteoartritis severa, dolor intratable y discapacidad funcional significativa que no han respondido al tratamiento conservador. Es una intervención altamente efectiva para aliviar el dolor y restaurar la función."}
+    "referencias_cie10": [
+      "M159",
+      "M169",
+      "M179"
     ],
-    "palabras_clave": ["osteoartritis", "artrosis", "dolor articular", "AINEs", "paracetamol", "ibuprofeno", "naproxeno", "tramadol", "ejercicio terapéutico", "artroplastia"],
-    "version_guia": "1.0", "fecha_actualizacion": "2025-11-16"
+    "secciones": [
+      {
+        "titulo": "Diagnóstico",
+        "contenido": "El diagnóstico de la osteoartritis (OA) es principalmente clínico, basado en el dolor articular relacionado con el uso, rigidez matutina de corta duración (< 30 min) y limitación funcional. La edad (> 45 años) y la presencia de crepitación ósea son hallazgos comunes. Las radiografías se usan para confirmar el diagnóstico en casos atípicos o para evaluar la severidad, mostrando hallazgos como disminución del espacio articular, osteofitos y esclerosis subcondral."
+      },
+      {
+        "titulo": "Tratamiento No Farmacológico (Pilar del Manejo)",
+        "items": [
+          {
+            "nombre": "Educación y Autocuidado",
+            "recomendacion": "Informar al paciente sobre la naturaleza de la enfermedad, la importancia del control de peso y la actividad física."
+          },
+          {
+            "nombre": "Ejercicio Terapéutico",
+            "recomendacion": "Programas de ejercicios de fortalecimiento muscular (ej. cuádriceps para OA de rodilla), flexibilidad y aeróbicos de bajo impacto (caminar, nadar, ciclismo)."
+          },
+          {
+            "nombre": "Pérdida de Peso",
+            "recomendacion": "En pacientes con sobrepeso u obesidad, una pérdida de peso de al menos 5-10% ha demostrado reducir el dolor y mejorar la función."
+          }
+        ]
+      },
+      {
+        "titulo": "Tratamiento Farmacológico (para control de síntomas)",
+        "subsecciones": [
+          {
+            "titulo": "Primera Línea",
+            "items": [
+              {
+                "nombre": "Paracetamol (Acetaminofén)",
+                "codigo_item": "18068",
+                "recomendacion": "Se considera como analgésico inicial para dolor leve a moderado, aunque su efectividad es modesta. Dosis máxima: 3-4 g/día."
+              },
+              {
+                "nombre": "AINEs tópicos (ej. Diclofenaco en gel)",
+                "recomendacion": "Opción preferida para OA de rodilla y mano por su menor riesgo de efectos adversos sistémicos."
+              }
+            ]
+          },
+          {
+            "titulo": "Segunda Línea (si la primera es insuficiente)",
+            "items": [
+              {
+                "nombre": "AINEs orales (ej. Ibuprofeno, Naproxeno)",
+                "recomendacion": "Usar la dosis efectiva más baja por el menor tiempo posible. Considerar el riesgo gastrointestinal y cardiovascular. Se recomienda co-prescribir un protector gástrico (IBP) en pacientes de alto riesgo.",
+                "ejemplos": [
+                  {
+                    "nombre": "Ibuprofeno",
+                    "codigo_item": "4011",
+                    "dosis": "400-800 mg cada 6-8 horas."
+                  },
+                  {
+                    "nombre": "Naproxeno",
+                    "codigo_item": "4978",
+                    "dosis": "250-500 mg cada 12 horas."
+                  }
+                ]
+              },
+              {
+                "nombre": "Inhibidores de la COX-2 (ej. Celecoxib)",
+                "codigo_item": "1712",
+                "recomendacion": "Alternativa a los AINEs no selectivos en pacientes con alto riesgo gastrointestinal pero bajo riesgo cardiovascular."
+              }
+            ]
+          },
+          {
+            "titulo": "Tercera Línea (Dolor Moderado a Severo)",
+            "items": [
+              {
+                "nombre": "Tramadol",
+                "codigo_item": "6237",
+                "recomendacion": "Opioide débil para pacientes que no responden o tienen contraindicaciones para los AINEs. Usar con precaución por sus efectos adversos (náuseas, somnolencia)."
+              },
+              {
+                "nombre": "Inyecciones intraarticulares de corticosteroides",
+                "recomendacion": "Para alivio a corto plazo de exacerbaciones agudas, especialmente en OA de rodilla."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Tratamiento Quirúrgico",
+        "contenido": "Reservado para pacientes con dolor severo, discapacidad funcional significativa y fallo del tratamiento conservador. La opción principal es la artroplastia (reemplazo articular), más comúnmente de rodilla o cadera."
+      }
+    ],
+    "palabras_clave": [
+      "osteoartritis",
+      "artrosis",
+      "dolor articular",
+      "AINEs",
+      "paracetamol",
+      "ibuprofeno",
+      "naproxeno",
+      "tramadol",
+      "ejercicio terapéutico",
+      "artroplastia"
+    ],
+    "version_guia": "1.0",
+    "fecha_actualizacion": "2025-11-16"
   },
   {
     "nombre_guia": "Guía de Práctica Clínica para el manejo del paciente con Síndrome Coronario Crónico",
     "diagnostico_cie10": "I259",
-    "referencias_cie10": ["I209", "I251", "I252"],
-    "secciones": [
-      {"titulo": "Diagnóstico y Estratificación del Riesgo", "contenido": "El diagnóstico del Síndrome Coronario Crónico (SCC) se basa en la historia clínica de angina de pecho y la evaluación del riesgo cardiovascular. Se recomienda realizar un electrocardiograma (ECG) en reposo a todos los pacientes. Para confirmar el diagnóstico y evaluar la isquemia, se puede utilizar una prueba de esfuerzo (ergometría) o pruebas de imagen como la ecocardiografía de estrés o la angiografía coronaria por tomografía (Angio-TC), dependiendo del perfil del paciente."},
-      {"titulo": "Tratamiento Farmacológico Óptimo (TFO)", "contenido": "El TFO es la base del manejo y tiene dos objetivos: aliviar los síntomas (antianginosos) y prevenir eventos cardiovasculares (trombosis, infarto).", "subsecciones": [
-        {"titulo": "1. Terapia Anti-isquémica (para aliviar la angina)", "items": [
-          {"nombre": "Betabloqueantes (ej. Bisoprolol, Carvedilol)", "recomendacion": "Son la primera línea de tratamiento para el control de la frecuencia cardiaca y los síntomas."},
-          {"nombre": "Calcioantagonistas (ej. Amlodipino, Diltiazem)", "recomendacion": "Se usan si los betabloqueantes no son tolerados o son insuficientes. Pueden combinarse."},
-          {"nombre": "Nitroglicerina sublingual", "codigo_item": "21535", "recomendacion": "Recomendados para el alivio inmediato de los episodios de angina."}
-        ]},
-        {"titulo": "2. Terapia para la Prevención de Eventos", "items": [
-          {"nombre": "Ácido acetilsalicílico (Aspirina)", "codigo_item": "04410", "recomendacion": "Dosis de 100 mg/día recomendada en todos los pacientes con SCC, si no hay contraindicación."},
-          {"nombre": "Atorvastatina", "codigo_item": "06161", "recomendacion": "Fundamental para reducir el colesterol LDL. El objetivo es un LDL < 55 mg/dL en pacientes de muy alto riesgo."},
-          {"nombre": "Enalapril", "codigo_item": "06001", "recomendacion": "Recomendado en pacientes con SCC que también tienen hipertensión, diabetes, insuficiencia cardiaca o disfunción ventricular izquierda."}
-        ]}
-      ]},
-      {"titulo": "Revascularización (Intervencionista o Quirúrgica)", "contenido": "La decisión de revascularizar (mediante angioplastia con stent o cirugía de bypass) se toma en pacientes que persisten con angina a pesar del TFO, o en aquellos con enfermedad anatómicamente extensa y de alto riesgo (ej. enfermedad del tronco coronario izquierdo, enfermedad de 3 vasos con disfunción ventricular). La decisión debe ser individualizada y discutida por un 'Heart Team' (equipo del corazón)."}
+    "referencias_cie10": [
+      "I209",
+      "I251"
     ],
-    "palabras_clave": ["síndrome coronario crónico", "SCC", "angina de pecho", "enfermedad isquémica", "aspirina", "estatinas", "betabloqueantes", "IECA", "revascularización", "stent", "bypass", "atorvastatina", "enalapril"],
-    "version_guia": "2.0", "fecha_actualizacion": "2025-11-16"
+    "secciones": [
+      {
+        "titulo": "Diagnóstico y Estratificación de Riesgo",
+        "contenido": "El diagnóstico del Síndrome Coronario Crónico (SCC) se basa en la historia clínica de angina de pecho (dolor torácico opresivo precipitado por el esfuerzo y aliviado por el reposo o nitratos). El electrocardiograma (ECG) en reposo puede ser normal. Las pruebas de detección de isquemia (prueba de esfuerzo, ecocardiograma de estrés, etc.) se usan para confirmar el diagnóstico y estratificar el riesgo del paciente."
+      },
+      {
+        "titulo": "Manejo del Estilo de Vida",
+        "contenido": "Es fundamental en todos los pacientes. Incluye: cese del tabaquismo, dieta saludable (mediterránea), actividad física regular (30-60 min, 5-7 días/semana), control de peso (IMC < 25 kg/m²), y control de la presión arterial y la diabetes."
+      },
+      {
+        "titulo": "Tratamiento Farmacológico Óptimo (TFO)",
+        "subsecciones": [
+          {
+            "titulo": "Tratamiento Anti-isquémico (para aliviar la angina)",
+            "items": [
+              {
+                "nombre": "Nitroglicerina sublingual",
+                "codigo_item": "21535",
+                "recomendacion": "Para alivio inmediato de los episodios de angina. Dosis: 0.5 mg sublingual, se puede repetir cada 5 minutos hasta 3 dosis."
+              },
+              {
+                "nombre": "Betabloqueantes (ej. Bisoprolol, Carvedilol)",
+                "recomendacion": "Son la primera línea para el control de la frecuencia cardiaca y los síntomas. Se titula la dosis para alcanzar una FC en reposo de 55-60 lpm."
+              },
+              {
+                "nombre": "Calcioantagonistas (ej. Amlodipino, Diltiazem)",
+                "recomendacion": "Alternativa o añadido a los betabloqueantes si los síntomas persisten."
+              }
+            ]
+          },
+          {
+            "titulo": "Tratamiento para Prevención de Eventos Cardiovasculares",
+            "items": [
+              {
+                "nombre": "Ácido Acetilsalicílico (Aspirina)",
+                "codigo_item": "04001",
+                "recomendacion": "Dosis baja (75-100 mg/día) está indicada en todos los pacientes con SCC, a menos que haya contraindicación."
+              },
+              {
+                "nombre": "Estatinas de alta intensidad (ej. Atorvastatina)",
+                "codigo_item": "06251",
+                "recomendacion": "Para todos los pacientes, con el objetivo de reducir el colesterol LDL en al menos un 50% o a un nivel < 55 mg/dL."
+              },
+              {
+                "nombre": "Inhibidores de la ECA (ej. Enalapril)",
+                "codigo_item": "06001",
+                "recomendacion": "Indicados en pacientes con SCC que también tienen hipertensión, diabetes, insuficiencia cardiaca o disfunción ventricular izquierda."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Revascularización (Stent o Cirugía de Bypass)",
+        "contenido": "La decisión de revascularizar (además del TFO) se toma en pacientes que persisten con angina a pesar del tratamiento, o en aquellos con enfermedad anatómicamente extensa y de alto riesgo (ej. enfermedad del tronco coronario izquierdo, enfermedad de 3 vasos con disfunción ventricular). La decisión debe ser individualizada y discutida por un 'Heart Team' (equipo del corazón)."
+      }
+    ],
+    "palabras_clave": [
+      "síndrome coronario crónico",
+      "SCC",
+      "angina de pecho",
+      "enfermedad isquémica",
+      "aspirina",
+      "estatinas",
+      "betabloqueantes",
+      "IECA",
+      "revascularización",
+      "stent",
+      "bypass"
+    ],
+    "version_guia": "2.0",
+    "fecha_actualizacion": "2025-11-16"
   },
   {
     "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de Neumonía Adquirida en la Comunidad en población pediátrica",
     "diagnostico_cie10": "J189",
-    "referencias_cie10": ["J159", "J180"],
-    "secciones": [
-      {"titulo": "Diagnóstico", "contenido": "El diagnóstico es principalmente clínico, basado en la presencia de fiebre, tos y taquipnea (frecuencia respiratoria elevada para la edad). La auscultación puede revelar crepitantes o disminución del murmullo vesicular. La radiografía de tórax no se recomienda de rutina en casos leves de manejo ambulatorio, pero es esencial en pacientes que requieren hospitalización, tienen enfermedad grave o diagnóstico incierto."},
-      {"titulo": "Criterios de Hospitalización", "contenido": "Se debe hospitalizar a niños con signos de peligro como: saturación de oxígeno < 90-92%, cianosis, dificultad respiratoria severa (tirajes, quejido), incapacidad para la lactancia o beber, alteración del estado de conciencia, o en menores de 2-3 meses."},
-      {"titulo": "Tratamiento Ambulatorio (Neumonía No Grave)", "subsecciones": [
-        {"titulo": "Primera Línea Farmacológica", "items": [{"nombre": "Amoxicilina", "codigo_item": "04403", "recomendacion": "Es el tratamiento de elección. Dosis: 80-90 mg/kg/día, dividida en 2 o 3 dosis, durante 5 a 7 días."}]},
-        {"titulo": "Alternativa (si hay sospecha de atípicos o alergia)", "items": [{"nombre": "Azitromicina", "codigo_item": "04469", "recomendacion": "Dosis: 10 mg/kg el primer día, seguido de 5 mg/kg/día por 4 días más."}]}
-      ]},
-      {"titulo": "Tratamiento Hospitalario (Neumonía Grave)", "subsecciones": [
-        {"titulo": "Tratamiento Endovenoso", "items": [
-          {"nombre": "Ampicilina", "codigo_item": "04408", "recomendacion": "Es una opción de primera línea. Dosis: 150-200 mg/kg/día, dividida cada 6 horas."},
-          {"nombre": "Ceftriaxona", "codigo_item": "04441", "recomendacion": "Alternativa o si no hay respuesta a Ampicilina. Dosis: 50-100 mg/kg/día, dividida cada 12 o 24 horas."}
-        ]},
-        {"titulo": "Consideraciones Adicionales", "contenido": "En pacientes hospitalizados, se debe considerar la oxigenoterapia para mantener una saturación > 92%. El manejo de fluidos y la nutrición son también componentes clave del tratamiento."}
-      ]}
+    "referencias_cie10": [
+      "J159",
+      "J180"
     ],
-    "palabras_clave": ["neumonía", "pediatría", "NAC", "neumonía adquirida en la comunidad", "amoxicilina", "ceftriaxona", "azitromicina", "taquipnea", "fiebre", "tos"],
-    "version_guia": "1.0", "fecha_actualizacion": "2025-11-16"
+    "secciones": [
+      {
+        "titulo": "Diagnóstico",
+        "contenido": "El diagnóstico es principalmente clínico, basado en la presencia de fiebre, tos y taquipnea (frecuencia respiratoria elevada para la edad). La auscultación puede revelar crepitantes o disminución del murmullo vesicular. La radiografía de tórax no se recomienda de rutina en casos leves de manejo ambulatorio, pero es esencial en pacientes que requieren hospitalización, tienen enfermedad grave o diagnóstico incierto."
+      },
+      {
+        "titulo": "Criterios de Hospitalización",
+        "contenido": "Se debe hospitalizar a niños con signos de peligro como: saturación de oxígeno < 90-92%, cianosis, dificultad respiratoria severa (tirajes, quejido), incapacidad para la lactancia o beber, alteración del estado de conciencia, o en menores de 2-3 meses."
+      },
+      {
+        "titulo": "Tratamiento Ambulatorio (Neumonía No Grave)",
+        "subsecciones": [
+          {
+            "titulo": "Primera Línea Farmacológica",
+            "items": [
+              {
+                "nombre": "Amoxicilina",
+                "codigo_item": "04403",
+                "recomendacion": "Es el tratamiento de elección. Dosis: 80-90 mg/kg/día, dividida en 2 o 3 dosis, durante 5 a 7 días."
+              }
+            ]
+          },
+          {
+            "titulo": "Alternativa (si hay sospecha de atípicos o alergia)",
+            "items": [
+              {
+                "nombre": "Azitromicina",
+                "codigo_item": "04469",
+                "recomendacion": "Dosis: 10 mg/kg el primer día, seguido de 5 mg/kg/día por 4 días más."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "titulo": "Tratamiento Hospitalario (Neumonía Grave)",
+        "subsecciones": [
+          {
+            "titulo": "Tratamiento Endovenoso",
+            "items": [
+              {
+                "nombre": "Ampicilina",
+                "codigo_item": "04408",
+                "recomendacion": "Es una opción de primera línea. Dosis: 150-200 mg/kg/día, dividida cada 6 horas."
+              },
+              {
+                "nombre": "Ceftriaxona",
+                "codigo_item": "04441",
+                "recomendacion": "Alternativa o si no hay respuesta a Ampicilina. Dosis: 50-100 mg/kg/día, dividida cada 12 o 24 horas."
+              }
+            ]
+          },
+          {
+            "titulo": "Consideraciones Adicionales",
+            "contenido": "En pacientes hospitalizados, se debe considerar la oxigenoterapia para mantener una saturación > 92%. El manejo de fluidos y la nutrición son también componentes clave del tratamiento."
+          }
+        ]
+      }
+    ],
+    "palabras_clave": [
+      "neumonía",
+      "pediatría",
+      "NAC",
+      "neumonía adquirida en la comunidad",
+      "amoxicilina",
+      "ceftriaxona",
+      "azitromicina",
+      "taquipnea",
+      "fiebre",
+      "tos"
+    ],
+    "version_guia": "1.0",
+    "fecha_actualizacion": "2025-11-16"
   },
   {
     "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de la Insuficiencia Cardiaca Crónica",
     "diagnostico_cie10": "I500",
-    "referencias_cie10": ["I501", "I509"],
-    "secciones": [
-      {"titulo": "Diagnóstico de la Insuficiencia Cardiaca (IC)", "contenido": "El diagnóstico de la IC se basa en una combinación de síntomas (disnea, fatiga, edema), signos (ingurgitación yugular, crepitantes pulmonares) y evidencia objetiva de disfunción cardiaca. Se recomienda realizar un electrocardiograma (ECG) y medir los péptidos natriuréticos (BNP o NT-proBNP) en todos los pacientes con sospecha de IC. Un ecocardiograma transtorácico es fundamental para confirmar el diagnóstico, clasificar el tipo de IC según la Fracción de Eyección del Ventrículo Izquierdo (FEVI) y evaluar la estructura y función cardiaca."},
-      {"titulo": "Clasificación según la FEVI", "items": [
-        {"nombre": "IC con FEVI Reducida (IC-FEr)", "recomendacion": "FEVI ≤ 40%."},
-        {"nombre": "IC con FEVI Levemente Reducida (IC-FElr)", "recomendacion": "FEVI 41-49%."},
-        {"nombre": "IC con FEVI Preservada (IC-FEp)", "recomendacion": "FEVI ≥ 50%."}
-      ]},
-      {"titulo": "Tratamiento Farmacológico para IC-FEr (Pilares del Tratamiento)", "contenido": "Se recomienda iniciar de forma secuencial y titular hasta la dosis máxima tolerada los siguientes cuatro grupos de fármacos:", "items": [
-        {"nombre": "IECA (ej. Enalapril) o ARA-II (ej. Losartán)", "codigo_item": "06001", "recomendacion": "Bloquean el sistema renina-angiotensina-aldosterona."},
-        {"nombre": "Betabloqueantes (ej. Carvedilol, Bisoprolol)", "codigo_item": "06031", "recomendacion": "Reducen la mortalidad y mejoran la función ventricular."},
-        {"nombre": "Antagonistas del Receptor de Mineralocorticoides (ARM) (ej. Espironolactona)", "codigo_item": "06073", "recomendacion": "Añadidos a los anteriores para reducir la mortalidad y las hospitalizaciones."},
-        {"nombre": "Inhibidores del SGLT2 (ej. Dapagliflozina, Empagliflozina)", "recomendacion": "Han demostrado reducir la mortalidad cardiovascular y las hospitalizaciones por IC, independientemente de la presencia de diabetes."}
-      ]},
-      {"titulo": "Manejo de la Congestión", "items": [{"nombre": "Diuréticos de Asa (ej. Furosemida)", "codigo_item": "06071", "recomendacion": "Son la base para el manejo de los síntomas de congestión (edema, disnea). La dosis debe ajustarse según la respuesta del paciente y no tienen un impacto demostrado en la mortalidad."}]},
-      {"titulo": "Tratamiento No Farmacológico", "contenido": "Incluye la restricción de sodio en la dieta, el control de la ingesta de líquidos, la promoción de la actividad física regular adaptada al paciente y la educación sobre el autocuidado y el reconocimiento de signos de descompensación. Se recomienda la vacunación contra la influenza y el neumococo."}
+    "referencias_cie10": [
+      "I501",
+      "I509"
     ],
-    "palabras_clave": ["insuficiencia cardiaca", "IC", "IC-FEr", "IC-FEp", "disnea", "edema", "FEVI", "enalapril", "carvedilol", "espironolactona", "furosemida"],
-    "version_guia": "1.0", "fecha_actualizacion": "2025-11-16"
+    "secciones": [
+      {
+        "titulo": "Diagnóstico",
+        "contenido": "El diagnóstico de la Insuficiencia Cardiaca (IC) se basa en una combinación de síntomas (disnea, fatiga, edema), signos (ingurgitación yugular, crepitantes pulmonares) y evidencia objetiva de disfunción cardiaca. Se recomienda realizar un electrocardiograma (ECG) y medir los péptidos natriuréticos (BNP o NT-proBNP) en todos los pacientes con sospecha de IC. Un ecocardiograma transtorácico es fundamental para confirmar el diagnóstico, clasificar el tipo de IC según la Fracción de Eyección del Ventrículo Izquierdo (FEVI) y evaluar la estructura y función cardiaca."
+      },
+      {
+        "titulo": "Clasificación según FEVI",
+        "items": [
+          {
+            "nombre": "IC con FEVI Reducida (IC-FEr)",
+            "recomendacion": "FEVI ≤ 40%."
+          },
+          {
+            "nombre": "IC con FEVI Levemente Reducida (IC-FElr)",
+            "recomendacion": "FEVI 41-49%."
+          },
+          {
+            "nombre": "IC con FEVI Preservada (IC-FEp)",
+            "recomendacion": "FEVI ≥ 50%."
+          }
+        ]
+      },
+      {
+        "titulo": "Tratamiento Farmacológico para IC-FEr (Pilares Fundamentales)",
+        "contenido": "Se recomienda iniciar y titular el tratamiento con los cuatro pilares farmacéuticos en todos los pacientes con IC-FEr para reducir la mortalidad y las hospitalizaciones.",
+        "items": [
+          {
+            "nombre": "IECA / ARA II / ARNI",
+            "recomendacion": "Inhibidores de la enzima convertidora de angiotensina (ej. Enalapril) o Antagonistas del receptor de angiotensina II. El Sacubitrilo/Valsartán (ARNI) es preferido en pacientes elegibles."
+          },
+          {
+            "nombre": "Betabloqueantes",
+            "recomendacion": "Utilizar uno de los tres con evidencia demostrada: Carvedilol, Bisoprolol o Metoprolol succinato."
+          },
+          {
+            "nombre": "Antagonistas del Receptor de Mineralocorticoides (ARM)",
+            "recomendacion": "Ejemplo: Espironolactona. Indicado en pacientes con FEVI ≤ 35% que persisten sintomáticos a pesar de IECA y betabloqueantes."
+          },
+          {
+            "nombre": "Inhibidores del SGLT2 (iSGLT2)",
+            "recomendacion": "Ejemplo: Dapagliflozina o Empagliflozina. Indicados independientemente de la presencia de diabetes."
+          }
+        ]
+      },
+      {
+        "titulo": "Manejo de la Congestión",
+        "items": [
+          {
+            "nombre": "Diuréticos de Asa (ej. Furosemida)",
+            "codigo_item": "06071",
+            "recomendacion": "Son la base para el manejo de los síntomas de sobrecarga de volumen (edema, disnea). La dosis se ajusta según la respuesta clínica y el peso del paciente."
+          }
+        ]
+      },
+      {
+        "titulo": "Otras Medidas",
+        "contenido": "El manejo del estilo de vida es crucial: restricción de sodio, control de líquidos, ejercicio regular y adherencia al tratamiento. Se recomienda la vacunación contra la influenza y el neumococo."
+      }
+    ],
+    "palabras_clave": [
+      "insuficiencia cardiaca",
+      "IC",
+      "IC-FEr",
+      "IC-FEp",
+      "disnea",
+      "edema",
+      "FEVI",
+      "enalapril",
+      "carvedilol",
+      "espironolactona",
+      "furosemida"
+    ],
+    "version_guia": "1.0",
+    "fecha_actualizacion": "2025-11-16"
   },
-    {
+  {
     "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
     "diagnostico_cie10": "I270",
     "referencias_cie10": [
@@ -368,7 +629,7 @@
         "items": [
           {
             "nombre": "Quimioembolización transarterial (TACE)",
-            "recomendacion": "Es el tratamiento de elección para pacientes con CHC multinodular, asintomático y con función hepática preservada, confinado al hígado."
+"recomendacion": "Es el tratamiento de elección para pacientes con CHC multinodular, asintomático y con función hepática preservada, confinado al hígado."
           }
         ]
       },

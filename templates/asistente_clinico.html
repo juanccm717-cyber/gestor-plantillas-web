@@ -3,69 +3,68 @@
 {% block title %}Asistente Clínico{% endblock %}
 
 {% block head %}
-    {{ super() }}
-    <style>
-        .card-header .h3 { font-weight: 400; }
-        .list-group-item {
-            border-left: 4px solid transparent;
-            padding-left: 1.25rem;
-            transition: background-color 0.2s ease-in-out;
-        }
-        .list-group-item strong {
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-        .medicamentos-header, .procedimientos-header, .insumos-header, .diagnostico-header {
-            color: #fff;
-            padding: 0.5rem 1.25rem;
-            border-radius: 0.25rem;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .medicamentos-header { background-color: #0d6efd; }
-        .procedimientos-header { background-color: #198754; }
-        .insumos-header { background-color: #fd7e14; }
-        .diagnostico-header { background-color: #6c757d; }
-
-        .list-group-item-medicamento { border-left-color: #0d6efd; }
-        .list-group-item-procedimiento { border-left-color: #198754; }
-        .list-group-item-insumo { border-left-color: #fd7e14; }
-        .list-group-item-diagnostico { border-left-color: #6c757d; }
-
-        .list-group-item-action.active {
-            background-color: #e7f1ff;
-            border-color: #0d6efd;
-            color: #000;
-            font-weight: 500;
-        }
-        .badge.bg-evidencia {
-            font-weight: normal;
-            font-size: 0.75em;
-        }
-    </style>
+{{ super() }}
+<style>
+    /* Estilos para una presentación limpia y profesional */
+    .guia-card {
+        border-left: 4px solid #0d6efd;
+    }
+    .seccion-titulo {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #0d6efd;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    .subseccion-titulo {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #343a40;
+        margin-top: 1rem;
+    }
+    .item-recomendacion {
+        padding-left: 1.5rem;
+        position: relative;
+        margin-bottom: 0.75rem;
+    }
+    .item-recomendacion::before {
+        content: '•';
+        position: absolute;
+        left: 0.5rem;
+        color: #0d6efd;
+        font-weight: bold;
+    }
+    .item-nombre {
+        font-weight: bold;
+    }
+    .item-codigo {
+        font-size: 0.8em;
+        font-family: monospace;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-header bg-dark text-white">
             <h3 class="mb-0"><i class="bi bi-robot me-2"></i>Asistente de Consulta Clínica</h3>
             <small>Basado en Guías de Práctica Clínica Institucionales</small>
         </div>
-        <div class="card-body p-4">
-            <!-- Sección 1: Selección de Diagnóstico -->
+        <div class="card-body">
             <div class="mb-4">
-                <label for="input-diagnostico" class="form-label"><strong>1. Seleccione un Diagnóstico (CIE-10)</strong></label>
-                <input class="form-control form-control-lg" id="input-diagnostico" placeholder="Escriba el código o nombre del diagnóstico...">
-                <!-- Datalist se llenará con JavaScript -->
+                <label for="input-diagnostico" class="form-label fw-bold">1. Seleccione un Diagnóstico (CIE-10)</label>
+                <input class="form-control form-control-lg" type="text" id="input-diagnostico" placeholder="Escriba el código o nombre del diagnóstico...">
+                <!-- Datalist se llenará dinámicamente con JavaScript -->
             </div>
 
-            <!-- Sección 2: Recomendaciones del Asistente -->
             <div>
-                <label class="form-label"><strong>2. Recomendaciones del Asistente</strong></label>
-                <div id="asistente-ia-sugerencias" class="p-3 border rounded bg-light" style="min-height: 150px;">
-                    <div class="alert alert-info text-center">
-                        Esperando la selección de un diagnóstico...
+                <h5 class="mb-3 fw-bold">2. Recomendaciones del Asistente</h5>
+                <div id="asistente-ia-sugerencias">
+                    <div class="alert alert-secondary text-center">
+                        <i class="bi bi-info-circle me-2"></i>Seleccione un diagnóstico para ver las recomendaciones.
                     </div>
                 </div>
             </div>
@@ -77,11 +76,14 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // --- SECCIÓN 1: CONFIGURACIÓN INICIAL (sin cambios) ---
+    // ==================================================================
+    // --- SECCIÓN 1: CONFIGURACIÓN INICIAL Y CARGA DE DIAGNÓSTICOS ---
+    // ==================================================================
     const inputDiagnostico = document.getElementById('input-diagnostico');
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
+    // Carga la lista de diagnósticos para el autocompletado
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -97,7 +99,9 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // --- SECCIÓN 2: LÓGICA DE CONSULTA (con el traductor) ---
+    // ==================================================================
+    // --- SECCIÓN 2: FUNCIÓN PARA CONSULTAR LA API DEL ASISTENTE ---
+    // ==================================================================
     function consultarAsistenteIA(textoInput) {
         const codigoCIE10 = textoInput.split(' - ')[0].trim();
 
@@ -113,182 +117,90 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                const datosFormatoAntiguo = traducirAlFormatoV4_6(data);
-                mostrarSugerencias(datosFormatoAntiguo);
+                renderizarGuia(data); // Llama a la nueva función de renderizado
             })
             .catch(error => {
                 contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
             });
     }
 
-    // --- SECCIÓN 3: EL TRADUCTOR DE FORMATOS ---
-    function traducirAlFormatoV4_6(data) {
-        const resultado = {
-            nombre_guia: data.nombre_guia,
-            version: data.version_guia,
-            fecha_publicacion: data.fecha_actualizacion,
-            institucion: "EsSalud (IETSI)",
-            poblacion_objetivo: null,
-            diagnostico: { signos_sintomas: [], examenes_auxiliares: [] },
-            tratamiento_ambulatorio: { tratamientos_no_farmacologicos: [], primera_linea: { medicamentos: [] }, alternativas: [] },
-            tratamiento_hospitalario: null,
-            manejo_medico_y_seguimiento: null,
-            manejo_intervencionista_cierre: null
-        };
+    // ==================================================================
+    // --- SECCIÓN 3: EL NUEVO Y POTENTE RENDERIZADOR DE GUÍAS ---
+    // ==================================================================
+    function renderizarGuia(data) {
+        let html = `<div class="card guia-card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-1">${data.nombre_guia || 'Guía sin nombre'}</h5>
+                            <small class="text-muted">Versión: ${data.version_guia || 'N/A'} | Actualizado: ${data.fecha_actualizacion || 'N/A'}</small>
+                        </div>
+                        <div class="card-body">`;
 
-        if (data.secciones && data.secciones.length > 0) {
-            data.secciones.forEach(seccion => {
-                const titulo = seccion.titulo.toLowerCase();
-                const contenido = seccion.contenido;
-
-                if (titulo.includes('diagnóstico') || titulo.includes('evaluación')) {
-                    resultado.diagnostico.examenes_auxiliares.push({ nombre: seccion.titulo, recomendacion: contenido });
-                } else if (titulo.includes('tratamiento') || titulo.includes('manejo')) {
-                     resultado.tratamiento_ambulatorio.primera_linea.medicamentos.push({ nombre: seccion.titulo, dosis: contenido });
-                } else {
-                     resultado.tratamiento_ambulatorio.tratamientos_no_farmacologicos.push({ nombre: seccion.titulo, recomendacion: contenido });
-                }
-            });
+        // Función para renderizar un item (medicamento, procedimiento, etc.)
+        function renderItem(item) {
+            let itemHtml = '<div class="item-recomendacion">';
+            let nombre = `<span class="item-nombre">${item.nombre}</span>`;
+            if (item.codigo_item || item.codigo_procedimiento) {
+                nombre += ` <span class="badge bg-secondary item-codigo">${item.codigo_item || item.codigo_procedimiento}</span>`;
+            }
+            itemHtml += nombre;
+            if (item.recomendacion) {
+                itemHtml += `<div class="text-muted small">${item.recomendacion}</div>`;
+            }
+            // Para ejemplos de dosis dentro de un item
+            if (item.ejemplos) {
+                itemHtml += '<ul>';
+                item.ejemplos.forEach(ej => {
+                    itemHtml += `<li><small><strong>${ej.nombre}</strong> (${ej.codigo_item ? '<code>'+ej.codigo_item+'</code>' : ''}): ${ej.dosis}</small></li>`;
+                });
+                itemHtml += '</ul>';
+            }
+            itemHtml += '</div>';
+            return itemHtml;
         }
-        return resultado;
-    }
 
-    // --- SECCIÓN 4: TU FUNCIÓN `mostrarSugerencias` ORIGINAL Y COMPLETA ---
-    function mostrarSugerencias(data) {
-        const renderCodigo = (codigo) => codigo ? `<span class="badge bg-dark me-2">${codigo}</span>` : '';
+        // Función recursiva para renderizar secciones y subsecciones
+        function renderSecciones(secciones) {
+            let seccionesHtml = '';
+            if (!secciones) return '';
 
-        let html = `
-            <div class="card border-light-subtle shadow-sm">
-                <div class="card-header bg-light-subtle">
-                    <h5 class="mb-1">${data.nombre_guia || 'Guía sin nombre'}</h5>
-                    <small class="text-muted">${data.institucion || ''} - ${data.version || ''} (${data.fecha_publicacion || 'N/A'})</small>
-                </div>
-                <div class="card-body">`;
-
-        const renderPoblacion = (d) => d.poblacion_objetivo ? `<h6 class="mt-3"><i class="bi bi-people-fill text-primary me-2"></i>Población Objetivo</h6><p class="text-muted small">${d.poblacion_objetivo.descripcion}</p>` : '';
-        
-        const renderDiagnostico = (d) => {
-            if (!d.diagnostico) return '';
-            let content = `<h6 class="mt-4"><i class="bi bi-file-earmark-medical-fill text-info me-2"></i>Diagnóstico</h6>`;
-            if (d.diagnostico.signos_sintomas && d.diagnostico.signos_sintomas.length > 0) content += `<p class="small"><strong>Signos/Síntomas:</strong> ${d.diagnostico.signos_sintomas.join(', ')}.</p>`;
-            if (d.diagnostico.examenes_auxiliares && d.diagnostico.examenes_auxiliares.length > 0) {
-                content += `<p class="small mt-2"><strong>Exámenes Auxiliares:</strong></p><ul class="small list-unstyled">`;
-                d.diagnostico.examenes_auxiliares.forEach(e => {
-                    content += `<li>${renderCodigo(e.codigo_proc)}<strong>${e.nombre}:</strong> ${e.recomendacion}</li>`;
-                });
-                content += `</ul>`;
-            }
-            return content;
-        };
-
-        const renderTratamientoAmbulatorio = (d) => {
-            if (!d.tratamiento_ambulatorio) return '';
-            const tto = d.tratamiento_ambulatorio;
-            let content = '';
-
-            if (tto.tratamientos_no_farmacologicos && tto.tratamientos_no_farmacologicos.length > 0) {
-                content += `<h6>No Farmacológico</h6><ul>`;
-                tto.tratamientos_no_farmacologicos.forEach(t => { content += `<li class="small">${renderCodigo(t.codigo_proc)}<strong>${t.nombre}:</strong> ${t.recomendacion}</li>`; });
-                content += `</ul>`;
-            }
-            
-            const primeraLinea = tto.primera_linea_farmacologica || tto.primera_linea;
-            if (primeraLinea && primeraLinea.medicamentos) {
-                content += `<h6 class="mt-3">1ª Línea Farmacológica</h6><ul>`;
-                primeraLinea.medicamentos.forEach(m => {
-                    content += `<li class="small">${renderCodigo(m.codigo_item)}<strong>${m.nombre}:</strong> ${m.dosis || ''} ${m.frecuencia || ''} ${m.duracion_dias ? 'por ' + m.duracion_dias + ' días' : ''}.</li>`;
-                });
-                content += `</ul>`;
-            }
-
-            const alternativas = tto.alternativas_farmacologicas || tto.alternativas;
-            if (alternativas && alternativas.length > 0) {
-                content += `<h6 class="mt-3">Alternativas Farmacológicas</h6><ul>`;
-                alternativas.forEach(a => {
-                    content += `<li class="small">${renderCodigo(a.codigo_item)}<strong>Si el paciente presenta "${a.condicion}":</strong> Usar ${a.medicamento} (${a.dosis}).</li>`;
-                });
-                content += `</ul>`;
-            }
-
-            if (tto.tratamientos_no_recomendados && tto.tratamientos_no_recomendados.length > 0) {
-                content += `<h6 class="mt-3 text-danger">Tratamientos NO Recomendados</h6><p class="small text-muted">${tto.tratamientos_no_recomendados.join(', ')}.</p>`;
-            }
-
-            return content ? `<h5 class="mt-4 mb-3 text-success"><i class="bi bi-house-heart-fill me-2"></i>Tratamiento Ambulatorio</h5>${content}` : '';
-        };
-
-        const renderTratamientoHospitalario = (d) => {
-            if (!d.tratamiento_hospitalario || !d.tratamiento_hospitalario.grupos_etarios) return '';
-            let content = `<h5 class="mt-4 mb-3 text-danger"><i class="bi bi-hospital-fill me-2"></i>Tratamiento Hospitalario</h5>`;
-            d.tratamiento_hospitalario.grupos_etarios.forEach(grupo => {
-                content += `<div class="mb-3"><h6>Grupo: ${grupo.rango_edad}</h6>`;
-                if (grupo.primera_linea) {
-                    const tto = grupo.primera_linea;
-                    let dosisStr = typeof tto.dosis === 'object' ? Object.entries(tto.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : tto.dosis;
-                    content += `<p class="small"><strong>1ª Línea:</strong> ${renderCodigo(tto.codigo_item)}${tto.medicamento} (${dosisStr}).</p>`;
+            secciones.forEach(seccion => {
+                seccionesHtml += `<h6 class="seccion-titulo">${seccion.titulo}</h6>`;
+                if (seccion.contenido) {
+                    // Reemplaza saltos de línea con   
+ para mantener el formato
+                    seccionesHtml += `<p class="text-muted">${seccion.contenido.replace(/\n/g, '  
+')}</p>`;
                 }
-                if (grupo.alternativas && grupo.alternativas.length > 0) {
-                     content += `<ul>`;
-                     grupo.alternativas.forEach(alt => {
-                        let dosisAltStr = typeof alt.dosis === 'object' ? Object.entries(alt.dosis).map(([k,v]) => `${k}: ${v}`).join(', ') : alt.dosis;
-                        content += `<li class="small">${renderCodigo(alt.codigo_item)}<strong>Alternativa (si presenta "${alt.condicion}"):</strong> Usar ${alt.medicamento} (${dosisAltStr}).</li>`;
-                     });
-                     content += `</ul>`;
+                if (seccion.items) {
+                    seccion.items.forEach(item => {
+                        seccionesHtml += renderItem(item);
+                    });
                 }
-                content += `</div>`;
+                // Si hay subsecciones, las renderiza
+                if (seccion.subsecciones) {
+                    seccion.subsecciones.forEach(sub => {
+                        seccionesHtml += `<div class="ms-3">`;
+                        seccionesHtml += `<p class="subseccion-titulo">${sub.titulo}</p>`;
+                        if (sub.items) {
+                            sub.items.forEach(item => {
+                                seccionesHtml += renderItem(item);
+                            });
+                        }
+                        seccionesHtml += `</div>`;
+                    });
+                }
             });
-            return content;
-        };
+            return seccionesHtml;
+        }
 
-        const renderManejoMedico = (d) => {
-            if (!d.manejo_medico_y_seguimiento) return '';
-            let content = `<h5 class="mt-4 mb-3 text-primary"><i class="bi bi-clipboard2-pulse-fill me-2"></i>Manejo Médico y Seguimiento</h6>`;
-            if (d.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc && d.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc.length > 0) {
-                content += `<h6>Tratamiento Farmacológico (si hay ICC)</h6><ul>`;
-                d.manejo_medico_y_seguimiento.tratamiento_farmacologico_icc.forEach(m => { content += `<li class="small">${renderCodigo(m.codigo_item)}<strong>${m.nombre}:</strong> ${m.indicacion}</li>`; });
-                content += `</ul>`;
-            }
-            if (d.manejo_medico_y_seguimiento.seguimiento_sin_cierre && d.manejo_medico_y_seguimiento.seguimiento_sin_cierre.length > 0) {
-                content += `<h6 class="mt-3">Seguimiento (si no hay cierre)</h6><ul>`;
-                d.manejo_medico_y_seguimiento.seguimiento_sin_cierre.forEach(s => { content += `<li class="small"><strong>${s.condicion}:</strong> ${s.descripcion}</li>`; });
-                content += `</ul>`;
-            }
-            return content;
-        };
-
-        const renderManejoIntervencionista = (d) => {
-            if (!d.manejo_intervencionista_cierre) return '';
-            let content = `<h5 class="mt-4 mb-3 text-warning"><i class="bi bi-scissors me-2"></i>Manejo Intervencionista (Cierre)</h5>`;
-            if (d.manejo_intervencionista_cierre.indicaciones_cierre && d.manejo_intervencionista_cierre.indicaciones_cierre.length > 0) {
-                content += `<h6>Indicaciones de Cierre</h6><ul>`;
-                d.manejo_intervencionista_cierre.indicaciones_cierre.forEach(i => { content += `<li class="small"><strong>${i.condicion}:</strong> ${i.criterios}</li>`; });
-                content += `</ul>`;
-            }
-            if (d.manejo_intervencionista_cierre.tipos_de_cierre && d.manejo_intervencionista_cierre.tipos_de_cierre.length > 0) {
-                content += `<h6 class="mt-3">Tipos de Cierre</h6><ul>`;
-                d.manejo_intervencionista_cierre.tipos_de_cierre.forEach(t => { content += `<li class="small">${renderCodigo(t.codigo_proc)}<strong>${t.nombre}:</strong> ${t.descripcion}</li>`; });
-                content += `</ul>`;
-            }
-            if (d.manejo_intervencionista_cierre.contraindicaciones && d.manejo_intervencionista_cierre.contraindicaciones.length > 0) {
-                content += `<h6 class="mt-3 text-danger">Contraindicaciones</h6><ul>`;
-                d.manejo_intervencionista_cierre.contraindicaciones.forEach(c => { content += `<li class="small"><strong>${c.procedimiento}:</strong> ${c.criterios}</li>`; });
-                content += `</ul>`;
-            }
-            return content;
-        };
-
-        html += renderPoblacion(data);
-        html += renderDiagnostico(data);
-        html += renderTratamientoAmbulatorio(data);
-        html += renderTratamientoHospitalario(data);
-        html += renderManejoMedico(data);
-        html += renderManejoIntervencionista(data);
-        
+        html += renderSecciones(data.secciones);
         html += `</div></div>`;
         contenedorSugerencias.innerHTML = html;
     }
 
-    // --- SECCIÓN 5: EVENT LISTENER (sin cambios) ---
+    // ==================================================================
+    // --- SECCIÓN 4: EVENT LISTENER DEL INPUT ---
+    // ==================================================================
     inputDiagnostico.addEventListener('input', function() {
         consultarAsistenteIA(inputDiagnostico.value);
     });
