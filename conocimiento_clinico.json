@@ -534,7 +534,164 @@
       }
     ]
   }
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tratamiento del Hepatocarcinoma en adultos",
+  "diagnostico_cie10": "C220",
+  "referencias_cie10": [
+    "C22"
+  ],
+  "secciones": [
+    {
+      "titulo": "Evaluación y Diagnóstico",
+      "contenido": "Para el diagnóstico del hepatocarcinoma (CHC) en pacientes con cirrosis, se recomienda el uso de criterios no invasivos basados en técnicas de imagen como la Tomografía Computarizada (TC) multifásica o la Resonancia Magnética (RM) con contraste. El diagnóstico se confirma con la presencia de hipervascularización arterial y lavado en fase venosa portal o tardía (patrón LI-RADS 5). La biopsia hepática se reserva para casos con diagnóstico por imagen no concluyente."
+    },
+    {
+      "titulo": "Estadificación y Criterios de Tratamiento",
+      "contenido": "Se recomienda utilizar el sistema de estadificación del Barcelona Clinic Liver Cancer (BCLC) para clasificar a los pacientes y guiar la estrategia terapéutica. Este sistema considera el estado funcional del paciente (performance status), la función hepática (Child-Pugh) y la extensión del tumor (tamaño, número de nódulos, invasión vascular y diseminación extrahepática)."
+    },
+    {
+      "titulo": "Tratamientos Curativos (Estadios 0 y A de BCLC)",
+      "contenido": "Las opciones con intención curativa incluyen:\n- **Resección quirúrgica:** Para pacientes con tumor único y función hepática preservada (Child-Pugh A) sin hipertensión portal clínicamente significativa.\n- **Trasplante hepático:** Considerado el mejor tratamiento para pacientes que cumplen los Criterios de Milán (un nódulo ≤ 5 cm o hasta 3 nódulos ≤ 3 cm), ya que trata tanto el tumor como la cirrosis subyacente.\n- **Ablación percutánea (Radiofrecuencia o Microondas):** Tratamiento de elección para tumores pequeños (≤ 3 cm) en pacientes no candidatos a cirugía."
+    },
+    {
+      "titulo": "Tratamientos para Estadio Intermedio (Estadio B de BCLC)",
+      "contenido": "La **quimioembolización transarterial (TACE)** es el tratamiento estándar para pacientes con CHC multinodular, asintomáticos y con función hepática conservada. Su objetivo es controlar el crecimiento del tumor y mejorar la supervivencia."
+    },
+    {
+      "titulo": "Tratamientos para Estadio Avanzado (Estadio C de BCLC)",
+      "contenido": "Para pacientes con invasión vascular o diseminación extrahepática, se recomienda el **tratamiento sistémico**. La combinación de **Atezolizumab (inmunoterapia) y Bevacizumab (antiangiogénico)** es la terapia de primera línea recomendada, habiendo demostrado superioridad sobre el Sorafenib. Otras opciones incluyen Lenvatinib o Sorafenib."
+    },
+    {
+      "titulo": "Tratamientos para Estadio Terminal (Estadio D de BCLC)",
+      "contenido": "En pacientes con un estado funcional muy deteriorado (PS > 2) o enfermedad hepática muy avanzada (Child-Pugh C), el tratamiento recomendado es el **manejo sintomático y los cuidados paliativos** para mejorar la calidad de vida."
+    }
+  ],
+  "palabras_clave": [
+    "hepatocarcinoma",
+    "carcinoma hepatocelular",
+    "CHC",
+    "BCLC",
+    "TACE",
+    "resección hepática",
+    "trasplante de hígado",
+    "Atezolizumab",
+    "Bevacizumab",
+    "Sorafenib",
+    "Lenvatinib"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de la Insuficiencia Cardiaca Crónica",
+  "diagnostico_cie10": "I500",
+  "referencias_cie10": [
+    "I50",
+    "I501",
+    "I509"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico de Insuficiencia Cardiaca (IC)",
+      "contenido": "El diagnóstico de la IC se basa en una combinación de síntomas (disnea, fatiga, edema), signos (ingurgitación yugular, crepitantes pulmonares) y evidencia objetiva de disfunción cardiaca. Se recomienda realizar un electrocardiograma (ECG) y medir los péptidos natriuréticos (BNP o NT-proBNP) en todos los pacientes con sospecha de IC. Un ecocardiograma transtorácico es fundamental para confirmar el diagnóstico, clasificar el tipo de IC según la Fracción de Eyección del Ventrículo Izquierdo (FEVI) y evaluar la estructura y función cardiaca."
+    },
+    {
+      "titulo": "Clasificación de la Insuficiencia Cardiaca por FEVI",
+      "contenido": "La clasificación según la FEVI es crucial para guiar el tratamiento:\n- **IC con FEVI Reducida (IC-FEr):** FEVI ≤ 40%.\n- **IC con FEVI Levemente Reducida (IC-FElr):** FEVI 41-49%.\n- **IC con FEVI Preservada (IC-FEp):** FEVI ≥ 50%."
+    },
+    {
+      "titulo": "Tratamiento Farmacológico para IC con FEVI Reducida (IC-FEr)",
+      "contenido": "El tratamiento se basa en cuatro pilares farmacológicos fundamentales para mejorar la supervivencia y reducir hospitalizaciones:\n1. **IECA o ARNI:** Se recomienda iniciar con un Inhibidor de la Enzima Convertidora de Angiotensina (IECA) o un Antagonista del Receptor de Angiotensina II (ARA-II). Se sugiere reemplazar el IECA/ARA-II por un Inhibidor del Receptor de Angiotensina y Neprilisina (ARNI) como Sacubitrilo/Valsartán en pacientes que permanecen sintomáticos.\n2. **Betabloqueantes (BB):** Fármacos como Carvedilol, Bisoprolol o Metoprolol succinato son esenciales.\n3. **Antagonistas del Receptor Mineralocorticoide (ARM):** Se recomienda Espironolactona o Eplerenona.\n4. **Inhibidores del SGLT2 (iSGLT2):** Se recomienda añadir Dapagliflozina o Empagliflozina al tratamiento, independientemente de si el paciente tiene diabetes o no."
+    },
+    {
+      "titulo": "Tratamiento para IC con FEVI Preservada (IC-FEp)",
+      "contenido": "Para pacientes con IC-FEp, se recomienda el uso de **Inhibidores del SGLT2 (Dapagliflozina o Empagliflozina)**, ya que han demostrado reducir el riesgo de hospitalización por IC y muerte cardiovascular en este grupo. El tratamiento de las comorbilidades como la hipertensión, la fibrilación auricular y la diabetes es igualmente fundamental."
+    },
+    {
+      "titulo": "Manejo de la Congestión",
+      "contenido": "Se recomienda el uso de **diuréticos de asa** (como Furosemida) para tratar los signos y síntomas de congestión (edema, disnea). La dosis debe ajustarse para mantener la euvolemia (estado de volumen normal) con la dosis más baja posible."
+    },
+    {
+      "titulo": "Terapia con Dispositivos",
+      "contenido": "En pacientes seleccionados con IC-FEr, QRS ancho (≥130 ms) y ritmo sinusal que persisten sintomáticos a pesar del tratamiento óptimo, se puede considerar la **Terapia de Resincronización Cardiaca (TRC)**. El **Desfibrilador Automático Implantable (DAI)** se recomienda para la prevención de muerte súbita en pacientes con IC-FEr y una expectativa de vida razonable."
+    }
+  ],
+  "palabras_clave": [
+    "insuficiencia cardiaca",
+    "IC",
+    "ICC",
+    "FEVI",
+    "falla cardiaca",
+    "disnea",
+    "edema",
+    "péptidos natriuréticos",
+"BNP",
+    "NT-proBNP",
+    "Sacubitrilo/Valsartán",
+    "ARNI",
+    "Dapagliflozina",
+    "Empagliflozina",
+    "iSGLT2",
+    "Espironolactona",
+    "Furosemida"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la evaluación y manejo de la Hemorragia Digestiva Alta",
+  "diagnostico_cie10": "K922",
+  "referencias_cie10": [
+    "K254",
+    "K264",
+    "I850"
+  ],
+  "secciones": [
+    {
+      "titulo": "Evaluación Inicial y Estratificación del Riesgo",
+      "contenido": "En todo paciente con sospecha de Hemorragia Digestiva Alta (HDA), se recomienda realizar una evaluación hemodinámica inmediata y una estratificación del riesgo utilizando el score de Glasgow-Blatchford (GBS). Un GBS de 0-1 identifica a pacientes de muy bajo riesgo que podrían ser manejados de forma ambulatoria sin necesidad de endoscopia urgente. Pacientes con GBS > 1 requieren hospitalización y endoscopia."
+    },
+    {
+      "titulo": "Manejo Farmacológico Pre-endoscópico",
+      "contenido": "Se recomienda la administración de un inhibidor de la bomba de protones (IBP) por vía intravenosa, como Esomeprazol u Omeprazol, en pacientes con sospecha de HDA de origen no variceal, idealmente antes de la endoscopia, para disminuir los estigmas de sangrado reciente. En pacientes con sospecha de HDA por várices esofágicas (generalmente en contexto de cirrosis), se debe iniciar un agente vasoactivo como Terlipresina o Somatostatina lo antes posible."
+    },
+    {
+      "titulo": "Endoscopia Digestiva Alta (EDA)",
+      "contenido": "La EDA es el procedimiento diagnóstico y terapéutico de elección. Debe realizarse dentro de las 24 horas posteriores a la presentación del paciente. En casos de inestabilidad hemodinámica a pesar de la reanimación, la endoscopia debe ser emergente (dentro de 6-12 horas). Durante la EDA, se debe clasificar el estigma de sangrado (clasificación de Forrest) y aplicar la terapia hemostática correspondiente (ej. inyección de adrenalina, clips metálicos, terapia térmica)."
+    },
+    {
+      "titulo": "Manejo Post-endoscópico (HDA no variceal)",
+      "contenido": "Después de una hemostasia endoscópica exitosa en una úlcera de alto riesgo (Forrest Ia, Ib, IIa, IIb), se recomienda mantener una infusión continua de IBP intravenoso (ej. Esomeprazol 80 mg en bolo seguido de 8 mg/h) durante 72 horas para reducir el riesgo de resangrado. Posteriormente, se puede pasar a IBP por vía oral."
+    },
+    {
+      "titulo": "Manejo Específico de la HDA Variceal",
+      "contenido": "El tratamiento de elección es la ligadura endoscópica con bandas elásticas. Se debe administrar profilaxis antibiótica (ej. Ceftriaxona) a todos los pacientes con cirrosis y HDA variceal para prevenir infecciones. El tratamiento con agentes vasoactivos (Terlipresina) debe mantenerse por 3 a 5 días."
+    },
+    {
+      "titulo": "Transfusión Sanguínea",
+      "contenido": "Se recomienda una estrategia de transfusión restrictiva. Se debe transfundir concentrados de hematíes cuando el nivel de hemoglobina sea < 7 g/dL, con el objetivo de mantenerla entre 7 y 9 g/dL. En pacientes con comorbilidad cardiovascular significativa, el umbral puede ser más alto (ej. < 8 g/dL)."
+    }
+  ],
+  "palabras_clave": [
+    "hemorragia digestiva alta",
+    "HDA",
+    "melena",
+    "hematemesis",
+    "úlcera péptica",
+    "várices esofágicas",
+    "endoscopia",
+    "Forrest",
+    "Glasgow-Blatchford",
+    "IBP",
+    "Esomeprazol",
+    "Terlipresina",
+    "ligadura con bandas"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
 }
+
 
 
 ]
