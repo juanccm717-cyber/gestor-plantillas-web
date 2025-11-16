@@ -1,584 +1,188 @@
 [
 {
-  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de neumonía adquirida en la comunidad en población pediátrica",
-  "version": "GPC Nº 73",
-  "fecha_publicacion": "2025-10-27",
-  "institucion": "EsSalud",
-  "diagnostico_cie10": "J189",
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes previamente sanos e inmunocompetentes con edades comprendidas entre 1 mes y menores de 18 años con sospecha o diagnóstico de NAC. No aborda el manejo en pacientes prematuros, ni con NAC complicada o que requieran manejo en UCI."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Fiebre",
-      "Síntomas respiratorios (tos, dificultad para respirar)",
-      "Hallazgo de compromiso del parénquima pulmonar por auscultación o imágenes"
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Radiografía de tórax",
-        "recomendacion": "NO se recomienda de rutina en manejo ambulatorio. SÍ considerar en pacientes que requieran hospitalización.",
-        "codigo_proc": "71020"
-      },
-      {
-        "nombre": "Ecografía de tórax",
-        "recomendacion": "Usar cuando no sea posible realizar una radiografía o si se sospechan complicaciones (derrame pleural, empiema).",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Pruebas de detección viral (IFA / RT-PCR)",
-        "recomendacion": "NO se recomienda de rutina. Considerar solo en NAC grave o sin respuesta al tratamiento.",
-        "codigo_proc": ""
-      }
-    ]
-  },
-  "tratamiento_ambulatorio": {
-    "primera_linea": {
-      "medicamentos": [
-        {
-          "nombre": "Amoxicilina",
-          "dosis": "80-90 mg/kg/día",
-          "frecuencia": "Cada 8 o 12 horas",
-          "duracion_dias": 5,
-          "codigo_item": "00794"
-        }
-      ]
-    },
-    "alternativas": [
-      {
-        "condicion": "Alergia a penicilinas (no mediada por IgE)",
-        "medicamento": "Cefuroxima",
-        "dosis": "30 mg/kg/día",
-        "codigo_item": "21565"
-      },
-      {
-        "condicion": "Reacciones adversas severas a penicilinas (mediada por IgE)",
-        "medicamento": "Cloranfenicol",
-        "dosis": "50 mg/kg/día",
-        "codigo_item": "21571"
-      }
-    ]
-  },
-  "tratamiento_hospitalario": {
-    "grupos_etarios": [
-      {
-        "rango_edad": "1 mes a < 2 meses",
-        "primera_linea": {
-          "medicamento": "Ampicilina + Aminoglucósido (Gentamicina o Amikacina)",
-          "dosis": {
-            "Ampicilina": "150-200 mg/kg/día EV",
-            "Gentamicina": "5-7.5 mg/kg/día EV"
-          },
-          "codigo_item": "18155"
-        },
-        "alternativas": []
-      },
-      {
-        "rango_edad": "2 meses a < 18 años",
-        "primera_linea": {
-          "medicamento": "Ampicilina o Penicilina G sódica",
-          "dosis": {
-            "Ampicilina": "150-200 mg/kg/día EV",
-            "Penicilina G sódica": "200-250 mil UI/kg/día EV"
-          },
-          "codigo_item": "18155"
-        },
-        "alternativas": [
-          {
-            "condicion": "Alergia a penicilinas (no mediada por IgE)",
-            "medicamento": "Ceftriaxona o Cefotaxima",
-            "dosis": "75-100 mg/kg/día EV",
-            "codigo_item": "18158"
-          },
-          {
-            "condicion": "Reacción adversa severa a penicilinas (mediada por IgE)",
-            "medicamento": "Cloranfenicol",
-            "dosis": "75-100 mg/kg/día EV",
-            "codigo_item": "21571"
-          }
-        ]
-      }
-    ]
-  }
-},
-{
   "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
-  "version": "Actualización 2024",
-  "fecha_publicacion": "2024-12",
-  "institucion": "EsSalud",
   "diagnostico_cie10": "M199",
-  "referencias_cie10": ["M159", "M169", "M179", "M189", "M1990"],
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes adultos con osteoartritis primaria, con o sin dolor, que pueden o no haber recibido tratamiento médico, pero no quirúrgico previamente."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Tener 45 años o más.",
-      "Tener dolor articular persistente relacionado al uso de la articulación.",
-      "No tener rigidez articular matutina, o tener rigidez articular matutina que no dure más de 30 minutos."
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Imágenes radiológicas",
-        "recomendacion": "No se deberían solicitar de forma rutinaria. Considerar su uso si presentan características que sugieren otro diagnóstico (pacientes jóvenes, historia de fractura, alteración del eje, etc.).",
-        "codigo_proc": ""
-      }
-    ]
-  },
-  "tratamiento_ambulatorio": {
-    "tratamientos_no_farmacologicos": [
-      {
-        "nombre": "Plan individualizado de educación y autocuidado",
-        "recomendacion": "Brindar información sobre la enfermedad, disminución de peso, uso de calzado adecuado y actividad física."
-      },
-      {
-        "nombre": "Ejercicio físico",
-        "recomendacion": "Indicar la realización de ejercicio físico (fortalecimiento muscular, estiramiento y actividad aeróbica)."
-      }
-    ],
-    "primera_linea_farmacologica": {
-      "medicamentos": [
-        {
-          "nombre": "Naproxeno",
-          "dosis": "Dosis inicial 550mg, luego 275-550mg cada 8-12h. Máx: 1100mg/día.",
-          "codigo_item": "21726"
-        },
-        {
-          "nombre": "Ibuprofeno",
-          "dosis": "200-400mg, hasta 3 veces al día. Máx: 1200mg/día.",
-          "codigo_item": "21673"
-        }
-      ]
-    },
-    "alternativas_farmacologicas": [
-      {
-        "condicion": "No tolera AINEs o tiene contraindicaciones",
-        "medicamento": "Paracetamol",
-        "dosis": "Considerar su uso para el manejo del dolor.",
-        "codigo_item": ""
-      },
-      {
-        "condicion": "No hay alivio del dolor con AINEs o Paracetamol",
-        "medicamento": "Tramadol",
-        "dosis": "Considerar su uso según evaluación individual.",
-        "codigo_item": "21827"
-      }
-    ],
-    "tratamientos_no_recomendados": [
-      "Paracetamol de manera rutinaria",
-      "Tramadol como primer fármaco",
-      "Glucosamina ni Condroitin sulfato",
-      "Ácido hialurónico intra-articular",
-      "Proloterapia",
-      "Agentes físicos (TENS, láser, etc.) como única medida",
-      "Acupuntura"
-    ]
-  },
-  "tratamiento_hospitalario": {
-    "grupos_etarios": [
-      {
-        "rango_edad": "Adultos",
-        "alternativas": [
-          {
-            "condicion": "OA de rodilla o cadera con dolor que no responde a AINEs",
-            "medicamento": "Corticoide intra-articular (Triamcinolona)",
-            "dosis": "40mg. Dosis máxima por tratamiento es de 80mg (2 articulaciones).",
-            "codigo_item": "21830"
-          }
-        ]
-      }
-    ]
-  }
-},
-{
-  "nombre_guia": "Guía de práctica clínica para el manejo de Comunicación Interventricular en menores de 18 años",
-  "version": "GPC Nº 71",
-  "fecha_publicacion": "2024-12",
-  "institucion": "EsSalud",
-  "diagnostico_cie10": "Q210",
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes menores de 18 años con comunicación interventricular (CIV)."
-  },
-  "etiologia": {
-    "descripcion": "La CIV es un defecto congénito con una abertura anormal en el tabique interventricular, causando un cortocircuito de izquierda a derecha. Es una de las cardiopatías congénitas más frecuentes. Se clasifica por su ubicación en perimembranosa, muscular, de entrada y de salida."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Soplo holosistólico intenso y áspero (en CIV pequeña).",
-      "Síntomas de insuficiencia cardíaca como disnea durante la alimentación, escaso crecimiento, taquipnea (en CIV moderada o grande)."
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Ecocardiografía transtorácica",
-        "recomendacion": "Confirma el diagnóstico, establece el tamaño y la ubicación del defecto, y evalúa las consecuencias hemodinámicas.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Radiografía de tórax",
-        "recomendacion": "La cardiomegalia es una indicación para considerar el cierre del defecto.",
-        "codigo_proc": "71020"
-      },
-      {
-        "nombre": "Cateterismo cardíaco",
-        "recomendacion": "Se realiza para obtener la resistencia vascular pulmonar (RVP) en pacientes con sospecha de Hipertensión Pulmonar (HTP) bajo criterios específicos.",
-        "codigo_proc": ""
-      }
-    ]
-  },
-  "manejo_medico_y_seguimiento": {
-    "tratamiento_farmacologico_icc": [
-      {
-        "nombre": "Furosemida",
-        "indicacion": "Manejo de la congestión en Insuficiencia Cardíaca.",
-        "codigo_item": "21644"
-      },
-      {
-        "nombre": "Espironolactona",
-        "indicacion": "Manejo de la congestión, usualmente combinado con Furosemida.",
-        "codigo_item": "21625"
-      },
-      {
-        "nombre": "Captopril / Enalapril (IECA)",
-        "indicacion": "Para reducir la postcarga en manejo de ICC.",
-        "codigo_item": "21549"
-      }
-    ],
-    "seguimiento_sin_cierre": [
-      {
-        "condicion": "CIV Pequeña",
-        "descripcion": "Reevaluaciones periódicas (3-4 sem, 6m, 12m, luego c/2 años) hasta oclusión espontánea."
-      },
-      {
-        "condicion": "CIV Moderada",
-        "descripcion": "Reevaluación por Cardiología al menos 3 veces en el primer año. Luego controles anuales."
-      },
-      {
-        "condicion": "CIV Grande",
-        "descripcion": "Reevaluaciones clínicas y ecocardiográficas al menos cada 3 meses durante el primer año."
-      }
-    ]
-  },
-  "manejo_intervencionista_cierre": {
-    "indicaciones_cierre": [
-      {
-        "condicion": "CIV Grande (>2/3 del anillo aórtico)",
-        "criterios": "Realizar el cierre preferiblemente antes del año de vida. Indicar a la brevedad si hay insuficiencia cardíaca refractaria y/o ganancia ponderal inadecuada."
-      },
-      {
-        "condicion": "CIV Moderada (1/3 a 2/3 del anillo aórtico)",
-        "criterios": "Cerrar si persisten síntomas a pesar de tto. médico, aumenta la presión pulmonar, hay prolapso/regurgitación aórtica, o repercusión hemodinámica (Qp/Qs>2)."
-      },
-      {
-        "condicion": "CIV Pequeña (<1/3 del anillo aórtico)",
-        "criterios": "Considerar cierre si presentan: Endocarditis infecciosa, prolapso de velo aórtico con regurgitación progresiva, o Qp/Qs > 1.5 con repercusión hemodinámica."
-      }
-    ],
-    "tipos_de_cierre": [
-      {
-        "nombre": "Cierre percutáneo de CIV perimembranosa",
-        "descripcion": "Sugerido sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 10 kg, Qp/Qs > 1.5, etc.)."
-      },
-      {
-        "nombre": "Cierre percutáneo de CIV muscular",
-        "descripcion": "Se puede elegir sobre el cierre quirúrgico según criterios de elegibilidad (Peso > 8 kg, Qp/Qs > 1.5, etc.)."
-      },
-      {
-        "nombre": "Cerclaje de arteria pulmonar",
-        "descripcion": "Considerar en pacientes en quienes no se pueda realizar un cierre quirúrgico del defecto."
-      }
-    ],
-    "contraindicaciones": [
-      {
-        "procedimiento": "Cierre percutáneo (general)",
-        "criterios": "Enfermedad vascular pulmonar irreversible (RVP > 8UW/m²), bloqueo AV preexistente, regurgitación aórtica, infección activa."
-      },
-      {
-        "procedimiento": "Cierre quirúrgico (general)",
-        "criterios": "Peso < 2,5kg, condición del paciente no permite circulación extracorpórea, CIV múltiples tipo 'Swiss cheese'."
-      }
-    ]
-  }
-},
-{
-  "nombre_guia": "Guía de Práctica Clínica para el manejo del paciente con Síndrome Coronario Crónico",
-  "version": "GPC N° 70",
-  "fecha_publicacion": "2024-12",
-  "institucion": "EsSalud",
-  "diagnostico_cie10": "I209",
   "referencias_cie10": [
-    "I251",
-    "I255",
-    "I259"
-  ],
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes de 18 años a más con diagnóstico de síndrome coronario crónico."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Dolor torácico tipo anginoso (opresivo, retroesternal, irradiado a cuello, mandíbula o brazo izquierdo, desencadenado por esfuerzo o estrés emocional, y que alivia con el reposo o nitratos).",
-      "Disnea de esfuerzo (considerado un equivalente anginoso)."
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Electrocardiograma (EKG) en reposo",
-        "recomendacion": "Realizar en todos los pacientes con sospecha de SCC. Un EKG normal no descarta el diagnóstico.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Prueba de esfuerzo (Ergometría)",
-        "recomendacion": "Considerar en pacientes con probabilidad pre-test intermedia de enfermedad coronaria, capaces de realizar ejercicio y con un EKG basal interpretable.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Ecocardiograma de estrés (con ejercicio o dobutamina)",
-        "recomendacion": "Considerar como prueba de isquemia inicial en pacientes con probabilidad pre-test intermedia o alta.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Angiotomografía coronaria",
-        "recomendacion": "Considerar como prueba diagnóstica inicial en pacientes con probabilidad pre-test baja a intermedia, o cuando otras pruebas no son concluyentes.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Coronariografía invasiva",
-        "recomendacion": "Indicada en pacientes con alta probabilidad de enfermedad coronaria, síntomas severos a pesar de tratamiento, o en aquellos con alto riesgo identificado en pruebas no invasivas, para confirmar diagnóstico y planificar revascularización.",
-        "codigo_proc": ""
-      }
-    ]
-  },
-  "tratamiento_ambulatorio": {
-    "tratamientos_no_farmacologicos": [
-      {
-        "nombre": "Educación y cambios en el estilo de vida",
-        "recomendacion": "Brindar educación sobre la enfermedad, cese del tabaco, dieta saludable (mediterránea), actividad física regular (30-60 min, 5-7 días/semana), y control de peso (IMC < 25 kg/m²)."
-      }
-    ],
-    "primera_linea_farmacologica": {
-      "descripcion": "El tratamiento tiene dos objetivos: prevención de eventos cardiovasculares y control de los síntomas (anti-anginoso).",
-      "medicamentos": [
-        {
-          "nombre": "Ácido Acetilsalicílico (AAS)",
-          "dosis": "75-100 mg/día para prevención de eventos.",
-          "codigo_item": "21498"
-        },
-        {
-          "nombre": "Estatinas de alta intensidad (Atorvastatina/Rosuvastatina)",
-          "dosis": "Para prevención de eventos. Objetivo de LDL < 55 mg/dL.",
-          "codigo_item": "21523"
-        },
-        {
-          "nombre": "Betabloqueadores (Bisoprolol/Carvedilol)",
-          "dosis": "Tratamiento antianginoso de primera línea para control de síntomas.",
-          "codigo_item": "21535"
-        },
-        {
-          "nombre": "Nitratos de acción corta (Nitroglicerina/Dinitrato de Isosorbide)",
-          "dosis": "Para alivio inmediato de los episodios de angina.",
-          "codigo_item": "21685"
-        }
-      ]
-    },
-    "alternativas_farmacologicas": [
-      {
-        "condicion": "Si el paciente tiene Hipertensión, Diabetes, Disfunción Ventricular Izquierda o Enfermedad Renal Crónica.",
-        "medicamento": "IECA o ARA-II (Enalapril/Losartán)",
-        "dosis": "Añadir al tratamiento para prevención de eventos.",
-        "codigo_item": "21617"
-      },
-      {
-        "condicion": "Si los síntomas de angina persisten a pesar de los betabloqueadores.",
-        "medicamento": "Calcioantagonistas (Amlodipino/Verapamilo) o Nitratos de acción larga.",
-        "dosis": "Añadir como tratamiento antianginoso de segunda línea.",
-        "codigo_item": ""
-      }
-    ]
-  },
-  "tratamiento_hospitalario": {
-    "grupos_etarios": [
-      {
-        "rango_edad": "Adultos",
-        "primera_linea": {
-          "medicamento": "Revascularización coronaria (ICP o CABG)",
-          "descripcion": "Considerar en pacientes con enfermedad coronaria significativa y síntomas limitantes a pesar de tratamiento médico óptimo, o en aquellos con alto riesgo anatómico/funcional.",
-          "procedimientos": [
-            {
-              "nombre": "Intervención Coronaria Percutánea (ICP) con stent",
-              "codigo_proc": ""
-            },
-            {
-              "nombre": "Cirugía de Bypass de Arteria Coronaria (CABG)",
-              "codigo_proc": ""
-            }
-          ]
-        }
-      }
-    ]
-  }
-},
-{
-  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
-  "version": "GPC N° 20",
-  "fecha_publicacion": "2021-05",
-  "institucion": "EsSalud",
-  "diagnostico_cie10": "I270",
-  "referencias_cie10": [
-    "I272",
-    "I278"
-  ],
-  "poblacion_objetivo": {
-    "descripcion": "Pacientes adultos con sospecha o diagnóstico de Hipertensión Arterial Pulmonar (HAP) del Grupo 1 de la clasificación de Niza."
-  },
-  "diagnostico": {
-    "signos_sintomas": [
-      "Disnea de esfuerzo (síntoma más frecuente).",
-      "Fatiga, debilidad, angina, síncope o presíncope.",
-      "Edema de miembros inferiores.",
-      "Signos de insuficiencia cardíaca derecha (ingurgitación yugular, hepatomegalia, ascitis)."
-    ],
-    "examenes_auxiliares": [
-      {
-        "nombre": "Ecocardiograma transtorácico",
-        "recomendacion": "Es la herramienta de cribado fundamental. Se debe realizar en todo paciente con sospecha clínica de HAP para estimar la presión sistólica de la arteria pulmonar (PSAP).",
-        "codigo_proc": "88721"
-      },
-      {
-        "nombre": "Cateterismo Cardíaco Derecho (CCD)",
-        "recomendacion": "Es el GOLD STANDARD para confirmar el diagnóstico de HAP. Es mandatorio antes de iniciar tratamiento específico. Define HAP como una presión arterial pulmonar media (PAPm) ≥ 25 mmHg en reposo.",
-        "codigo_proc": "93451"
-      },
-      {
-        "nombre": "Prueba de caminata de 6 minutos (PC6M)",
-        "recomendacion": "Prueba fundamental para evaluar la capacidad funcional, estratificar el riesgo y valorar la respuesta al tratamiento.",
-        "codigo_proc": ""
-      },
-      {
-        "nombre": "Péptidos natriuréticos (BNP o NT-proBNP)",
-        "recomendacion": "Marcador pronóstico importante. Niveles elevados se asocian a peor pronóstico.",
-        "codigo_proc": ""
-      }
-    ]
-  },
-  "tratamiento_ambulatorio": {
-    "tratamientos_no_farmacologicos": [
-      {
-        "nombre": "Medidas generales",
-        "recomendacion": "Evitar el embarazo, vacunación anual contra influenza y neumococo, rehabilitación pulmonar supervisada, y apoyo psicosocial."
-      },
-      {
-        "nombre": "Oxigenoterapia",
-        "recomendacion": "Mantener una saturación de O2 > 90% de forma continua, especialmente en pacientes con hipoxemia en reposo."
-      }
-    ],
-    "primera_linea_farmacologica": {
-      "descripcion": "El tratamiento se basa en la estratificación de riesgo (bajo, intermedio, alto) y la vasorreactividad pulmonar evaluada en el cateterismo.",
-      "medicamentos": [
-        {
-          "nombre": "Antagonistas de los Receptores de Endotelina (ARE)",
-          "dosis": "Bosentán o Ambrisentán. Terapia oral de primera línea para pacientes de riesgo bajo o intermedio.",
-          "codigo_item": ""
-        },
-        {
-          "nombre": "Inhibidores de la Fosfodiesterasa 5 (IPDE-5)",
-          "dosis": "Sildenafilo o Tadalafilo. Terapia oral de primera línea, a menudo en combinación con ARE.",
-          "codigo_item": "21789"
-        },
-        {
-          "nombre": "Anticoagulantes (Warfarina)",
-          "dosis": "Considerar en pacientes con HAP idiopática, hereditaria o asociada a anorexígenos.",
-          "codigo_item": "21845"
-        },
-        {
-          "nombre": "Diuréticos (Furosemida, Espironolactona)",
-          "dosis": "Para manejar la sobrecarga de volumen y los síntomas de insuficiencia cardíaca derecha.",
-          "codigo_item": "21625"
-        }
-      ]
-    },
-    "alternativas_farmacologicas": [
-      {
-        "condicion": "Pacientes con respuesta positiva en el test de vasorreactividad.",
-        "medicamento": "Bloqueadores de canales de calcio a altas dosis (Nifedipino, Diltiazem, Amlodipino).",
-        "dosis": "Dosis elevadas y tituladas según respuesta y tolerancia.",
-        "codigo_item": ""
-      },
-      {
-        "condicion": "Pacientes de alto riesgo o que no responden a terapia oral combinada.",
-        "medicamento": "Prostanoides (Epoprostenol, Iloprost, Treprostinil).",
-        "dosis": "Requieren administración intravenosa continua, subcutánea o inhalada. Son el tratamiento más potente.",
-        "codigo_item": ""
-      }
-    ]
-  },
-  "tratamiento_hospitalario": {
-    "grupos_etarios": [
-      {
-        "rango_edad": "Adultos",
-        "primera_linea": {
-          "medicamento": "Manejo de la Insuficiencia Cardíaca Derecha Aguda",
-          "descripcion": "Optimización de la volemia con diuréticos, soporte inotrópico (Dobutamina), y manejo de arritmias. Considerar inicio o escalada de terapia específica para HAP.",
-          "procedimientos": []
-        }
-      },
-      {
-        "rango_edad": "Adultos",
-        "primera_linea": {
-          "medicamento": "Trasplante Pulmonar",
-          "descripcion": "Considerar en pacientes seleccionados que progresan a pesar de un tratamiento médico máximo.",
-          "procedimientos": [
-            {
-              "nombre": "Trasplante bipulmonar",
-              "codigo_proc": ""
-            }
-          ]
-        }
-      }
-    ]
-  }
-},
-{
-  "nombre_guia": "Guía de Práctica Clínica para el tratamiento del Hepatocarcinoma en adultos",
-  "diagnostico_cie10": "C220",
-  "referencias_cie10": [
-    "C22"
+    "M159",
+    "M169",
+    "M179"
   ],
   "secciones": [
     {
-      "titulo": "Evaluación y Diagnóstico",
-      "contenido": "Para el diagnóstico del hepatocarcinoma (CHC) en pacientes con cirrosis, se recomienda el uso de criterios no invasivos basados en técnicas de imagen como la Tomografía Computarizada (TC) multifásica o la Resonancia Magnética (RM) con contraste. El diagnóstico se confirma con la presencia de hipervascularización arterial y lavado en fase venosa portal o tardía (patrón LI-RADS 5). La biopsia hepática se reserva para casos con diagnóstico por imagen no concluyente."
+      "titulo": "Diagnóstico de la Osteoartritis (OA)",
+      "contenido": "El diagnóstico de la osteoartritis es fundamentalmente clínico. Se basa en la presencia de dolor articular de características mecánicas, rigidez de corta duración (< 30 min) y limitación funcional en un paciente mayor de 45 años. Las radiografías simples se recomiendan para confirmar el diagnóstico, evaluar la severidad del daño articular (ej. pinzamiento del espacio articular, osteofitos) y descartar otras patologías, pero no son necesarias si la presentación clínica es típica."
     },
     {
-      "titulo": "Estadificación y Criterios de Tratamiento",
-      "contenido": "Se recomienda utilizar el sistema de estadificación del Barcelona Clinic Liver Cancer (BCLC) para clasificar a los pacientes y guiar la estrategia terapéutica. Este sistema considera el estado funcional del paciente (performance status), la función hepática (Child-Pugh) y la extensión del tumor (tamaño, número de nódulos, invasión vascular y diseminación extrahepática)."
+      "titulo": "Tratamiento No Farmacológico (Pilar Fundamental)",
+      "contenido": "Es la primera línea de tratamiento y debe recomendarse a todos los pacientes. Incluye:\n- **Educación del paciente:** Informar sobre la naturaleza crónica de la enfermedad y la importancia del autocuidado.\n- **Ejercicio terapéutico:** Programas de fortalecimiento muscular (ej. cuádriceps en OA de rodilla), ejercicio aeróbico de bajo impacto (caminar, nadar, bicicleta) y ejercicios de rango de movimiento.\n- **Pérdida de peso:** En pacientes con sobrepeso u obesidad, es una de las intervenciones más efectivas para reducir el dolor y mejorar la función, especialmente en articulaciones de carga como rodilla y cadera."
     },
     {
-      "titulo": "Tratamientos Curativos (Estadios 0 y A de BCLC)",
-      "contenido": "Las opciones con intención curativa incluyen:\n- **Resección quirúrgica:** Para pacientes con tumor único y función hepática preservada (Child-Pugh A) sin hipertensión portal clínicamente significativa.\n- **Trasplante hepático:** Considerado el mejor tratamiento para pacientes que cumplen los Criterios de Milán (un nódulo ≤ 5 cm o hasta 3 nódulos ≤ 3 cm), ya que trata tanto el tumor como la cirrosis subyacente.\n- **Ablación percutánea (Radiofrecuencia o Microondas):** Tratamiento de elección para tumores pequeños (≤ 3 cm) en pacientes no candidatos a cirugía."
+      "titulo": "Tratamiento Farmacológico para el Dolor",
+      "subsecciones": [
+        {
+          "titulo": "Primera Línea",
+          "items": [
+            { "nombre": "Paracetamol (Acetaminofén)", "codigo_item": "00204", "recomendacion": "Dosis de hasta 3-4 g/día. Se considera por su perfil de seguridad, aunque su efectividad es modesta." }
+          ]
+        },
+        {
+          "titulo": "Segunda Línea (o 1ra si hay inflamación)",
+          "items": [
+            { "nombre": "AINEs Tópicos (ej. Diclofenaco gel)", "recomendacion": "De elección para OA de rodilla y mano por su menor riesgo de efectos adversos sistémicos." },
+            { "nombre": "AINEs Orales (ej. Ibuprofeno, Naproxeno, Celecoxib)", "codigo_item": "13101", "recomendacion": "Usar a la dosis más baja y por el menor tiempo posible, evaluando riesgo gastrointestinal y cardiovascular. (Códigos de referencia: Naproxeno 04979, Celecoxib 01712)." }
+          ]
+        }
+      ]
     },
     {
-      "titulo": "Tratamientos para Estadio Intermedio (Estadio B de BCLC)",
-      "contenido": "La **quimioembolización transarterial (TACE)** es el tratamiento estándar para pacientes con CHC multinodular, asintomáticos y con función hepática conservada. Su objetivo es controlar el crecimiento del tumor y mejorar la supervivencia."
+      "titulo": "Otras Terapias Farmacológicas",
+      "items": [
+        { "nombre": "Infiltración intraarticular de corticoides", "recomendacion": "Proporciona alivio del dolor a corto plazo en brotes agudos. No se recomienda su uso repetido y frecuente." },
+        { "nombre": "Tramadol", "codigo_item": "06237", "recomendacion": "Puede considerarse para dolor moderado a severo en pacientes que no responden o tienen contraindicaciones para los AINEs." }
+      ]
     },
     {
-      "titulo": "Tratamientos para Estadio Avanzado (Estadio C de BCLC)",
-      "contenido": "Para pacientes con invasión vascular o diseminación extrahepática, se recomienda el **tratamiento sistémico**. La combinación de **Atezolizumab (inmunoterapia) y Bevacizumab (antiangiogénico)** es la terapia de primera línea recomendada, habiendo demostrado superioridad sobre el Sorafenib. Otras opciones incluyen Lenvatinib o Sorafenib."
-    },
-    {
-      "titulo": "Tratamientos para Estadio Terminal (Estadio D de BCLC)",
-      "contenido": "En pacientes con un estado funcional muy deteriorado (PS > 2) o enfermedad hepática muy avanzada (Child-Pugh C), el tratamiento recomendado es el **manejo sintomático y los cuidados paliativos** para mejorar la calidad de vida."
+      "titulo": "Tratamiento Quirúrgico",
+      "contenido": "La cirugía de reemplazo articular (artroplastia) se reserva para pacientes con osteoartritis severa, dolor intratable y discapacidad funcional significativa que no han respondido al tratamiento conservador. Es una intervención altamente efectiva para aliviar el dolor y restaurar la función."
     }
   ],
   "palabras_clave": [
-    "hepatocarcinoma",
-    "carcinoma hepatocelular",
-    "CHC",
-    "BCLC",
-    "TACE",
-    "resección hepática",
-    "trasplante de hígado",
-    "Atezolizumab",
-    "Bevacizumab",
-    "Sorafenib",
-    "Lenvatinib"
+    "osteoartritis",
+    "artrosis",
+    "dolor articular",
+    "AINEs",
+    "paracetamol",
+    "ibuprofeno",
+    "naproxeno",
+    "tramadol",
+    "ejercicio terapéutico",
+    "artroplastia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo del paciente con Síndrome Coronario Crónico",
+  "diagnostico_cie10": "I259",
+  "referencias_cie10": [
+    "I209",
+    "I251",
+    "I252"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Estratificación del Riesgo",
+      "contenido": "El diagnóstico del Síndrome Coronario Crónico (SCC) se basa en la historia clínica de angina de pecho y la evaluación del riesgo cardiovascular. Se recomienda realizar un electrocardiograma (ECG) en reposo a todos los pacientes. Para confirmar el diagnóstico y evaluar la isquemia, se puede utilizar una prueba de esfuerzo (ergometría) o pruebas de imagen como la ecocardiografía de estrés o la angiografía coronaria por tomografía (Angio-TC), dependiendo del perfil del paciente."
+    },
+    {
+      "titulo": "Tratamiento Farmacológico Óptimo (TFO)",
+      "contenido": "El TFO es la base del manejo y tiene dos objetivos: aliviar los síntomas (antianginosos) y prevenir eventos cardiovasculares (trombosis, infarto).",
+      "subsecciones": [
+        {
+          "titulo": "1. Terapia Anti-isquémica (para aliviar la angina)",
+          "items": [
+            { "nombre": "Betabloqueantes (ej. Bisoprolol, Carvedilol)", "recomendacion": "Son la primera línea de tratamiento para el control de la frecuencia cardiaca y los síntomas." },
+            { "nombre": "Calcioantagonistas (ej. Amlodipino, Diltiazem)", "recomendacion": "Se usan si los betabloqueantes no son tolerados o son insuficientes. Pueden combinarse." },
+            { "nombre": "Nitroglicerina sublingual", "codigo_item": "21535", "recomendacion": "Recomendados para el alivio inmediato de los episodios de angina." }
+          ]
+        },
+        {
+          "titulo": "2. Terapia para la Prevención de Eventos",
+          "items": [
+            { "nombre": "Ácido acetilsalicílico (Aspirina)", "codigo_item": "04410", "recomendacion": "Dosis de 100 mg/día recomendada en todos los pacientes con SCC, si no hay contraindicación." },
+            { "nombre": "Atorvastatina", "codigo_item": "06161", "recomendacion": "Fundamental para reducir el colesterol LDL. El objetivo es un LDL < 55 mg/dL en pacientes de muy alto riesgo." },
+            { "nombre": "Enalapril", "codigo_item": "06001", "recomendacion": "Recomendado en pacientes con SCC que también tienen hipertensión, diabetes, insuficiencia cardiaca o disfunción ventricular izquierda." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Revascularización (Intervencionista o Quirúrgica)",
+      "contenido": "La decisión de revascularizar (mediante angioplastia con stent o cirugía de bypass) se toma en pacientes que persisten con angina a pesar del TFO, o en aquellos con enfermedad anatómicamente extensa y de alto riesgo (ej. enfermedad del tronco coronario izquierdo, enfermedad de 3 vasos con disfunción ventricular). La decisión debe ser individualizada y discutida por un 'Heart Team' (equipo del corazón)."
+    }
+  ],
+  "palabras_clave": [
+    "síndrome coronario crónico",
+    "SCC",
+    "angina de pecho",
+    "enfermedad isquémica",
+    "aspirina",
+    "estatinas",
+    "betabloqueantes",
+    "IECA",
+    "revascularización",
+    "stent",
+    "bypass",
+    "atorvastatina",
+    "enalapril"
+  ],
+  "version_guia": "2.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de Neumonía Adquirida en la Comunidad en población pediátrica",
+  "diagnostico_cie10": "J189",
+  "referencias_cie10": [
+    "J159",
+    "J180"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico de Neumonía",
+      "contenido": "El diagnóstico es principalmente clínico, basado en la presencia de fiebre, tos y taquipnea (frecuencia respiratoria elevada para la edad). La auscultación puede revelar crepitantes o disminución del murmullo vesicular. La radiografía de tórax no se recomienda de rutina en casos leves de manejo ambulatorio, pero es esencial en pacientes que requieren hospitalización, tienen enfermedad grave o diagnóstico incierto."
+    },
+    {
+      "titulo": "Criterios de Hospitalización",
+      "contenido": "Se debe hospitalizar a niños con signos de peligro como: saturación de oxígeno < 90-92%, cianosis, dificultad respiratoria severa (tirajes, quejido), incapacidad para la lactancia o beber, alteración del estado de conciencia, o en menores de 2-3 meses."
+    },
+    {
+      "titulo": "Tratamiento Ambulatorio (Neumonía No Grave)",
+      "subsecciones": [
+        {
+          "titulo": "Niños de 2 meses a 5 años",
+          "items": [
+            { "nombre": "Amoxicilina", "codigo_item": "04403", "recomendacion": "Tratamiento de primera línea. Dosis: 80-90 mg/kg/día, dividida en 2 o 3 dosis, por 5 a 7 días." }
+          ]
+        },
+        {
+          "titulo": "Niños mayores de 5 años (sospecha de germen atípico)",
+          "items": [
+            { "nombre": "Amoxicilina", "codigo_item": "04403", "recomendacion": "Sigue siendo una opción válida." },
+            { "nombre": "Azitromicina", "codigo_item": "04417", "recomendacion": "Alternativa o adición si se sospecha fuertemente de Mycoplasma pneumoniae. Dosis: 10 mg/kg el primer día, luego 5 mg/kg por 4 días más." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Hospitalario (Neumonía Grave)",
+      "subsecciones": [
+        {
+          "titulo": "Tratamiento de Primera Línea",
+          "items": [
+            { "nombre": "Ampicilina o Penicilina G Sódica", "recomendacion": "Son los antibióticos de elección por vía intravenosa." }
+          ]
+        },
+        {
+          "titulo": "Alternativas (si no hay respuesta o en casos específicos)",
+          "items": [
+            { "nombre": "Ceftriaxona", "codigo_item": "04443", "recomendacion": "Usar en pacientes que no responden al tratamiento inicial o en casos de neumonía muy grave. Dosis: 50-100 mg/kg/día." },
+            { "nombre": "Cloranfenicol", "codigo_item": "04453", "recomendacion": "Considerado en contextos específicos o si hay alergias/resistencias a otros fármacos." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "neumonía",
+    "pediatría",
+    "NAC",
+    "neumonía adquirida en la comunidad",
+    "amoxicilina",
+    "ceftriaxona",
+    "azitromicina",
+    "taquipnea",
+    "fiebre",
+    "tos"
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
@@ -587,54 +191,120 @@
   "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Tratamiento de la Insuficiencia Cardiaca Crónica",
   "diagnostico_cie10": "I500",
   "referencias_cie10": [
-    "I50",
     "I501",
     "I509"
   ],
   "secciones": [
     {
-      "titulo": "Diagnóstico de Insuficiencia Cardiaca (IC)",
-      "contenido": "El diagnóstico de la IC se basa en una combinación de síntomas (disnea, fatiga, edema), signos (ingurgitación yugular, crepitantes pulmonares) y evidencia objetiva de disfunción cardiaca. Se recomienda realizar un electrocardiograma (ECG) y medir los péptidos natriuréticos (BNP o NT-proBNP) en todos los pacientes con sospecha de IC. Un ecocardiograma transtorácico es fundamental para confirmar el diagnóstico, clasificar el tipo de IC según la Fracción de Eyección del Ventrículo Izquierdo (FEVI) y evaluar la estructura y función cardiaca."
+      "titulo": "Diagnóstico de la Insuficiencia Cardiaca (IC)",
+      "contenido": "El diagnóstico se basa en una combinación de síntomas típicos (disnea, fatiga, edema de tobillos), signos específicos (ingurgitación yugular, crepitantes pulmonares) y evidencia objetiva de disfunción cardiaca. Se recomienda realizar un electrocardiograma (ECG) y medir los péptidos natriuréticos (BNP o NT-proBNP) en todos los pacientes con sospecha de IC. Un ecocardiograma transtorácico es fundamental para confirmar el diagnóstico, clasificar el tipo de IC según la Fracción de Eyección del Ventrículo Izquierdo (FEVI) y evaluar la estructura y función cardiaca."
     },
     {
-      "titulo": "Clasificación de la Insuficiencia Cardiaca por FEVI",
-      "contenido": "La clasificación según la FEVI es crucial para guiar el tratamiento:\n- **IC con FEVI Reducida (IC-FEr):** FEVI ≤ 40%.\n- **IC con FEVI Levemente Reducida (IC-FElr):** FEVI 41-49%.\n- **IC con FEVI Preservada (IC-FEp):** FEVI ≥ 50%."
+      "titulo": "Clasificación según la Fracción de Eyección (FEVI)",
+      "items": [
+        { "nombre": "IC con FEVI Reducida (IC-FEr)", "recomendacion": "FEVI ≤ 40%." },
+        { "nombre": "IC con FEVI Levemente Reducida (IC-FElr)", "recomendacion": "FEVI 41-49%." },
+        { "nombre": "IC con FEVI Preservada (IC-FEp)", "recomendacion": "FEVI ≥ 50%." }
+      ]
     },
     {
-      "titulo": "Tratamiento Farmacológico para IC con FEVI Reducida (IC-FEr)",
-      "contenido": "El tratamiento se basa en cuatro pilares farmacológicos fundamentales para mejorar la supervivencia y reducir hospitalizaciones:\n1. **IECA o ARNI:** Se recomienda iniciar con un Inhibidor de la Enzima Convertidora de Angiotensina (IECA) o un Antagonista del Receptor de Angiotensina II (ARA-II). Se sugiere reemplazar el IECA/ARA-II por un Inhibidor del Receptor de Angiotensina y Neprilisina (ARNI) como Sacubitrilo/Valsartán en pacientes que permanecen sintomáticos.\n2. **Betabloqueantes (BB):** Fármacos como Carvedilol, Bisoprolol o Metoprolol succinato son esenciales.\n3. **Antagonistas del Receptor Mineralocorticoide (ARM):** Se recomienda Espironolactona o Eplerenona.\n4. **Inhibidores del SGLT2 (iSGLT2):** Se recomienda añadir Dapagliflozina o Empagliflozina al tratamiento, independientemente de si el paciente tiene diabetes o no."
+      "titulo": "Tratamiento Farmacológico de la IC con FEVI Reducida (IC-FEr)",
+      "contenido": "El tratamiento se basa en cuatro pilares fundamentales que han demostrado mejorar la supervivencia. Deben iniciarse y titularse hasta la dosis máxima tolerada.",
+      "subsecciones": [
+        {
+          "titulo": "Pilares del Tratamiento",
+          "items": [
+            { "nombre": "IECA (Inhibidor de la Enzima Convertidora de Angiotensina)", "codigo_item": "06001", "recomendacion": "Ejemplo: Enalapril. Son la base del tratamiento." },
+            { "nombre": "Betabloqueante", "codigo_item": "06031", "recomendacion": "Ejemplo: Carvedilol, Bisoprolol. Reducen la mortalidad y las hospitalizaciones." },
+            { "nombre": "ARM (Antagonista del Receptor de Mineralocorticoides)", "codigo_item": "06061", "recomendacion": "Ejemplo: Espironolactona. Indicado en pacientes que persisten sintomáticos a pesar de IECA y betabloqueantes." },
+            { "nombre": "iSGLT2 (Inhibidor del cotransportador sodio-glucosa tipo 2)", "recomendacion": "Ejemplo: Dapagliflozina, Empagliflozina. Han demostrado beneficios incluso en pacientes no diabéticos." }
+          ]
+        },
+        {
+          "titulo": "Tratamiento para la Congestión",
+          "items": [
+            { "nombre": "Diuréticos de asa", "codigo_item": "06071", "recomendacion": "Ejemplo: Furosemida. Se utilizan para aliviar los síntomas de congestión (edema, disnea). La dosis se ajusta según la respuesta y el estado del volumen del paciente. No han demostrado impacto en la mortalidad." }
+          ]
+        }
+      ]
     },
     {
-      "titulo": "Tratamiento para IC con FEVI Preservada (IC-FEp)",
-      "contenido": "Para pacientes con IC-FEp, se recomienda el uso de **Inhibidores del SGLT2 (Dapagliflozina o Empagliflozina)**, ya que han demostrado reducir el riesgo de hospitalización por IC y muerte cardiovascular en este grupo. El tratamiento de las comorbilidades como la hipertensión, la fibrilación auricular y la diabetes es igualmente fundamental."
-    },
-    {
-      "titulo": "Manejo de la Congestión",
-      "contenido": "Se recomienda el uso de **diuréticos de asa** (como Furosemida) para tratar los signos y síntomas de congestión (edema, disnea). La dosis debe ajustarse para mantener la euvolemia (estado de volumen normal) con la dosis más baja posible."
-    },
-    {
-      "titulo": "Terapia con Dispositivos",
-      "contenido": "En pacientes seleccionados con IC-FEr, QRS ancho (≥130 ms) y ritmo sinusal que persisten sintomáticos a pesar del tratamiento óptimo, se puede considerar la **Terapia de Resincronización Cardiaca (TRC)**. El **Desfibrilador Automático Implantable (DAI)** se recomienda para la prevención de muerte súbita en pacientes con IC-FEr y una expectativa de vida razonable."
+      "titulo": "Tratamiento No Farmacológico",
+      "contenido": "Incluye la educación del paciente sobre la enfermedad, la restricción de sodio en la dieta, el control de la ingesta de líquidos, la promoción de la actividad física regular según tolerancia y la vacunación anual contra la influenza y el neumococo."
     }
   ],
   "palabras_clave": [
     "insuficiencia cardiaca",
     "IC",
-    "ICC",
-    "FEVI",
-    "falla cardiaca",
+    "IC-FEr",
+    "IC-FEp",
     "disnea",
     "edema",
-    "péptidos natriuréticos",
-"BNP",
-    "NT-proBNP",
-    "Sacubitrilo/Valsartán",
-    "ARNI",
-    "Dapagliflozina",
-    "Empagliflozina",
-    "iSGLT2",
-    "Espironolactona",
-    "Furosemida"
+    "FEVI",
+    "enalapril",
+    "carvedilol",
+    "espironolactona",
+    "furosemida"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
+  "diagnostico_cie10": "I270",
+  "referencias_cie10": [
+    "I272"
+  ],
+  "secciones": [
+    {
+      "titulo": "Definición y Diagnóstico",
+      "contenido": "La Hipertensión Arterial Pulmonar (HAP) es una enfermedad rara y grave caracterizada por una presión arterial media en la arteria pulmonar (PAPm) ≥ 25 mmHg en reposo, medida mediante cateterismo cardiaco derecho (CCD). La sospecha clínica se basa en síntomas como disnea de esfuerzo progresiva, fatiga o síncope. El ecocardiograma es la herramienta de cribado inicial fundamental para estimar la presión sistólica de la arteria pulmonar (PSAP). El diagnóstico de certeza requiere obligatoriamente un cateterismo cardiaco derecho."
+    },
+    {
+      "titulo": "Clasificación Funcional (OMS)",
+      "contenido": "La severidad de los síntomas se clasifica en cuatro clases funcionales (CF) de la OMS, lo cual es crucial para guiar el tratamiento:",
+      "items": [
+        { "nombre": "Clase Funcional I", "recomendacion": "Sin limitación de la actividad física." },
+        { "nombre": "Clase Funcional II", "recomendacion": "Ligera limitación de la actividad física. Asintomático en reposo." },
+        { "nombre": "Clase Funcional III", "recomendacion": "Marcada limitación de la actividad física. Asintomático en reposo." },
+        { "nombre": "Clase Funcional IV", "recomendacion": "Incapacidad para realizar cualquier actividad física. Síntomas en reposo." }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la HAP",
+      "contenido": "El manejo incluye medidas generales, tratamiento de soporte y terapia específica para la HAP.",
+      "subsecciones": [
+        {
+          "titulo": "Medidas Generales y de Soporte",
+          "items": [
+            { "nombre": "Anticoagulación Oral", "codigo_item": "05001", "recomendacion": "Se considera en pacientes con HAP idiopática, hereditaria o asociada a anorexígenos (ej. Warfarina)." },
+            { "nombre": "Diuréticos", "codigo_item": "06071", "recomendacion": "Para manejar la sobrecarga de volumen y el edema periférico (ej. Furosemida)." },
+            { "nombre": "Oxigenoterapia", "recomendacion": "Indicada en pacientes con hipoxemia arterial (PaO2 < 60 mmHg)." }
+          ]
+        },
+        {
+          "titulo": "Terapia Específica para HAP (según riesgo y test de vasorreactividad)",
+          "contenido": "El tratamiento se dirige a diferentes vías moleculares y se elige según la estratificación de riesgo del paciente (bajo, intermedio, alto).",
+          "items": [
+            { "nombre": "Antagonistas de los Receptores de la Endotelina (ARE)", "codigo_item": "06202", "recomendacion": "Ejemplo: Bosentán, Ambrisentán. Bloquean el efecto vasoconstrictor de la endotelina." },
+            { "nombre": "Inhibidores de la Fosfodiesterasa 5 (PDE-5i)", "codigo_item": "06201", "recomendacion": "Ejemplo: Sildenafilo. Promueven la vasodilatación pulmonar." },
+            { "nombre": "Análogos de las Prostaciclinas", "recomendacion": "Ejemplo: Iloprost. Potentes vasodilatadores y antiagregantes. Se usan en casos más severos." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hipertensión pulmonar",
+    "HAP",
+    "disnea",
+    "síncope",
+    "cateterismo cardiaco derecho",
+    "ecocardiograma",
+    "sildenafilo",
+    "bosentan",
+    "iloprost",
+    "warfarina"
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
@@ -643,34 +313,65 @@
   "nombre_guia": "Guía de Práctica Clínica para la evaluación y manejo de la Hemorragia Digestiva Alta",
   "diagnostico_cie10": "K922",
   "referencias_cie10": [
-    "K254",
-    "K264",
+    "K250",
+    "K260",
+    "K270",
     "I850"
   ],
   "secciones": [
     {
       "titulo": "Evaluación Inicial y Estratificación del Riesgo",
-      "contenido": "En todo paciente con sospecha de Hemorragia Digestiva Alta (HDA), se recomienda realizar una evaluación hemodinámica inmediata y una estratificación del riesgo utilizando el score de Glasgow-Blatchford (GBS). Un GBS de 0-1 identifica a pacientes de muy bajo riesgo que podrían ser manejados de forma ambulatoria sin necesidad de endoscopia urgente. Pacientes con GBS > 1 requieren hospitalización y endoscopia."
+      "contenido": "En todo paciente con sospecha de Hemorragia Digestiva Alta (HDA), se recomienda una evaluación hemodinámica inmediata (presión arterial, frecuencia cardiaca) y una reanimación con fluidos si es necesario. Se debe utilizar la escala de Glasgow-Blatchford (GBS) para estratificar el riesgo. Un GBS de 0-1 identifica a pacientes de muy bajo riesgo que podrían ser manejados de forma ambulatoria sin necesidad de endoscopia urgente. Pacientes con GBS > 1 requieren hospitalización y endoscopia."
     },
     {
-      "titulo": "Manejo Farmacológico Pre-endoscópico",
-      "contenido": "Se recomienda la administración de un inhibidor de la bomba de protones (IBP) por vía intravenosa, como Esomeprazol u Omeprazol, en pacientes con sospecha de HDA de origen no variceal, idealmente antes de la endoscopia, para disminuir los estigmas de sangrado reciente. En pacientes con sospecha de HDA por várices esofágicas (generalmente en contexto de cirrosis), se debe iniciar un agente vasoactivo como Terlipresina o Somatostatina lo antes posible."
+      "titulo": "Manejo Pre-endoscópico",
+      "items": [
+        {
+          "nombre": "Inhibidores de la Bomba de Protones (IBP)",
+          "codigo_item": "18001",
+          "recomendacion": "Se recomienda la administración de un IBP por vía intravenosa, como Omeprazol, idealmente antes de la endoscopia en pacientes con sospecha de HDA de origen no variceal. Esto puede reducir la necesidad de tratamiento endoscópico."
+        },
+        {
+          "nombre": "Agentes Procinéticos",
+          "codigo_item": "04467",
+          "recomendacion": "Se puede considerar el uso de Eritromicina por vía intravenosa 20-90 minutos antes de la endoscopia para mejorar la visualización gástrica al promover el vaciamiento de sangre."
+        },
+        {
+          "nombre": "Transfusión Sanguínea",
+          "recomendacion": "Se recomienda una estrategia de transfusión restrictiva. Se debe transfundir concentrados de hematíes cuando el nivel de hemoglobina sea < 7 g/dL, con el objetivo de mantenerla entre 7 y 9 g/dL. En pacientes con comorbilidad cardiovascular significativa, el umbral puede ser más alto (ej. < 8 g/dL)."
+        }
+      ]
     },
     {
-      "titulo": "Endoscopia Digestiva Alta (EDA)",
-      "contenido": "La EDA es el procedimiento diagnóstico y terapéutico de elección. Debe realizarse dentro de las 24 horas posteriores a la presentación del paciente. En casos de inestabilidad hemodinámica a pesar de la reanimación, la endoscopia debe ser emergente (dentro de 6-12 horas). Durante la EDA, se debe clasificar el estigma de sangrado (clasificación de Forrest) y aplicar la terapia hemostática correspondiente (ej. inyección de adrenalina, clips metálicos, terapia térmica)."
+      "titulo": "Manejo Endoscópico",
+      "contenido": "La endoscopia digestiva alta (EDA) es el procedimiento diagnóstico y terapéutico de elección. Debe realizarse dentro de las 24 horas posteriores a la presentación del paciente. En casos de inestabilidad hemodinámica a pesar de la reanimación, la endoscopia debe ser emergente (dentro de 6-12 horas).",
+      "subsecciones": [
+        {
+          "titulo": "Terapia Endoscópica",
+          "codigo_proc": "103",
+          "items": [
+            {
+              "nombre": "Úlceras con estigmas de alto riesgo (Forrest Ia, Ib, IIa)",
+              "recomendacion": "Se recomienda terapia endoscópica combinada, usualmente con inyección de adrenalina más un segundo método (terapia térmica con clips metálicos)."
+            },
+            {
+              "nombre": "Várices Esofágicas Sangrantes",
+              "recomendacion": "El tratamiento de elección es la ligadura endoscópica con bandas elásticas."
+            }
+          ]
+        }
+      ]
     },
     {
-      "titulo": "Manejo Post-endoscópico (HDA no variceal)",
-      "contenido": "Después de una hemostasia endoscópica exitosa en una úlcera de alto riesgo (Forrest Ia, Ib, IIa, IIb), se recomienda mantener una infusión continua de IBP intravenoso (ej. Esomeprazol 80 mg en bolo seguido de 8 mg/h) durante 72 horas para reducir el riesgo de resangrado. Posteriormente, se puede pasar a IBP por vía oral."
-    },
-    {
-      "titulo": "Manejo Específico de la HDA Variceal",
-      "contenido": "El tratamiento de elección es la ligadura endoscópica con bandas elásticas. Se debe administrar profilaxis antibiótica (ej. Ceftriaxona) a todos los pacientes con cirrosis y HDA variceal para prevenir infecciones. El tratamiento con agentes vasoactivos (Terlipresina) debe mantenerse por 3 a 5 días."
-    },
-    {
-      "titulo": "Transfusión Sanguínea",
-      "contenido": "Se recomienda una estrategia de transfusión restrictiva. Se debe transfundir concentrados de hematíes cuando el nivel de hemoglobina sea < 7 g/dL, con el objetivo de mantenerla entre 7 y 9 g/dL. En pacientes con comorbilidad cardiovascular significativa, el umbral puede ser más alto (ej. < 8 g/dL)."
+      "titulo": "Manejo en Pacientes con Cirrosis",
+      "contenido": "Los pacientes con cirrosis y HDA tienen un alto riesgo de infección bacteriana.",
+      "items": [
+        {
+          "nombre": "Profilaxis Antibiótica",
+          "codigo_item": "04443",
+          "recomendacion": "Se recomienda la administración de antibióticos profilácticos (ej. Ceftriaxona intravenosa) por un máximo de 7 días para prevenir infecciones y mejorar la supervivencia."
+        }
+      ]
     }
   ],
   "palabras_clave": [
@@ -678,20 +379,142 @@
     "HDA",
     "melena",
     "hematemesis",
-    "úlcera péptica",
-    "várices esofágicas",
     "endoscopia",
-    "Forrest",
-    "Glasgow-Blatchford",
+    "EDA",
+    "omeprazol",
     "IBP",
-    "Esomeprazol",
-    "Terlipresina",
-    "ligadura con bandas"
+    "Glasgow-Blatchford",
+    "várices esofágicas",
+    "ceftriaxona"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Comunicación Interventricular en menores de 18 años",
+  "diagnostico_cie10": "Q210",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación",
+      "contenido": "La sospecha de Comunicación Interventricular (CIV) se basa en la auscultación de un soplo holosistólico en el borde esternal izquierdo. El diagnóstico se confirma y se clasifica mediante un ecocardiograma Doppler color, que es el estudio de elección.",
+      "subsecciones": [
+        {
+          "titulo": "Estudio Diagnóstico Principal",
+          "items": [
+            { "nombre": "Ecocardiograma Doppler Color", "codigo_proc": "310", "recomendacion": "Permite definir la localización y el tamaño de la CIV, estimar la magnitud del cortocircuito (Qp/Qs) y evaluar las presiones pulmonares." }
+          ]
+        },
+        {
+          "titulo": "Clasificación por Tamaño",
+          "items": [
+            { "nombre": "CIV Pequeña (Restrictiva)", "recomendacion": "Generalmente asintomática, con soplo intenso. Tienen alta probabilidad de cierre espontáneo." },
+            { "nombre": "CIV Moderada", "recomendacion": "Puede presentar síntomas de insuficiencia cardiaca y fallo de medro." },
+            { "nombre": "CIV Grande (No Restrictiva)", "recomendacion": "Causa insuficiencia cardiaca congestiva (ICC) severa, hipertensión pulmonar y requiere intervención." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Médico de la Insuficiencia Cardiaca",
+      "contenido": "En lactantes con CIV moderada a grande que desarrollan síntomas de ICC, se debe iniciar tratamiento médico para controlar los síntomas y permitir el crecimiento mientras se espera el cierre espontáneo o la cirugía.",
+      "items": [
+        { "nombre": "Diuréticos (Furosemida)", "codigo_item": "06071", "recomendacion": "Para reducir la sobrecarga de volumen y la congestión pulmonar." },
+        { "nombre": "Inhibidores de la ECA (Enalapril)", "codigo_item": "06001", "recomendacion": "Para reducir la poscarga sistémica y disminuir el cortocircuito de izquierda a derecha." },
+        { "nombre": "Antagonistas de la Aldosterona (Espironolactona)", "codigo_item": "06061", "recomendacion": "Se añade a los diuréticos para contrarrestar la pérdida de potasio y por sus efectos antifibróticos." }
+      ]
+    },
+    {
+      "titulo": "Indicaciones de Cierre (Quirúrgico o Percutáneo)",
+      "contenido": "La intervención para cerrar la CIV está indicada en los siguientes escenarios:",
+      "items": [
+        { "nombre": "CIV Grande con ICC", "recomendacion": "En lactantes con fallo de medro o síntomas de ICC que no responden al tratamiento médico." },
+        { "nombre": "CIV con Hipertensión Pulmonar", "recomendacion": "En pacientes con Qp/Qs > 1.5-2.0 y evidencia de aumento de la presión o resistencias pulmonares." },
+        { "nombre": "CIV con Prolapso de Válvula Aórtica", "recomendacion": "Indicación de cierre para prevenir la insuficiencia aórtica progresiva." }
+      ]
+    },
+    {
+      "titulo": "Seguimiento Post-Cierre",
+      "contenido": "Los pacientes requieren seguimiento cardiológico a largo plazo para monitorizar la función ventricular, la presencia de cortocircuitos residuales, arritmias o problemas valvulares. Se recomienda profilaxis para endocarditis infecciosa durante los primeros 6 meses post-intervención."
+    }
+  ],
+  "palabras_clave": [
+    "comunicación interventricular",
+    "CIV",
+    "cardiopatía congénita",
+    "soplo holosistólico",
+    "ecocardiograma",
+    "insuficiencia cardiaca",
+    "furosemida",
+    "enalapril",
+    "cierre de CIV"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tratamiento del Hepatocarcinoma en adultos",
+  "diagnostico_cie10": "C220",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico del Hepatocarcinoma (CHC)",
+      "contenido": "En pacientes con cirrosis, el diagnóstico de CHC se puede realizar mediante técnicas de imagen no invasivas (Tomografía Computarizada [TC] multifásica o Resonancia Magnética [RM] con contraste). El hallazgo característico es una lesión con hipervascularización arterial y lavado en fase venosa portal o tardía (patrón LI-RADS 5). La biopsia hepática se reserva para casos con diagnóstico por imagen no concluyente o en pacientes sin cirrosis."
+    },
+    {
+      "titulo": "Estadificación y Criterios de Tratamiento (BCLC)",
+      "contenido": "Se recomienda utilizar el sistema de estadificación del Barcelona Clinic Liver Cancer (BCLC) para clasificar a los pacientes y guiar la estrategia terapéutica. Este sistema considera el estado funcional del paciente (performance status), la función hepática (Child-Pugh) y la extensión del tumor (tamaño, número de nódulos, invasión vascular y diseminación extrahepática)."
+    },
+    {
+      "titulo": "Tratamientos Curativos (Estadios 0 y A de BCLC)",
+      "contenido": "Las opciones con intención curativa incluyen:",
+      "items": [
+        { "nombre": "Resección quirúrgica", "recomendacion": "Para pacientes con tumor único y función hepática preservada (Child-Pugh A) sin hipertensión portal clínicamente significativa." },
+        { "nombre": "Trasplante hepático", "recomendacion": "Considerado el mejor tratamiento para pacientes que cumplen los Criterios de Milán (un nódulo ≤ 5 cm o hasta 3 nódulos ≤ 3 cm)." },
+        { "nombre": "Ablación por radiofrecuencia (ARF)", "recomendacion": "Alternativa a la resección para tumores pequeños (< 3 cm) no accesibles quirúrgicamente." }
+      ]
+    },
+    {
+      "titulo": "Tratamiento en Estadio Intermedio (Estadio B de BCLC)",
+      "items": [
+        { "nombre": "Quimioembolización transarterial (TACE)", "recomendacion": "Es el tratamiento de elección para pacientes con CHC multinodular, asintomático y con función hepática preservada, confinado al hígado." }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Sistémico en Estadio Avanzado (Estadio C de BCLC)",
+      "contenido": "Para pacientes con invasión vascular o diseminación extrahepática y buen estado funcional (ECOG 0-1).",
+      "subsecciones": [
+        {
+          "titulo": "Primera Línea",
+          "items": [
+            { "nombre": "Atezolizumab + Bevacizumab", "recomendacion": "Es la combinación preferida actualmente por su mayor supervivencia." }
+          ]
+        },
+        {
+          "titulo": "Alternativas de Primera Línea",
+          "items": [
+            { "nombre": "Sorafenib", "codigo_item": "21801", "recomendacion": "Inhibidor de tirosina quinasa (TKI) que fue el estándar de tratamiento durante muchos años." },
+            { "nombre": "Lenvatinib", "recomendacion": "Otro TKI que ha demostrado no inferioridad frente a sorafenib." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hepatocarcinoma",
+    "CHC",
+    "carcinoma hepatocelular",
+    "cirrosis",
+    "BCLC",
+    "resección hepática",
+    "trasplante hepático",
+    "TACE",
+    "sorafenib",
+    "atezolizumab",
+    "bevacizumab"
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
 }
-
-
 
 ]
