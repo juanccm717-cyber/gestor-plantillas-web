@@ -678,5 +678,688 @@
     ],
     "version_guia": "1.0",
     "fecha_actualizacion": "2025-11-16"
-  }
+  },
+  {
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de la Catarata del adulto y adulto mayor",
+  "diagnostico_cie10": "H259",
+  "referencias_cie10": [
+    "H250",
+    "H251",
+    "H252",
+    "H258",
+    "H260"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico de la catarata se basa en la historia clínica del paciente y un examen oftalmológico completo.",
+      "items": [
+        {
+          "nombre": "Evaluación de la Agudeza Visual",
+          "recomendacion": "Medir la agudeza visual de lejos y de cerca, con y sin corrección. Es el principal indicador del impacto funcional de la catarata."
+        },
+        {
+          "nombre": "Examen con Lámpara de Hendidura",
+          "recomendacion": "Permite la biomicroscopía del segmento anterior para clasificar el tipo y la densidad de la catarata (nuclear, cortical, subcapsular posterior)."
+        },
+        {
+          "nombre": "Tonometría",
+          "recomendacion": "Medición de la presión intraocular (PIO) para descartar glaucoma coexistente, una comorbilidad frecuente."
+        }
+      ]
+    },
+    {
+      "titulo": "Evaluación Preoperatoria",
+      "contenido": "Una vez diagnosticada la catarata y considerado el tratamiento quirúrgico, se requieren estudios específicos para planificar la cirugía.",
+      "items": [
+        {
+          "nombre": "Biometría Ocular",
+          "recomendacion": "Esencial para calcular el poder del Lente Intraocular (LIO) a implantar. Se mide la longitud axial del ojo y la queratometría (curvatura de la córnea)."
+        },
+        {
+          "nombre": "Microscopía Especular",
+          "recomendacion": "Evalúa el recuento y la morfología de las células endoteliales de la córnea. Es importante en córneas con riesgo de descompensación postquirúrgica."
+        },
+        {
+          "nombre": "Evaluación del Fondo de Ojo",
+          "recomendacion": "Dilatar la pupila para examinar la retina y el nervio óptico. Permite descartar otras patologías que limiten el pronóstico visual (ej. degeneración macular, retinopatía diabética)."
+        }
+      ]
+    },
+    {
+      "titulo": "Criterios de Tratamiento Quirúrgico",
+      "contenido": "La decisión de operar una catarata se basa principalmente en el impacto que esta tiene en la calidad de vida del paciente, no solo en la agudeza visual.",
+      "items": [
+        {
+          "nombre": "Indicación Principal",
+          "recomendacion": "Cuando la disminución de la agudeza visual debida a la catarata interfiere con las actividades diarias del paciente (leer, conducir, trabajar, etc.)."
+        },
+        {
+          "nombre": "Indicaciones Médicas",
+          "recomendacion": "La cirugía puede ser necesaria para permitir la visualización y manejo de patologías del fondo de ojo (ej. retinopatía diabética) o si la catarata induce otras complicaciones como glaucoma o uveítis."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Quirúrgico",
+      "subsecciones": [
+        {
+          "titulo": "Técnica de Elección: Facoemulsificación",
+          "items": [
+            {
+              "nombre": "Facoemulsificación con Implante de Lente Intraocular (LIO)",
+              "codigo_procedimiento": "66984",
+              "recomendacion": "Es el estándar de oro para la cirugía de catarata. Consiste en utilizar ultrasonido para fragmentar y aspirar el cristalino opaco a través de una microincisión (generalmente < 3 mm), para luego implantar un LIO plegable."
+            }
+          ]
+        },
+        {
+          "titulo": "Selección del Lente Intraocular (LIO)",
+          "items": [
+            {
+              "nombre": "LIO Monofocal",
+              "recomendacion": "Es el tipo de lente más comúnmente implantado. Corrige la visión a una sola distancia (generalmente de lejos), por lo que el paciente requerirá lentes para ver de cerca."
+            },
+            {
+              "nombre": "LIO Tórico",
+              "recomendacion": "Recomendado para pacientes con astigmatismo corneal preexistente significativo, ya que corrige tanto la catarata como el astigmatismo en una sola cirugía."
+            },
+            {
+              "nombre": "LIO Multifocal/Trifocal",
+              "recomendacion": "Ofrecen la posibilidad de corregir la visión a múltiples distancias (lejos, intermedio y cerca), reduciendo la dependencia de los anteojos. Requieren una selección cuidadosa del paciente."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Farmacológico Perioperatorio",
+      "contenido": "Se utiliza un régimen de gotas oftálmicas para prevenir infecciones y controlar la inflamación.",
+      "subsecciones": [
+        {
+          "titulo": "Profilaxis Antibiótica",
+          "items": [
+            {
+              "nombre": "Moxifloxacino (Solución Oftálmica) 5 mg/mL",
+              "codigo_item": "18062",
+              "recomendacion": "Se inicia 1 a 3 días antes de la cirugía, 1 gota cada 6-8 horas. Se continúa por 1 a 2 semanas postoperatorias."
+            }
+          ]
+        },
+        {
+          "titulo": "Control de la Inflamación",
+          "items": [
+            {
+              "nombre": "Prednisolona (Solución Oftálmica) 10 mg/mL",
+              "codigo_item": "5575",
+              "recomendacion": "Se inicia después de la cirugía, 1 gota cada 4-6 horas, con una pauta descendente durante 4 a 6 semanas para controlar la inflamación postoperatoria."
+            },
+            {
+              "nombre": "Ketorolaco (Solución Oftálmica) 5 mg/mL",
+              "codigo_item": "4251",
+              "recomendacion": "Antiinflamatorio no esteroideo (AINE) que se usa en conjunto con el corticoide para reducir la inflamación y prevenir el edema macular quístico. 1 gota cada 6-8 horas."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Seguimiento Postoperatorio",
+      "contenido": "Las revisiones son cruciales para monitorizar la recuperación y detectar complicaciones a tiempo.",
+      "items": [
+        {
+          "nombre": "Primer día postoperatorio",
+          "recomendacion": "Evaluar agudeza visual, presión intraocular y estado de la incisión y la córnea."
+        },
+        {
+          "nombre": "Primera semana postoperatoria",
+          "recomendacion": "Reevaluar al paciente para ajustar el tratamiento antiinflamatorio y verificar la estabilidad del LIO."
+        },
+        {
+          "nombre": "Primer mes postoperatorio",
+          "recomendacion": "Realizar la refracción final para prescribir anteojos si son necesarios (generalmente para lectura con LIO monofocal)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "catarata",
+    "catarata senil",
+    "H259",
+    "facoemulsificacion",
+    "lente intraocular",
+    "LIO",
+    "agudeza visual",
+    "biometria"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de la crisis asmática en niños y adolescentes",
+  "diagnostico_cie10": "J459",
+  "referencias_cie10": [
+    "J450",
+    "J451",
+    "J46"
+  ],
+  "secciones": [
+    {
+      "titulo": "Evaluación Inicial y Clasificación de Severidad",
+      "contenido": "La evaluación inicial debe ser rápida para determinar la gravedad de la crisis y iniciar el tratamiento adecuado. Se recomienda el uso del Pulmonary Score (PS).",
+      "subsecciones": [
+        {
+          "titulo": "Pulmonary Score (PS)",
+          "items": [
+            {
+              "nombre": "Crisis Leve (PS 0-3 puntos)",
+              "recomendacion": "Saturación de O2 > 94%. Frecuencia respiratoria normal o ligeramente aumentada. Sibilancias leves, al final de la espiración. Uso mínimo de músculos accesorios."
+            },
+            {
+              "nombre": "Crisis Moderada (PS 4-6 puntos)",
+              "recomendacion": "Saturación de O2 entre 91-94%. Frecuencia respiratoria aumentada. Sibilancias inspiratorias y espiratorias. Uso evidente de músculos accesorios (tirajes)."
+            },
+            {
+              "nombre": "Crisis Severa (PS 7-9 puntos)",
+              "recomendacion": "Saturación de O2 < 91%. Frecuencia respiratoria muy elevada o disminuida (signo de agotamiento). Sibilancias audibles sin estetoscopio o tórax silente (muy grave). Tirajes intensos. Compromiso del estado de conciencia."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Crisis Asmática",
+      "subsecciones": [
+        {
+          "titulo": "Manejo de la Crisis Leve (PS 0-3)",
+          "items": [
+            {
+              "nombre": "Salbutamol MDI (Inhalador de Dosis Medida)",
+              "codigo_item": "5731",
+              "recomendacion": "Administrar 2 a 4 disparos (puffs) con aerocámara. Se puede repetir cada 20 minutos por 3 veces en la primera hora. La respuesta al tratamiento inicial determina los siguientes pasos."
+            }
+          ]
+        },
+        {
+          "titulo": "Manejo de la Crisis Moderada (PS 4-6)",
+          "items": [
+            {
+              "nombre": "Salbutamol MDI (Inhalador de Dosis Medida)",
+              "codigo_item": "5731",
+              "recomendacion": "Dosis inicial de 6 a 8 disparos (puffs) con aerocámara. Se puede repetir cada 20 minutos durante la primera hora."
+            },
+            {
+              "nombre": "Bromuro de Ipratropio MDI",
+              "codigo_item": "20622",
+              "recomendacion": "Añadir al tratamiento con Salbutamol en las primeras horas. Dosis de 4 a 8 disparos junto con el Salbutamol en las primeras 3 dosis."
+            },
+            {
+              "nombre": "Prednisona Oral",
+              "codigo_item": "5590",
+              "recomendacion": "Administrar lo antes posible. La vía oral es de elección si el paciente la tolera. Dosis: 1-2 mg/kg. Dosis máxima: 40-60 mg."
+            }
+          ]
+        },
+        {
+          "titulo": "Manejo de la Crisis Severa (PS 7-9)",
+          "contenido": "Este paciente requiere manejo agresivo, monitorización continua y probable hospitalización.",
+          "items": [
+            {
+              "nombre": "Oxígeno de alto flujo",
+              "recomendacion": "Administrar inmediatamente para mantener una saturación de O2 > 94%."
+            },
+            {
+              "nombre": "Nebulización continua o frecuente",
+              "recomendacion": "Administrar Salbutamol más Bromuro de Ipratropio en nebulización. Se puede administrar de forma continua o en 3 dosis cada 20 minutos."
+            },
+            {
+              "nombre": "Corticoides Sistémicos (Vía Endovenosa)",
+              "recomendacion": "Si la vía oral no es tolerable o la crisis es muy severa, administrar Metilprednisolona IV. Dosis: 1-2 mg/kg."
+            },
+            {
+              "nombre": "Sulfato de Magnesio",
+              "recomendacion": "Considerar en pacientes que no responden al tratamiento inicial intensivo. Se administra por vía endovenosa."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Criterios de Hospitalización y Alta",
+      "items": [
+        {
+          "nombre": "Criterios de Hospitalización",
+          "recomendacion": "Crisis severa. Pacientes con crisis moderada que no responden al tratamiento inicial en la primera hora. Requerimiento persistente de oxígeno. Malas condiciones sociales o familiares."
+        },
+        {
+          "nombre": "Criterios de Alta desde Emergencia",
+          "recomendacion": "El paciente se clasifica como crisis leve (PS < 3) después del tratamiento. Saturación de O2 > 94% sin oxígeno suplementario. Buena respuesta al Salbutamol. Se debe entregar un plan de acción por escrito."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "asma",
+    "crisis asmatica",
+    "J459",
+    "sibilancias",
+    "salbutamol",
+    "prednisona",
+    "bromuro de ipratropio",
+    "pulmonary score"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo del Episodio depresivo moderado y Episodio depresivo severo sin síntomas psicóticos",
+  "diagnostico_cie10": "F322",
+  "referencias_cie10": [
+    "F321"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Criterios",
+      "contenido": "El diagnóstico se basa en los criterios del CIE-10/DSM-5. Requiere la presencia de al menos dos síntomas principales (ánimo deprimido, anhedonia, falta de energía) y otros síntomas secundarios durante al menos dos semanas.",
+      "items": [
+        {
+          "nombre": "Episodio Depresivo Moderado (F321)",
+          "recomendacion": "Presencia de al menos dos síntomas principales y tres o cuatro síntomas secundarios. El paciente tiene dificultades considerables para continuar con sus actividades ordinarias."
+        },
+        {
+          "nombre": "Episodio Depresivo Severo sin Síntomas Psicóticos (F322)",
+          "recomendacion": "Presencia de los tres síntomas principales y al menos cuatro síntomas secundarios, algunos de ellos de gran intensidad. Es muy poco probable que el paciente pueda continuar con sus actividades laborales, sociales o domésticas."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Farmacológico de Primera Línea",
+      "contenido": "Se recomienda iniciar el tratamiento con un antidepresivo del grupo de los Inhibidores Selectivos de la Recaptación de Serotonina (ISRS) debido a su perfil favorable de eficacia y tolerabilidad.",
+      "items": [
+        {
+          "nombre": "Sertralina 50 mg Tabletas",
+          "codigo_item": "5807",
+          "recomendacion": "Fármaco de primera elección. Dosis de inicio: 50 mg/día. Se puede incrementar gradualmente hasta una dosis máxima de 200 mg/día según la respuesta y tolerabilidad."
+        },
+        {
+          "nombre": "Fluoxetina 20 mg Tabletas",
+          "codigo_item": "3624",
+          "recomendacion": "Alternativa de primera línea. Dosis de inicio: 20 mg/día. Dosis máxima: 60-80 mg/día. Tiene una vida media larga, lo que puede ser útil en pacientes con adherencia irregular."
+        },
+        {
+          "nombre": "Escitalopram 10 mg Tabletas",
+          "codigo_item": "18373",
+          "recomendacion": "Alternativa de primera línea, conocido por su buena tolerabilidad. Dosis de inicio: 10 mg/día. Dosis máxima: 20 mg/día."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Segunda Línea y Estrategias de Optimización",
+      "contenido": "Si no hay respuesta al tratamiento de primera línea después de 4-8 semanas a dosis óptimas, se deben considerar las siguientes estrategias.",
+      "items": [
+        {
+          "nombre": "Cambio a otro ISRS",
+          "recomendacion": "Cambiar a otro fármaco del mismo grupo (ej. de Sertralina a Escitalopram) es una estrategia válida y a menudo eficaz."
+        },
+        {
+          "nombre": "Cambio a otra familia de antidepresivos",
+          "recomendacion": "Considerar el cambio a un antidepresivo dual, como la Venlafaxina o la Duloxetina, especialmente si predominan los síntomas de anergia o dolor."
+        },
+        {
+          "nombre": "Potenciación",
+          "recomendacion": "Añadir un segundo fármaco al ISRS para potenciar su efecto. Las opciones incluyen antipsicóticos atípicos a dosis bajas (ej. Aripiprazol, Quetiapina) o Litio."
+        }
+      ]
+    },
+    {
+      "titulo": "Psicoterapia",
+      "contenido": "La psicoterapia es un componente fundamental del tratamiento y debe ofrecerse en combinación con la farmacoterapia, especialmente en episodios moderados y severos.",
+      "items": [
+        {
+          "nombre": "Terapia Cognitivo-Conductual (TCC)",
+          "recomendacion": "Es la terapia con mayor evidencia de eficacia. Ayuda al paciente a identificar y modificar patrones de pensamiento y comportamiento negativos."
+        },
+        {
+          "nombre": "Terapia Interpersonal (TIP)",
+          "recomendacion": "Se enfoca en mejorar las relaciones interpersonales y el funcionamiento social del paciente como una forma de aliviar la sintomatología depresiva."
+        }
+      ]
+    },
+    {
+      "titulo": "Duración y Seguimiento del Tratamiento",
+      "contenido": "El tratamiento antidepresivo debe mantenerse incluso después de la remisión de los síntomas para prevenir recaídas.",
+      "items": [
+        {
+          "nombre": "Fase de Continuación",
+          "recomendacion": "Después de alcanzar la remisión, el tratamiento debe continuar con la misma dosis por un mínimo de 6 a 9 meses."
+        },
+        {
+          "nombre": "Fase de Mantenimiento",
+          "recomendacion": "En pacientes con episodios recurrentes (3 o más episodios) o factores de riesgo, se debe considerar el tratamiento de mantenimiento por 2 años o incluso de forma indefinida."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "depresion",
+    "episodio depresivo",
+    "F321",
+    "F322",
+    "ISRS",
+    "sertralina",
+    "fluoxetina",
+    "escitalopram",
+    "TCC"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Cáncer de Colon",
+  "diagnostico_cie10": "C189",
+  "referencias_cie10": [
+    "C180",
+    "C182",
+    "C183",
+    "C184",
+    "C185",
+    "C186",
+    "C187"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Estadificación",
+      "contenido": "El diagnóstico definitivo requiere confirmación histopatológica y la estadificación es crucial para definir el tratamiento y el pronóstico.",
+      "items": [
+        {
+          "nombre": "Colonoscopia con Biopsia",
+          "recomendacion": "Es el procedimiento de elección para el diagnóstico. Permite la visualización directa del tumor, la toma de biopsias para confirmación histológica y la evaluación del resto del colon."
+        },
+        {
+          "nombre": "Tomografía Computarizada (TC) de Tórax, Abdomen y Pelvis con Contraste",
+          "recomendacion": "Estudio de imagen fundamental para la estadificación. Permite evaluar la extensión local del tumor, la presencia de ganglios linfáticos afectados y la búsqueda de metástasis a distancia (principalmente en hígado y pulmón)."
+        },
+        {
+          "nombre": "Antígeno Carcinoembrionario (CEA)",
+          "recomendacion": "Marcador tumoral sérico que debe medirse antes de la cirugía. No es diagnóstico, pero es útil para el pronóstico y, sobre todo, para el seguimiento post-tratamiento."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Enfermedad Localizada (Estadios I-III)",
+      "contenido": "El pilar del tratamiento con intención curativa es la resección quirúrgica del tumor.",
+      "subsecciones": [
+        {
+          "titulo": "Tratamiento Quirúrgico",
+          "items": [
+            {
+              "nombre": "Colectomía Parcial con Anastomosis",
+              "codigo_procedimiento": "44140",
+              "recomendacion": "Resección del segmento del colon afectado junto con los ganglios linfáticos regionales correspondientes. El tipo de colectomía (derecha, izquierda, sigmoidea) depende de la localización del tumor."
+            }
+          ]
+        },
+        {
+          "titulo": "Quimioterapia Adyuvante (Postoperatoria)",
+          "items": [
+            {
+              "nombre": "Indicación en Estadio III",
+              "recomendacion": "Se recomienda quimioterapia adyuvante a todos los pacientes con Estadio III (ganglios positivos) para reducir el riesgo de recurrencia. El esquema estándar es FOLFOX."
+            },
+            {
+              "nombre": "Indicación en Estadio II de Alto Riesgo",
+              "recomendacion": "Se debe considerar la quimioterapia adyuvante en pacientes con Estadio II que presenten factores de alto riesgo (ej. tumores poco diferenciados, invasión linfovascular, perforación u obstrucción tumoral)."
+            },
+            {
+              "nombre": "Esquema FOLFOX",
+              "recomendacion": "Combinación de Oxaliplatino, Leucovorina y 5-Fluorouracilo (5-FU). Es uno de los regímenes estándar en el tratamiento adyuvante.",
+              "ejemplos": [
+                { "nombre": "Oxaliplatino 100 mg Inyectable", "codigo_item": "5214", "dosis": "Administrado IV el día 1 del ciclo." },
+                { "nombre": "Fluorouracilo (5-FU) 10 mL Inyectable", "codigo_item": "3622", "dosis": "Administrado en bolo e infusión los días 1 y 2 del ciclo." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Enfermedad Metastásica (Estadio IV)",
+      "contenido": "El tratamiento se basa en quimioterapia sistémica, a menudo combinada con terapias biológicas según el estado de biomarcadores moleculares (RAS, BRAF).",
+      "items": [
+        {
+          "nombre": "Quimioterapia de Primera Línea",
+          "recomendacion": "Esquemas como FOLFOX o FOLFIRI son la base del tratamiento. La elección puede depender de las comorbilidades del paciente y el perfil de toxicidad."
+        },
+        {
+          "nombre": "Terapias Dirigidas (Biológicas)",
+          "recomendacion": "En pacientes con tumores RAS nativos (wild-type), se pueden añadir anticuerpos anti-EGFR como Cetuximab o Panitumumab. En la mayoría de los pacientes, se pueden usar anticuerpos anti-VEGF como Bevacizumab."
+        }
+      ]
+    },
+    {
+      "titulo": "Seguimiento Post-Tratamiento",
+      "contenido": "El seguimiento busca detectar recurrencias de la enfermedad de forma temprana.",
+      "items": [
+        {
+          "nombre": "Visitas Clínicas y CEA",
+          "recomendacion": "Control médico y medición del Antígeno Carcinoembrionario (CEA) cada 3-6 meses durante los primeros 2 años, y luego cada 6 meses hasta el quinto año."
+        },
+        {
+          "nombre": "Tomografías de Control",
+          "recomendacion": "Realizar una TC de tórax, abdomen y pelvis anualmente durante los primeros 3 a 5 años."
+        },
+        {
+          "nombre": "Colonoscopia de Control",
+          "recomendacion": "Realizar una colonoscopia al año de la cirugía. Si es normal, repetir a los 3 años y luego cada 5 años."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de colon",
+    "C189",
+    "colectomia",
+    "quimioterapia",
+    "FOLFOX",
+    "oxaliplatino",
+    "fluorouracilo",
+    "CEA"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de pacientes con Fibrilación Auricular",
+  "diagnostico_cie10": "I489",
+  "referencias_cie10": [
+    "I480",
+    "I481",
+    "I482"
+  ],
+  "secciones": [
+    {
+      "titulo": "Pilar 1: Prevención de Ictus (Anticoagulación)",
+      "contenido": "Es el pilar más importante del tratamiento para reducir el riesgo de accidente cerebrovascular. La decisión se basa en la escala de riesgo CHA₂DS₂-VASc.",
+      "subsecciones": [
+        {
+          "titulo": "Evaluación del Riesgo",
+          "items": [
+            {
+              "nombre": "Escala CHA₂DS₂-VASc",
+              "recomendacion": "Evaluar en todos los pacientes con FA. La anticoagulación oral se recomienda en hombres con un score ≥ 2 y en mujeres con un score ≥ 3."
+            },
+            {
+              "nombre": "Escala HAS-BLED",
+              "recomendacion": "Evaluar el riesgo de sangrado para identificar y corregir factores de riesgo modificables. Un score alto (≥ 3) no contraindica la anticoagulación, pero exige un seguimiento más estrecho."
+            }
+          ]
+        },
+        {
+          "titulo": "Tratamiento Farmacológico",
+          "contenido": "Los Anticoagulantes Orales Directos (ACOD) son de elección sobre los antagonistas de la vitamina K (Warfarina) por su mayor seguridad y eficacia.",
+          "items": [
+            {
+              "nombre": "Rivaroxabán 20 mg Tabletas",
+              "codigo_item": "28030",
+              "recomendacion": "Dosis estándar: 20 mg una vez al día. Se debe ajustar la dosis a 15 mg/día si el aclaramiento de creatinina es < 50 ml/min."
+            },
+            {
+              "nombre": "Apixabán 5 mg Tabletas",
+              "codigo_item": "52803",
+              "recomendacion": "Dosis estándar: 5 mg dos veces al día. Se debe reducir la dosis a 2.5 mg dos veces al día si el paciente cumple al menos 2 de 3 criterios (edad ≥ 80 años, peso ≤ 60 kg, creatinina sérica ≥ 1.5 mg/dL)."
+            },
+            {
+              "nombre": "Dabigatrán 150 mg Tabletas",
+              "codigo_item": "24940",
+              "recomendacion": "Dosis estándar: 150 mg dos veces al día. Considerar la dosis de 110 mg dos veces al día en pacientes con alto riesgo de sangrado o mayores de 80 años."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Pilar 2: Control de la Frecuencia Cardíaca",
+      "contenido": "El objetivo es mantener la frecuencia cardíaca en reposo por debajo de 110 lpm (control laxo) o por debajo de 80 lpm (control estricto) si el paciente sigue sintomático.",
+      "items": [
+        {
+          "nombre": "Betabloqueantes",
+          "recomendacion": "Son la primera línea de tratamiento. Fármacos como Bisoprolol, Metoprolol o Carvedilol son de elección."
+        },
+        {
+          "nombre": "Calcioantagonistas no dihidropiridínicos",
+          "recomendacion": "Alternativa a los betabloqueantes, especialmente si estos están contraindicados o no se toleran. Fármacos como Verapamilo o Diltiazem. Evitar en pacientes con insuficiencia cardíaca con fracción de eyección reducida."
+        },
+        {
+          "nombre": "Digoxina",
+          "recomendacion": "Útil como fármaco de segunda línea o en pacientes sedentarios y con insuficiencia cardíaca. No debe usarse como monoterapia en pacientes activos."
+        }
+      ]
+    },
+    {
+      "titulo": "Pilar 3: Control del Ritmo",
+      "contenido": "El objetivo es restaurar y mantener el ritmo sinusal normal. Esta estrategia se considera en pacientes jóvenes, sintomáticos a pesar de un buen control de la frecuencia, o en el primer episodio de FA.",
+      "items": [
+        {
+          "nombre": "Cardioversión Eléctrica",
+          "recomendacion": "Procedimiento programado que utiliza una descarga eléctrica sincronizada para restaurar el ritmo sinusal. El paciente debe estar adecuadamente anticoagulado por al menos 3 semanas antes."
+        },
+        {
+          "nombre": "Cardioversión Farmacológica",
+          "recomendacion": "Uso de fármacos antiarrítmicos para revertir la FA. Amiodarona o Propafenona son opciones comunes. Se reserva para pacientes hemodinámicamente estables."
+        },
+        {
+          "nombre": "Ablación con Catéter",
+          "recomendacion": "Procedimiento invasivo que busca aislar eléctricamente las venas pulmonares para prevenir las recurrencias de la FA. Se considera en pacientes sintomáticos que fallan o no toleran el tratamiento con fármacos antiarrítmicos."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "fibrilacion auricular",
+    "FA",
+    "I489",
+    "anticoagulacion",
+    "CHADSVASC",
+    "rivaroxaban",
+    "apixaban",
+    "dabigatran",
+    "cardioversion"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Tratamiento de Cáncer de Próstata Metastásico Hormonosensible",
+  "diagnostico_cie10": "C61X",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Estadificación",
+      "contenido": "Se requiere la confirmación de enfermedad metastásica en un paciente con adenocarcinoma de próstata.",
+      "items": [
+        {
+          "nombre": "Biopsia de Próstata",
+          "recomendacion": "Confirmación histológica de adenocarcinoma de próstata. El score de Gleason es fundamental para determinar la agresividad del tumor."
+        },
+        {
+          "nombre": "Estudios de Imagen para Metástasis",
+          "recomendacion": "Realizar una Gammagrafía Ósea y una Tomografía Computarizada (TC) de abdomen y pelvis para detectar metástasis óseas y viscerales."
+        },
+        {
+          "nombre": "Antígeno Prostático Específico (PSA)",
+          "recomendacion": "Medición basal del PSA. Es el marcador tumoral clave para evaluar la respuesta al tratamiento y monitorizar la progresión de la enfermedad."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento del Cáncer de Próstata Metastásico Hormonosensible (CPMH)",
+      "contenido": "El estándar de tratamiento actual es la Terapia de Deprivación de Andrógenos (TDA) en combinación con una segunda línea de tratamiento sistémico desde el inicio.",
+      "subsecciones": [
+        {
+          "titulo": "Pilar del Tratamiento: Terapia de Deprivación de Andrógenos (TDA)",
+          "items": [
+            {
+              "nombre": "Análogos de la LHRH",
+              "recomendacion": "Fármacos como Leuprolide o Goserelina son la base de la TDA médica para suprimir la producción de testosterona."
+            },
+            {
+              "nombre": "Orquiectomía Bilateral",
+              "recomendacion": "Alternativa quirúrgica a la TDA médica. Es igualmente eficaz para alcanzar niveles de castración de testosterona."
+            }
+          ]
+        },
+        {
+          "titulo": "Intensificación del Tratamiento (Estándar de Cuidado)",
+          "contenido": "A todos los pacientes con CPMH se les debe ofrecer una terapia de combinación para mejorar la supervivencia.",
+          "items": [
+            {
+              "nombre": "TDA + Terapia Hormonal de Nueva Generación (THNG)",
+              "recomendacion": "Añadir un fármaco como Abiraterona o Enzalutamida a la TDA. Es la opción preferida para la mayoría de los pacientes por su eficacia y perfil de tolerabilidad.",
+              "ejemplos": [
+                { "nombre": "Abiraterona 250 mg Tabletas", "codigo_item": "26420", "dosis": "Se administra junto con Prednisona a dosis bajas." },
+                { "nombre": "Enzalutamida 40 mg Tabletas", "codigo_item": "34419", "dosis": "Se administra como agente único junto a la TDA." }
+              ]
+            },
+            {
+              "nombre": "TDA + Quimioterapia (Docetaxel)",
+              "recomendacion": "Añadir 6 ciclos de Docetaxel a la TDA. Es una opción válida, especialmente en pacientes jóvenes con alta carga de enfermedad metastásica.",
+              "ejemplos": [
+                { "nombre": "Docetaxel 80 mg Inyectable", "codigo_item": "2983", "dosis": "Se administra por vía intravenosa cada 3 semanas por 6 ciclos." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Seguimiento y Monitorización",
+      "contenido": "El seguimiento se centra en evaluar la respuesta al tratamiento y detectar la progresión a un estado de resistencia a la castración.",
+      "items": [
+        {
+          "nombre": "Medición del PSA",
+          "recomendacion": "Medir el PSA cada 3-6 meses. Una respuesta adecuada implica una caída significativa del PSA. Un aumento sostenido indica progresión de la enfermedad."
+        },
+        {
+          "nombre": "Estudios de Imagen",
+          "recomendacion": "Repetir las imágenes (Gammagrafía ósea, TC) si hay un aumento del PSA o si el paciente desarrolla nuevos síntomas, para re-estadificar la enfermedad."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de prostata",
+    "C61X",
+    "metastasis",
+    "hormonosensible",
+    "TDA",
+    "abiraterona",
+    "enzalutamida",
+    "docetaxel",
+    "PSA"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+}
+
+
 ]
