@@ -76,14 +76,11 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // ==================================================================
     // --- SECCIÓN 1: CONFIGURACIÓN INICIAL Y CARGA DE DIAGNÓSTICOS ---
-    // ==================================================================
     const inputDiagnostico = document.getElementById('input-diagnostico');
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
     let allDiagnosticos = [];
 
-    // Carga la lista de diagnósticos para el autocompletado
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
@@ -99,9 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
         });
 
-    // ==================================================================
     // --- SECCIÓN 2: FUNCIÓN PARA CONSULTAR LA API DEL ASISTENTE ---
-    // ==================================================================
     function consultarAsistenteIA(textoInput) {
         const codigoCIE10 = textoInput.split(' - ')[0].trim();
 
@@ -117,16 +112,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                renderizarGuia(data); // Llama a la nueva función de renderizado
+                renderizarGuia(data);
             })
             .catch(error => {
                 contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
             });
     }
 
-    // ==================================================================
-    // --- SECCIÓN 3: EL NUEVO Y POTENTE RENDERIZADOR DE GUÍAS ---
-    // ==================================================================
+    // --- SECCIÓN 3: EL RENDERIZADOR DE GUÍAS (VERSIÓN CORREGIDA) ---
     function renderizarGuia(data) {
         let html = `<div class="card guia-card">
                         <div class="card-header bg-light">
@@ -138,21 +131,24 @@ document.addEventListener('DOMContentLoaded', function () {
         // Función para renderizar un item (medicamento, procedimiento, etc.)
         function renderItem(item) {
             let itemHtml = '<div class="item-recomendacion">';
-            let nombre = `<span class="item-nombre">${item.nombre}</span>`;
+            let nombre = '<span class="item-nombre">' + item.nombre + '</span>';
             if (item.codigo_item || item.codigo_procedimiento) {
-                nombre += ` <span class="badge bg-secondary item-codigo">${item.codigo_item || item.codigo_procedimiento}</span>`;
+                nombre += ' <span class="badge bg-secondary item-codigo">' + (item.codigo_item || item.codigo_procedimiento) + '</span>';
             }
             itemHtml += nombre;
             if (item.recomendacion) {
-                itemHtml += `<div class="text-muted small">${item.recomendacion}</div>`;
+                itemHtml += '<div class="text-muted small">' + item.recomendacion.replace(/\n/g, '  
+') + '</div>';
             }
-            // Para ejemplos de dosis dentro de un item
+            // Para ejemplos de dosis dentro de un item (BLOQUE CORREGIDO CON SINTAXIS SEGURA)
             if (item.ejemplos) {
-                itemHtml += '<ul>';
+                let ejemplosHtml = '<ul>';
                 item.ejemplos.forEach(ej => {
-                    itemHtml += `<li><small><strong>${ej.nombre}</strong> (${ej.codigo_item ? '<code>'+ej.codigo_item+'</code>' : ''}): ${ej.dosis}</small></li>`;
+                    let codigoSpan = ej.codigo_item ? '<code>' + ej.codigo_item + '</code>' : '';
+                    ejemplosHtml += '<li><small><strong>' + ej.nombre + '</strong> (' + codigoSpan + '): ' + ej.dosis + '</small></li>';
                 });
-                itemHtml += '</ul>';
+                ejemplosHtml += '</ul>';
+                itemHtml += ejemplosHtml;
             }
             itemHtml += '</div>';
             return itemHtml;
@@ -164,29 +160,26 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!secciones) return '';
 
             secciones.forEach(seccion => {
-                seccionesHtml += `<h6 class="seccion-titulo">${seccion.titulo}</h6>`;
+                seccionesHtml += '<h6 class="seccion-titulo">' + seccion.titulo + '</h6>';
                 if (seccion.contenido) {
-                    // Reemplaza saltos de línea con   
- para mantener el formato
-                    seccionesHtml += `<p class="text-muted">${seccion.contenido.replace(/\n/g, '  
-')}</p>`;
+                    seccionesHtml += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  
+') + '</p>';
                 }
                 if (seccion.items) {
                     seccion.items.forEach(item => {
                         seccionesHtml += renderItem(item);
                     });
                 }
-                // Si hay subsecciones, las renderiza
                 if (seccion.subsecciones) {
                     seccion.subsecciones.forEach(sub => {
-                        seccionesHtml += `<div class="ms-3">`;
-                        seccionesHtml += `<p class="subseccion-titulo">${sub.titulo}</p>`;
+                        seccionesHtml += '<div class="ms-3">';
+                        seccionesHtml += '<p class="subseccion-titulo">' + sub.titulo + '</p>';
                         if (sub.items) {
                             sub.items.forEach(item => {
                                 seccionesHtml += renderItem(item);
                             });
                         }
-                        seccionesHtml += `</div>`;
+                        seccionesHtml += '</div>';
                     });
                 }
             });
@@ -198,9 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contenedorSugerencias.innerHTML = html;
     }
 
-    // ==================================================================
     // --- SECCIÓN 4: EVENT LISTENER DEL INPUT ---
-    // ==================================================================
     inputDiagnostico.addEventListener('input', function() {
         consultarAsistenteIA(inputDiagnostico.value);
     });
