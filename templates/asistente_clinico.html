@@ -6,43 +6,13 @@
 {{ super() }}
 <style>
     /* Estilos para una presentación limpia y profesional */
-    .guia-card {
-        border-left: 4px solid #0d6efd;
-    }
-    .seccion-titulo {
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #0d6efd;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #eee;
-    }
-    .subseccion-titulo {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #343a40;
-        margin-top: 1rem;
-    }
-    .item-recomendacion {
-        padding-left: 1.5rem;
-        position: relative;
-        margin-bottom: 0.75rem;
-    }
-    .item-recomendacion::before {
-        content: '•';
-        position: absolute;
-        left: 0.5rem;
-        color: #0d6efd;
-        font-weight: bold;
-    }
-    .item-nombre {
-        font-weight: bold;
-    }
-    .item-codigo {
-        font-size: 0.8em;
-        font-family: monospace;
-    }
+    .guia-card { border-left: 4px solid #0d6efd; }
+    .seccion-titulo { font-size: 1.1rem; font-weight: 500; color: #0d6efd; margin-top: 1.5rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #eee; }
+    .subseccion-titulo { font-size: 1rem; font-weight: 500; color: #343a40; margin-top: 1rem; }
+    .item-recomendacion { padding-left: 1.5rem; position: relative; margin-bottom: 0.75rem; }
+    .item-recomendacion::before { content: '•'; position: absolute; left: 0.5rem; color: #0d6efd; font-weight: bold; }
+    .item-nombre { font-weight: bold; }
+    .item-codigo { font-size: 0.8em; font-family: monospace; }
 </style>
 {% endblock %}
 
@@ -57,9 +27,7 @@
             <div class="mb-4">
                 <label for="input-diagnostico" class="form-label fw-bold">1. Seleccione un Diagnóstico (CIE-10)</label>
                 <input class="form-control form-control-lg" type="text" id="input-diagnostico" placeholder="Escriba el código o nombre del diagnóstico...">
-                <!-- Datalist se llenará dinámicamente con JavaScript -->
             </div>
-
             <div>
                 <h5 class="mb-3 fw-bold">2. Recomendaciones del Asistente</h5>
                 <div id="asistente-ia-sugerencias">
@@ -76,106 +44,94 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // --- SECCIÓN 1: CONFIGURACIÓN INICIAL Y CARGA DE DIAGNÓSTICOS ---
     const inputDiagnostico = document.getElementById('input-diagnostico');
     const contenedorSugerencias = document.getElementById('asistente-ia-sugerencias');
-    let allDiagnosticos = [];
-
+    
+    // --- 1. CARGA DE DIAGNÓSTICOS ---
     fetch('/api/get_all_diagnosticos')
         .then(response => response.json())
         .then(data => {
-            allDiagnosticos = data.map(d => ({ label: `${d.codigo} - ${d.descripcion}`, value: d.codigo }));
             const dataList = document.createElement('datalist');
             dataList.id = 'diagnosticos-list';
-            allDiagnosticos.forEach(d => {
+            data.forEach(d => {
                 const option = document.createElement('option');
-                option.value = d.label;
+                option.value = d.codigo + ' - ' + d.descripcion;
                 dataList.appendChild(option);
             });
             document.body.appendChild(dataList);
             inputDiagnostico.setAttribute('list', 'diagnosticos-list');
+        })
+        .catch(error => {
+            console.error("Error al cargar la lista de diagnósticos:", error);
+            contenedorSugerencias.innerHTML = '<div class="alert alert-danger">Error: No se pudo cargar la lista de diagnósticos. Verifique la consola.</div>';
         });
 
-    // --- SECCIÓN 2: FUNCIÓN PARA CONSULTAR LA API DEL ASISTENTE ---
+    // --- 2. FUNCIÓN DE CONSULTA ---
     function consultarAsistenteIA(textoInput) {
         const codigoCIE10 = textoInput.split(' - ')[0].trim();
+        if (!codigoCIE10) return;
 
-        if (!codigoCIE10) {
-            contenedorSugerencias.innerHTML = '<div class="alert alert-secondary text-center">Seleccione un diagnóstico válido.</div>';
-            return;
-        }
-        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando base de conocimiento...</p></div>';
-
-        fetch(`/api/asistente_sugerencias?cie10=${codigoCIE10}`)
+        contenedorSugerencias.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Consultando...</p></div>';
+        fetch('/api/asistente_sugerencias?cie10=' + codigoCIE10)
             .then(response => {
-                if (!response.ok) throw new Error('No se encontraron recomendaciones para este diagnóstico.');
+                if (!response.ok) throw new Error('Guía no encontrada.');
                 return response.json();
             })
-            .then(data => {
-                renderizarGuia(data);
-            })
+            .then(data => renderizarGuia(data))
             .catch(error => {
-                contenedorSugerencias.innerHTML = `<div class="alert alert-warning text-center">${error.message}</div>`;
+                contenedorSugerencias.innerHTML = '<div class="alert alert-warning">' + error.message + '</div>';
             });
     }
 
-    // --- SECCIÓN 3: EL RENDERIZADOR DE GUÍAS (VERSIÓN CORREGIDA) ---
+    // --- 3. RENDERIZADOR (VERSIÓN A PRUEBA DE ERRORES DE SINTAXIS) ---
     function renderizarGuia(data) {
-        let html = `<div class="card guia-card">
-                        <div class="card-header bg-light">
-                            <h5 class="mb-1">${data.nombre_guia || 'Guía sin nombre'}</h5>
-                            <small class="text-muted">Versión: ${data.version_guia || 'N/A'} | Actualizado: ${data.fecha_actualizacion || 'N/A'}</small>
-                        </div>
-                        <div class="card-body">`;
+        let html = '<div class="card guia-card"><div class="card-header bg-light">';
+        html += '<h5 class="mb-1">' + (data.nombre_guia || 'Guía sin nombre') + '</h5>';
+        html += '<small class="text-muted">Versión: ' + (data.version_guia || 'N/A') + ' | Actualizado: ' + (data.fecha_actualizacion || 'N/A') + '</small>';
+        html += '</div><div class="card-body">';
 
-        // Función para renderizar un item (medicamento, procedimiento, etc.)
         function renderItem(item) {
             let itemHtml = '<div class="item-recomendacion">';
-            let nombre = '<span class="item-nombre">' + item.nombre + '</span>';
+            itemHtml += '<span class="item-nombre">' + item.nombre + '</span>';
             if (item.codigo_item || item.codigo_procedimiento) {
-                nombre += ' <span class="badge bg-secondary item-codigo">' + (item.codigo_item || item.codigo_procedimiento) + '</span>';
+                itemHtml += ' <span class="badge bg-secondary item-codigo">' + (item.codigo_item || item.codigo_procedimiento) + '</span>';
             }
-            itemHtml += nombre;
             if (item.recomendacion) {
                 itemHtml += '<div class="text-muted small">' + item.recomendacion.replace(/\n/g, '  
 ') + '</div>';
             }
-            // Para ejemplos de dosis dentro de un item (BLOQUE CORREGIDO CON SINTAXIS SEGURA)
             if (item.ejemplos) {
-                let ejemplosHtml = '<ul>';
-                item.ejemplos.forEach(ej => {
-                    let codigoSpan = ej.codigo_item ? '<code>' + ej.codigo_item + '</code>' : '';
-                    ejemplosHtml += '<li><small><strong>' + ej.nombre + '</strong> (' + codigoSpan + '): ' + ej.dosis + '</small></li>';
+                itemHtml += '<ul>';
+                item.ejemplos.forEach(function(ej) {
+                    let codigoHtml = ej.codigo_item ? '<code>' + ej.codigo_item + '</code>' : '';
+                    itemHtml += '<li><small><strong>' + ej.nombre + '</strong> (' + codigoHtml + '): ' + ej.dosis + '</small></li>';
                 });
-                ejemplosHtml += '</ul>';
-                itemHtml += ejemplosHtml;
+                itemHtml += '</ul>';
             }
             itemHtml += '</div>';
             return itemHtml;
         }
 
-        // Función recursiva para renderizar secciones y subsecciones
         function renderSecciones(secciones) {
             let seccionesHtml = '';
             if (!secciones) return '';
-
-            secciones.forEach(seccion => {
+            secciones.forEach(function(seccion) {
                 seccionesHtml += '<h6 class="seccion-titulo">' + seccion.titulo + '</h6>';
                 if (seccion.contenido) {
                     seccionesHtml += '<p class="text-muted">' + seccion.contenido.replace(/\n/g, '  
 ') + '</p>';
                 }
                 if (seccion.items) {
-                    seccion.items.forEach(item => {
+                    secciones.items.forEach(function(item) {
                         seccionesHtml += renderItem(item);
                     });
                 }
                 if (seccion.subsecciones) {
-                    seccion.subsecciones.forEach(sub => {
+                    seccion.subsecciones.forEach(function(sub) {
                         seccionesHtml += '<div class="ms-3">';
                         seccionesHtml += '<p class="subseccion-titulo">' + sub.titulo + '</p>';
                         if (sub.items) {
-                            sub.items.forEach(item => {
+                            sub.items.forEach(function(item) {
                                 seccionesHtml += renderItem(item);
                             });
                         }
@@ -187,13 +143,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         html += renderSecciones(data.secciones);
-        html += `</div></div>`;
+        html += '</div></div>';
         contenedorSugerencias.innerHTML = html;
     }
 
-    // --- SECCIÓN 4: EVENT LISTENER DEL INPUT ---
+    // --- 4. EVENT LISTENER ---
     inputDiagnostico.addEventListener('input', function() {
-        consultarAsistenteIA(inputDiagnostico.value);
+        consultarAsistenteIA(this.value);
     });
 });
 </script>
