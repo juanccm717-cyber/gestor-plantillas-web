@@ -1639,6 +1639,1699 @@
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la diarrea o gastroenteritis aguda infecciosa en niños menores de 5 años",
+  "diagnostico_cie10": "A090",
+  "referencias_cie10": [
+    "A099"
+  ],
+  "secciones": [
+    {
+      "titulo": "Evaluación del Estado de Hidratación",
+      "contenido": "Es el paso más crítico. Se debe clasificar al niño en una de las tres categorías para decidir el plan de tratamiento.",
+      "items": [
+        {
+          "nombre": "SIN Deshidratación (Plan A)",
+          "recomendacion": "Alerta, ojos normales, bebe normalmente, signo del pliegue negativo. Pérdida de peso < 3%."
+        },
+        {
+          "nombre": "CON Deshidratación (Plan B)",
+          "recomendacion": "Irritable o intranquilo, ojos hundidos, bebe con avidez, sediento. Signo del pliegue positivo (la piel vuelve lentamente). Pérdida de peso 3-9%."
+        },
+        {
+          "nombre": "Deshidratación GRAVE (Plan C)",
+          "recomendacion": "Letárgico o comatoso, ojos muy hundidos y secos, bebe mal o no es capaz de beber. Signo del pliegue muy positivo (la piel vuelve muy lentamente, >2 seg). Pérdida de peso > 9%."
+        }
+      ]
+    },
+    {
+      "titulo": "Planes de Tratamiento",
+      "subsecciones": [
+        {
+          "titulo": "Plan A: Tratamiento en el Hogar",
+          "contenido": "Para niños sin deshidratación. El objetivo es prevenir la deshidratación y la desnutrición.",
+          "items": [
+            {
+              "nombre": "Aumentar la ingesta de líquidos",
+              "recomendacion": "Ofrecer más líquidos de lo usual. Continuar la lactancia materna con mayor frecuencia. Después de cada deposición diarreica, ofrecer SRO."
+            },
+            {
+              "nombre": "Sales de Rehidratación Oral (SRO)",
+              "codigo_item": "5595",
+              "recomendacion": "Menores de 2 años: 50-100 mL (1/4 a 1/2 taza) después de cada deposición. Mayores de 2 años: 100-200 mL (1/2 a 1 taza)."
+            },
+            {
+              "nombre": "Suplementación con Zinc",
+              "codigo_item": "47800",
+              "recomendacion": "Administrar una vez al día durante 10-14 días. Menores de 6 meses: 10 mg/día. Mayores de 6 meses: 20 mg/día."
+            },
+            {
+              "nombre": "Continuar la alimentación",
+              "recomendacion": "No suspender la alimentación habitual."
+            }
+          ]
+        },
+        {
+          "titulo": "Plan B: Terapia de Rehidratación Oral (TRO) Supervisada",
+          "contenido": "Para niños con deshidratación. Se realiza en el establecimiento de salud.",
+          "items": [
+            {
+              "nombre": "Administración de SRO",
+              "codigo_item": "5595",
+              "recomendacion": "Administrar 50 a 100 mL/kg de SRO en un período de 4 horas. Ofrecer con taza y cucharita. Si el niño vomita, esperar 10 minutos y reiniciar más lentamente."
+            },
+            {
+              "nombre": "Reevaluación",
+              "recomendacion": "Después de 4 horas, reevaluar el estado de hidratación. Si ha mejorado, pasar al Plan A. Si persiste, repetir el Plan B. Si ha empeorado, pasar al Plan C."
+            }
+          ]
+        },
+        {
+          "titulo": "Plan C: Tratamiento Intravenoso Rápido",
+          "contenido": "Para niños con deshidratación grave. Requiere hospitalización y manejo de emergencia.",
+          "items": [
+            {
+              "nombre": "Fluidoterapia Endovenosa",
+              "recomendacion": "Iniciar inmediatamente con Cloruro de Sodio 0.9% o Lactato de Ringer. Administrar 100 mL/kg en 3-6 horas, según la edad del paciente. La primera carga (ej. 30 mL/kg) debe ser rápida (en 30-60 min)."
+            },
+            {
+              "nombre": "Reevaluación Constante",
+              "recomendacion": "Evaluar al paciente continuamente. Tan pronto como pueda beber, iniciar la rehidratación oral con SRO mientras continúa la terapia IV."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Uso de Antibióticos",
+      "contenido": "No se recomienda el uso rutinario de antibióticos en la diarrea aguda acuosa. Se reservan para casos específicos.",
+      "items": [
+        {
+          "nombre": "Indicaciones para Antibióticos",
+          "recomendacion": "Solo en casos de disentería (diarrea con sangre) por Shigella, cólera, o en casos de diarrea con sepsis o en pacientes inmunosuprimidos."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "diarrea",
+    "gastroenteritis",
+    "A090",
+    "deshidratacion",
+    "plan A",
+    "plan B",
+    "plan C",
+    "sales de rehidratacion oral",
+    "SRO",
+    "zinc"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la prevención y manejo de la hemorragia postparto",
+  "diagnostico_cie10": "O721",
+  "referencias_cie10": [
+    "O720",
+    "O722",
+    "O723"
+  ],
+  "secciones": [
+    {
+      "titulo": "Prevención: Manejo Activo del Tercer Periodo del Parto (MATEP)",
+      "contenido": "Se recomienda en TODOS los partos para reducir significativamente el riesgo de HPP. Consiste en tres pasos:",
+      "items": [
+        {
+          "nombre": "1. Administración de Uterotónico",
+          "recomendacion": "Administrar Oxitocina 10 UI por vía intramuscular dentro del primer minuto tras el nacimiento del bebé."
+        },
+        {
+          "nombre": "2. Tracción Controlada del Cordón (TCC)",
+          "recomendacion": "Realizar una tracción suave y sostenida del cordón umbilical mientras se aplica contrapresión suprapúbica para facilitar el alumbramiento."
+        },
+        {
+          "nombre": "3. Masaje Uterino",
+          "recomendacion": "Inmediatamente después de la salida de la placenta, masajear el fondo uterino a través del abdomen hasta que el útero se contraiga firmemente."
+        }
+      ]
+    },
+    {
+      "titulo": "Diagnóstico de Hemorragia Postparto (HPP)",
+      "contenido": "Se define como una pérdida de sangre estimada de ≥ 500 mL en un parto vaginal o ≥ 1000 mL en una cesárea, o cualquier pérdida de sangre que cause inestabilidad hemodinámica.",
+      "items": [
+        {
+          "nombre": "Causa Principal (Las 4 'T')",
+          "recomendacion": "Tono (Atonía uterina, 70-80% de los casos), Trauma (desgarros, laceraciones), Tejido (retención de placenta o coágulos), Trombina (coagulopatías)."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la HPP Establecida (Activación de 'Clave Roja')",
+      "contenido": "Es una emergencia obstétrica que requiere un manejo multidisciplinario, rápido y secuencial.",
+      "subsecciones": [
+        {
+          "titulo": "Medidas Iniciales y Reanimación",
+          "items": [
+            {
+              "nombre": "Pedir Ayuda y Asegurar Vías",
+              "recomendacion": "Activar la 'Clave Roja'. Asegurar dos vías venosas de grueso calibre (16-18G) y tomar muestras de sangre (hemograma, coagulación, grupo y factor)."
+            },
+            {
+              "nombre": "Fluidoterapia y Oxígeno",
+              "recomendacion": "Iniciar infusión rápida de cristaloides calientes (Cloruro de Sodio 0.9%). Administrar oxígeno por mascarilla."
+            },
+            {
+              "nombre": "Sondaje Vesical",
+              "recomendacion": "Colocar una sonda Foley para mantener la vejiga vacía y monitorizar la diuresis."
+            }
+          ]
+        },
+        {
+          "titulo": "Manejo Farmacológico Secuencial",
+          "items": [
+            {
+              "nombre": "1ra Línea: Oxitocina",
+              "codigo_item": "5253",
+              "recomendacion": "Administrar una infusión de 20-40 UI en 500-1000 mL de cristaloides a un ritmo rápido."
+            },
+            {
+              "nombre": "2da Línea: Metilergonovina",
+              "codigo_item": "4703",
+              "recomendacion": "Si no hay respuesta, añadir 0.2 mg por vía intramuscular. Contraindicado en pacientes con hipertensión."
+            },
+            {
+              "nombre": "3ra Línea: Misoprostol",
+              "codigo_item": "4847",
+              "recomendacion": "Administrar 800-1000 mcg por vía rectal. Es una opción importante si los otros fármacos fallan o no están disponibles."
+            },
+            {
+              "nombre": "Coadyuvante: Ácido Tranexámico",
+              "codigo_item": "223",
+              "recomendacion": "Administrar 1 gramo por vía intravenosa lenta (en 10 minutos) lo antes posible (dentro de las 3 horas del inicio del sangrado)."
+            }
+          ]
+        },
+        {
+          "titulo": "Medidas Mecánicas y Quirúrgicas",
+          "items": [
+            {
+              "nombre": "Masaje Uterino Bimanual",
+              "recomendacion": "Realizar compresión externa e interna del útero para controlar el sangrado por atonía."
+            },
+            {
+              "nombre": "Balón de Bakri",
+              "recomendacion": "Taponamiento intrauterino con balón hidrostático. Es una medida efectiva para controlar la atonía antes de recurrir a la cirugía."
+            },
+            {
+              "nombre": "Cirugía",
+              "recomendacion": "Si las medidas anteriores fallan, se debe proceder a la laparotomía para realizar suturas de compresión (ej. B-Lynch) o, como último recurso, la histerectomía."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hemorragia postparto",
+    "HPP",
+    "O721",
+    "atonia uterina",
+    "clave roja",
+    "oxitocina",
+    "misoprostol",
+    "acido tranexamico",
+    "MATEP"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de la nutrición enteral en el recién nacido prematuro con muy bajo peso al nacer",
+  "diagnostico_cie10": "P0711",
+  "referencias_cie10": [
+    "P070",
+    "P071",
+    "P072",
+    "P073"
+  ],
+  "secciones": [
+    {
+      "titulo": "Inicio de la Alimentación Enteral",
+      "contenido": "El objetivo es iniciar la alimentación enteral lo antes posible para estimular el desarrollo del tracto gastrointestinal y reducir el riesgo de sepsis.",
+      "items": [
+        {
+          "nombre": "Nutrición Enteral Mínima (NEM) o Trófica",
+          "recomendacion": "Iniciar en las primeras 6 a 24 horas de vida, incluso en prematuros con catéteres umbilicales o en ventilación mecánica, si están hemodinámicamente estables."
+        },
+        {
+          "nombre": "Volumen de Inicio",
+          "recomendacion": "Comenzar con volúmenes pequeños, típicamente de 10 a 20 mL/kg/día, divididos en 8 a 12 tomas (cada 2 o 3 horas)."
+        }
+      ]
+    },
+    {
+      "titulo": "Elección del Tipo de Leche",
+      "contenido": "La leche materna es siempre la primera opción por sus beneficios inmunológicos y nutricionales inigualables.",
+      "items": [
+        {
+          "nombre": "Primera Elección: Leche Materna Fresca (LMF)",
+          "recomendacion": "Es el alimento de elección. Se debe promover y apoyar la extracción de leche de la propia madre desde el primer día."
+        },
+        {
+          "nombre": "Segunda Elección: Leche Humana de Banco Pasteurizada",
+          "recomendacion": "Si la leche de la propia madre no está disponible o es insuficiente, la leche de banco es la mejor alternativa."
+        },
+        {
+          "nombre": "Tercera Elección: Fórmula para Prematuros",
+          "recomendacion": "Utilizar solo si las opciones de leche humana no están disponibles. Estas fórmulas están diseñadas para cubrir las altas demandas del prematuro."
+        }
+      ]
+    },
+    {
+      "titulo": "Avance de la Alimentación Enteral",
+      "contenido": "El incremento del volumen debe ser gradual y monitorizado de cerca para detectar signos de intolerancia.",
+      "items": [
+        {
+          "nombre": "Tasa de Incremento",
+          "recomendacion": "Aumentar el volumen de forma diaria en 15 a 30 mL/kg/día, según la tolerancia del recién nacido."
+        },
+        {
+          "nombre": "Signos de Intolerancia",
+          "recomendacion": "Vigilar la presencia de distensión abdominal significativa, residuos gástricos grandes o biliosos, y cambios en las deposiciones. Ante estos signos, se debe considerar pausar o reducir el avance."
+        }
+      ]
+    },
+    {
+      "titulo": "Fortificación de la Leche Humana",
+      "contenido": "La leche materna por sí sola es insuficiente para cubrir los requerimientos de crecimiento de los prematuros de muy bajo peso. Por ello, necesita ser fortificada.",
+      "items": [
+        {
+          "nombre": "Inicio de la Fortificación",
+          "recomendacion": "Comenzar a fortificar la leche humana cuando el prematuro tolere un volumen de alimentación enteral de 80 a 100 mL/kg/día."
+        },
+        {
+          "nombre": "Fortificante de Leche Materna",
+          "recomendacion": "Añadir fortificantes comerciales (en polvo o líquidos) a la leche materna extraída para aumentar su contenido de proteínas, calorías, vitaminas y minerales. Seguir las instrucciones del fabricante para la mezcla."
+        },
+        {
+          "nombre": "Monitorización",
+          "recomendacion": "Monitorizar el crecimiento (peso, talla, perímetro cefálico) y los parámetros bioquímicos (urea, fosfatasa alcalina, fósforo) para asegurar una nutrición adecuada."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "prematuro",
+    "muy bajo peso al nacer",
+    "P0711",
+    "nutricion enteral",
+    "NEM",
+    "leche materna",
+    "fortificante"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la Endometriosis sintomática en mujeres en edad reproductiva",
+  "diagnostico_cie10": "N809",
+  "referencias_cie10": [
+    "N800",
+    "N801",
+    "N802",
+    "N803",
+    "N804",
+    "N805"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico Clínico y por Imágenes",
+      "contenido": "El diagnóstico se basa en la sospecha clínica ante síntomas característicos, confirmado mediante estudios de imagen y, en casos seleccionados, por laparoscopia.",
+      "items": [
+        {
+          "nombre": "Sospecha Clínica",
+          "recomendacion": "Considerar endometriosis en mujeres con dismenorrea severa (dolor menstrual incapacitante), dispareunia profunda (dolor con las relaciones sexuales), dolor pélvico crónico, o infertilidad."
+        },
+        {
+          "nombre": "Examen Físico",
+          "recomendacion": "Realizar examen pélvico bimanual para evaluar dolor, nodularidad en el fondo de saco posterior o ligamentos uterosacros, y la movilidad uterina."
+        },
+        {
+          "nombre": "Ecografía Transvaginal",
+          "recomendacion": "Es el método de imagen de primera línea para identificar endometriomas ováricos y evaluar signos de endometriosis profunda."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Médico de Primera Línea (Manejo del Dolor)",
+      "contenido": "El objetivo inicial es controlar el dolor y mejorar la calidad de vida. El tratamiento puede iniciarse de forma empírica basado en la sospecha clínica.",
+      "items": [
+        {
+          "nombre": "Analgésicos No Esteroideos (AINEs)",
+          "codigo_item": "4034",
+          "recomendacion": "Usar para el manejo del dolor. Se pueden administrar de forma pautada o a demanda.",
+          "dosis": "Ibuprofeno 400-600 mg cada 6-8 horas."
+        },
+        {
+          "nombre": "Anticonceptivos Orales Combinados (ACO)",
+          "codigo_item": "3328",
+          "recomendacion": "Son la primera línea hormonal. Se recomienda su uso en pauta continua (sin semana de descanso) para inducir amenorrea y controlar el dolor.",
+          "dosis": "1 tableta diaria de Etinilestradiol/Levonorgestrel, sin interrupción."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Médico de Segunda Línea",
+      "contenido": "Para pacientes que no responden, no toleran o tienen contraindicaciones para el tratamiento de primera línea.",
+      "items": [
+        {
+          "nombre": "Progestágenos (Dienogest)",
+          "codigo_item": "37875",
+          "recomendacion": "Es un tratamiento hormonal altamente efectivo y específico para el dolor asociado a endometriosis.",
+          "dosis": "Dienogest 2 mg, 1 tableta diaria de forma continua."
+        },
+        {
+          "nombre": "Análogos de la GnRH",
+          "recomendacion": "Reservados para casos severos o refractarios debido a sus efectos secundarios (síntomas menopáusicos). Su uso debe ser limitado en tiempo y generalmente acompañado de terapia de adición (add-back)."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Quirúrgico",
+      "contenido": "La cirugía está indicada para confirmar el diagnóstico, tratar el dolor refractario al tratamiento médico, o manejar la infertilidad.",
+      "items": [
+        {
+          "nombre": "Laparoscopia Operatoria",
+          "recomendacion": "Es el estándar de oro. Permite la visualización directa y la escisión o ablación de los implantes endometriósicos, lisis de adherencias y extirpación de endometriomas."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "endometriosis",
+    "N809",
+    "dolor pelvico cronico",
+    "dismenorrea",
+    "dispareunia",
+    "infertilidad",
+    "dienogest",
+    "laparoscopia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo inicial del infarto agudo de miocardio con elevacion persistente del segmento ST",
+  "diagnostico_cie10": "I213",
+  "referencias_cie10": [
+    "I210",
+    "I211",
+    "I212",
+    "I219"
+  ],
+  "secciones": [
+    {
+      "titulo": "Manejo Inicial y Terapia Anti-isquémica (Primeros 10 minutos)",
+      "contenido": "Medidas inmediatas al confirmar el diagnóstico de IMCEST en el electrocardiograma (ECG). El objetivo es aliviar el dolor, mejorar la oxigenación y estabilizar al paciente.",
+      "items": [
+        {
+          "nombre": "Oxígeno Suplementario",
+          "recomendacion": "Administrar solo si la saturación de oxígeno es < 90% o si el paciente presenta dificultad respiratoria."
+        },
+        {
+          "nombre": "Nitroglicerina Sublingual",
+          "codigo_item": "5110",
+          "recomendacion": "Para alivio del dolor isquémico. Administrar hasta 3 dosis separadas por 5 minutos. Contraindicado en hipotensión, bradicardia severa o uso reciente de inhibidores de la fosfodiesterasa-5.",
+          "dosis": "1 tableta sublingual."
+        },
+        {
+          "nombre": "Morfina IV",
+          "recomendacion": "Considerar si el dolor torácico persiste a pesar de la nitroglicerina. Administrar en pequeñas dosis tituladas (2-4 mg IV)."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia Antitrombótica Urgente",
+      "contenido": "Es la piedra angular del tratamiento para prevenir la expansión del trombo y la reoclusión. Debe iniciarse inmediatamente.",
+      "items": [
+        {
+          "nombre": "Ácido Acetilsalicílico (Aspirina)",
+          "codigo_item": "91",
+          "recomendacion": "Administrar a todos los pacientes sin contraindicaciones lo antes posible. La primera dosis debe ser masticada para una absorción más rápida.",
+          "dosis": "Dosis de carga: 150-300 mg masticados. Dosis de mantenimiento: 100 mg/día."
+        },
+        {
+          "nombre": "Inhibidor del Receptor P2Y12 (Clopidogrel)",
+          "codigo_item": "18874",
+          "recomendacion": "Administrar una dosis de carga junto con la aspirina (terapia antiplaquetaria dual).",
+          "dosis": "Dosis de carga: 300-600 mg. Dosis de mantenimiento: 75 mg/día."
+        },
+        {
+          "nombre": "Anticoagulación (Enoxaparina)",
+          "codigo_item": "3088",
+          "recomendacion": "Añadir a la terapia antiplaquetaria. La dosis se ajusta según la edad, función renal y si se realizará fibrinólisis o ACTP.",
+          "dosis": "Variable, por ejemplo: bolo IV de 30 mg seguido de 1 mg/kg SC cada 12 horas."
+        },
+        {
+          "nombre": "Estatina de Alta Intensidad",
+          "codigo_item": "21884",
+          "recomendacion": "Iniciar lo antes posible, independientemente de los niveles de colesterol previos, por sus efectos pleiotrópicos y estabilizadores de placa.",
+          "dosis": "Atorvastatina 80 mg, 1 tableta diaria."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Reperfusión (Tratamiento Definitivo)",
+      "contenido": "El objetivo es restaurar el flujo sanguíneo en la arteria coronaria ocluida. La elección de la estrategia depende de la disponibilidad y el tiempo.",
+      "items": [
+        {
+          "nombre": "Angioplastia Coronaria Primaria (ACTP)",
+          "recomendacion": "Es la estrategia de reperfusión preferida si se puede realizar por un equipo experimentado dentro de los 120 minutos desde el primer contacto médico. Objetivo 'puerta-balón' < 90 minutos."
+        },
+        {
+          "nombre": "Fibrinólisis (Alteplasa)",
+          "codigo_item": "408",
+          "recomendacion": "Indicada si la ACTP primaria no es posible dentro de los 120 minutos. Debe administrarse dentro de las primeras 12 horas del inicio de los síntomas, idealmente en los primeros 30 minutos de la llegada ('puerta-aguja' < 30 min).",
+          "dosis": "Régimen acelerado: Bolo IV de 15 mg, seguido de infusión de 50 mg en 30 min, y luego 35 mg en 60 min."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "IMCEST",
+    "infarto",
+    "ataque cardiaco",
+    "I213",
+    "dolor de pecho",
+    "elevacion ST",
+    "angioplastia",
+    "ACTP",
+    "fibrinolisis",
+    "alteplasa",
+    "clopidogrel",
+    "aspirina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Manejo de COVID-19 en Pediatría",
+  "diagnostico_cie10": "U071",
+  "referencias_cie10": [
+    "U072"
+  ],
+  "secciones": [
+    {
+      "titulo": "Clasificación de Severidad y Manejo General",
+      "contenido": "La mayoría de los niños presentan enfermedad leve. El manejo se basa en la estratificación del riesgo y la monitorización de signos de alarma.",
+      "items": [
+        {
+          "nombre": "COVID-19 Leve",
+          "recomendacion": "Manejo ambulatorio con aislamiento domiciliario. Tratamiento sintomático (fiebre, malestar) con Paracetamol. Hidratación y nutrición adecuadas. Educar a los padres sobre signos de alarma."
+        },
+        {
+          "nombre": "COVID-19 Moderado",
+          "recomendacion": "Requiere hospitalización. Se caracteriza por neumonía sin hipoxemia severa (SatO2 ≥ 94% al aire ambiente). El manejo incluye oxigenoterapia con cánula nasal si es necesario y monitorización."
+        },
+        {
+          "nombre": "COVID-19 Severo",
+          "recomendacion": "Hospitalización urgente. Se define por hipoxemia (SatO2 < 94%), taquipnea severa o signos de dificultad respiratoria. Requiere oxigenoterapia de alto flujo y considerar corticoides sistémicos."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Farmacológico para COVID-19 Severo",
+      "contenido": "El uso de corticoides está indicado en pacientes pediátricos que requieren oxígeno suplementario.",
+      "items": [
+        {
+          "nombre": "Dexametasona",
+          "recomendacion": "Es el corticoide de elección para pacientes hospitalizados con requerimiento de oxígeno.",
+          "dosis": "0.15 mg/kg/dosis (máximo 6 mg) una vez al día, por vía intravenosa u oral, durante 10 días o hasta el alta."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Síndrome Inflamatorio Multisistémico Pediátrico (PIMS/SIM-P)",
+      "contenido": "Complicación grave post-infecciosa que requiere un alto índice de sospecha y manejo multidisciplinario en una unidad de cuidados intensivos (UCIP).",
+      "items": [
+        {
+          "nombre": "Criterios Diagnósticos",
+          "recomendacion": "Fiebre persistente, marcadores de inflamación elevados (PCR, VSG), y disfunción de ≥2 órganos en un niño con evidencia de infección por SARS-CoV-2 reciente o actual."
+        },
+        {
+          "nombre": "Inmunoglobulina Intravenosa (IGIV)",
+          "codigo_item": "4069",
+          "recomendacion": "Es el tratamiento de primera línea para PIMS/SIM-P. Debe administrarse lo antes posible tras el diagnóstico.",
+          "dosis": "Dosis única de 2 g/kg, administrada en infusión durante 8-12 horas."
+        },
+        {
+          "nombre": "Corticoides Sistémicos (Metilprednisolona)",
+          "recomendacion": "Se administran junto con la IGIV, especialmente en casos de shock, disfunción miocárdica o si no hay respuesta a la IGIV sola.",
+          "dosis": "Pulsos de Metilprednisolona: 10-30 mg/kg/día (máximo 1 g) por 1-3 días."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "COVID-19",
+    "coronavirus",
+    "pediatria",
+    "niños",
+    "U071",
+    "PIMS",
+    "SIM-P",
+    "sindrome inflamatorio multisistemico",
+    "inmunoglobulina",
+    "dexametasona"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de Cáncer de Mama HER-2 positivo no metastásico",
+  "diagnostico_cie10": "C509",
+  "referencias_cie10": [
+    "C500",
+    "C501",
+    "C502",
+    "C503",
+    "C504",
+    "C505",
+    "C506"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Confirmación del Estatus HER2",
+      "contenido": "El diagnóstico preciso del estatus del receptor 2 del factor de crecimiento epidérmico humano (HER2) es fundamental para determinar la elegibilidad para la terapia dirigida.",
+      "items": [
+        {
+          "nombre": "Biopsia y Anatomía Patológica",
+          "recomendacion": "Toda lesión mamaria sospechosa debe ser sometida a una biopsia (core o aguja gruesa) para confirmación histológica."
+        },
+        {
+          "nombre": "Inmunohistoquímica (IHC)",
+          "recomendacion": "Es el primer test para evaluar la sobreexpresión de la proteína HER2. Un resultado de 3+ se considera positivo. Un resultado de 0 o 1+ se considera negativo."
+        },
+        {
+          "nombre": "Hibridación in situ (FISH/ISH)",
+          "recomendacion": "Se debe realizar cuando el resultado de la IHC es equívoco (2+). Un resultado de FISH/ISH positivo confirma el estatus HER2-positivo."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Neoadyuvante (Pre-quirúrgico)",
+      "contenido": "Indicado para tumores > 2 cm o con ganglios axilares positivos, con el objetivo de reducir el tamaño tumoral y evaluar la respuesta al tratamiento.",
+      "items": [
+        {
+          "nombre": "Esquema de Doble Bloqueo Anti-HER2",
+          "recomendacion": "Se recomienda un esquema basado en quimioterapia (taxanos) combinado con doble bloqueo anti-HER2 para pacientes de alto riesgo.",
+          "dosis": "Quimioterapia + Trastuzumab + Pertuzumab."
+        },
+        {
+          "nombre": "Trastuzumab",
+          "codigo_item": "17689",
+          "recomendacion": "Pilar del tratamiento anti-HER2. Se administra por vía intravenosa cada 3 semanas junto con la quimioterapia."
+        },
+        {
+          "nombre": "Pertuzumab",
+          "codigo_item": "45237",
+          "recomendacion": "Se añade al Trastuzumab para potenciar el bloqueo del receptor HER2, mejorando las tasas de respuesta patológica completa."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Adyuvante (Post-quirúrgico)",
+      "contenido": "El objetivo es eliminar la enfermedad micrometastásica y reducir el riesgo de recurrencia después de la cirugía.",
+      "items": [
+        {
+          "nombre": "Terapia Anti-HER2 Adyuvante",
+          "codigo_item": "17689",
+          "recomendacion": "Todas las pacientes con cáncer de mama HER2-positivo deben recibir Trastuzumab adyuvante durante un año (completando un total de 18 ciclos, incluyendo los ciclos neoadyuvantes)."
+        },
+        {
+          "nombre": "Consideración de Pertuzumab Adyuvante",
+          "codigo_item": "45237",
+          "recomendacion": "Continuar con Pertuzumab (si se inició en la neoadyuvancia) en pacientes con alto riesgo de recurrencia (ganglios positivos o enfermedad residual tras la neoadyuvancia)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de mama",
+    "C509",
+    "HER2 positivo",
+    "HER2+",
+    "oncologia",
+    "trastuzumab",
+    "pertuzumab",
+    "quimioterapia",
+    "neoadyuvancia",
+    "adyuvancia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la prevención y manejo de la Enfermedad Hipertensiva del Embarazo",
+  "diagnostico_cie10": "O149",
+  "referencias_cie10": [
+    "O13X",
+    "O141",
+    "O142",
+    "O150",
+    "O159"
+  ],
+  "secciones": [
+    {
+      "titulo": "Prevención en Pacientes de Alto Riesgo",
+      "contenido": "Identificación de factores de riesgo para preeclampsia durante el control prenatal para iniciar profilaxis.",
+      "items": [
+        {
+          "nombre": "Profilaxis con Aspirina a Dosis Bajas",
+          "codigo_item": "91",
+          "recomendacion": "Iniciar en gestantes con alto riesgo de preeclampsia (ej. preeclampsia previa, hipertensión crónica, diabetes, enfermedad renal) entre las semanas 12 y 16 de gestación y mantener hasta la semana 36.",
+          "dosis": "Ácido Acetilsalicílico 100-150 mg, una vez al día, preferiblemente por la noche."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Preeclampsia con Criterios de Severidad",
+      "contenido": "Es una emergencia obstétrica. El manejo se enfoca en la estabilización materna y la finalización de la gestación. Requiere hospitalización inmediata.",
+      "items": [
+        {
+          "nombre": "Profilaxis de Convulsiones (Eclampsia)",
+          "codigo_item": "6713",
+          "recomendacion": "El Sulfato de Magnesio es el fármaco de elección para prevenir la primera convulsión o la recurrencia.",
+          "dosis": "Dosis de carga: 4-6 g IV en 20-30 min. Dosis de mantenimiento: 1-2 g/hora en infusión continua."
+        },
+        {
+          "nombre": "Manejo de la Crisis Hipertensiva (PA ≥ 160/110 mmHg)",
+          "recomendacion": "El objetivo es reducir la presión arterial de forma controlada para prevenir un ACV, sin comprometer la perfusión útero-placentaria."
+        },
+        {
+          "nombre": "Labetalol IV",
+          "codigo_item": "38594",
+          "recomendacion": "Fármaco de primera línea para crisis hipertensivas en el embarazo.",
+          "dosis": "Bolos iniciales de 20 mg IV, seguidos de 40 mg, 80 mg cada 10-20 min (dosis máxima acumulada 300 mg) o infusión."
+        },
+        {
+          "nombre": "Nifedipino Oral",
+          "codigo_item": "5018",
+          "recomendacion": "Alternativa de primera línea si el acceso IV es difícil.",
+          "dosis": "10-20 mg vía oral, se puede repetir en 20-30 minutos."
+        },
+        {
+          "nombre": "Finalización de la Gestación",
+          "recomendacion": "Es el tratamiento definitivo. Se debe proceder a la finalización del embarazo tras la estabilización materna, independientemente de la edad gestacional."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Eclampsia",
+      "contenido": "Se define por la presencia de convulsiones tónico-clónicas en una paciente con preeclampsia. Es una emergencia que amenaza la vida de la madre y el feto.",
+      "items": [
+        {
+          "nombre": "Manejo Inmediato de la Convulsión",
+          "recomendacion": "Asegurar la vía aérea (posición de decúbito lateral izquierdo), proteger a la paciente de lesiones y administrar oxígeno."
+        },
+        {
+          "nombre": "Tratamiento Farmacológico de la Convulsión",
+          "codigo_item": "6713",
+          "recomendacion": "Administrar inmediatamente un bolo de carga de Sulfato de Magnesio IV (4-6 g), incluso si ya estaba en infusión de mantenimiento."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "preeclampsia",
+    "eclampsia",
+    "O149",
+    "O141",
+    "O159",
+    "hipertension en el embarazo",
+    "sulfato de magnesio",
+    "labetalol",
+    "nifedipino",
+    "sindrome HELLP"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Glaucoma de Ángulo Abierto",
+  "diagnostico_cie10": "H401",
+  "referencias_cie10": [
+    "H400",
+    "H409"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Monitorización",
+      "contenido": "El diagnóstico se basa en la evaluación de la presión intraocular (PIO), el nervio óptico y el campo visual. La monitorización periódica es clave para evaluar la progresión.",
+      "items": [
+        {
+          "nombre": "Tonometría",
+          "recomendacion": "Medir la PIO en todos los pacientes con sospecha de glaucoma. La tonometría de aplanación de Goldmann es el estándar de referencia."
+        },
+        {
+          "nombre": "Evaluación del Nervio Óptico",
+          "recomendacion": "Realizar oftalmoscopia para evaluar la excavación y el anillo neurorretiniano. La Tomografía de Coherencia Óptica (OCT) es útil para la cuantificación objetiva del daño."
+        },
+        {
+          "nombre": "Campimetría (Perimetría)",
+          "recomendacion": "Evaluar el campo visual para detectar y monitorizar el daño funcional. La perimetría automatizada estándar (blanco sobre blanco) es la prueba de elección."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Médico de Primera Línea",
+      "contenido": "El objetivo es reducir la PIO para enlentecer la progresión de la enfermedad. Los análogos de prostaglandinas son la primera elección.",
+      "items": [
+        {
+          "nombre": "Análogos de Prostaglandinas (Latanoprost)",
+          "codigo_item": "4338",
+          "recomendacion": "Son el tratamiento inicial de elección debido a su potente efecto hipotensor, buena tolerancia y pauta de administración cómoda.",
+          "dosis": "1 gota en el(los) ojo(s) afectado(s), una vez al día, por la noche."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Médico de Segunda Línea y Terapia Combinada",
+      "contenido": "Si no se alcanza la PIO objetivo con monoterapia, se puede cambiar de fármaco o añadir un segundo agente.",
+      "items": [
+        {
+          "nombre": "Betabloqueantes (Timolol)",
+          "codigo_item": "6144",
+          "recomendacion": "Son una opción eficaz como segunda línea o en combinación. Contraindicados en pacientes con asma, EPOC severa o bradicardia significativa.",
+          "dosis": "1 gota en el(los) ojo(s) afectado(s), cada 12 o 24 horas."
+        },
+        {
+          "nombre": "Inhibidores de la Anhidrasa Carbónica (Dorzolamida)",
+          "codigo_item": "3013",
+          "recomendacion": "Se usan como terapia adyuvante para reducir aún más la PIO.",
+          "dosis": "1 gota en el(los) ojo(s) afectado(s), 2 o 3 veces al día."
+        },
+        {
+          "nombre": "Terapia de Combinación Fija (Dorzolamida/Timolol)",
+          "codigo_item": "3012",
+          "recomendacion": "Mejora la adherencia al tratamiento al reducir el número de frascos y de instilaciones diarias.",
+          "dosis": "1 gota en el(los) ojo(s) afectado(s), cada 12 horas."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Láser y Quirúrgico",
+      "contenido": "Reservado para casos en los que el tratamiento médico es insuficiente, mal tolerado o no cumplido.",
+      "items": [
+        {
+          "nombre": "Trabeculoplastia Láser Selectiva (SLT)",
+          "recomendacion": "Puede considerarse como tratamiento inicial en algunos pacientes o como terapia adyuvante para reducir la carga de medicación."
+        },
+        {
+          "nombre": "Cirugía Filtrante (Trabeculectomía)",
+          "recomendacion": "Es el procedimiento quirúrgico estándar de oro para el glaucoma no controlado. Crea una nueva vía de drenaje para el humor acuoso."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "glaucoma",
+    "H401",
+    "angulo abierto",
+    "presion intraocular",
+    "PIO",
+    "oftalmologia",
+    "latanoprost",
+    "timolol",
+    "nervio optico",
+    "campimetria"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Manejo de la Enfermedad Renal Crónica estadios 3b, 4 y 5",
+  "diagnostico_cie10": "N189",
+  "referencias_cie10": [
+    "N183",
+    "N184",
+    "N185"
+  ],
+  "secciones": [
+    {
+      "titulo": "Control de la Progresión y Presión Arterial",
+      "contenido": "El manejo intensivo de la presión arterial y la proteinuria son clave para enlentecer la pérdida de la función renal.",
+      "items": [
+        {
+          "nombre": "Uso de IECA o ARA II",
+          "recomendacion": "Son los fármacos de primera línea para el control de la presión arterial en pacientes con ERC, especialmente si hay proteinuria. No se recomienda la combinación de ambos."
+        },
+        {
+          "nombre": "Objetivo de Presión Arterial",
+          "recomendacion": "Mantener la presión arterial consistentemente por debajo de 130/80 mmHg en la mayoría de los pacientes."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Anemia de la ERC",
+      "contenido": "La anemia es una complicación común y debe ser tratada para mejorar la calidad de vida y reducir la necesidad de transfusiones.",
+      "items": [
+        {
+          "nombre": "Suplementación con Hierro",
+          "codigo_item": "37855",
+          "recomendacion": "Antes de iniciar agentes estimulantes de la eritropoyesis (AEE), se deben asegurar depósitos de hierro adecuados (Índice de Saturación de Transferrina >20% y Ferritina >100 ng/mL). Se prefiere la vía intravenosa.",
+          "dosis": "Hierro Sacarato IV, dosificado según el déficit calculado."
+        },
+        {
+          "nombre": "Agentes Estimulantes de la Eritropoyesis (AEE)",
+          "recomendacion": "Iniciar AEE (como Eritropoyetina - EPO) cuando la hemoglobina sea < 10 g/dL, con el objetivo de mantenerla entre 10 y 11.5 g/dL. No se debe buscar normalizar la hemoglobina.",
+          "dosis": "Eritropoyetina (EPO) administrada por vía subcutánea, con dosis ajustada según la respuesta de la hemoglobina."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Metabolismo Mineral y Óseo (ERC-MMO)",
+      "contenido": "Prevenir y tratar las alteraciones del calcio, fósforo, PTH y Vitamina D para reducir el riesgo de enfermedad ósea y calcificaciones vasculares.",
+      "items": [
+        {
+          "nombre": "Control del Fósforo",
+          "recomendacion": "Restricción de fósforo en la dieta y uso de quelantes de fósforo para mantener los niveles séricos en el rango normal."
+        },
+        {
+          "nombre": "Quelantes de Fósforo (Sevelamer)",
+          "codigo_item": "28897",
+          "recomendacion": "Administrar con las comidas para que se unan al fósforo de los alimentos en el intestino. Sevelamer es una opción no cálcica preferida para evitar la sobrecarga de calcio.",
+          "dosis": "Sevelamer 800 mg, 1-2 tabletas con cada comida, ajustando según niveles de fósforo."
+        },
+        {
+          "nombre": "Suplementación con Vitamina D Activa (Calcitriol)",
+          "codigo_item": "1503",
+          "recomendacion": "Usar para suprimir los niveles elevados de PTH en pacientes con hipocalcemia o niveles bajos/normales de calcio y fósforo. Requiere monitorización estricta para evitar hipercalcemia.",
+          "dosis": "Calcitriol 0.25-0.5 µg, administrado diariamente o en días alternos."
+        }
+      ]
+    },
+    {
+      "titulo": "Preparación para Terapia de Reemplazo Renal (TRR)",
+      "contenido": "En el estadio 4 avanzado y estadio 5, es crucial la planificación y educación del paciente.",
+      "items": [
+        {
+          "nombre": "Educación sobre Modalidades de TRR",
+          "recomendacion": "Discutir las ventajas y desventajas de la hemodiálisis, diálisis peritoneal y trasplante renal con el paciente y su familia."
+        },
+        {
+          "nombre": "Creación de Acceso Vascular para Hemodiálisis",
+          "recomendacion": "Referir al cirujano vascular para la creación de una fístula arteriovenosa (FAV) nativa, idealmente 6-12 meses antes de la fecha estimada de inicio de la diálisis."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "enfermedad renal cronica",
+    "ERC",
+    "N183",
+    "N184",
+    "N185",
+    "insuficiencia renal",
+    "nefrologia",
+    "dialisis",
+    "eritropoyetina",
+    "EPO",
+    "sevelamer",
+    "calcitriol",
+    "anemia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tratamiento farmacológico de Nefritis Lúpica",
+  "diagnostico_cie10": "M321",
+  "referencias_cie10": [
+    "M329"
+  ],
+  "secciones": [
+    {
+      "titulo": "Tratamiento de Base y Medidas Generales",
+      "contenido": "Todos los pacientes con nefritis lúpica deben recibir un tratamiento de base para controlar la actividad del lupus y reducir el riesgo cardiovascular.",
+      "items": [
+        {
+          "nombre": "Hidroxicloroquina",
+          "codigo_item": "43898",
+          "recomendacion": "Debe ser administrada a todos los pacientes con nefritis lúpica, a menos que esté contraindicada. Reduce el riesgo de brotes y tiene efectos beneficiosos a largo plazo.",
+          "dosis": "200-400 mg al día, ajustado por peso (no exceder 5 mg/kg/día de peso real)."
+        },
+        {
+          "nombre": "Control de la Presión Arterial",
+          "recomendacion": "Uso de IECA o ARA II para alcanzar una presión arterial <130/80 mmHg y reducir la proteinuria."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Inducción (Clases Proliferativas III y IV)",
+      "contenido": "Tratamiento agresivo inicial de 6 meses para controlar la inflamación renal y preservar la función del riñón.",
+      "items": [
+        {
+          "nombre": "Pulsos de Corticoides",
+          "recomendacion": "Iniciar con pulsos intravenosos de Metilprednisolona para un control rápido de la inflamación.",
+          "dosis": "Metilprednisolona 500-1000 mg IV al día por 3 días consecutivos."
+        },
+        {
+          "nombre": "Corticoides Orales",
+          "recomendacion": "Después de los pulsos, continuar con Prednisona oral en dosis altas, con una pauta de descenso gradual a lo largo de varios meses.",
+          "dosis": "Iniciar con Prednisona 0.5-1 mg/kg/día y reducir progresivamente."
+        },
+        {
+          "nombre": "Opción 1: Micofenolato Mofetilo (MMF)",
+          "codigo_item": "26680",
+          "recomendacion": "Es el régimen de inducción preferido para la mayoría de los pacientes por su mejor perfil de seguridad a largo plazo en comparación con la ciclofosfamida.",
+          "dosis": "2 a 3 gramos al día, divididos en dos dosis."
+        },
+        {
+          "nombre": "Opción 2: Ciclofosfamida IV",
+          "codigo_item": "1776",
+          "recomendacion": "Reservada para casos de enfermedad más severa (ej. con semilunas celulares en la biopsia) o cuando el MMF no es una opción.",
+          "dosis": "Pulsos intravenosos mensuales (esquema NIH) o quincenales (esquema Eurolupus)."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Mantenimiento",
+      "contenido": "Una vez alcanzada la remisión (parcial o completa) tras la fase de inducción, se inicia un tratamiento a largo plazo (mínimo 3-5 años) para prevenir recaídas.",
+      "items": [
+        {
+          "nombre": "Micofenolato Mofetilo (MMF)",
+          "codigo_item": "26680",
+          "recomendacion": "Es el fármaco de elección para la terapia de mantenimiento, independientemente del régimen de inducción utilizado.",
+          "dosis": "1 a 2 gramos al día, divididos en dos dosis."
+        },
+        {
+          "nombre": "Azatioprina",
+          "recomendacion": "Es una alternativa al MMF para el mantenimiento, especialmente en pacientes que planean un embarazo (previa consulta con especialista)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "nefritis lupica",
+    "lupus",
+    "LES",
+    "M321",
+    "glomerulonefritis",
+    "reumatologia",
+    "micofenolato",
+    "ciclofosfamida",
+    "hidroxicloroquina",
+    "biopsia renal"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de la desnutrición o el riesgo de desnutrición en el adulto",
+  "diagnostico_cie10": "E46X",
+  "referencias_cie10": [
+    "E41X3",
+    "E43X",
+    "E440",
+    "E441"
+  ],
+  "secciones": [
+    {
+      "titulo": "Tamizaje y Evaluación Nutricional",
+      "contenido": "La identificación temprana del riesgo nutricional es el primer paso para prevenir y tratar la desnutrición.",
+      "items": [
+        {
+          "nombre": "Tamizaje Nutricional Universal",
+          "recomendacion": "Realizar un tamizaje nutricional (ej. con la herramienta NRS-2002 o MUST) a todos los pacientes adultos dentro de las primeras 24-48 horas de la hospitalización."
+        },
+        {
+          "nombre": "Evaluación Nutricional Completa",
+          "recomendacion": "En pacientes con tamizaje positivo (en riesgo), realizar una evaluación nutricional completa por un profesional de la nutrición para diagnosticar y clasificar la desnutrición."
+        }
+      ]
+    },
+    {
+      "titulo": "Intervención Nutricional Escalonada",
+      "contenido": "La intervención debe seguir una jerarquía, prefiriendo siempre la vía más fisiológica (oral > enteral > parenteral).",
+      "items": [
+        {
+          "nombre": "Consejería y Fortificación de Alimentos",
+          "recomendacion": "Primera línea de intervención. Optimizar la ingesta oral mediante consejos dietéticos y enriquecimiento de los alimentos."
+        },
+        {
+          "nombre": "Suplementos Nutricionales Orales (SNO)",
+          "recomendacion": "Si la ingesta oral es insuficiente a pesar de la consejería, prescribir SNO para alcanzar los requerimientos calóricos y proteicos. Reevaluar la ingesta y tolerancia.",
+          "dosis": "Típicamente 2-3 suplementos al día, entre comidas."
+        },
+        {
+          "nombre": "Nutrición Enteral (NE)",
+          "recomendacion": "Iniciar si el paciente no puede cubrir >60% de sus requerimientos por vía oral, pero tiene un tracto gastrointestinal funcional. Se administra a través de una sonda (nasogástrica, nasoyeyunal o de gastrostomía).",
+          "dosis": "Fórmula polimérica estándar (1-1.5 kcal/mL) es adecuada para la mayoría de los pacientes."
+        },
+        {
+          "nombre": "Nutrición Parenteral (NP)",
+          "recomendacion": "Reservar para pacientes con un tracto gastrointestinal no funcional o inaccesible (ej. íleo prolongado, obstrucción intestinal, isquemia mesentérica). Se administra por vía venosa central o periférica.",
+          "dosis": "Fórmula tricameral (3-en-1) que aporta carbohidratos, lípidos y aminoácidos."
+        }
+      ]
+    },
+    {
+      "titulo": "Monitorización y Prevención del Síndrome de Realimentación",
+      "contenido": "La reintroducción de la nutrición en pacientes severamente desnutridos puede causar complicaciones metabólicas graves.",
+      "items": [
+        {
+          "nombre": "Identificación de Riesgo de Síndrome de Realimentación",
+          "recomendacion": "Evaluar el riesgo en pacientes con IMC muy bajo, pérdida de peso severa o ingesta nula por >7 días."
+        },
+        {
+          "nombre": "Prevención del Síndrome de Realimentación",
+          "recomendacion": "En pacientes de alto riesgo, iniciar el soporte nutricional de forma lenta (ej. al 50% de los requerimientos el primer día), suplementar con Tiamina antes de empezar, y monitorizar de cerca los electrolitos (fósforo, potasio, magnesio)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "desnutricion",
+    "E46X",
+    "riesgo nutricional",
+    "tamizaje",
+    "NRS-2002",
+    "MUST",
+    "suplemento nutricional oral",
+    "nutricion enteral",
+    "nutricion parenteral",
+    "sindrome de realimentacion"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el Manejo de COVID-19 (Adultos)",
+  "diagnostico_cie10": "U071",
+  "referencias_cie10": [
+    "U072",
+    "J128"
+  ],
+  "secciones": [
+    {
+      "titulo": "Clasificación de Severidad y Manejo Inicial",
+      "contenido": "El manejo se basa en la estratificación del riesgo según la necesidad de oxígeno.",
+      "items": [
+        {
+          "nombre": "COVID-19 Leve a Moderado (Sin Hipoxemia)",
+          "recomendacion": "Pacientes con SatO2 ≥ 94% al aire ambiente. El manejo es sintomático y ambulatorio con aislamiento. No se recomienda el uso de corticoides, antivirales o antibióticos de forma rutinaria."
+        },
+        {
+          "nombre": "COVID-19 Severo (Con Hipoxemia)",
+          "recomendacion": "Pacientes con SatO2 < 94% al aire ambiente, frecuencia respiratoria > 30 rpm o infiltrados pulmonares > 50%. Requieren hospitalización inmediata."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Paciente Hospitalizado con COVID-19 Severo",
+      "contenido": "El tratamiento se centra en el soporte respiratorio, la modulación de la respuesta inflamatoria y la prevención de complicaciones.",
+      "items": [
+        {
+          "nombre": "Oxigenoterapia",
+          "codigo_procedimiento": "94799.02",
+          "recomendacion": "Administrar oxígeno suplementario para mantener una SatO2 objetivo entre 92% y 96%. Iniciar con cánula nasal y escalar a dispositivos de alto flujo según la necesidad."
+        },
+        {
+          "nombre": "Corticoides Sistémicos (Dexametasona)",
+          "recomendacion": "Es el pilar del tratamiento en pacientes que requieren oxígeno. Ha demostrado reducir la mortalidad.",
+          "dosis": "Dexametasona 6 mg una vez al día, por vía intravenosa u oral, durante 10 días o hasta el alta."
+        },
+        {
+          "nombre": "Anticoagulación Profiláctica",
+          "recomendacion": "Administrar a todos los pacientes hospitalizados con COVID-19 para reducir el riesgo de tromboembolismo venoso.",
+          "dosis": "Enoxaparina en dosis profiláctica (ej. 40 mg SC una vez al día), ajustada según peso y función renal."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Paciente con COVID-19 Crítico",
+      "contenido": "Pacientes con insuficiencia respiratoria aguda que requieren ventilación mecánica invasiva o aquellos en shock séptico.",
+      "items": [
+        {
+          "nombre": "Ventilación Mecánica Invasiva",
+          "recomendacion": "Utilizar una estrategia de ventilación protectora pulmonar (volumen tidal bajo, 6 mL/kg de peso predicho) y considerar la posición prono por >16 horas al día."
+        },
+        {
+          "nombre": "Inmunomodulación Adicional (Tocilizumab)",
+          "codigo_item": "23469",
+          "recomendacion": "Considerar en pacientes con deterioro respiratorio rápido y evidencia de inflamación sistémica (PCR elevada), preferiblemente dentro de las primeras 24-48 horas del ingreso a UCI.",
+          "dosis": "Dosis única de 8 mg/kg de peso corporal real (máximo 800 mg), administrada por vía intravenosa."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "COVID-19",
+    "coronavirus",
+    "adultos",
+    "U071",
+    "neumonia",
+    "SDRA",
+    "dexametasona",
+    "enoxaparina",
+    "tocilizumab",
+    "oxigenoterapia"
+  ],
+  "version_guia": "3.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de las lesiones pulpares y periapicales en dentición permanente",
+  "diagnostico_cie10": "K040",
+  "referencias_cie10": [
+    "K041",
+    "K045",
+    "K047"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico de las Patologías Pulpares",
+      "contenido": "El diagnóstico preciso es fundamental y se basa en la historia del dolor, pruebas clínicas y hallazgos radiográficos.",
+      "items": [
+        {
+          "nombre": "Pulpitis Reversible",
+          "recomendacion": "Dolor agudo y provocado que cesa al retirar el estímulo (frío, dulce). No hay dolor espontáneo. Tratamiento: eliminación de la caries y restauración."
+        },
+        {
+          "nombre": "Pulpitis Irreversible Sintomática",
+          "recomendacion": "Dolor espontáneo, pulsátil, que puede aumentar con el calor y persistir. El tratamiento indicado es la endodoncia.",
+          "diagnostico_cie10": "K040"
+        },
+        {
+          "nombre": "Necrosis Pulpar",
+          "recomendacion": "Ausencia de respuesta a las pruebas de sensibilidad pulpar. Puede ser asintomático o presentar dolor a la percusión. El tratamiento indicado es la endodoncia.",
+          "diagnostico_cie10": "K041"
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Pulpitis Irreversible y Necrosis Pulpar",
+      "contenido": "El objetivo es eliminar el tejido pulpar infectado o necrótico y sellar el sistema de conductos.",
+      "items": [
+        {
+          "nombre": "Endodoncia (Tratamiento de Conductos)",
+          "codigo_procedimiento": "D3348",
+          "recomendacion": "Es el tratamiento de elección. Consiste en la instrumentación, desinfección y obturación tridimensional del sistema de conductos radiculares."
+        },
+        {
+          "nombre": "Irrigación con Hipoclorito de Sodio (NaOCl)",
+          "recomendacion": "Es el irrigante principal durante la endodoncia por su alta capacidad bactericida y de disolución de tejido necrótico. Usar en concentraciones del 2.5% al 5.25%."
+        },
+        {
+          "nombre": "Manejo del Dolor Postoperatorio",
+          "codigo_item": "4034",
+          "recomendacion": "El dolor post-endodoncia es común. Se maneja con analgésicos no esteroideos (AINEs).",
+          "dosis": "Ibuprofeno 400-600 mg cada 6-8 horas."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Absceso Periapical Agudo",
+      "contenido": "Infección localizada en el ápice del diente que requiere drenaje y tratamiento de la causa.",
+      "items": [
+        {
+          "nombre": "Establecer Drenaje",
+          "codigo_procedimiento": "10060",
+          "recomendacion": "El drenaje es el paso más importante. Se puede lograr a través del conducto radicular (inicio de la endodoncia) o mediante una incisión en el tejido blando si hay una tumefacción fluctuante."
+        },
+        {
+          "nombre": "Antibioticoterapia (Solo si está indicado)",
+          "recomendacion": "Los antibióticos NO están indicados en pulpitis o abscesos localizados. Se prescriben solo si hay signos de diseminación sistémica (fiebre, malestar general, linfadenopatía) o celulitis."
+        },
+        {
+          "nombre": "Antibiótico de Primera Elección",
+          "codigo_item": "734",
+          "recomendacion": "Amoxicilina es el fármaco de elección para infecciones odontogénicas.",
+          "dosis": "Amoxicilina 500 mg cada 8 horas por 5-7 días."
+        },
+        {
+          "nombre": "Alternativa para Alérgicos a Penicilina",
+          "codigo_item": "1964",
+          "recomendacion": "Clindamicina es la alternativa de elección.",
+          "dosis": "Clindamicina 300 mg cada 6-8 horas por 5-7 días."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "pulpitis",
+    "K040",
+    "endodoncia",
+    "tratamiento de conducto",
+    "dolor de muela",
+    "absceso dental",
+    "K047",
+    "necrosis pulpar",
+    "odontologia",
+    "amoxicilina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tamizaje, diagnóstico y tratamiento inicial de Cáncer de Próstata localizado y localmente avanzado",
+  "diagnostico_cie10": "C61X",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Tamizaje (Detección Precoz)",
+      "contenido": "El objetivo es detectar el cáncer de próstata en una etapa temprana y potencialmente curable. La decisión de tamizaje debe ser informada y compartida con el paciente.",
+      "items": [
+        {
+          "nombre": "Población Objetivo",
+          "recomendacion": "Discutir los pros y contras del tamizaje con hombres a partir de los 50 años. Considerar iniciar a los 40-45 años en hombres con alto riesgo (raza afroamericana, antecedentes familiares de cáncer de próstata)."
+        },
+        {
+          "nombre": "Pruebas de Tamizaje",
+          "recomendacion": "Realizar medición del Antígeno Prostático Específico (PSA) en sangre. El tacto rectal es opcional y complementario."
+        }
+      ]
+    },
+    {
+      "titulo": "Diagnóstico y Estratificación",
+      "contenido": "La confirmación del diagnóstico se realiza mediante biopsia, que también permite clasificar la agresividad del tumor.",
+      "items": [
+        {
+          "nombre": "Indicación de Biopsia",
+          "recomendacion": "Considerar una biopsia de próstata si el PSA está elevado para la edad o si el tacto rectal es sospechoso."
+        },
+        {
+          "nombre": "Biopsia de Próstata",
+          "codigo_procedimiento": "55700",
+          "recomendacion": "Realizar biopsia transrectal guiada por ecografía, tomando múltiples muestras (típicamente 12 o más) para un mapeo adecuado de la próstata."
+        },
+        {
+          "nombre": "Clasificación de Riesgo",
+          "recomendacion": "Clasificar a los pacientes en grupos de riesgo (bajo, intermedio, alto) basándose en el nivel de PSA, el grupo de grado ISUP (Gleason) de la biopsia y el estadio clínico (TNM)."
+        }
+      ]
+    },
+    {
+      "titulo": "Opciones de Tratamiento para Enfermedad Localizada",
+      "contenido": "La elección del tratamiento depende del grupo de riesgo, la edad del paciente, sus comorbilidades y sus preferencias.",
+      "items": [
+        {
+          "nombre": "Vigilancia Activa",
+          "recomendacion": "Es la opción preferida para pacientes con cáncer de próstata de muy bajo y bajo riesgo. Implica seguimiento estricto y se trata solo si hay progresión."
+        },
+        {
+          "nombre": "Prostatectomía Radical",
+          "recomendacion": "Opción curativa para pacientes con enfermedad localizada y una expectativa de vida > 10 años. Consiste en la extirpación quirúrgica de la glándula prostática."
+        },
+        {
+          "nombre": "Radioterapia Externa",
+          "recomendacion": "Alternativa curativa a la cirugía, con resultados oncológicos similares para la mayoría de los grupos de riesgo."
+        },
+        {
+          "nombre": "Terapia de Deprivación Androgénica (TDA)",
+          "codigo_item": "4349",
+          "recomendacion": "Se utiliza en combinación con la radioterapia en pacientes de riesgo intermedio desfavorable y de alto riesgo para mejorar la eficacia del tratamiento. No se usa como monoterapia en enfermedad localizada.",
+          "dosis": "Leuprorelina 11.25 mg, inyección intramuscular de depósito cada 3 meses."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de prostata",
+    "C61X",
+    "prostata",
+    "urologia",
+    "PSA",
+    "antigeno prostatico especifico",
+    "prostatectomia radical",
+    "vigilancia activa",
+    "leuprorelina",
+    "biopsia de prostata"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para diagnóstico y tratamiento de Hemofilia",
+  "diagnostico_cie10": "D66X",
+  "referencias_cie10": [
+    "D67X"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación",
+      "contenido": "El diagnóstico se basa en la sospecha clínica, historia familiar y pruebas de laboratorio específicas.",
+      "items": [
+        {
+          "nombre": "Pruebas de Coagulación Iniciales",
+          "recomendacion": "Realizar un perfil de coagulación. El hallazgo característico es un Tiempo de Tromboplastina Parcial Activado (TTPA) prolongado, con Tiempo de Protrombina (TP) y recuento de plaquetas normales."
+        },
+        {
+          "nombre": "Confirmación Diagnóstica",
+          "recomendacion": "Confirmar el diagnóstico midiendo los niveles de actividad del Factor VIII y Factor IX en plasma. Esto permite diferenciar entre Hemofilia A y B."
+        },
+        {
+          "nombre": "Clasificación de Severidad",
+          "recomendacion": "Clasificar la severidad según la actividad del factor: Severa (<1%), Moderada (1-5%), Leve (>5-40%). La severidad predice la frecuencia y tipo de sangrados."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Episodios Hemorrágicos (Terapia a Demanda)",
+      "contenido": "El tratamiento debe iniciarse lo antes posible ante la sospecha de un sangrado para minimizar el daño tisular, especialmente el articular.",
+      "items": [
+        {
+          "nombre": "Principio RICE",
+          "recomendacion": "Aplicar Reposo, Hielo (Ice), Compresión y Elevación en la zona afectada como medida de soporte inicial."
+        },
+        {
+          "nombre": "Terapia de Reemplazo para Hemofilia A",
+          "recomendacion": "Administrar concentrado de Factor VIII de Coagulación. La dosis se calcula según el peso del paciente y la severidad del sangrado.",
+          "dosis": "Fórmula: Dosis (UI) = Peso (kg) x % de aumento deseado x 0.5"
+        },
+        {
+          "nombre": "Terapia de Reemplazo para Hemofilia B",
+          "recomendacion": "Administrar concentrado de Factor IX de Coagulación. La dosis se calcula según el peso y la severidad del sangrado.",
+          "dosis": "Fórmula: Dosis (UI) = Peso (kg) x % de aumento deseado x 1.0"
+        }
+      ]
+    },
+    {
+      "titulo": "Profilaxis (Estándar de Cuidado en Hemofilia Severa)",
+      "contenido": "La administración regular de concentrados de factor para prevenir los sangrados, proteger las articulaciones y permitir una vida más activa.",
+      "items": [
+        {
+          "nombre": "Indicación de Profilaxis",
+          "recomendacion": "Iniciar en todos los niños con hemofilia severa, idealmente antes de los 3 años de edad y antes de la segunda hemartrosis (sangrado articular)."
+        },
+        {
+          "nombre": "Régimen de Profilaxis para Hemofilia A",
+          "recomendacion": "Administrar Factor VIII de Coagulación en dosis de 25-40 UI/kg, 2 a 3 veces por semana o en días alternos."
+        },
+        {
+          "nombre": "Régimen de Profilaxis para Hemofilia B",
+          "recomendacion": "Administrar Factor IX de Coagulación en dosis de 40-60 UI/kg, 2 veces por semana."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hemofilia",
+    "D66X",
+    "D67X",
+    "hematologia",
+    "factor VIII",
+    "factor IX",
+    "coagulacion",
+    "sangrado",
+    "hemartrosis",
+    "profilaxis"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la prevención, diagnóstico y manejo de la Retinopatía de la Prematuridad",
+  "diagnostico_cie10": "H351",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Prevención y Tamizaje (Screening)",
+      "contenido": "La prevención se centra en el manejo óptimo del prematuro, y el tamizaje es clave para la detección oportuna.",
+      "items": [
+        {
+          "nombre": "Uso Controlado de Oxígeno",
+          "recomendacion": "Mantener objetivos de saturación de oxígeno estrictos (ej. 90-95%) en recién nacidos prematuros para evitar la hiperoxia, un factor de riesgo mayor para ROP."
+        },
+        {
+          "nombre": "Criterios de Tamizaje",
+          "recomendacion": "Realizar examen de fondo de ojo a todos los recién nacidos con peso al nacer ≤ 1500 gramos o edad gestacional ≤ 32 semanas. El primer examen debe realizarse entre la 4ª y 6ª semana de vida."
+        },
+        {
+          "nombre": "Examen Oftalmológico",
+          "recomendacion": "Debe ser realizado por un oftalmólogo experimentado, con dilatación pupilar, para clasificar la enfermedad según Zona, Estadio y presencia de enfermedad Plus."
+        }
+      ]
+    },
+    {
+      "titulo": "Clasificación y Umbrales de Tratamiento",
+      "contenido": "La clasificación internacional (ICROP) determina la severidad y la necesidad de intervención.",
+      "items": [
+        {
+          "nombre": "Clasificación",
+          "recomendacion": "Se clasifica según: Zona (I, II, III, del centro a la periferia), Estadio (1-5, de leve a desprendimiento de retina total) y la presencia de Enfermedad Plus (vasos dilatados y tortuosos)."
+        },
+        {
+          "nombre": "Umbral de Tratamiento (ROP Tipo 1)",
+          "recomendacion": "El tratamiento está indicado de forma urgente ante la presencia de: (1) Cualquier estadio de ROP en Zona I con enfermedad Plus. (2) Estadio 3 de ROP en Zona I sin enfermedad Plus. (3) Estadio 2 o 3 de ROP en Zona II con enfermedad Plus."
+        }
+      ]
+    },
+    {
+      "titulo": "Opciones de Tratamiento",
+      "contenido": "El objetivo del tratamiento es la ablación de la retina periférica avascular para detener el estímulo angiogénico.",
+      "items": [
+        {
+          "nombre": "Fotocoagulación con Láser",
+          "recomendacion": "Es el tratamiento estándar de oro. Se aplica láser en toda la retina avascular para reducir la producción de VEGF y promover la regresión de la neovascularización."
+        },
+        {
+          "nombre": "Terapia Anti-VEGF Intravítrea (Bevacizumab)",
+          "codigo_item": "18617",
+          "recomendacion": "Es una alternativa eficaz, especialmente para la ROP en Zona I (posterior). Consiste en la inyección de una microdosis de Bevacizumab en el vítreo. Requiere un seguimiento a largo plazo por riesgo de reactivación.",
+          "dosis": "Dosis intravítrea de 0.625 mg (0.025 mL)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "retinopatia de la prematuridad",
+    "ROP",
+    "H351",
+    "prematuro",
+    "oftalmologia",
+    "neonatologia",
+    "bevacizumab",
+    "laser",
+    "fotocoagulacion",
+    "fondo de ojo"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tamizaje, diagnóstico y manejo de la Enfermedad Renal Crónica en los estadios 1 al 3",
+  "diagnostico_cie10": "N189",
+  "referencias_cie10": [
+    "N181",
+    "N182",
+    "N183"
+  ],
+  "secciones": [
+    {
+      "titulo": "Tamizaje y Diagnóstico",
+      "contenido": "La detección precoz en poblaciones de riesgo es clave para iniciar intervenciones que modifiquen el curso de la enfermedad.",
+      "items": [
+        {
+          "nombre": "Población de Riesgo para Tamizaje",
+          "recomendacion": "Realizar tamizaje anual de ERC en pacientes con Diabetes Mellitus, Hipertensión Arterial, enfermedad cardiovascular establecida, mayores de 60 años o con historia familiar de ERC."
+        },
+        {
+          "nombre": "Pruebas de Tamizaje y Diagnóstico",
+          "recomendacion": "El tamizaje consiste en dos pruebas: (1) Estimación de la Tasa de Filtrado Glomerular (TFG) a partir de la creatinina sérica. (2) Medición de la albuminuria (índice albúmina/creatinina) en una muestra de orina."
+        },
+        {
+          "nombre": "Confirmación de Cronicidad",
+          "recomendacion": "El diagnóstico de ERC se confirma si las alteraciones en la TFG (<60 ml/min/1.73m²) o la presencia de daño renal (ej. albuminuria >30 mg/g) persisten por más de 3 meses."
+        }
+      ]
+    },
+    {
+      "titulo": "Estrategias para Enlentecer la Progresión",
+      "contenido": "El manejo se centra en el control riguroso de los factores de riesgo que aceleran la pérdida de la función renal.",
+      "items": [
+        {
+          "nombre": "Control de la Presión Arterial",
+          "recomendacion": "Mantener una presión arterial objetivo < 130/80 mmHg en todos los pacientes con ERC."
+        },
+        {
+          "nombre": "Bloqueo del Sistema Renina-Angiotensina (IECA/ARA II)",
+          "recomendacion": "Utilizar un IECA (ej. Enalapril) o un ARA II (ej. Losartán) como fármacos de primera línea, especialmente en pacientes con albuminuria significativa (>300 mg/g).",
+          "dosis": "Titular la dosis hasta la máxima tolerada para lograr el objetivo de presión y reducción de albuminuria."
+        },
+        {
+          "nombre": "Control Glucémico en Diabéticos",
+          "recomendacion": "Mantener un objetivo de Hemoglobina Glicosilada (HbA1c) alrededor del 7% para reducir el riesgo de progresión de la nefropatía diabética."
+        }
+      ]
+    },
+    {
+      "titulo": "Nefroprotección y Manejo de Complicaciones",
+      "contenido": "Evitar exposiciones a nefrotóxicos y monitorizar las complicaciones iniciales de la ERC.",
+      "items": [
+        {
+          "nombre": "Evitar Nefrotóxicos",
+          "recomendacion": "Aconsejar a los pacientes evitar el uso de Antiinflamatorios no Esteroideos (AINEs) como Ibuprofeno o Naproxeno. Si se requiere un estudio con contraste yodado, asegurar una hidratación adecuada."
+        },
+        {
+          "nombre": "Referencia a Nefrología",
+          "recomendacion": "Referir al especialista en Nefrología si la TFG es < 30 ml/min/1.73m² (Estadio 4), si hay un descenso rápido y sostenido de la TFG, o si la albuminuria es muy elevada (>300 mg/g) y de difícil manejo."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "enfermedad renal cronica",
+    "ERC",
+    "N181",
+    "N182",
+    "N183",
+    "nefropatia",
+    "nefroproteccion",
+    "albuminuria",
+    "filtrado glomerular",
+    "IECA",
+    "ARA II"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Cáncer de Cuello Uterino Estadios Tempranos (IA1, IA2, IB1, IB2 o IIA1)",
+  "diagnostico_cie10": "C539",
+  "referencias_cie10": [
+    "C530",
+    "C531"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Estadificación",
+      "contenido": "El diagnóstico se confirma por biopsia y la estadificación es fundamentalmente clínica, según la clasificación FIGO.",
+      "items": [
+        {
+          "nombre": "Confirmación Histológica",
+          "recomendacion": "Toda lesión cervical sospechosa debe ser biopsiada. El diagnóstico de cáncer de cuello uterino debe ser confirmado por un patólogo."
+        },
+        {
+          "nombre": "Estadificación Clínica",
+          "recomendacion": "La estadificación de los estadios tempranos se basa en el examen físico (inspección, palpación, tacto recto-vaginal) y colposcopia. Los estudios de imagen ayudan a planificar el tratamiento pero no cambian el estadio clínico FIGO."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento del Estadio IA1",
+      "contenido": "El tratamiento para la enfermedad microinvasora depende de la presencia de invasión linfovascular (ILV) y del deseo de preservar la fertilidad.",
+      "items": [
+        {
+          "nombre": "Sin ILV y con deseo de fertilidad",
+          "recomendacion": "La Conización Cervical con márgenes libres es un tratamiento adecuado y suficiente."
+        },
+        {
+          "nombre": "Con ILV o sin deseo de fertilidad",
+          "recomendacion": "Se recomienda una Histerectomía simple (extrafascial)."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Estadios IA2, IB1, y IIA1",
+      "contenido": "El tratamiento estándar para la enfermedad invasora temprana es la cirugía radical.",
+      "items": [
+        {
+          "nombre": "Tratamiento Estándar de Oro",
+          "codigo_procedimiento": "58210",
+          "recomendacion": "La Histerectomía Radical con Linfadenectomía Pélvica Bilateral es el tratamiento de elección para pacientes que son buenas candidatas quirúrgicas."
+        },
+        {
+          "nombre": "Opción con Preservación de Fertilidad",
+          "recomendacion": "En pacientes jóvenes seleccionadas con tumores < 2 cm (Estadio IB1) y deseo de fertilidad, se puede considerar una Traquelectomía Radical con Linfadenectomía Pélvica."
+        },
+        {
+          "nombre": "Alternativa a la Cirugía",
+          "recomendacion": "La Radioterapia pélvica con quimioterapia concurrente (basada en Cisplatino) es una alternativa con igual eficacia curativa, reservada para pacientes que no pueden o no desean someterse a cirugía."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de cuello uterino",
+    "cancer cervical",
+    "C539",
+    "ginecologia oncologica",
+    "histerectomia radical",
+    "58210",
+    "conizacion",
+    "FIGO",
+    "VPH"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo quirúrgico de la obesidad en adultos",
+  "diagnostico_cie10": "E6693",
+  "referencias_cie10": [
+    "E660",
+    "E669"
+  ],
+  "secciones": [
+    {
+      "titulo": "Criterios de Selección para Cirugía Bariátrica",
+      "contenido": "La selección de pacientes debe ser rigurosa y realizada por un equipo multidisciplinario para asegurar el éxito y la seguridad del procedimiento.",
+      "items": [
+        {
+          "nombre": "Indicación por Índice de Masa Corporal (IMC)",
+          "recomendacion": "La cirugía bariátrica está indicada en pacientes con: (1) IMC ≥ 40 kg/m², o (2) IMC ≥ 35 kg/m² con al menos una comorbilidad mayor asociada (Diabetes Mellitus tipo 2, Hipertensión Arterial, Apnea del Sueño, Dislipidemia severa)."
+        },
+        {
+          "nombre": "Evaluación Preoperatoria",
+          "recomendacion": "Todos los candidatos deben someterse a una evaluación completa por un equipo multidisciplinario que incluya cirujano, endocrinólogo, nutricionista y psicólogo/psiquiatra. Se debe confirmar el fracaso de tratamientos médicos previos."
+        }
+      ]
+    },
+    {
+      "titulo": "Principales Procedimientos Quirúrgicos",
+      "contenido": "La elección del procedimiento depende de las características del paciente, la experiencia del cirujano y las metas de pérdida de peso y resolución de comorbilidades.",
+      "items": [
+        {
+          "nombre": "Manga Gástrica (Gastrectomía Vertical)",
+          "recomendacion": "Es un procedimiento principalmente restrictivo. Se extirpa aproximadamente el 80% del estómago, creando un reservorio gástrico tubular. Es el procedimiento más común por su buen perfil de seguridad y eficacia."
+        },
+        {
+          "nombre": "Bypass Gástrico en Y de Roux (RYGB)",
+          "recomendacion": "Es un procedimiento mixto (restrictivo y malabsortivo). Se crea una pequeña bolsa gástrica que se conecta directamente al yeyuno. Es considerado el estándar de oro por su excelente pérdida de peso y alta tasa de remisión de la diabetes tipo 2."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Postoperatorio y Seguimiento",
+      "contenido": "El seguimiento a largo plazo es crucial para prevenir complicaciones nutricionales y asegurar el éxito del tratamiento.",
+      "items": [
+        {
+          "nombre": "Progresión de la Dieta",
+          "recomendacion": "El paciente debe seguir una progresión dietética estricta, comenzando con líquidos claros, luego dieta licuada, papilla y finalmente alimentos sólidos, durante varias semanas."
+        },
+        {
+          "nombre": "Suplementación Vitamínica de por Vida",
+          "recomendacion": "Todos los pacientes sometidos a cirugía bariátrica requieren suplementación de por vida con multivitamínicos, calcio, vitamina D, hierro y, especialmente tras un bypass gástrico, vitamina B12 (a menudo por vía intramuscular o sublingual)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "obesidad",
+    "E6693",
+    "cirugia bariatrica",
+    "bariatrica",
+    "manga gastrica",
+    "bypass gastrico",
+    "obesidad morbida",
+    "IMC"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
 }
+
 
 ]
