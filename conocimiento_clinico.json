@@ -1731,20 +1731,24 @@
           "titulo": "Fármacos de Primera Línea",
           "items": [
             {
-              "nombre": "IECA (Inhibidor de la ECA)",
-              "ejemplos": [{ "nombre": "Enalapril 10 mg Tabletas", "codigo_item": "3078" }]
+              "nombre": "IECA (Inhibidor de la ECA): Enalapril 10 mg",
+              "codigo_item": "3078",
+              "recomendacion": "Dosis de inicio y mantenimiento común."
             },
             {
-              "nombre": "ARA-II (Antagonista del Receptor de Angiotensina II)",
-              "ejemplos": [{ "nombre": "Losartán 50 mg Tabletas", "codigo_item": "4523" }]
+              "nombre": "ARA-II (Antagonista del Receptor de Angiotensina II): Losartán 50 mg",
+              "codigo_item": "4523",
+              "recomendacion": "Dosis estándar para iniciar el tratamiento."
             },
             {
-              "nombre": "Calcioantagonistas (Tipo Dihidropiridínico)",
-              "ejemplos": [{ "nombre": "Amlodipino 5 mg Tabletas", "codigo_item": "673" }]
+              "nombre": "Calcioantagonistas (Tipo Dihidropiridínico): Amlodipino 5 mg",
+              "codigo_item": "673",
+              "recomendacion": "Dosis de inicio habitual."
             },
             {
-              "nombre": "Diuréticos Tiazídicos/Similares a Tiazidas",
-              "ejemplos": [{ "nombre": "Hidroclorotiazida 25 mg Tabletas", "codigo_item": "3911" }]
+              "nombre": "Diuréticos Tiazídicos/Similares a Tiazidas: Hidroclorotiazida 25 mg",
+              "codigo_item": "3911",
+              "recomendacion": "Presentación estándar, a menudo usada en dosis más bajas en combinación."
             }
           ]
         },
