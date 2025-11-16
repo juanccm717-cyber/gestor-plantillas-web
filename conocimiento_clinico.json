@@ -1,112 +1,56 @@
 [
   {
-    "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
-    "diagnostico_cie10": "M199",
-    "referencias_cie10": [
-      "M159",
-      "M169",
-      "M179"
-    ],
-    "secciones": [
-      {
-        "titulo": "Diagnóstico",
-        "contenido": "El diagnóstico de la osteoartritis (OA) es principalmente clínico, basado en el dolor articular relacionado con el uso, rigidez matutina de corta duración (< 30 min) y limitación funcional. La edad (> 45 años) y la presencia de crepitación ósea son hallazgos comunes. Las radiografías se usan para confirmar el diagnóstico en casos atípicos o para evaluar la severidad, mostrando hallazgos como disminución del espacio articular, osteofitos y esclerosis subcondral."
-      },
-      {
-        "titulo": "Tratamiento No Farmacológico (Pilar del Manejo)",
-        "items": [
-          {
-            "nombre": "Educación y Autocuidado",
-            "recomendacion": "Informar al paciente sobre la naturaleza de la enfermedad, la importancia del control de peso y la actividad física."
-          },
-          {
-            "nombre": "Ejercicio Terapéutico",
-            "recomendacion": "Programas de ejercicios de fortalecimiento muscular (ej. cuádriceps para OA de rodilla), flexibilidad y aeróbicos de bajo impacto (caminar, nadar, ciclismo)."
-          },
-          {
-            "nombre": "Pérdida de Peso",
-            "recomendacion": "En pacientes con sobrepeso u obesidad, una pérdida de peso de al menos 5-10% ha demostrado reducir el dolor y mejorar la función."
-          }
-        ]
-      },
-      {
-        "titulo": "Tratamiento Farmacológico (para control de síntomas)",
-        "subsecciones": [
-          {
-            "titulo": "Primera Línea",
-            "items": [
-              {
-                "nombre": "Paracetamol (Acetaminofén)",
-                "codigo_item": "18068",
-                "recomendacion": "Se considera como analgésico inicial para dolor leve a moderado, aunque su efectividad es modesta. Dosis máxima: 3-4 g/día."
-              },
-              {
-                "nombre": "AINEs tópicos (ej. Diclofenaco en gel)",
-                "recomendacion": "Opción preferida para OA de rodilla y mano por su menor riesgo de efectos adversos sistémicos."
-              }
-            ]
-          },
-          {
-            "titulo": "Segunda Línea (si la primera es insuficiente)",
-            "items": [
-              {
-                "nombre": "AINEs orales (ej. Ibuprofeno, Naproxeno)",
-                "recomendacion": "Usar la dosis efectiva más baja por el menor tiempo posible. Considerar el riesgo gastrointestinal y cardiovascular. Se recomienda co-prescribir un protector gástrico (IBP) en pacientes de alto riesgo.",
-                "ejemplos": [
-                  {
-                    "nombre": "Ibuprofeno",
-                    "codigo_item": "4011",
-                    "dosis": "400-800 mg cada 6-8 horas."
-                  },
-                  {
-                    "nombre": "Naproxeno",
-                    "codigo_item": "4978",
-                    "dosis": "250-500 mg cada 12 horas."
-                  }
-                ]
-              },
-              {
-                "nombre": "Inhibidores de la COX-2 (ej. Celecoxib)",
-                "codigo_item": "1712",
-                "recomendacion": "Alternativa a los AINEs no selectivos en pacientes con alto riesgo gastrointestinal pero bajo riesgo cardiovascular."
-              }
-            ]
-          },
-          {
-            "titulo": "Tercera Línea (Dolor Moderado a Severo)",
-            "items": [
-              {
-                "nombre": "Tramadol",
-                "codigo_item": "6237",
-                "recomendacion": "Opioide débil para pacientes que no responden o tienen contraindicaciones para los AINEs. Usar con precaución por sus efectos adversos (náuseas, somnolencia)."
-              },
-              {
-                "nombre": "Inyecciones intraarticulares de corticosteroides",
-                "recomendacion": "Para alivio a corto plazo de exacerbaciones agudas, especialmente en OA de rodilla."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "titulo": "Tratamiento Quirúrgico",
-        "contenido": "Reservado para pacientes con dolor severo, discapacidad funcional significativa y fallo del tratamiento conservador. La opción principal es la artroplastia (reemplazo articular), más comúnmente de rodilla o cadera."
-      }
-    ],
-    "palabras_clave": [
-      "osteoartritis",
-      "artrosis",
-      "dolor articular",
-      "AINEs",
-      "paracetamol",
-      "ibuprofeno",
-      "naproxeno",
-      "tramadol",
-      "ejercicio terapéutico",
-      "artroplastia"
-    ],
-    "version_guia": "1.0",
-    "fecha_actualizacion": "2025-11-16"
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
+  "diagnostico_cie10": "M199",
+  "referencias_cie10": [ "M159", "M169", "M179" ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico de la osteoartritis (OA) es principalmente clínico, basado en el dolor articular relacionado con el uso, rigidez matutina de corta duración (< 30 min) y limitación funcional. La edad (> 45 años) y la presencia de crepitación ósea son hallazgos comunes. Las radiografías se usan para confirmar el diagnóstico en casos atípicos o para evaluar la severidad, mostrando hallazgos como disminución del espacio articular, osteofitos y esclerosis subcondral."
+    },
+    {
+      "titulo": "Tratamiento No Farmacológico (Pilar del Manejo)",
+      "items": [
+        { "nombre": "Educación y Autocuidado", "recomendacion": "Informar al paciente sobre la naturaleza de la enfermedad, la importancia del control de peso y la actividad física." },
+        { "nombre": "Ejercicio Terapéutico", "recomendacion": "Programas de ejercicios de fortalecimiento muscular (ej. cuádriceps para OA de rodilla), flexibilidad y aeróbicos de bajo impacto (caminar, nadar, ciclismo)." },
+        { "nombre": "Pérdida de Peso", "recomendacion": "En pacientes con sobrepeso u obesidad, una pérdida de peso de al menos 5-10% ha demostrado reducir el dolor y mejorar la función." }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Farmacológico (para control de síntomas)",
+      "subsecciones": [
+        {
+          "titulo": "Primera Línea",
+          "items": [
+            { "nombre": "Paracetamol (Acetaminofén)", "codigo_item": "18068", "recomendacion": "Analgésico inicial para dolor leve-moderado. Dosis máxima: 3-4 g/día." },
+            { "nombre": "AINEs tópicos (ej. Diclofenaco en gel)", "recomendacion": "Opción preferida para OA de rodilla y mano por su menor riesgo de efectos adversos sistémicos." }
+          ]
+        },
+        {
+          "titulo": "Segunda Línea (si la primera es insuficiente)",
+          "items": [
+            { "nombre": "Ibuprofeno 400-800 mg c/6-8h", "codigo_item": "4011", "recomendacion": "Usar la dosis efectiva más baja por el menor tiempo posible. Considerar riesgo GI y CV. Co-prescribir IBP en alto riesgo." },
+            { "nombre": "Naproxeno 250-500 mg c/12h", "codigo_item": "4978", "recomendacion": "Alternativa al Ibuprofeno, con consideraciones de riesgo similares." },
+            { "nombre": "Inhibidores de la COX-2 (ej. Celecoxib)", "codigo_item": "1712", "recomendacion": "Alternativa a AINEs no selectivos en pacientes con alto riesgo GI pero bajo riesgo CV." }
+          ]
+        },
+        {
+          "titulo": "Tercera Línea (Dolor Moderado a Severo)",
+          "items": [
+            { "nombre": "Tramadol", "codigo_item": "6237", "recomendacion": "Opioide débil para pacientes que no responden o tienen contraindicaciones para los AINEs." },
+            { "nombre": "Inyecciones intraarticulares de corticosteroides", "recomendacion": "Para alivio a corto plazo de exacerbaciones agudas, especialmente en OA de rodilla." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Quirúrgico",
+      "contenido": "Reservado para pacientes con dolor severo, discapacidad funcional significativa y fallo del tratamiento conservador. La opción principal es la artroplastia (reemplazo articular), más comúnmente de rodilla o cadera."
+    }
+  ],
+  "palabras_clave": [ "osteoartritis", "artrosis", "dolor articular", "AINEs", "paracetamol", "ibuprofeno", "naproxeno", "tramadol", "artroplastia" ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
   },
   {
     "nombre_guia": "Guía de Práctica Clínica para el manejo del paciente con Síndrome Coronario Crónico",
@@ -352,93 +296,46 @@
     "fecha_actualizacion": "2025-11-16"
   },
   {
-    "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
-    "diagnostico_cie10": "I270",
-    "referencias_cie10": [
-      "I272"
-    ],
-    "secciones": [
-      {
-        "titulo": "Diagnóstico y Clasificación",
-        "contenido": "La sospecha de Hipertensión Arterial Pulmonar (HAP) surge en pacientes con disnea de esfuerzo inexplicada. El ecocardiograma es la herramienta de cribado inicial. El diagnóstico de confirmación requiere un cateterismo cardiaco derecho (CCD), que define la HAP como una presión arterial pulmonar media (PAPm) ≥ 25 mmHg en reposo. El CCD también permite realizar un test de vasorreactividad para identificar a un pequeño subgrupo de pacientes que responden a calcioantagonistas."
-      },
-      {
-        "titulo": "Medidas Generales y Tratamiento de Soporte",
-        "items": [
-          {
-            "nombre": "Anticoagulación (Warfarina)",
-            "codigo_item": "04201",
-            "recomendacion": "Se considera en pacientes con HAP idiopática, hereditaria o asociada a anorexígenos para prevenir eventos trombóticos. Se debe mantener un INR entre 1.5 y 2.5."
-          },
-          {
-            "nombre": "Diuréticos",
-            "recomendacion": "Para manejar la sobrecarga de volumen y los síntomas de insuficiencia cardiaca derecha."
-          },
-          {
-            "nombre": "Oxigenoterapia",
-            "recomendacion": "Indicada para mantener una saturación de oxígeno > 90%."
-          }
-        ]
-      },
-      {
-        "titulo": "Tratamiento Específico para HAP (según riesgo)",
-        "contenido": "El tratamiento se basa en la estratificación del riesgo del paciente (bajo, intermedio, alto).",
-        "subsecciones": [
-          {
-            "titulo": "Pacientes de Bajo o Intermedio Riesgo",
-            "items": [
-              {
-                "nombre": "Terapia oral combinada inicial",
-                "recomendacion": "Se recomienda iniciar con una combinación de un inhibidor de la fosfodiesterasa 5 (PDE-5i) y un antagonista de los receptores de la endotelina (ARE).",
-                "ejemplos": [
-                  {
-                    "nombre": "Sildenafilo (PDE-5i)",
-                    "codigo_item": "06201",
-                    "dosis": "20 mg, 3 veces al día."
-                  },
-                  {
-                    "nombre": "Bosentán (ARE)",
-                    "codigo_item": "06202",
-                    "dosis": "62.5 mg, 2 veces al día por 4 semanas, luego 125 mg, 2 veces al día."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "titulo": "Pacientes de Alto Riesgo",
-            "items": [
-              {
-                "nombre": "Terapia combinada con un prostanoide endovenoso",
-                "recomendacion": "Se debe considerar una terapia triple que incluya un análogo de la prostaciclina por vía parenteral (ej. Epoprostenol) o inhalada (ej. Iloprost).",
-                "ejemplos": [
-                  {
-                    "nombre": "Iloprost (inhalado)",
-                    "codigo_item": "06203",
-                    "dosis": "2.5 a 5 mcg por inhalación, 6 a 9 veces al día."
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "palabras_clave": [
-      "hipertensión pulmonar",
-      "HAP",
-      "disnea",
-      "síncope",
-      "cateterismo cardiaco derecho",
-      "ecocardiograma",
-      "sildenafilo",
-      "bosentan",
-      "iloprost",
-      "warfarina"
-    ],
-    "version_guia": "1.0",
-    "fecha_actualizacion": "2025-11-16"
-  },
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y seguimiento de la Hipertensión Arterial Pulmonar",
+  "diagnostico_cie10": "I270",
+  "referencias_cie10": [ "I272" ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación",
+      "contenido": "La sospecha de Hipertensión Arterial Pulmonar (HAP) surge en pacientes con disnea de esfuerzo inexplicada. El ecocardiograma es la herramienta de cribado inicial. El diagnóstico de confirmación requiere un cateterismo cardiaco derecho (CCD), que define la HAP como una presión arterial pulmonar media (PAPm) ≥ 25 mmHg en reposo. El CCD también permite realizar un test de vasorreactividad para identificar a un pequeño subgrupo de pacientes que responden a calcioantagonistas."
+    },
+    {
+      "titulo": "Medidas Generales y Tratamiento de Soporte",
+      "items": [
+        { "nombre": "Anticoagulación (Warfarina)", "codigo_item": "04201", "recomendacion": "Considerada en HAP idiopática, hereditaria o asociada a anorexígenos para prevenir trombosis. Mantener INR entre 1.5 y 2.5." },
+        { "nombre": "Diuréticos", "recomendacion": "Para manejar la sobrecarga de volumen y los síntomas de insuficiencia cardiaca derecha." },
+        { "nombre": "Oxigenoterapia", "recomendacion": "Indicada para mantener una saturación de oxígeno > 90%." }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Específico para HAP (según riesgo)",
+      "contenido": "El tratamiento se basa en la estratificación del riesgo del paciente (bajo, intermedio, alto).",
+      "subsecciones": [
+        {
+          "titulo": "Pacientes de Bajo o Intermedio Riesgo",
+          "items": [
+            { "nombre": "Sildenafilo (PDE-5i) 20 mg, 3 veces/día", "codigo_item": "06201", "recomendacion": "Parte de la terapia oral combinada inicial." },
+            { "nombre": "Bosentán (ARE) 125 mg, 2 veces/día", "codigo_item": "06202", "recomendacion": "Parte de la terapia oral combinada inicial, junto con un PDE-5i." }
+          ]
+        },
+        {
+          "titulo": "Pacientes de Alto Riesgo",
+          "items": [
+            { "nombre": "Iloprost (inhalado) 2.5-5 mcg, 6-9 veces/día", "codigo_item": "06203", "recomendacion": "Considerar terapia triple que incluya un análogo de la prostaciclina parenteral o inhalado." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [ "hipertensión pulmonar", "HAP", "disnea", "cateterismo cardiaco derecho", "sildenafilo", "bosentan", "iloprost", "warfarina" ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
   {
     "nombre_guia": "Guía de Práctica Clínica para la evaluación y manejo de la Hemorragia Digestiva Alta",
     "diagnostico_cie10": "K922",
@@ -1277,18 +1174,9 @@
       "titulo": "Diagnóstico y Estadificación",
       "contenido": "Se requiere la confirmación de enfermedad metastásica en un paciente con adenocarcinoma de próstata.",
       "items": [
-        {
-          "nombre": "Biopsia de Próstata",
-          "recomendacion": "Confirmación histológica de adenocarcinoma de próstata. El score de Gleason es fundamental para determinar la agresividad del tumor."
-        },
-        {
-          "nombre": "Estudios de Imagen para Metástasis",
-          "recomendacion": "Realizar una Gammagrafía Ósea y una Tomografía Computarizada (TC) de abdomen y pelvis para detectar metástasis óseas y viscerales."
-        },
-        {
-          "nombre": "Antígeno Prostático Específico (PSA)",
-          "recomendacion": "Medición basal del PSA. Es el marcador tumoral clave para evaluar la respuesta al tratamiento y monitorizar la progresión de la enfermedad."
-        }
+        { "nombre": "Biopsia de Próstata", "recomendacion": "Confirmación histológica de adenocarcinoma de próstata. El score de Gleason es fundamental para determinar la agresividad del tumor." },
+        { "nombre": "Estudios de Imagen para Metástasis", "recomendacion": "Realizar una Gammagrafía Ósea y una Tomografía Computarizada (TC) de abdomen y pelvis para detectar metástasis óseas y viscerales." },
+        { "nombre": "Antígeno Prostático Específico (PSA)", "recomendacion": "Medición basal del PSA. Es el marcador tumoral clave para evaluar la respuesta al tratamiento y monitorizar la progresión de la enfermedad." }
       ]
     },
     {
@@ -1298,35 +1186,17 @@
         {
           "titulo": "Pilar del Tratamiento: Terapia de Deprivación de Andrógenos (TDA)",
           "items": [
-            {
-              "nombre": "Análogos de la LHRH",
-              "recomendacion": "Fármacos como Leuprolide o Goserelina son la base de la TDA médica para suprimir la producción de testosterona."
-            },
-            {
-              "nombre": "Orquiectomía Bilateral",
-              "recomendacion": "Alternativa quirúrgica a la TDA médica. Es igualmente eficaz para alcanzar niveles de castración de testosterona."
-            }
+            { "nombre": "Análogos de la LHRH", "recomendacion": "Fármacos como Leuprolide o Goserelina son la base de la TDA médica para suprimir la producción de testosterona." },
+            { "nombre": "Orquiectomía Bilateral", "recomendacion": "Alternativa quirúrgica a la TDA médica. Es igualmente eficaz para alcanzar niveles de castración de testosterona." }
           ]
         },
         {
           "titulo": "Intensificación del Tratamiento (Estándar de Cuidado)",
           "contenido": "A todos los pacientes con CPMH se les debe ofrecer una terapia de combinación para mejorar la supervivencia.",
           "items": [
-            {
-              "nombre": "TDA + Terapia Hormonal de Nueva Generación (THNG)",
-              "recomendacion": "Añadir un fármaco como Abiraterona o Enzalutamida a la TDA. Es la opción preferida para la mayoría de los pacientes por su eficacia y perfil de tolerabilidad.",
-              "ejemplos": [
-                { "nombre": "Abiraterona 250 mg Tabletas", "codigo_item": "26420", "dosis": "Se administra junto con Prednisona a dosis bajas." },
-                { "nombre": "Enzalutamida 40 mg Tabletas", "codigo_item": "34419", "dosis": "Se administra como agente único junto a la TDA." }
-              ]
-            },
-            {
-              "nombre": "TDA + Quimioterapia (Docetaxel)",
-              "recomendacion": "Añadir 6 ciclos de Docetaxel a la TDA. Es una opción válida, especialmente en pacientes jóvenes con alta carga de enfermedad metastásica.",
-              "ejemplos": [
-                { "nombre": "Docetaxel 80 mg Inyectable", "codigo_item": "2983", "dosis": "Se administra por vía intravenosa cada 3 semanas por 6 ciclos." }
-              ]
-            }
+            { "nombre": "Abiraterona 250 mg Tabletas", "codigo_item": "26420", "recomendacion": "Añadir a la TDA. Se administra junto con Prednisona a dosis bajas. Opción preferida por eficacia y tolerabilidad." },
+            { "nombre": "Enzalutamida 40 mg Tabletas", "codigo_item": "34419", "recomendacion": "Añadir a la TDA. Se administra como agente único. Opción preferida por eficacia y tolerabilidad." },
+            { "nombre": "Docetaxel 80 mg Inyectable", "codigo_item": "2983", "recomendacion": "Añadir 6 ciclos de Docetaxel a la TDA. Opción válida, especialmente en pacientes jóvenes con alta carga de enfermedad." }
           ]
         }
       ]
@@ -1335,28 +1205,12 @@
       "titulo": "Seguimiento y Monitorización",
       "contenido": "El seguimiento se centra en evaluar la respuesta al tratamiento y detectar la progresión a un estado de resistencia a la castración.",
       "items": [
-        {
-          "nombre": "Medición del PSA",
-          "recomendacion": "Medir el PSA cada 3-6 meses. Una respuesta adecuada implica una caída significativa del PSA. Un aumento sostenido indica progresión de la enfermedad."
-        },
-        {
-          "nombre": "Estudios de Imagen",
-          "recomendacion": "Repetir las imágenes (Gammagrafía ósea, TC) si hay un aumento del PSA o si el paciente desarrolla nuevos síntomas, para re-estadificar la enfermedad."
-        }
+        { "nombre": "Medición del PSA", "recomendacion": "Medir el PSA cada 3-6 meses. Una respuesta adecuada implica una caída significativa del PSA. Un aumento sostenido indica progresión de la enfermedad." },
+        { "nombre": "Estudios de Imagen", "recomendacion": "Repetir las imágenes (Gammagrafía ósea, TC) si hay un aumento del PSA o si el paciente desarrolla nuevos síntomas, para re-estadificar la enfermedad." }
       ]
     }
   ],
-  "palabras_clave": [
-    "cancer de prostata",
-    "C61X",
-    "metastasis",
-    "hormonosensible",
-    "TDA",
-    "abiraterona",
-    "enzalutamida",
-    "docetaxel",
-    "PSA"
-  ],
+  "palabras_clave": [ "cancer de prostata", "C61X", "metastasis", "hormonosensible", "TDA", "abiraterona", "enzalutamida", "docetaxel", "PSA" ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
 },
@@ -1475,136 +1329,66 @@
 {
   "nombre_guia": "Guía de Práctica Clínica para el Manejo de la Pancreatitis Aguda",
   "diagnostico_cie10": "K859",
-  "referencias_cie10": [
-    "K850",
-    "K851",
-    "K852",
-    "K85X"
-  ],
+  "referencias_cie10": [ "K850", "K851", "K852", "K85X" ],
   "secciones": [
     {
       "titulo": "Diagnóstico",
       "contenido": "Se requieren al menos 2 de los siguientes 3 criterios para el diagnóstico de pancreatitis aguda:",
       "items": [
-        {
-          "nombre": "Criterio 1: Dolor Abdominal",
-          "recomendacion": "Dolor agudo, persistente y severo en el epigastrio, que a menudo se irradia hacia la espalda."
-        },
-        {
-          "nombre": "Criterio 2: Enzimas Pancreáticas",
-          "recomendacion": "Elevación de la lipasa o amilasa sérica a un nivel ≥ 3 veces el límite superior de la normalidad."
-        },
-        {
-          "nombre": "Criterio 3: Hallazgos de Imagen",
-          "recomendacion": "Hallazgos característicos de pancreatitis aguda en una Tomografía Computarizada (TC) con contraste, Resonancia Magnética (RM) o ecografía abdominal."
-        }
+        { "nombre": "Criterio 1: Dolor Abdominal", "recomendacion": "Dolor agudo, persistente y severo en el epigastrio, que a menudo se irradia hacia la espalda." },
+        { "nombre": "Criterio 2: Enzimas Pancreáticas", "recomendacion": "Elevación de la lipasa o amilasa sérica a un nivel ≥ 3 veces el límite superior de la normalidad." },
+        { "nombre": "Criterio 3: Hallazgos de Imagen", "recomendacion": "Hallazgos característicos de pancreatitis aguda en una Tomografía Computarizada (TC) con contraste, Resonancia Magnética (RM) o ecografía abdominal." }
       ]
     },
     {
       "titulo": "Estratificación de la Severidad (Clasificación de Atlanta Revisada)",
       "items": [
-        {
-          "nombre": "Pancreatitis Aguda Leve",
-          "recomendacion": "Ausencia de fallo orgánico y de complicaciones locales o sistémicas. Generalmente se resuelve en la primera semana."
-        },
-        {
-          "nombre": "Pancreatitis Aguda Moderadamente Severa",
-          "recomendacion": "Presencia de fallo orgánico transitorio (< 48 horas) y/o complicaciones locales (ej. colección necrótica aguda) o sistémicas."
-        },
-        {
-          "nombre": "Pancreatitis Aguda Severa",
-          "recomendacion": "Presencia de fallo orgánico persistente (> 48 horas). Se asocia a una alta mortalidad."
-        }
+        { "nombre": "Pancreatitis Aguda Leve", "recomendacion": "Ausencia de fallo orgánico y de complicaciones locales o sistémicas. Generalmente se resuelve en la primera semana." },
+        { "nombre": "Pancreatitis Aguda Moderadamente Severa", "recomendacion": "Presencia de fallo orgánico transitorio (< 48 horas) y/o complicaciones locales (ej. colección necrótica aguda) o sistémicas." },
+        { "nombre": "Pancreatitis Aguda Severa", "recomendacion": "Presencia de fallo orgánico persistente (> 48 horas). Se asocia a una alta mortalidad." }
       ]
     },
     {
       "titulo": "Manejo Inicial (Primeras 24-48 horas)",
       "contenido": "El manejo inicial es de soporte y es crucial para prevenir la progresión a pancreatitis severa.",
       "items": [
-        {
-          "nombre": "Fluidoterapia Intravenosa Agresiva",
-          "recomendacion": "Es la piedra angular del tratamiento. Se recomienda la administración de 5-10 mL/kg/hora de una solución cristaloide isotónica (ej. Lactato de Ringer) para alcanzar objetivos de reanimación (mejoría de la frecuencia cardíaca, presión arterial y diuresis)."
-        },
-        {
-          "nombre": "Manejo del Dolor",
-          "recomendacion": "Se deben administrar analgésicos por vía intravenosa para un control adecuado del dolor. Los opioides como la morfina o el fentanilo son opciones efectivas y seguras."
-        },
-        {
-          "nombre": "Soporte Nutricional",
-          "recomendacion": "En la pancreatitis aguda leve, se puede reiniciar la alimentación oral una vez que el dolor abdominal ha mejorado. En casos moderados a severos, se prefiere la nutrición enteral (por sonda nasogástrica o nasoyeyunal) sobre la parenteral."
-        }
+        { "nombre": "Fluidoterapia Intravenosa Agresiva", "recomendacion": "Es la piedra angular del tratamiento. Se recomienda la administración de 5-10 mL/kg/hora de una solución cristaloide isotónica (ej. Lactato de Ringer) para alcanzar objetivos de reanimación (mejoría de la frecuencia cardíaca, presión arterial y diuresis)." },
+        { "nombre": "Manejo del Dolor", "recomendacion": "Se deben administrar analgésicos por vía intravenosa para un control adecuado del dolor. Los opioides como la morfina o el fentanilo son opciones efectivas y seguras." },
+        { "nombre": "Soporte Nutricional", "recomendacion": "En la pancreatitis aguda leve, se puede reiniciar la alimentación oral una vez que el dolor abdominal ha mejorado. En casos moderados a severos, se prefiere la nutrición enteral (por sonda nasogástrica o nasoyeyunal) sobre la parenteral." }
       ]
     },
     {
       "titulo": "Manejo según la Etiología y Complicaciones",
       "contenido": "Una vez estabilizado el paciente, es crucial determinar y tratar la causa subyacente.",
       "items": [
-        {
-          "nombre": "Pancreatitis Biliar con Colangitis",
-          "recomendacion": "En pacientes con pancreatitis aguda biliar y colangitis (fiebre, ictericia, dolor) concurrente, se indica una Colangiopancreatografía Retrógrada Endoscópica (CPRE) de urgencia (dentro de 24 horas) para drenar la vía biliar.",
-          "ejemplos": [
-            {
-              "nombre": "Colangiopancreatografía Endoscópica Retrógrada (CPRE)",
-              "codigo_procedimiento": "43260"
-            }
-          ]
-        },
-        {
-          "nombre": "Colecistectomía",
-          "recomendacion": "En pacientes con pancreatitis aguda biliar leve, se recomienda realizar la colecistectomía (extirpación de la vesícula biliar) durante la misma hospitalización para prevenir recurrencias."
-        }
+        { "nombre": "Colangiopancreatografía Endoscópica Retrógrada (CPRE)", "codigo_procedimiento": "43260", "recomendacion": "Indicada de urgencia (en 24h) en pacientes con pancreatitis aguda biliar y colangitis (fiebre, ictericia) concurrente para drenar la vía biliar." },
+        { "nombre": "Colecistectomía", "recomendacion": "En pacientes con pancreatitis aguda biliar leve, se recomienda realizar la colecistectomía (extirpación de la vesícula biliar) durante la misma hospitalización para prevenir recurrencias." }
       ]
     }
   ],
-  "palabras_clave": [
-    "pancreatitis aguda",
-    "K859",
-    "dolor abdominal",
-    "lipasa",
-    "amilasa",
-    "fluidoterapia",
-    "CPRE",
-    "pancreatitis biliar"
-  ],
+  "palabras_clave": [ "pancreatitis aguda", "K859", "dolor abdominal", "lipasa", "amilasa", "fluidoterapia", "CPRE", "pancreatitis biliar" ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
 },
 {
   "nombre_guia": "Guía de Práctica Clínica para el Diagnóstico y Manejo de la Apendicitis Aguda",
   "diagnostico_cie10": "K358",
-  "referencias_cie10": [
-    "K350",
-    "K351",
-    "K353",
-    "K359"
-  ],
+  "referencias_cie10": [ "K350", "K351", "K353", "K359" ],
   "secciones": [
     {
       "titulo": "Diagnóstico Clínico y Escalas de Riesgo",
       "contenido": "El diagnóstico se basa en la historia clínica y el examen físico. Las escalas de riesgo ayudan a objetivar la sospecha.",
       "items": [
-        {
-          "nombre": "Síntomas y Signos Clásicos",
-          "recomendacion": "Dolor periumbilical que migra a la fosa ilíaca derecha, anorexia (pérdida de apetito), náuseas y fiebre. Al examen físico: dolor a la palpación en el punto de McBurney, signo de Blumberg (dolor al rebote)."
-        },
-        {
-          "nombre": "Score de Alvarado",
-          "recomendacion": "Es una herramienta útil para estratificar el riesgo. Un score bajo (0-4) hace el diagnóstico poco probable. Un score alto (7-10) lo hace muy probable. Un score intermedio (5-6) a menudo requiere estudios de imagen."
-        }
+        { "nombre": "Síntomas y Signos Clásicos", "recomendacion": "Dolor periumbilical que migra a la fosa ilíaca derecha, anorexia (pérdida de apetito), náuseas y fiebre. Al examen físico: dolor a la palpación en el punto de McBurney, signo de Blumberg (dolor al rebote)." },
+        { "nombre": "Score de Alvarado", "recomendacion": "Es una herramienta útil para estratificar el riesgo. Un score bajo (0-4) hace el diagnóstico poco probable. Un score alto (7-10) lo hace muy probable. Un score intermedio (5-6) a menudo requiere estudios de imagen." }
       ]
     },
     {
       "titulo": "Diagnóstico por Imagen",
       "contenido": "Se recomienda en pacientes con presentación atípica o con score de riesgo intermedio.",
       "items": [
-        {
-          "nombre": "Ecografía Abdominal",
-          "recomendacion": "Es el estudio de imagen inicial de elección en niños, mujeres embarazadas y adultos jóvenes delgados. Busca un apéndice no compresible, dilatado (> 6 mm) y con cambios inflamatorios."
-        },
-        {
-          "nombre": "Tomografía Computarizada (TC) de Abdomen y Pelvis con Contraste",
-          "recomendacion": "Es el método más preciso para el diagnóstico en adultos. Es especialmente útil para identificar complicaciones como abscesos o perforación."
-        }
+        { "nombre": "Ecografía Abdominal", "recomendacion": "Es el estudio de imagen inicial de elección en niños, mujeres embarazadas y adultos jóvenes delgados. Busca un apéndice no compresible, dilatado (> 6 mm) y con cambios inflamatorios." },
+        { "nombre": "Tomografía Computarizada (TC) de Abdomen y Pelvis con Contraste", "recomendacion": "Es el método más preciso para el diagnóstico en adultos. Es especialmente útil para identificar complicaciones como abscesos o perforación." }
       ]
     },
     {
@@ -1613,55 +1397,29 @@
       "subsecciones": [
         {
           "titulo": "Profilaxis Antibiótica Preoperatoria",
-          "contenido": "Debe administrarse dentro de los 60 minutos previos a la incisión quirúrgica para reducir el riesgo de infección del sitio operatorio.",
+          "contenido": "Debe administrarse dentro de los 60 minutos previos a la incisión quirúrgica para reducir el riesgo de infección del sitio operatorio. Se requiere cobertura para gérmenes gram-negativos y anaerobios.",
           "items": [
-            {
-              "nombre": "Régimen Antibiótico Recomendado",
-              "recomendacion": "Se requiere cobertura para gérmenes gram-negativos y anaerobios. Una combinación común es una cefalosporina más metronidazol.",
-              "ejemplos": [
-                { "nombre": "Cefazolina 1g Inyectable", "codigo_item": "1639", "dosis": "Administrar una dosis única IV." },
-                { "nombre": "Metronidazol 500mg Inyectable", "codigo_item": "4776", "dosis": "Administrar una dosis única IV." }
-              ]
-            }
+            { "nombre": "Cefazolina 1g Inyectable", "codigo_item": "1639", "recomendacion": "Administrar una dosis única IV para cobertura de gram-negativos." },
+            { "nombre": "Metronidazol 500mg Inyectable", "codigo_item": "4776", "recomendacion": "Añadir una dosis única IV para cobertura de anaerobios." }
           ]
         },
         {
           "titulo": "Procedimiento Quirúrgico",
           "items": [
-            {
-              "nombre": "Apendicectomía Laparoscópica",
-              "codigo_procedimiento": "44970",
-              "recomendacion": "Es el abordaje de elección en la mayoría de los centros. Se asocia con menos dolor postoperatorio, menor tasa de infección de herida y una recuperación más rápida en comparación con la cirugía abierta."
-            }
+            { "nombre": "Apendicectomía Laparoscópica", "codigo_procedimiento": "44970", "recomendacion": "Es el abordaje de elección en la mayoría de los centros. Se asocia con menos dolor postoperatorio, menor tasa de infección de herida y una recuperación más rápida en comparación con la cirugía abierta." }
           ]
         },
         {
           "titulo": "Manejo Postoperatorio",
           "items": [
-            {
-              "nombre": "Apendicitis No Complicada",
-              "recomendacion": "No se requieren antibióticos postoperatorios adicionales más allá de la dosis profiláctica."
-            },
-            {
-              "nombre": "Apendicitis Complicada (Perforada, con Peritonitis)",
-              "recomendacion": "Se requiere un curso de tratamiento antibiótico postoperatorio por vía intravenosa durante varios días (generalmente 3-7 días), hasta que el paciente esté afebril y con recuento de leucocitos normalizado."
-            }
+            { "nombre": "Apendicitis No Complicada", "recomendacion": "No se requieren antibióticos postoperatorios adicionales más allá de la dosis profiláctica." },
+            { "nombre": "Apendicitis Complicada (Perforada, con Peritonitis)", "recomendacion": "Se requiere un curso de tratamiento antibiótico postoperatorio por vía intravenosa durante varios días (generalmente 3-7 días), hasta que el paciente esté afebril y con recuento de leucocitos normalizado." }
           ]
         }
       ]
     }
   ],
-  "palabras_clave": [
-    "apendicitis aguda",
-    "K358",
-    "dolor abdominal",
-    "fosa iliaca derecha",
-    "Alvarado",
-    "apendicectomia",
-    "laparoscopia",
-    "cefazolina",
-    "metronidazol"
-  ],
+  "palabras_clave": [ "apendicitis aguda", "K358", "dolor abdominal", "fosa iliaca derecha", "Alvarado", "apendicectomia", "laparoscopia", "cefazolina", "metronidazol" ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
 },
