@@ -3331,7 +3331,886 @@
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tratamiento de infecciones odontogénicas",
+  "diagnostico_cie10": "K047",
+  "referencias_cie10": [
+    "K044",
+    "K046"
+  ],
+  "secciones": [
+    {
+      "titulo": "Evaluación y Principios del Tratamiento",
+      "contenido": "El manejo exitoso requiere la eliminación de la fuente de la infección y el uso juicioso de antibióticos.",
+      "items": [
+        {
+          "nombre": "Principio Fundamental",
+          "recomendacion": "El tratamiento primario de una infección odontogénica es siempre la eliminación de la causa mediante un procedimiento dental (endodoncia, extracción) y/o el drenaje quirúrgico del pus. Los antibióticos son un tratamiento adyuvante, no curativo por sí solos."
+        },
+        {
+          "nombre": "Evaluación de la Severidad",
+          "recomendacion": "Evaluar la extensión de la infección. Signos de alarma que requieren manejo hospitalario urgente incluyen: fiebre alta, trismo severo (dificultad para abrir la boca), dificultad para tragar o respirar, e hinchazón que se extiende al ojo o por debajo de la mandíbula."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Antibiótico Ambulatorio (Infección Leve-Moderada)",
+      "contenido": "Para infecciones localizadas sin compromiso sistémico significativo.",
+      "items": [
+        {
+          "nombre": "Primera Línea",
+          "codigo_item": "734",
+          "recomendacion": "Amoxicilina es el antibiótico de elección para infecciones odontogénicas no complicadas.",
+          "dosis": "Amoxicilina 500 mg, 1 tableta cada 8 horas por 5-7 días."
+        },
+        {
+          "nombre": "Alternativa de Primera Línea (Mayor Espectro)",
+          "codigo_item": "728",
+          "recomendacion": "Amoxicilina/Ácido Clavulánico se recomienda si hay fallo al tratamiento inicial, en infecciones más establecidas o en pacientes con comorbilidades.",
+          "dosis": "Amoxicilina/Ácido Clavulánico 875/125 mg, 1 tableta cada 12 horas por 5-7 días."
+        },
+        {
+          "nombre": "Opción para Alérgicos a Penicilina",
+          "codigo_item": "1964",
+          "recomendacion": "Clindamicina es la alternativa de elección.",
+          "dosis": "Clindamicina 300 mg, 1 cápsula cada 6-8 horas por 5-7 días."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Antibiótico Hospitalario (Infección Severa)",
+      "contenido": "Para infecciones que se extienden a espacios faciales profundos o con signos de compromiso sistémico.",
+      "items": [
+        {
+          "nombre": "Terapia Intravenosa de Primera Línea",
+          "codigo_item": "822",
+          "recomendacion": "Ampicilina/Sulbactam ofrece una excelente cobertura para la flora oral mixta (aerobios y anaerobios).",
+          "dosis": "Ampicilina/Sulbactam 1.5-3 g IV cada 6 horas."
+        },
+        {
+          "nombre": "Alternativa para Alérgicos o Infecciones Complejas",
+          "recomendacion": "Una combinación de Ceftriaxona (para gram-negativos y aerobios) más Metronidazol (para anaerobios) es una excelente opción.",
+          "ejemplos": [
+            { "nombre": "Ceftriaxona", "codigo_item": "04441", "dosis": "1-2 g IV cada 24 horas." },
+            { "nombre": "Metronidazol", "codigo_item": "4776", "dosis": "500 mg IV cada 8 horas." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "infeccion odontogenica",
+    "absceso dental",
+    "K047",
+    "celulitis facial",
+    "odontologia",
+    "amoxicilina",
+    "amoxicilina clavulanico",
+    "clindamicina",
+    "ampicilina sulbactam"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica sobre Intervenciones de Mantenimiento de Salud para Adultos Mayores en Primer Nivel de Atención",
+  "diagnostico_cie10": "Z000",
+  "referencias_cie10": [
+    "Z008"
+  ],
+  "secciones": [
+    {
+      "titulo": "Prevención y Tamizaje Cardiovascular",
+      "contenido": "Evaluación periódica para controlar los principales factores de riesgo cardiovascular.",
+      "items": [
+        {
+          "nombre": "Tamizaje de Hipertensión Arterial",
+          "recomendacion": "Medir la presión arterial en cada visita médica o al menos anualmente."
+        },
+        {
+          "nombre": "Tamizaje de Dislipidemia",
+          "recomendacion": "Realizar un perfil lipídico periódico según las guías de riesgo cardiovascular."
+        },
+        {
+          "nombre": "Tamizaje de Aneurisma de Aorta Abdominal (AAA)",
+          "recomendacion": "Realizar una ecografía abdominal única para el tamizaje de AAA en hombres de 65 a 75 años que hayan fumado alguna vez."
+        }
+      ]
+    },
+    {
+      "titulo": "Tamizaje Oncológico",
+      "contenido": "Detección precoz de los cánceres más prevalentes en la población adulta mayor.",
+      "items": [
+        {
+          "nombre": "Tamizaje de Cáncer de Mama",
+          "codigo_procedimiento": "77067",
+          "recomendacion": "Realizar mamografía bilateral cada 1-2 años en mujeres, generalmente hasta los 75 años, según decisión compartida."
+        },
+        {
+          "nombre": "Tamizaje de Cáncer Colorrectal",
+          "recomendacion": "Iniciar a los 45-50 años y continuar hasta los 75 años. Las opciones incluyen test de sangre oculta en heces anual o una colonoscopia de tamizaje cada 10 años."
+        },
+        {
+          "nombre": "Tamizaje de Cáncer de Próstata",
+          "recomendacion": "Discutir los pros y contras del tamizaje con Antígeno Prostático Específico (PSA) en hombres a partir de los 50-55 años, tomando una decisión informada y compartida."
+        }
+      ]
+    },
+    {
+      "titulo": "Salud Ósea, Funcional y Mental",
+      "contenido": "Intervenciones para mantener la independencia y calidad de vida.",
+      "items": [
+        {
+          "nombre": "Tamizaje de Osteoporosis",
+          "codigo_procedimiento": "78351",
+          "recomendacion": "Realizar una Densitometría Ósea (DEXA) en todas las mujeres a partir de los 65 años y en hombres a partir de los 70, o antes si existen factores de riesgo."
+        },
+        {
+          "nombre": "Evaluación del Riesgo de Caídas",
+          "recomendacion": "Preguntar anualmente sobre caídas. Si ha habido caídas o se observa inestabilidad, realizar una evaluación de la marcha y el equilibrio (ej. 'Timed Up and Go test')."
+        },
+        {
+          "nombre": "Tamizaje de Depresión",
+          "recomendacion": "Realizar un tamizaje utilizando una herramienta validada como el PHQ-2. Si es positivo, proceder con una evaluación más completa."
+        }
+      ]
+    },
+    {
+      "titulo": "Inmunizaciones Recomendadas",
+      "contenido": "La vacunación es una de las intervenciones preventivas más efectivas en el adulto mayor.",
+      "items": [
+        {
+          "nombre": "Vacuna contra la Influenza",
+          "recomendacion": "Administrar anualmente a todos los adultos mayores."
+        },
+        {
+          "nombre": "Vacuna Antineumocócica",
+          "recomendacion": "Administrar la vacuna conjugada (PCV13, PCV15 o PCV20) o la polisacárida (PPSV23) según las recomendaciones y el esquema secuencial para adultos ≥ 65 años."
+        },
+        {
+          "nombre": "Vacuna contra Herpes Zóster",
+          "recomendacion": "Recomendada para todos los adultos ≥ 50 años para prevenir la culebrilla y sus complicaciones."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "adulto mayor",
+    "geriatria",
+    "prevencion",
+    "tamizaje",
+    "screening",
+    "Z000",
+    "vacunas",
+    "osteoporosis",
+    "densitometria",
+    "riesgo de caidas"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la prevención, diagnóstico y manejo de infecciones asociadas al acceso de hemodiálisis",
+  "diagnostico_cie10": "T827",
+  "referencias_cie10": [
+    "T824",
+    "T829"
+  ],
+  "secciones": [
+    {
+      "titulo": "Prevención (Pilar Fundamental)",
+      "contenido": "La prevención es la estrategia más importante. Se basa en la elección del acceso vascular y en una técnica aséptica rigurosa.",
+      "items": [
+        {
+          "nombre": "Jerarquía del Acceso Vascular",
+          "recomendacion": "La elección del acceso debe seguir el principio 'Fístula Primero'. El orden de preferencia es: 1° Fístula Arteriovenosa (FAV) nativa, 2° Injerto protésico (PTFE), 3° Catéter Venoso Central (CVC) tunelizado."
+        },
+        {
+          "nombre": "Cuidado del Catéter Venoso Central",
+          "recomendacion": "Aplicar técnica aséptica estricta en cada conexión/desconexión. Usar mascarilla (paciente y personal), higiene de manos y desinfección del sitio de salida y conectores con solución de clorhexidina alcohólica."
+        }
+      ]
+    },
+    {
+      "titulo": "Diagnóstico de Bacteriemia Relacionada con Catéter (BRC)",
+      "contenido": "Se requiere un alto índice de sospecha y la confirmación mediante hemocultivos.",
+      "items": [
+        {
+          "nombre": "Sospecha Clínica",
+          "recomendacion": "Sospechar BRC en todo paciente en hemodiálisis con CVC que presente fiebre, escalofríos o hipotensión inexplicada, especialmente durante o después de la sesión de diálisis."
+        },
+        {
+          "nombre": "Toma de Hemocultivos",
+          "recomendacion": "Antes de iniciar antibióticos, tomar al menos dos muestras de hemocultivos: una muestra a través de cada lumen del catéter y una muestra de una vena periférica. Esto es crucial para confirmar el catéter como el foco."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Empírico Inmediato",
+      "contenido": "Ante la sospecha de BRC, el tratamiento antibiótico debe iniciarse inmediatamente después de la toma de hemocultivos.",
+      "items": [
+        {
+          "nombre": "Cobertura para Gram-Positivos (MRSA)",
+          "codigo_item": "6470",
+          "recomendacion": "Iniciar Vancomicina para cubrir Staphylococcus aureus, incluyendo cepas meticilino-resistentes (MRSA).",
+          "dosis": "Dosis de carga de 15-20 mg/kg (máximo 2g), seguida de dosis de mantenimiento según niveles séricos y pauta de diálisis."
+        },
+        {
+          "nombre": "Cobertura para Gram-Negativos",
+          "codigo_item": "1682",
+          "recomendacion": "Añadir una cefalosporina de tercera generación (como Ceftazidima) o un carbapenem para cubrir bacilos gram-negativos, incluyendo Pseudomonas.",
+          "dosis": "Ceftazidima 1-2 g IV después de cada sesión de diálisis."
+        },
+        {
+          "nombre": "Retirada del Catéter",
+          "recomendacion": "Se recomienda la retirada del catéter en la mayoría de los casos de BRC confirmada, especialmente si la infección es por S. aureus, Pseudomonas, hongos, o si el paciente está séptico o no mejora en 48-72h."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "infeccion de cateter",
+    "hemodialisis",
+    "T827",
+    "bacteriemia",
+    "BRC",
+    "nefrologia",
+    "vancomicina",
+    "ceftazidima",
+    "fistula arteriovenosa"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la Infección Crónica por el Virus de Hepatitis C",
+  "diagnostico_cie10": "B182",
+  "referencias_cie10": [
+    "B188",
+    "B189"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico se realiza en dos pasos para confirmar la infección activa.",
+      "items": [
+        {
+          "nombre": "Paso 1: Tamizaje con Anticuerpos",
+          "recomendacion": "Realizar una prueba de anticuerpos contra el VHC (Anti-VHC). Un resultado positivo indica exposición al virus, pero no confirma infección activa."
+        },
+        {
+          "nombre": "Paso 2: Confirmación con Carga Viral",
+          "recomendacion": "En pacientes con Anti-VHC positivo, realizar una prueba cuantitativa de ARN del VHC (carga viral). Un resultado de ARN detectable confirma la infección crónica activa y la necesidad de tratamiento."
+        }
+      ]
+    },
+    {
+      "titulo": "Evaluación Pre-Tratamiento",
+      "contenido": "Antes de iniciar el tratamiento, es crucial evaluar el grado de daño hepático.",
+      "items": [
+        {
+          "nombre": "Evaluación de Cirrosis",
+          "recomendacion": "Determinar la presencia o ausencia de cirrosis mediante métodos no invasivos como la elastografía de transición (FibroScan®) o scores séricos (APRI, FIB-4). Esto es fundamental para definir la duración del tratamiento y el seguimiento posterior."
+        },
+        {
+          "nombre": "Genotipificación",
+          "recomendacion": "Aunque los regímenes modernos son pangenotípicos, conocer el genotipo del VHC puede ser útil en casos de retratamiento o en pacientes con cirrosis descompensada."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento con Antivirales de Acción Directa (AAD)",
+      "contenido": "El objetivo es la curación virológica, definida como Respuesta Virológica Sostenida (RVS12).",
+      "items": [
+        {
+          "nombre": "Régimen Pangenotípico de Primera Línea",
+          "codigo_item": "38786",
+          "recomendacion": "La combinación de Sofosbuvir/Velpatasvir es el tratamiento de elección para la mayoría de los pacientes, independientemente del genotipo.",
+          "dosis": "1 tableta (400 mg/100 mg) una vez al día."
+        },
+        {
+          "nombre": "Duración del Tratamiento",
+          "recomendacion": "La duración estándar del tratamiento es de 12 semanas para pacientes sin cirrosis o con cirrosis compensada (Child-Pugh A)."
+        },
+        {
+          "nombre": "Seguimiento Post-Tratamiento",
+          "recomendacion": "Verificar la curación midiendo la carga viral (ARN-VHC) 12 semanas después de haber completado el tratamiento. Si es indetectable, se ha logrado la RVS12."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hepatitis C",
+    "VHC",
+    "B182",
+    "gastroenterologia",
+    "infectologia",
+    "antivirales de accion directa",
+    "AAD",
+    "sofosbuvir",
+    "velpatasvir",
+    "respuesta virologica sostenida",
+    "RVS"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo inicial de Leucemia Linfoblástica Aguda",
+  "diagnostico_cie10": "C910",
+  "referencias_cie10": [],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico se basa en el estudio de la médula ósea.",
+      "items": [
+        {
+          "nombre": "Aspirado y Biopsia de Médula Ósea",
+          "recomendacion": "Es el procedimiento estándar para confirmar el diagnóstico. Se observará una infiltración por más del 20% de blastos linfoides."
+        },
+        {
+          "nombre": "Citometría de Flujo",
+          "recomendacion": "Esencial para confirmar el linaje de las células leucémicas (Linfoide B o Linfoide T) y para la detección de enfermedad mínima residual post-tratamiento."
+        }
+      ]
+    },
+    {
+      "titulo": "Fase de Inducción a la Remisión",
+      "contenido": "Tratamiento intensivo inicial (aproximadamente 4 semanas) para eliminar la mayor parte de las células leucémicas.",
+      "items": [
+        {
+          "nombre": "Vincristina",
+          "codigo_item": "17767",
+          "recomendacion": "Administración intravenosa semanal. Es un pilar del tratamiento de inducción."
+        },
+        {
+          "nombre": "Corticoides (Prednisona/Dexametasona)",
+          "codigo_item": "5590",
+          "recomendacion": "Administración oral diaria durante la fase de inducción para inducir la apoptosis de los linfoblastos."
+        },
+        {
+          "nombre": "L-Asparaginasa",
+          "codigo_item": "32410",
+          "recomendacion": "Administración intramuscular o intravenosa. Actúa depletando el aminoácido asparagina, esencial para las células leucémicas."
+        },
+        {
+          "nombre": "Daunorrubicina",
+          "recomendacion": "Antraciclina administrada por vía intravenosa en dosis semanales para potenciar el efecto citotóxico."
+        }
+      ]
+    },
+    {
+      "titulo": "Profilaxis del Sistema Nervioso Central (SNC)",
+      "contenido": "Tratamiento dirigido a prevenir la recaída de la leucemia en el cerebro y la médula espinal.",
+      "items": [
+        {
+          "nombre": "Quimioterapia Intratecal",
+          "codigo_item": "4758",
+          "recomendacion": "Administración de Metotrexato (y a veces otros fármacos como Citarabina) directamente en el líquido cefalorraquídeo mediante una punción lumbar. Se realiza en múltiples ocasiones a lo largo de todo el tratamiento."
+        }
+      ]
+    },
+    {
+      "titulo": "Fase de Mantenimiento",
+      "contenido": "Fase final y más larga del tratamiento (2-3 años) para eliminar las células leucémicas residuales y prevenir recaídas.",
+      "items": [
+        {
+          "nombre": "Mercaptopurina",
+          "codigo_item": "4665",
+          "recomendacion": "Quimioterapia oral que se administra diariamente.",
+          "dosis": "1 tableta de 50 mg al día (dosis ajustada por superficie corporal)."
+        },
+        {
+          "nombre": "Metotrexato",
+          "codigo_item": "4764",
+          "recomendacion": "Quimioterapia oral que se administra una vez por semana.",
+          "dosis": "Dosis semanal ajustada por superficie corporal."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "leucemia linfoblastica aguda",
+    "LLA",
+    "C910",
+    "hematologia",
+    "oncologia",
+    "quimioterapia",
+    "vincristina",
+    "asparaginasa",
+    "metotrexato",
+    "mercaptopurina",
+    "induccion"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo inicial de Artritis Reumatoide",
+  "diagnostico_cie10": "M059",
+  "referencias_cie10": [
+    "M060",
+    "M069"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico se basa en la clínica y se apoya en pruebas de laboratorio e imágenes.",
+      "items": [
+        {
+          "nombre": "Criterios Clínicos",
+          "recomendacion": "Sospechar AR en pacientes con inflamación de 3 o más articulaciones, rigidez matutina > 30 minutos y afectación de muñecas o pequeñas articulaciones de manos/pies, con una duración de los síntomas > 6 semanas."
+        },
+        {
+          "nombre": "Pruebas de Laboratorio Clave",
+          "recomendacion": "Solicitar Factor Reumatoide (FR) y Anticuerpos anti-Péptido Cíclico Citrulinado (anti-CCP). La positividad de ambos confiere alta especificidad. Medir también reactantes de fase aguda (PCR, VSG)."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento con Estrategia 'Treat-to-Target' (T2T)",
+      "contenido": "El objetivo es alcanzar la remisión o, en su defecto, una baja actividad de la enfermedad lo antes posible para prevenir el daño articular.",
+      "subsecciones": [
+        {
+          "titulo": "Fase 1: Inicio del Tratamiento",
+          "items": [
+            {
+              "nombre": "FARME de Anclaje: Metotrexato",
+              "codigo_item": "4764",
+              "recomendacion": "Es el fármaco de primera elección. Iniciar tan pronto como se confirme el diagnóstico. Se administra una vez por semana.",
+              "dosis": "Dosis inicial de 10-15 mg/semana, con escalada rápida hasta 20-25 mg/semana."
+            },
+            {
+              "nombre": "Terapia Puente con Corticoides",
+              "codigo_item": "5590",
+              "recomendacion": "Utilizar Prednisona a dosis bajas (≤ 10 mg/día) al inicio del tratamiento para un control rápido de la inflamación, mientras el Metotrexato alcanza su efecto máximo. Retirar gradualmente en 3-6 meses."
+            }
+          ]
+        },
+        {
+          "titulo": "Fase 2: Optimización (si no se alcanza el objetivo en 3-6 meses)",
+          "items": [
+            {
+              "nombre": "Terapia Combinada con FARME Sintéticos",
+              "recomendacion": "Si la monoterapia con Metotrexato falla, añadir un segundo FARME sintético.",
+              "ejemplos": [
+                { "nombre": "Leflunomida", "codigo_item": "4346", "dosis": "20 mg al día." },
+                { "nombre": "Sulfasalazina", "codigo_item": "6006", "dosis": "1-1.5 g cada 12 horas." }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Fase 3: Terapia Biológica",
+          "items": [
+            {
+              "nombre": "Adición de un FARME Biológico",
+              "codigo_item": "40644",
+              "recomendacion": "Si la terapia combinada con FARME sintéticos no logra el objetivo, el siguiente paso es añadir un agente biológico, como un inhibidor del TNF-alfa.",
+              "dosis": "Etanercept 50 mg, inyección subcutánea una vez por semana."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "artritis reumatoide",
+    "AR",
+    "M059",
+    "reumatologia",
+    "metotrexato",
+    "leflunomida",
+    "sulfasalazina",
+    "etanercept",
+    "factor reumatoide",
+    "anti-CCP"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tamizaje y el manejo del Episodio Depresivo Leve en el Primer Nivel de Atención",
+  "diagnostico_cie10": "F320",
+  "referencias_cie10": [
+    "F329"
+  ],
+  "secciones": [
+    {
+      "titulo": "Tamizaje y Diagnóstico",
+      "contenido": "Se recomienda el tamizaje activo en la atención primaria para la detección temprana.",
+      "items": [
+        {
+          "nombre": "Herramienta de Tamizaje (PHQ-2)",
+          "recomendacion": "Utilizar el cuestionario PHQ-2 ('¿Se ha sentido desanimado/a o sin esperanza?' y '¿Ha perdido el interés o placer en hacer las cosas?') como primer paso. Un resultado positivo requiere una evaluación más detallada (ej. con PHQ-9)."
+        },
+        {
+          "nombre": "Criterios de Episodio Depresivo Leve (F320)",
+          "recomendacion": "Presencia de al menos dos síntomas principales (ánimo deprimido, anhedonia, anergia) y dos o tres síntomas secundarios. El paciente se encuentra afectado, pero probablemente puede continuar con la mayoría de sus actividades."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Primera Línea (No Farmacológico)",
+      "contenido": "Para la depresión leve, se prefieren las intervenciones de baja intensidad sobre el tratamiento farmacológico inicial.",
+      "items": [
+        {
+          "nombre": "Psicoeducación",
+          "recomendacion": "Proporcionar información clara sobre la depresión, su naturaleza tratable y la importancia del autocuidado."
+        },
+        {
+          "nombre": "Activación Conductual",
+          "recomendacion": "Ayudar al paciente a programar y realizar actividades agradables o significativas que ha dejado de hacer."
+        },
+        {
+          "nombre": "Ejercicio Físico",
+          "recomendacion": "Recomendar la práctica regular de ejercicio aeróbico (ej. 30 minutos, 3-5 veces por semana), ya que ha demostrado tener un efecto antidepresivo."
+        },
+        {
+          "nombre": "Higiene del Sueño",
+          "recomendacion": "Ofrecer pautas para mejorar la calidad del sueño, como mantener horarios regulares y evitar estimulantes antes de dormir."
+        }
+      ]
+    },
+    {
+      "titulo": "Consideración de Tratamiento Farmacológico (Segunda Línea)",
+      "contenido": "Los antidepresivos se reservan para casos específicos de depresión leve.",
+      "items": [
+        {
+          "nombre": "Indicaciones para Farmacoterapia",
+          "recomendacion": "Considerar iniciar un ISRS si el paciente no responde a las intervenciones no farmacológicas tras 4-6 semanas, si tiene antecedentes de episodios más graves, o si lo prefiere explícitamente."
+        },
+        {
+          "nombre": "Fármaco de Elección (si se decide iniciar)",
+          "codigo_item": "5807",
+          "recomendacion": "Iniciar con un ISRS bien tolerado como la Sertralina.",
+          "dosis": "Sertralina, dosis de inicio 25-50 mg al día."
+        }
+      ]
+    },
+    {
+      "titulo": "Seguimiento",
+      "contenido": "El seguimiento activo es fundamental en el manejo de la depresión leve.",
+      "items": [
+        {
+          "nombre": "Reevaluación",
+          "recomendacion": "Programar una cita de seguimiento en 2-4 semanas para evaluar la respuesta al tratamiento inicial y ajustar el plan según sea necesario. Si no hay mejoría o hay empeoramiento, considerar escalar el tratamiento o referir a salud mental."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "depresion leve",
+    "F320",
+    "salud mental",
+    "atencion primaria",
+    "tamizaje",
+    "PHQ-2",
+    "psicoeducacion",
+    "activacion conductual",
+    "ejercicio",
+    "sertralina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de la Infección del Tracto Urinario No Complicada",
+  "diagnostico_cie10": "N300",
+  "referencias_cie10": [
+    "N390"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico de la cistitis aguda no complicada en mujeres es principalmente clínico.",
+      "items": [
+        {
+          "nombre": "Criterios Clínicos",
+          "recomendacion": "Sospechar fuertemente ante la presencia de síntomas urinarios bajos de inicio agudo: disuria (dolor/ardor al orinar), polaquiuria (aumento de la frecuencia) y/o urgencia miccional. La ausencia de flujo vaginal o irritación descarta otras causas."
+        },
+        {
+          "nombre": "Uso de Exámenes Auxiliares",
+          "recomendacion": "En una mujer sana, no embarazada, con síntomas clásicos, no se requiere un examen de orina ni un urocultivo para iniciar el tratamiento. Estos se reservan para casos de duda diagnóstica, fallo terapéutico o presentaciones atípicas."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Antibiótico de Primera Línea",
+      "contenido": "Se prefieren esquemas cortos con antibióticos que tengan bajo impacto en la resistencia bacteriana.",
+      "items": [
+        {
+          "nombre": "Opción 1: Nitrofurantoína",
+          "codigo_item": "5103",
+          "recomendacion": "Es uno de los tratamientos de elección por su alta eficacia y bajo perfil de resistencia.",
+          "dosis": "Nitrofurantoína 100 mg, 1 tableta cada 12 horas durante 5 días."
+        },
+        {
+          "nombre": "Opción 2: Fosfomicina Trometamol",
+          "codigo_item": "3687",
+          "recomendacion": "Excelente alternativa, especialmente útil por su comodidad al ser una dosis única.",
+          "dosis": "Fosfomicina 3 gramos, 1 sobre en dosis única."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Antibiótico de Segunda Línea",
+      "contenido": "Reservado para cuando las opciones de primera línea no son adecuadas o no están disponibles.",
+      "items": [
+        {
+          "nombre": "Fluoroquinolonas (Ciprofloxacino)",
+          "codigo_item": "1846",
+          "recomendacion": "No se recomiendan como primera línea para cistitis no complicada debido al aumento de la resistencia y potenciales efectos adversos. Usar solo si otras opciones no son viables.",
+          "dosis": "Ciprofloxacino 500 mg, 1 tableta cada 12 horas durante 3 días."
+        },
+        {
+          "nombre": "Amoxicilina/Ácido Clavulánico",
+          "codigo_item": "728",
+          "recomendacion": "Puede ser una opción, pero las tasas de resistencia de E. coli pueden ser elevadas en algunas regiones. Considerar si el urocultivo (si se tomó) muestra sensibilidad.",
+          "dosis": "Amoxicilina/Ácido Clavulánico 875/125 mg, 1 tableta cada 12 horas por 5-7 días."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "infeccion urinaria",
+    "ITU",
+    "cistitis",
+    "N300",
+    "disuria",
+    "nitrofurantoina",
+    "fosfomicina",
+    "ciprofloxacino",
+    "infeccion de orina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la Retinopatía Diabética y el Edema Macular Diabético",
+  "diagnostico_cie10": "H360",
+  "referencias_cie10": [
+    "H350",
+    "H352"
+  ],
+  "secciones": [
+    {
+      "titulo": "Tamizaje y Diagnóstico",
+      "contenido": "El tamizaje periódico es crucial para la detección temprana y la prevención de la ceguera.",
+      "items": [
+        {
+          "nombre": "Examen de Fondo de Ojo",
+          "recomendacion": "Realizar un examen de fondo de ojo bajo dilatación pupilar anualmente a todos los pacientes con diabetes. Iniciar al momento del diagnóstico en Diabetes tipo 2 y a los 5 años del diagnóstico en Diabetes tipo 1."
+        },
+        {
+          "nombre": "Diagnóstico de Edema Macular Diabético (EMD)",
+          "recomendacion": "Utilizar la Tomografía de Coherencia Óptica (OCT) para detectar, cuantificar y monitorizar el EMD. Es el estándar de oro para evaluar el grosor macular."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Retinopatía Diabética No Proliferativa (RDNP)",
+      "contenido": "El pilar del manejo es el control sistémico.",
+      "items": [
+        {
+          "nombre": "Control Sistémico Intensivo",
+          "recomendacion": "Optimizar el control de la glucosa (HbA1c), la presión arterial y los lípidos. Es la intervención más importante para retrasar la progresión de la retinopatía."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Retinopatía Diabética Proliferativa (RDP)",
+      "contenido": "Requiere tratamiento urgente para prevenir la pérdida visual severa.",
+      "items": [
+        {
+          "nombre": "Fotocoagulación Panretiniana (FPR)",
+          "recomendacion": "Es el tratamiento de elección para la RDP. Consiste en aplicar láser en la retina periférica para reducir la isquemia y causar la regresión de los neovasos."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento del Edema Macular Diabético (EMD)",
+      "contenido": "El tratamiento de primera línea para el EMD con compromiso visual son las inyecciones intravítreas.",
+      "items": [
+        {
+          "nombre": "Terapia Anti-VEGF Intravítrea",
+          "recomendacion": "Es el tratamiento de elección. Se administran inyecciones mensuales hasta la resolución del edema, seguido de un esquema de tratamiento y extensión (Treat-and-Extend) o según necesidad (PRN)."
+        },
+        {
+          "nombre": "Agentes Anti-VEGF",
+          "ejemplos": [
+            { "nombre": "Bevacizumab (Avastin)", "codigo_item": "18617", "dosis": "Dosis intravítrea de 1.25 mg." },
+            { "nombre": "Ranibizumab (Lucentis)", "codigo_item": "20371", "dosis": "Dosis intravítrea de 0.3-0.5 mg." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "retinopatia diabetica",
+    "H360",
+    "edema macular diabetico",
+    "EMD",
+    "diabetes",
+    "oftalmologia",
+    "anti-VEGF",
+    "bevacizumab",
+    "ranibizumab",
+    "fotocoagulacion panretiniana",
+    "laser"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de personas con Síndrome de Guillain Barré",
+  "diagnostico_cie10": "G610",
+  "referencias_cie10": [
+    "G618"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico del Síndrome de Guillain-Barré (SGB) es fundamentalmente clínico y se apoya en estudios complementarios.",
+      "items": [
+        {
+          "nombre": "Criterios Clínicos Clave",
+          "recomendacion": "Sospechar SGB ante un paciente con debilidad muscular progresiva, simétrica y ascendente, acompañada de arreflexia o hiporreflexia generalizada."
+        },
+        {
+          "nombre": "Punción Lumbar (LCR)",
+          "recomendacion": "Realizar una punción lumbar para analizar el líquido cefalorraquídeo. El hallazgo característico es la 'disociación albúmino-citológica': proteínas elevadas con recuento celular normal (típicamente después de la primera semana)."
+        },
+        {
+          "nombre": "Estudios de Neuroconducción",
+          "recomendacion": "La electromiografía (EMG) y los estudios de velocidad de conducción nerviosa son útiles para confirmar el diagnóstico, mostrando patrones de polineuropatía desmielinizante."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo y Monitorización Hospitalaria",
+      "contenido": "Todo paciente con SGB debe ser hospitalizado para una vigilancia estricta.",
+      "items": [
+        {
+          "nombre": "Monitorización Respiratoria",
+          "recomendacion": "Es el pilar del cuidado de soporte. Medir de forma seriada la Capacidad Vital Forzada (CVF). Una CVF < 20 mL/kg o signos de fatiga respiratoria son indicación de traslado a UCI y posible ventilación mecánica."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Inmunomodulador Específico",
+      "contenido": "Indicado en pacientes con SGB severo (incapacidad para caminar 10 metros de forma independiente).",
+      "items": [
+        {
+          "nombre": "Opción 1: Inmunoglobulina Intravenosa (IGIV)",
+          "codigo_item": "4069",
+          "recomendacion": "Es el tratamiento de primera elección por su eficacia y perfil de seguridad.",
+          "dosis": "Inmunoglobulina Humana Normal 0.4 g/kg/día por 5 días."
+        },
+        {
+          "nombre": "Opción 2: Plasmaféresis (Recambio Plasmático)",
+          "codigo_item": "16684",
+          "recomendacion": "Alternativa igualmente eficaz a la IGIV. Requiere acceso venoso central y equipo especializado.",
+          "dosis": "Realizar 5 sesiones de recambio de un volumen plasmático cada una, en un lapso de 7 a 14 días."
+        },
+        {
+          "nombre": "Tratamiento No Recomendado",
+          "recomendacion": "Los corticosteroides (Metilprednisolona, Prednisona) NO han demostrado beneficio en el SGB y no deben ser utilizados."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "guillain barre",
+    "SGB",
+    "G610",
+    "debilidad ascendente",
+    "arreflexia",
+    "disociacion albumino-citologica",
+    "inmunoglobulina",
+    "IGIV",
+    "plasmaferesis",
+    "neurologia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento del Cáncer Gástrico Temprano",
+  "diagnostico_cie10": "C169",
+  "referencias_cie10": [
+    "C160",
+    "C161",
+    "C162",
+    "C163"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Estadificación",
+      "contenido": "La detección precisa y la correcta estadificación son cruciales para definir un tratamiento curativo.",
+      "items": [
+        {
+          "nombre": "Endoscopia de Alta Definición",
+          "recomendacion": "Realizar una endoscopia digestiva alta (EDA) con equipos de alta definición y cromoendoscopia (digital o con colorantes como índigo carmín) para detectar, caracterizar y delimitar lesiones sospechosas."
+        },
+        {
+          "nombre": "Ultrasonografía Endoscópica (USE)",
+          "recomendacion": "Es el método de elección para la estadificación local (estadío T y N). Permite evaluar la profundidad de la invasión del tumor en la pared gástrica y detectar ganglios linfáticos sospechosos, siendo clave para decidir si un paciente es candidato a resección endoscópica."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Endoscópico Curativo",
+      "contenido": "La resección endoscópica es el tratamiento de elección para el cáncer gástrico temprano que cumple con criterios específicos, ofreciendo curación con una técnica mínimamente invasiva.",
+      "items": [
+        {
+          "nombre": "Criterios para Resección Endoscópica",
+          "recomendacion": "Considerar en tumores diagnosticados como adenocarcinoma, confinados a la capa mucosa o submucosa superficial (invasión < 500 μm), bien diferenciados y sin evidencia de metástasis ganglionar en la USE."
+        },
+        {
+          "nombre": "Técnica: Disección Submucosa Endoscópica (DSE)",
+          "recomendacion": "Es la técnica de elección para la mayoría de los cánceres gástricos tempranos. Permite la resección 'en bloque' (una sola pieza) de la lesión, lo cual es fundamental para un análisis patológico preciso y para confirmar la curación. Es superior a la Resección Mucosa Endoscópica (RME) para lesiones grandes o ulceradas."
+        },
+        {
+          "nombre": "Técnica: Resección Mucosa Endoscópica (RME)",
+          "recomendacion": "Alternativa para lesiones pequeñas (<1-1.5 cm), elevadas y que cumplen criterios de bajo riesgo."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Post-Resección y Cirugía",
+      "contenido": "El manejo depende del resultado del análisis de la pieza resecada.",
+      "items": [
+        {
+          "nombre": "Resección Curativa",
+          "recomendacion": "Si el análisis patológico confirma que la lesión fue resecada completamente y cumple todos los criterios de bajo riesgo, el paciente se considera curado y entra en un programa de seguimiento endoscópico."
+        },
+        {
+          "nombre": "Resección No Curativa y Cirugía",
+          "recomendacion": "Si la patología muestra invasión profunda, márgenes positivos o factores de mal pronóstico, la resección endoscópica no es suficiente. El paciente debe ser derivado para tratamiento quirúrgico con una gastrectomía (subtotal o total) y linfadenectomía D2."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer gastrico",
+    "cancer de estomago",
+    "C169",
+    "adenocarcinoma gastrico",
+    "cancer temprano",
+    "diseccion submucosa endoscopica",
+    "DSE",
+    "reseccion mucosa endoscopica",
+    "RME",
+    "endoscopia",
+    "gastrectomia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
 }
+
+
 
 
 ]
