@@ -4208,9 +4208,1299 @@
   ],
   "version_guia": "1.0",
   "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la Degeneración Macular Relacionada a la Edad",
+  "diagnostico_cie10": "H353",
+  "referencias_cie10": [
+    "H358"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación",
+      "contenido": "El diagnóstico se basa en el examen clínico y estudios de imagen como la Tomografía de Coherencia Óptica (OCT).",
+      "items": [
+        {
+          "nombre": "Examen Clínico y de Imagen",
+          "recomendacion": "Realizar un examen de fondo de ojo para identificar drusas y cambios pigmentarios. Utilizar la OCT para clasificar la DMRE como seca (atrófica) o húmeda (neovascular) y para monitorizar la actividad de la enfermedad."
+        },
+        {
+          "nombre": "Clasificación: DMRE Seca vs. Húmeda",
+          "recomendacion": "La DMRE Seca se caracteriza por drusas y atrofia geográfica, con progresión lenta. La DMRE Húmeda implica la presencia de neovascularización coroidea con fuga de líquido o sangre, causando una pérdida de visión rápida y severa."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la DMRE Seca (Atrófica)",
+      "contenido": "El manejo se enfoca en reducir el riesgo de progresión a formas avanzadas.",
+      "items": [
+        {
+          "nombre": "Suplementación Vitamínica (Fórmula AREDS2)",
+          "recomendacion": "En pacientes con DMRE seca intermedia o DMRE avanzada en un solo ojo, se recomienda la suplementación oral diaria con la fórmula AREDS2 para reducir el riesgo de progresión.",
+          "dosis": "La fórmula incluye: Luteína (10 mg), Zeaxantina (2 mg), Vitamina C (500 mg), Vitamina E (400 UI) y Zinc (25-80 mg)."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la DMRE Húmeda (Neovascular)",
+      "contenido": "El tratamiento de elección es la terapia intravítrea con agentes anti-factor de crecimiento endotelial vascular (anti-VEGF).",
+      "items": [
+        {
+          "nombre": "Terapia Anti-VEGF Intravítrea",
+          "recomendacion": "Es el estándar de oro para el tratamiento de la DMRE húmeda. El tratamiento se inicia con una fase de carga de inyecciones mensuales y se continúa con un régimen de mantenimiento (Treat-and-Extend o PRN) para controlar la actividad de la enfermedad."
+        },
+        {
+          "nombre": "Agentes Anti-VEGF",
+          "ejemplos": [
+            { "nombre": "Bevacizumab (Avastin)", "codigo_item": "18617", "dosis": "Dosis intravítrea de 1.25 mg." },
+            { "nombre": "Ranibizumab (Lucentis)", "codigo_item": "20371", "dosis": "Dosis intravítrea de 0.5 mg." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "degeneracion macular",
+    "DMRE",
+    "DMAE",
+    "H353",
+    "drusas",
+    "oftalmologia",
+    "retina",
+    "anti-VEGF",
+    "bevacizumab",
+    "ranibizumab",
+    "AREDS2",
+    "luteina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de Neumonía Intrahospitalaria y Neumonía Asociada a Ventilador",
+  "diagnostico_cie10": "J958",
+  "referencias_cie10": [
+    "J156",
+    "J189"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "El diagnóstico se basa en criterios clínicos y radiológicos en un paciente hospitalizado o con ventilación mecánica.",
+      "items": [
+        {
+          "nombre": "Criterios Diagnósticos",
+          "recomendacion": "Sospechar ante un infiltrado pulmonar nuevo o progresivo en la radiografía de tórax, más al menos dos de los siguientes: fiebre >38°C, leucocitosis/leucopenia, o secreciones traqueales purulentas."
+        },
+        {
+          "nombre": "Toma de Muestras Microbiológicas",
+          "recomendacion": "Obtener una muestra respiratoria de buena calidad (aspirado endotraqueal o lavado broncoalveolar) para cultivo ANTES de iniciar el tratamiento antibiótico. Esto es crucial para un posterior desescalamiento."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Antibiótico Empírico para NAV/NIH con Riesgo de Patógenos Multirresistentes (MDR)",
+      "contenido": "Se debe iniciar una terapia combinada de amplio espectro para cubrir Pseudomonas aeruginosa y Staphylococcus aureus meticilino-resistente (SAMR).",
+      "items": [
+        {
+          "nombre": "Paso 1: Cobertura Antipseudomónica",
+          "recomendacion": "Elegir UN betalactámico con actividad antipseudomónica.",
+          "ejemplos": [
+            { "nombre": "Piperacilina/Tazobactam", "codigo_item": "5443", "dosis": "4.5 g IV cada 6 horas." },
+            { "nombre": "Cefepime", "dosis": "2 g IV cada 8 horas." },
+            { "nombre": "Meropenem", "codigo_item": "4878", "dosis": "1-2 g IV cada 8 horas (reservar para casos de alto riesgo o sospecha de BLEE)." }
+          ]
+        },
+        {
+          "nombre": "Paso 2: Cobertura Anti-SAMR",
+          "recomendacion": "Añadir UN agente con cobertura para SAMR.",
+          "ejemplos": [
+            { "nombre": "Vancomicina", "codigo_item": "6503", "dosis": "Dosis de carga de 25-30 mg/kg, seguida de 15-20 mg/kg cada 8-12 horas, ajustando según niveles plasmáticos." },
+            { "nombre": "Linezolid", "codigo_item": "19181", "dosis": "600 mg IV cada 12 horas (alternativa, especialmente si hay sospecha de neumonía necrotizante o insuficiencia renal)." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Desescalamiento Antibiótico",
+      "contenido": "Es un componente clave del manejo para reducir la presión selectiva y los efectos adversos.",
+      "items": [
+        {
+          "nombre": "Ajuste según Cultivos",
+          "recomendacion": "A las 48-72 horas, reevaluar al paciente. Si los cultivos identifican un patógeno y su sensibilidad, ajustar el tratamiento al antibiótico de espectro más estrecho posible. Si los cultivos son negativos y el paciente ha mejorado, considerar suspender los antibióticos."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "neumonia intrahospitalaria",
+    "NIH",
+    "neumonia asociada a ventilador",
+    "NAV",
+    "J958",
+    "UCI",
+    "cuidados intensivos",
+    "piperacilina tazobactam",
+    "cefepime",
+    "meropenem",
+    "vancomicina",
+    "linezolid",
+    "SAMR",
+    "pseudomonas"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de la etapa aguda del Ataque Cerebrovascular Isquémico",
+  "diagnostico_cie10": "I639",
+  "referencias_cie10": [
+    "I633",
+    "I634",
+    "I635"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Evaluación Inicial Urgente",
+      "contenido": "El manejo se rige por el principio 'tiempo es cerebro'. La prioridad es la evaluación rápida y la obtención de una imagen cerebral.",
+      "items": [
+        {
+          "nombre": "Activación del 'Código Ictus'",
+          "recomendacion": "Ante la sospecha de un ACV (déficit neurológico súbito), activar el protocolo de emergencia hospitalario para priorizar la atención y los estudios del paciente."
+        },
+        {
+          "nombre": "Tomografía Cerebral sin Contraste",
+          "recomendacion": "Realizar una TC cerebral sin contraste de forma inmediata al llegar a la emergencia. El objetivo principal es descartar una hemorragia cerebral para determinar la elegibilidad para terapias de reperfusión."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Reperfusión: Trombólisis Intravenosa",
+      "contenido": "Es el tratamiento de primera línea para disolver el coágulo en pacientes elegibles.",
+      "items": [
+        {
+          "nombre": "Alteplasa (rt-PA)",
+          "codigo_item": "408",
+          "recomendacion": "Administrar Alteplasa intravenosa a pacientes con ACV isquémico que cumplan estrictos criterios de inclusión y exclusión, y que se presenten dentro de la ventana terapéutica.",
+          "dosis": "Dosis total de 0.9 mg/kg (máximo 90 mg). Administrar el 10% en bolo en 1 minuto y el 90% restante en infusión durante 60 minutos."
+        },
+        {
+          "nombre": "Ventana Terapéutica",
+          "recomendacion": "La administración de Alteplasa debe iniciarse tan pronto como sea posible, dentro de las 4.5 horas desde el inicio de los síntomas."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Reperfusión: Trombectomía Mecánica",
+      "contenido": "Procedimiento endovascular para extraer el coágulo en oclusiones de grandes arterias.",
+      "items": [
+        {
+          "nombre": "Indicación de Trombectomía Mecánica",
+          "recomendacion": "Considerar en pacientes con ACV isquémico agudo debido a una oclusión de un gran vaso en la circulación anterior (ej. arteria cerebral media). Es el tratamiento de elección para estos casos, pudiendo administrarse después de la trombólisis IV."
+        },
+        {
+          "nombre": "Ventana Terapéutica Extendida",
+          "recomendacion": "La ventana para la trombectomía es de hasta 6 horas desde el inicio de los síntomas. En pacientes seleccionados mediante neuroimagen avanzada (perfusión), la ventana puede extenderse hasta 24 horas."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo General y Prevención Secundaria Inicial",
+      "contenido": "Cuidados de soporte y inicio de la prevención de nuevos eventos.",
+      "items": [
+        {
+          "nombre": "Antiagregación con Aspirina",
+          "codigo_item": "713",
+          "recomendacion": "Iniciar Ácido Acetilsalicílico (Aspirina) a dosis de 100-300 mg dentro de las 24 a 48 horas posteriores al inicio del ACV. IMPORTANTE: En pacientes que recibieron Alteplasa, se debe retrasar el inicio de la aspirina por al menos 24 horas y tras confirmar la ausencia de hemorragia en una TC de control."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "ACV",
+    "ataque cerebrovascular",
+    "ictus",
+    "stroke",
+    "infarto cerebral",
+    "I639",
+    "neurologia",
+    "emergencia",
+    "alteplasa",
+    "rt-PA",
+    "trombolisis",
+    "trombectomia mecanica"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la prevención y manejo del Parto Pretérmino",
+  "diagnostico_cie10": "O601",
+  "referencias_cie10": [
+    "O600",
+    "O479"
+  ],
+  "secciones": [
+    {
+      "titulo": "Prevención del Parto Pretérmino",
+      "contenido": "Estrategias para reducir el riesgo en pacientes de alto riesgo.",
+      "items": [
+        {
+          "nombre": "Suplementación con Progesterona",
+          "codigo_item": "18881",
+          "recomendacion": "En gestantes con antecedente de parto pretérmino espontáneo previo o con hallazgo de cérvix corto (<25 mm) en la ecografía del segundo trimestre, se recomienda el uso de progesterona vaginal para reducir el riesgo de recurrencia.",
+          "dosis": "Progesterona 200 mg, 1 óvulo/tableta por vía vaginal cada noche, usualmente desde la semana 16-24 hasta la semana 36."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Amenaza de Parto Pretérmino",
+      "contenido": "Intervenciones para retrasar el parto y mejorar los resultados neonatales.",
+      "items": [
+        {
+          "nombre": "Tocolisis (Frenado de Contracciones)",
+          "recomendacion": "El objetivo es retrasar el parto por al menos 48 horas para permitir la administración y el efecto de los corticoides. El fármaco de primera línea es el Nifedipino.",
+          "ejemplos": [
+            { "nombre": "Nifedipino", "codigo_item": "5075", "dosis": "Dosis de carga de 20 mg vía oral, seguida de 10-20 mg cada 4-6 horas." }
+          ]
+        },
+        {
+          "nombre": "Maduración Pulmonar Fetal",
+          "codigo_item": "1148",
+          "recomendacion": "Es la intervención más importante para reducir la morbilidad y mortalidad neonatal. Administrar un ciclo de corticoides a todas las gestantes con riesgo de parto pretérmino entre las 24 y 34.6 semanas.",
+          "dosis": "Betametasona 12 mg intramuscular, 2 dosis separadas por 24 horas."
+        },
+        {
+          "nombre": "Neuroprotección Fetal",
+          "codigo_item": "6113",
+          "recomendacion": "Administrar Sulfato de Magnesio a gestantes con parto pretérmino inminente antes de las 32 semanas para reducir el riesgo de parálisis cerebral en el neonato.",
+          "dosis": "Dosis de carga de 4 g IV en 20-30 minutos, seguida de una infusión de mantenimiento de 1-2 g/hora."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "parto pretermino",
+    "amenaza de parto pretermino",
+    "APP",
+    "O601",
+    "obstetricia",
+    "prematuro",
+    "progesterona",
+    "nifedipino",
+    "tocolisis",
+    "betametasona",
+    "maduracion pulmonar",
+    "sulfato de magnesio"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de pacientes con Fibrilación Auricular",
+  "diagnostico_cie10": "I489",
+  "referencias_cie10": [
+    "I480",
+    "I481",
+    "I482"
+  ],
+  "secciones": [
+    {
+      "titulo": "Pilar 1: Anticoagulación para Prevención de ACV",
+      "contenido": "Es la intervención más importante para reducir la mortalidad y morbilidad en la FA. La decisión se basa en el riesgo embólico del paciente.",
+      "items": [
+        {
+          "nombre": "Evaluación del Riesgo (CHA₂DS₂-VASc)",
+          "recomendacion": "Calcular el puntaje CHA₂DS₂-VASc en todos los pacientes con FA. Se recomienda anticoagulación oral en hombres con puntaje ≥2 y mujeres con puntaje ≥3."
+        },
+        {
+          "nombre": "Elección del Anticoagulante",
+          "recomendacion": "Los Anticoagulantes Orales Directos (ACOD) son de primera elección sobre la Warfarina por su mayor seguridad y comodidad."
+        },
+        {
+          "nombre": "Opciones de Anticoagulantes Orales",
+          "ejemplos": [
+            { "nombre": "Apixabán", "codigo_item": "52803", "dosis": "5 mg cada 12 horas." },
+            { "nombre": "Rivaroxabán", "codigo_item": "28030", "dosis": "20 mg cada 24 horas." },
+            { "nombre": "Warfarina", "codigo_item": "6551", "dosis": "Dosis ajustada para mantener un INR entre 2.0 y 3.0. Alternativa si los ACOD no están disponibles o están contraindicados." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Pilar 2: Control de Síntomas (Frecuencia vs. Ritmo)",
+      "contenido": "El objetivo es mejorar la calidad de vida del paciente controlando la frecuencia cardíaca o restaurando el ritmo sinusal.",
+      "items": [
+        {
+          "nombre": "Estrategia de Control de Frecuencia",
+          "recomendacion": "Es la estrategia inicial para la mayoría de los pacientes. El objetivo es una frecuencia cardíaca en reposo < 110 lpm si está asintomático.",
+          "ejemplos": [
+            { "nombre": "Betabloqueadores (Atenolol)", "codigo_item": "1024", "dosis": "Iniciar con 25-50 mg cada 24 horas y titular según respuesta." }
+          ]
+        },
+        {
+          "nombre": "Estrategia de Control del Ritmo",
+          "recomendacion": "Considerar en pacientes que permanecen sintomáticos a pesar de un buen control de la frecuencia. Puede incluir cardioversión y/o fármacos antiarrítmicos.",
+          "ejemplos": [
+            { "nombre": "Amiodarona", "codigo_item": "775", "dosis": "Se utiliza para la cardioversión farmacológica y para el mantenimiento del ritmo sinusal, bajo estricta supervisión por sus potenciales efectos adversos." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "fibrilacion auricular",
+    "FA",
+    "I489",
+    "arritmia",
+    "cardiologia",
+    "anticoagulacion",
+    "CHADSVASc",
+    "rivaroxaban",
+    "apixaban",
+    "warfarina",
+    "amiodarona",
+    "atenolol"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el tratamiento quirúrgico de pacientes con Urolitiasis",
+  "diagnostico_cie10": "N200",
+  "referencias_cie10": [
+    "N201",
+    "N202",
+    "N209"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Manejo del Dolor Agudo",
+      "contenido": "El diagnóstico se basa en imágenes y el manejo inicial se centra en el control del dolor intenso.",
+      "items": [
+        {
+          "nombre": "Diagnóstico por Imagen",
+          "recomendacion": "La Tomografía Computarizada sin contraste (UroTEM) es el estándar de oro para el diagnóstico, ya que permite evaluar el tamaño, localización y densidad del cálculo, y planificar el tratamiento."
+        },
+        {
+          "nombre": "Manejo del Cólico Renal",
+          "recomendacion": "El tratamiento de primera línea para el dolor agudo son los Antiinflamatorios No Esteroideos (AINEs) por vía intravenosa o intramuscular.",
+          "ejemplos": [
+            { "nombre": "Ketorolaco", "codigo_item": "4248", "dosis": "30-60 mg IV o IM." },
+            { "nombre": "Diclofenaco", "codigo_item": "2983", "dosis": "75 mg IM." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamientos Quirúrgicos (Intervencionistas)",
+      "contenido": "La elección del procedimiento depende del tamaño, la localización y la dureza del cálculo.",
+      "items": [
+        {
+          "nombre": "Litotricia Extracorpórea por Ondas de Choque (LEOCH)",
+          "recomendacion": "Tratamiento no invasivo de elección para cálculos renales < 20 mm y cálculos ureterales proximales < 10 mm, siempre que no sean muy duros."
+        },
+        {
+          "nombre": "Ureteroscopia (URS) + Litotricia Láser",
+          "recomendacion": "Procedimiento endoscópico de elección para la mayoría de los cálculos localizados en el uréter (medio y distal). También es una excelente opción para cálculos renales < 20 mm, especialmente si la LEOCH falla o está contraindicada."
+        },
+        {
+          "nombre": "Nefrolitotomía Percutánea (NLPC)",
+          "recomendacion": "Es el tratamiento de elección para cálculos renales grandes (> 20 mm) y cálculos coraliformes (que ocupan gran parte del sistema colector del riñón)."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "urolitiasis",
+    "litiasis renal",
+    "calculo renal",
+    "piedra en el riñon",
+    "N200",
+    "colico renal",
+    "urologia",
+    "LEOCH",
+    "ureteroscopia",
+    "nefrolitotomia percutanea",
+    "ketorolaco"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el reconocimiento y manejo inicial de Sepsis en Adultos",
+  "diagnostico_cie10": "A419",
+  "referencias_cie10": [
+    "A410",
+    "A415",
+    "R652"
+  ],
+  "secciones": [
+    {
+      "titulo": "Reconocimiento y Diagnóstico Temprano",
+      "contenido": "La detección precoz es clave para mejorar la supervivencia.",
+      "items": [
+        {
+          "nombre": "Herramienta de Tamizaje: qSOFA",
+          "recomendacion": "Utilizar la escala qSOFA (Quick SOFA) para identificar rápidamente a pacientes con sospecha de infección y alto riesgo de mala evolución. Considerar qSOFA positivo si presenta 2 o más de: Frecuencia Respiratoria ≥22/min, Alteración del estado mental, o Presión Arterial Sistólica ≤100 mmHg."
+        }
+      ]
+    },
+    {
+      "titulo": "Paquete de Medidas de la Primera Hora ('Bundle' de 1 Hora)",
+      "contenido": "Conjunto de acciones críticas que deben iniciarse inmediatamente tras el reconocimiento de la sepsis.",
+      "items": [
+        {
+          "nombre": "1. Medir Lactato",
+          "recomendacion": "Obtener un nivel de lactato sérico. Un valor elevado (>2 mmol/L) indica hipoperfusión tisular y es un marcador de gravedad."
+        },
+        {
+          "nombre": "2. Obtener Hemocultivos",
+          "recomendacion": "Tomar al menos dos sets de hemocultivos (aerobio y anaerobio) ANTES de la administración de antibióticos."
+        },
+        {
+          "nombre": "3. Administrar Antibióticos de Amplio Espectro",
+          "recomendacion": "Iniciar la infusión de antibióticos intravenosos de amplio espectro tan pronto como sea posible, idealmente en la primera hora. La elección depende del foco y los factores de riesgo (ej. Ceftriaxona, Piperacilina/Tazobactam, etc.).",
+          "ejemplos": [
+            { "nombre": "Ceftriaxona (foco comunitario)", "codigo_item": "1617" },
+            { "nombre": "Piperacilina/Tazobactam (foco nosocomial)", "codigo_item": "5443" }
+          ]
+        },
+        {
+          "nombre": "4. Resucitación con Fluidos",
+          "codigo_item": "6025",
+          "recomendacion": "En pacientes con hipotensión o lactato ≥4 mmol/L, administrar un bolo inicial de 30 ml/kg de cristaloides (ej. Cloruro de Sodio 0.9%) intravenosos."
+        },
+        {
+          "nombre": "5. Iniciar Vasopresores",
+          "codigo_item": "5118",
+          "recomendacion": "Si la hipotensión persiste durante o después de la resucitación con fluidos, iniciar vasopresores para mantener una Presión Arterial Media (PAM) ≥ 65 mmHg. El fármaco de elección es la Norepinefrina."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "sepsis",
+    "choque septico",
+    "shock septico",
+    "A419",
+    "qSOFA",
+    "cuidados criticos",
+    "emergencia",
+    "lactato",
+    "antibioticos",
+    "fluidos",
+    "norepinefrina",
+    "vasopresores"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de pacientes con Osteoartritis",
+  "diagnostico_cie10": "M199",
+  "referencias_cie10": [
+    "M159",
+    "M169",
+    "M179"
+  ],
+  "secciones": [
+    {
+      "titulo": "Pilar 1: Tratamiento No Farmacológico",
+      "contenido": "Es la base del manejo de la osteoartritis y debe recomendarse a todos los pacientes.",
+      "items": [
+        {
+          "nombre": "Ejercicio Terapéutico",
+          "recomendacion": "Fomentar un programa regular de ejercicios aeróbicos de bajo impacto (caminata, natación, ciclismo) y ejercicios de fortalecimiento muscular, especialmente del cuádriceps en caso de artrosis de rodilla."
+        },
+        {
+          "nombre": "Pérdida de Peso",
+          "recomendacion": "En pacientes con sobrepeso u obesidad, la pérdida de peso es una intervención crucial para reducir la carga en las articulaciones y mejorar el dolor y la función."
+        }
+      ]
+    },
+    {
+      "titulo": "Pilar 2: Tratamiento Farmacológico para el Dolor",
+      "contenido": "Se utiliza de forma escalonada para controlar los síntomas.",
+      "items": [
+        {
+          "nombre": "Primera Línea: Analgésicos",
+          "recomendacion": "Iniciar el tratamiento del dolor con Paracetamol, pautado a dosis efectivas.",
+          "ejemplos": [
+            { "nombre": "Paracetamol", "codigo_item": "5293", "dosis": "500 mg a 1 g cada 6-8 horas (máximo 3-4 g/día)." }
+          ]
+        },
+        {
+          "nombre": "Segunda Línea: Antiinflamatorios (AINEs)",
+          "recomendacion": "Si el paracetamol es insuficiente, añadir o cambiar a un AINE. Se prefiere el uso de AINEs tópicos para artrosis de rodilla y mano. Los AINEs orales deben usarse a la dosis más baja y por el menor tiempo posible."
+        },
+        {
+          "nombre": "Opciones de AINEs",
+          "ejemplos": [
+            { "nombre": "Diclofenaco Tópico", "codigo_item": "2983", "dosis": "Aplicar en la articulación afectada 2-4 veces al día." },
+            { "nombre": "Ibuprofeno Oral", "codigo_item": "4034", "dosis": "400-600 mg cada 8 horas." },
+            { "nombre": "Celecoxib Oral", "codigo_item": "1713", "dosis": "200 mg una vez al día o 100 mg cada 12 horas. (Opción en pacientes con mayor riesgo gastrointestinal)." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Pilar 3: Tratamiento Quirúrgico",
+      "contenido": "Reservado para casos severos que no responden al tratamiento conservador.",
+      "items": [
+        {
+          "nombre": "Artroplastia (Reemplazo Articular)",
+          "recomendacion": "Considerar la derivación a cirugía para reemplazo articular (de rodilla o cadera) en pacientes con dolor severo, gran limitación funcional y evidencia radiográfica de artrosis avanzada, que no han respondido al manejo no farmacológico y farmacológico."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "osteoartritis",
+    "artrosis",
+    "M199",
+    "dolor articular",
+    "reumatologia",
+    "paracetamol",
+    "ibuprofeno",
+    "celecoxib",
+    "AINEs",
+    "artroplastia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la evaluación y el manejo de pacientes con Estenosis Aórtica Severa",
+  "diagnostico_cie10": "I350",
+  "referencias_cie10": [
+    "I352",
+    "I060"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Evaluación de Severidad",
+      "contenido": "El diagnóstico preciso es fundamental para determinar la necesidad de intervención.",
+      "items": [
+        {
+          "nombre": "Ecocardiografía Doppler",
+          "recomendacion": "Es el método de elección para el diagnóstico, cuantificación y seguimiento. La estenosis aórtica se considera severa con un área valvular < 1.0 cm² y/o un gradiente medio > 40 mmHg."
+        },
+        {
+          "nombre": "Indicación de Intervención por Síntomas",
+          "recomendacion": "El reemplazo valvular está indicado en TODO paciente con estenosis aórtica severa que presente cualquiera de los tres síntomas cardinales: angina, síncope o disnea (insuficiencia cardíaca)."
+        }
+      ]
+    },
+    {
+      "titulo": "Modalidades de Tratamiento Intervencionista",
+      "contenido": "La elección del procedimiento se basa en la evaluación del riesgo quirúrgico del paciente por un equipo multidisciplinario ('Heart Team').",
+      "items": [
+        {
+          "nombre": "Opción 1: Reemplazo Valvular Aórtico Quirúrgico (RVAo / SAVR)",
+          "recomendacion": "Es el tratamiento de elección ('gold standard') para pacientes con estenosis aórtica severa sintomática y un riesgo quirúrgico bajo o intermedio. Consiste en una cirugía a corazón abierto para sustituir la válvula."
+        },
+        {
+          "nombre": "Opción 2: Implante de Válvula Aórtica Transcatéter (TAVI / TAVR)",
+          "recomendacion": "Es el tratamiento de elección para pacientes con estenosis aórtica severa sintomática que son considerados inoperables o de alto riesgo para la cirugía convencional. Es un procedimiento menos invasivo realizado por cateterismo."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo Médico",
+      "contenido": "No existe tratamiento farmacológico que detenga la progresión de la enfermedad. El manejo médico se centra en el control de comorbilidades y síntomas mientras se planifica la intervención.",
+      "items": [
+        {
+          "nombre": "Precaución con Fármacos",
+          "recomendacion": "El uso de vasodilatadores, diuréticos o betabloqueadores debe ser extremadamente cauto en pacientes con estenosis aórtica severa, ya que pueden causar hipotensión severa. Su manejo debe ser por un especialista."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "estenosis aortica",
+    "valvulopatia",
+    "I350",
+    "cardiologia",
+    "cirugia cardiovascular",
+    "SAVR",
+    "reemplazo valvular aortico",
+    "TAVI",
+    "TAVR",
+    "ecocardiograma",
+    "angina",
+    "sincope",
+    "disnea"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica de Rehabilitación Cardiaca",
+  "diagnostico_cie10": "Z098",
+  "referencias_cie10": [
+    "Z090",
+    "I251",
+    "I219"
+  ],
+  "secciones": [
+    {
+      "titulo": "Indicaciones y Fases de la Rehabilitación Cardíaca (RHC)",
+      "contenido": "La RHC es un programa multidisciplinario para pacientes con enfermedades cardiovasculares.",
+      "items": [
+        {
+          "nombre": "Principales Indicaciones",
+          "recomendacion": "La RHC está indicada principalmente después de un síndrome coronario agudo (infarto), cirugía de bypass, angioplastia, cirugía valvular o en pacientes con insuficiencia cardíaca crónica estable."
+        }
+      ]
+    },
+    {
+      "titulo": "Componente Central: Prescripción de Ejercicio",
+      "contenido": "El ejercicio supervisado y personalizado es el pilar de la RHC.",
+      "items": [
+        {
+          "nombre": "Evaluación Inicial con Prueba de Esfuerzo",
+          "codigo_item": "93015",
+          "recomendacion": "Realizar una prueba de esfuerzo (ergometría) antes de iniciar el programa para estratificar el riesgo del paciente y prescribir la intensidad del ejercicio de forma segura."
+        },
+        {
+          "nombre": "Programa de Ejercicio Supervisado",
+          "recomendacion": "El programa debe incluir ejercicio aeróbico (3-5 sesiones/semana de 20-60 min) y ejercicios de resistencia (2-3 sesiones/semana), ajustados a la capacidad funcional de cada paciente."
+        }
+      ]
+    },
+    {
+      "titulo": "Componente de Prevención Secundaria",
+      "contenido": "Control agresivo de los factores de riesgo cardiovascular para prevenir nuevos eventos.",
+      "items": [
+        {
+          "nombre": "Control de Lípidos con Estatinas",
+          "recomendacion": "Todos los pacientes post-evento coronario deben recibir una estatina de alta intensidad para alcanzar un objetivo de colesterol LDL < 55-70 mg/dL.",
+          "ejemplos": [
+            { "nombre": "Atorvastatina", "codigo_item": "904", "dosis": "Iniciar con 40-80 mg al día." }
+          ]
+        },
+        {
+          "nombre": "Uso de Betabloqueadores",
+          "recomendacion": "Los betabloqueadores están indicados en todos los pacientes post-infarto y en aquellos con insuficiencia cardíaca con fracción de eyección reducida.",
+          "ejemplos": [
+            { "nombre": "Bisoprolol", "codigo_item": "1272", "dosis": "Iniciar con 1.25-2.5 mg al día y titular según tolerancia." }
+          ]
+        },
+        {
+          "nombre": "Terapia Antiagregante",
+          "recomendacion": "La aspirina a dosis bajas está indicada de por vida en la mayoría de los pacientes con enfermedad coronaria.",
+          "ejemplos": [
+            { "nombre": "Ácido Acetilsalicílico (Aspirina)", "codigo_item": "713", "dosis": "100 mg al día." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "rehabilitacion cardiaca",
+    "RHC",
+    "Z098",
+    "prevencion secundaria",
+    "postinfarto",
+    "cardiologia",
+    "prueba de esfuerzo",
+    "ergometria",
+    "atorvastatina",
+    "bisoprolol",
+    "ejercicio"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de la Colelitiasis, Colecistitis Aguda y Coledocolitiasis",
+  "diagnostico_cie10": "K810",
+  "referencias_cie10": [
+    "K802",
+    "K805",
+    "K819"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico",
+      "contenido": "La ecografía abdominal es la herramienta inicial clave para la patología biliar.",
+      "items": [
+        {
+          "nombre": "Diagnóstico de Colelitiasis y Colecistitis",
+          "recomendacion": "La ecografía abdominal es el método de elección. Para colelitiasis, muestra imágenes hiperecogénicas con sombra acústica en la vesícula. Para colecistitis aguda, además muestra engrosamiento de la pared vesicular (>4mm), líquido perivesicular y/o signo de Murphy ecográfico positivo."
+        },
+        {
+          "nombre": "Diagnóstico de Coledocolitiasis",
+          "recomendacion": "Ante la sospecha (ictericia, alteración del perfil hepático), se puede confirmar con una Colangiopancreatografía por Resonancia Magnética (CPRM) de forma no invasiva, o directamente con una CPRE si la sospecha es alta."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Colecistitis Aguda",
+      "contenido": "El tratamiento definitivo es la extirpación quirúrgica de la vesícula biliar.",
+      "items": [
+        {
+          "nombre": "Colecistectomía Laparoscópica Temprana",
+          "recomendacion": "Es el tratamiento de elección. Se debe realizar la cirugía dentro de las primeras 72 horas desde el inicio de los síntomas para reducir la estancia hospitalaria y las complicaciones."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Coledocolitiasis",
+      "contenido": "El objetivo es extraer los cálculos del conducto biliar principal.",
+      "items": [
+        {
+          "nombre": "Colangiopancreatografía Retrógrada Endoscópica (CPRE)",
+          "recomendacion": "Es el procedimiento de elección. Es una técnica endoscópica que permite visualizar el conducto biliar, realizar una papilotomía (corte en la desembocadura) y extraer los cálculos, resolviendo la obstrucción."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "colelitiasis",
+    "calculos biliares",
+    "colecistitis",
+    "K810",
+    "coledocolitiasis",
+    "ictericia",
+    "cirugia general",
+    "gastroenterologia",
+    "colecistectomia laparoscopica",
+    "CPRE"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la Adecuación de Hemodiálisis",
+  "diagnostico_cie10": "Z992",
+  "referencias_cie10": [
+    "N186",
+    "N185"
+  ],
+  "secciones": [
+    {
+      "titulo": "Medición y Objetivos de la Dosis de Diálisis",
+      "contenido": "La adecuación de la hemodiálisis se mide para asegurar que el paciente recibe una dosis suficiente de tratamiento.",
+      "items": [
+        {
+          "nombre": "Parámetro de Medición: Kt/V",
+          "recomendacion": "Utilizar el Kt/V para cuantificar la dosis de diálisis. Representa la eficacia con la que se elimina la urea durante una sesión."
+        },
+        {
+          "nombre": "Objetivos de Kt/V por Sesión (spKt/V)",
+          "recomendacion": "Para pacientes en un esquema de 3 sesiones por semana, el objetivo MÍNIMO de spKt/V es de 1.2. Se recomienda un objetivo ÓPTIMO de spKt/V de 1.4 para asegurar una diálisis de alta calidad."
+        }
+      ]
+    },
+    {
+      "titulo": "Factores Clave para una Diálisis Adecuada",
+      "contenido": "Varios factores deben ser optimizados para alcanzar los objetivos de Kt/V.",
+      "items": [
+        {
+          "nombre": "Acceso Vascular Funcional",
+          "recomendacion": "Un acceso vascular permeable y maduro (preferiblemente una fístula arteriovenosa) que permita flujos sanguíneos (Qb) sostenidos y elevados es el requisito más importante para una diálisis adecuada."
+        },
+        {
+          "nombre": "Tiempo de Sesión",
+          "recomendacion": "Asegurar el cumplimiento del tiempo de diálisis prescrito (generalmente 4 horas por sesión). Acortar las sesiones es una causa principal de infra-diálisis."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Anemia Asociada",
+      "contenido": "La anemia es una complicación casi universal de la enfermedad renal crónica en diálisis.",
+      "items": [
+        {
+          "nombre": "Terapia con Agentes Estimulantes de la Eritropoyesis (AEE)",
+          "codigo_item": "3113",
+          "recomendacion": "Administrar AEE (como Eritropoyetina) para mantener los niveles de hemoglobina en el rango objetivo (típicamente entre 10 y 11.5 g/dL)."
+        },
+        {
+          "nombre": "Suplementación con Hierro",
+          "codigo_item": "37855",
+          "recomendacion": "Administrar hierro intravenoso (como Hierro Sacarato) para mantener los depósitos de hierro adecuados (saturación de transferrina >20% y ferritina >200 ng/mL), lo cual es esencial para que la eritropoyetina sea efectiva."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "hemodialisis",
+    "dialisis",
+    "adecuacion",
+    "Z992",
+    "nefrologia",
+    "Kt/V",
+    "insuficiencia renal cronica",
+    "eritropoyetina",
+    "EPO",
+    "hierro sacarato",
+    "anemia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el manejo de los Trastornos Minerales y Óseos en Enfermedad Renal Crónica",
+  "diagnostico_cie10": "N185",
+  "referencias_cie10": [
+    "N184",
+    "N250",
+    "E835"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Monitorización",
+      "contenido": "El manejo se basa en la monitorización periódica de los niveles de Calcio, Fósforo y Hormona Paratiroidea (PTH).",
+      "items": [
+        {
+          "nombre": "Monitorización Bioquímica",
+          "recomendacion": "En pacientes con ERC etapa 5 en diálisis, medir los niveles séricos de calcio, fósforo y PTH de forma regular para guiar el tratamiento y mantenerlos dentro de los rangos objetivo recomendados por las guías KDOQI/KDIGO."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de la Hiperfosfatemia",
+      "contenido": "Es el primer pilar del tratamiento. El objetivo es controlar los niveles de fósforo en sangre.",
+      "items": [
+        {
+          "nombre": "Quelantes de Fósforo a base de Calcio",
+          "codigo_item": "20635",
+          "recomendacion": "Son la primera línea de tratamiento. Se deben tomar junto con las comidas para unirse al fósforo de la dieta y evitar su absorción.",
+          "dosis": "Carbonato de Calcio, la dosis se ajusta según los niveles de fósforo y calcio del paciente."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo del Hiperparatiroidismo Secundario",
+      "contenido": "El objetivo es suprimir la producción excesiva de PTH para prevenir el daño óseo y las calcificaciones vasculares.",
+      "items": [
+        {
+          "nombre": "Análogos de la Vitamina D Activa",
+          "codigo_item": "1503",
+          "recomendacion": "Utilizar análogos de la vitamina D como el Calcitriol para suprimir la PTH. Se debe monitorizar de cerca los niveles de calcio y fósforo para evitar la hipercalcemia e hiperfosfatemia.",
+          "dosis": "Calcitriol 0.25-0.5 µg, administrado de forma intermitente (varias veces por semana)."
+        },
+        {
+          "nombre": "Calcimiméticos (para casos refractarios)",
+          "recomendacion": "En pacientes con hiperparatiroidismo secundario severo que no se controla con quelantes y vitamina D, considerar el uso de Cinacalcet. Este fármaco aumenta la sensibilidad de los receptores de calcio en la glándula paratiroides, disminuyendo la secreción de PTH.",
+          "dosis": "Cinacalcet, iniciar con 30 mg al día y titular según los niveles de PTH."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "trastorno mineral oseo",
+    "TMO-ERC",
+    "enfermedad renal cronica",
+    "ERC",
+    "N185",
+    "nefrologia",
+    "hiperparatiroidismo secundario",
+    "hiperfosfatemia",
+    "calcitriol",
+    "carbonato de calcio",
+    "cinacalcet"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y manejo de la Anemia en pacientes con Enfermedad Renal Crónica",
+  "diagnostico_cie10": "D638",
+  "referencias_cie10": [
+    "N185",
+    "D500"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Evaluación Inicial",
+      "contenido": "La causa principal de la anemia en ERC es la deficiencia de eritropoyetina, pero es crucial descartar y tratar el déficit de hierro primero.",
+      "items": [
+        {
+          "nombre": "Definición y Causa",
+          "recomendacion": "Diagnosticar anemia en ERC con Hb < 13 g/dL en hombres y < 12 g/dL en mujeres. La causa principal es la producción insuficiente de eritropoyetina por los riñones enfermos."
+        },
+        {
+          "nombre": "Evaluación del Estado del Hierro",
+          "recomendacion": "Antes de iniciar cualquier tratamiento, es mandatorio medir el estado del hierro del paciente mediante la saturación de transferrina (TSAT) y la ferritina sérica. El tratamiento con eritropoyetina no será efectivo si existe ferropenia."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Primera Línea: Repleción de Hierro",
+      "contenido": "Corregir el déficit de hierro es el primer y más importante paso en el manejo de la anemia en ERC.",
+      "items": [
+        {
+          "nombre": "Terapia con Hierro Intravenoso",
+          "codigo_item": "37855",
+          "recomendacion": "En pacientes en hemodiálisis, la vía intravenosa es de elección. El objetivo es mantener una TSAT > 20% y una Ferritina > 200 ng/mL.",
+          "dosis": "Hierro Sacarato, administrado en dosis periódicas según el protocolo de la unidad de diálisis para alcanzar y mantener los objetivos."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de Segunda Línea: Agentes Estimulantes de la Eritropoyesis (AEE)",
+      "contenido": "Se inician una vez que se ha garantizado un estado de hierro adecuado.",
+      "items": [
+        {
+          "nombre": "Inicio de Terapia con AEE",
+          "codigo_item": "3113",
+          "recomendacion": "Iniciar tratamiento con AEE (ej. Eritropoyetina) cuando la hemoglobina se mantenga por debajo de 10 g/dL, a pesar de tener depósitos de hierro adecuados."
+        },
+        {
+          "nombre": "Objetivo de Hemoglobina",
+          "recomendacion": "El objetivo del tratamiento es mantener la hemoglobina en un rango entre 10 y 11.5 g/dL. NO se recomienda buscar niveles de hemoglobina normales (>13 g/dL), ya que esto se asocia con un aumento del riesgo cardiovascular."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "anemia",
+    "enfermedad renal cronica",
+    "ERC",
+    "D638",
+    "nefrologia",
+    "eritropoyetina",
+    "EPO",
+    "hierro",
+    "hierro sacarato",
+    "hemodialisis"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica de Rehidratación y Fluidoterapia en Niños y Adolescentes",
+  "diagnostico_cie10": "E86X",
+  "referencias_cie10": [
+    "A099",
+    "P741"
+  ],
+  "secciones": [
+    {
+      "titulo": "Manejo de Deshidratación Leve a Moderada",
+      "contenido": "La Terapia de Rehidratación Oral (TRO) es el tratamiento de elección.",
+      "items": [
+        {
+          "nombre": "Terapia de Rehidratación Oral (TRO)",
+          "codigo_item": "5595",
+          "recomendacion": "Es el tratamiento de primera línea. Administrar Sales de Rehidratación Oral (SRO) de baja osmolaridad en pequeñas cantidades y de forma frecuente. La cantidad total a reponer en 4 horas es de 50-100 ml/kg."
+        }
+      ]
+    },
+    {
+      "titulo": "Manejo de Deshidratación Severa (Shock Hipovolémico)",
+      "contenido": "Requiere una resucitación intravenosa inmediata y agresiva.",
+      "items": [
+        {
+          "nombre": "Resucitación con Bolos de Cristaloides Isotónicos",
+          "codigo_item": "6025",
+          "recomendacion": "Es una emergencia médica. Administrar bolos de 20 ml/kg de Cloruro de Sodio al 0.9% por vía intravenosa, lo más rápido posible (en 5-10 minutos). Reevaluar al paciente y repetir los bolos si persiste el estado de shock."
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Mantenimiento Intravenosa",
+      "contenido": "Para pacientes que no pueden tolerar la vía oral una vez estabilizados.",
+      "items": [
+        {
+          "nombre": "Uso de Soluciones Isotónicas",
+          "codigo_item": "2744",
+          "recomendacion": "Para prevenir la hiponatremia iatrogénica, los fluidos de mantenimiento deben ser soluciones isotónicas. La solución recomendada es Dextrosa al 5% en Cloruro de Sodio al 0.9% (suero glucosado isotónico), ajustada a las necesidades del paciente."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "deshidratacion",
+    "deplecion de volumen",
+    "E86X",
+    "pediatria",
+    "fluidoterapia",
+    "rehidratacion",
+    "sales de rehidratacion oral",
+    "SRO",
+    "cloruro de sodio",
+    "dextrosa"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para la Profilaxis Antibiótica en Procedimientos Quirúrgicos",
+  "diagnostico_cie10": "Z292",
+  "referencias_cie10": [
+    "Z409",
+    "T814"
+  ],
+  "secciones": [
+    {
+      "titulo": "Principios Fundamentales de la Profilaxis",
+      "contenido": "El objetivo es prevenir la Infección del Sitio Operatorio (ISO) mediante la administración correcta del antibiótico.",
+      "items": [
+        {
+          "nombre": "Momento de Administración ('Timing')",
+          "recomendacion": "Administrar el antibiótico profiláctico por vía intravenosa dentro de los 60 minutos previos a la incisión quirúrgica para asegurar niveles tisulares adecuados."
+        },
+        {
+          "nombre": "Duración de la Profilaxis",
+          "recomendacion": "La profilaxis debe consistir en una dosis única preoperatoria. No se recomienda continuar con dosis postoperatorias, ya que no previene infecciones y aumenta la resistencia bacteriana."
+        }
+      ]
+    },
+    {
+      "titulo": "Selección del Antibiótico según Tipo de Cirugía",
+      "contenido": "La elección del antibiótico se basa en los patógenos más probables para cada procedimiento.",
+      "items": [
+        {
+          "nombre": "Cirugía Limpia (ej. Hernioplastia, Cirugía Cardíaca)",
+          "recomendacion": "El objetivo es cubrir Staphylococcus aureus de la piel. El antibiótico de elección es Cefazolina.",
+          "ejemplos": [
+            { "nombre": "Cefazolina", "codigo_item": "1639", "dosis": "1-2 g IV en dosis única." }
+          ]
+        },
+        {
+          "nombre": "Cirugía Colorrectal (Limpia-Contaminada)",
+          "recomendacion": "Se requiere cobertura para Gram-negativos y anaerobios del tracto digestivo.",
+          "ejemplos": [
+            { "nombre": "Ceftriaxona", "codigo_item": "1617", "dosis": "1-2 g IV en dosis única." },
+            { "nombre": "Metronidazol", "codigo_item": "4776", "dosis": "500 mg IV en dosis única (administrado junto con Ceftriaxona)." }
+          ]
+        },
+        {
+          "nombre": "Alternativa para Pacientes Alérgicos a Betalactámicos",
+          "recomendacion": "En pacientes con alergia tipo I (anafilaxia) a penicilinas/cefalosporinas, se deben usar regímenes alternativos.",
+          "ejemplos": [
+            { "nombre": "Vancomicina", "codigo_item": "6503", "dosis": "15 mg/kg IV en dosis única (infundir en 1-2 horas)." },
+            { "nombre": "Clindamicina", "codigo_item": "1958", "dosis": "600-900 mg IV en dosis única." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "profilaxis antibiotica",
+    "profilaxis quirurgica",
+    "infeccion sitio operatorio",
+    "ISO",
+    "Z292",
+    "cirugia",
+    "cefazolina",
+    "metronidazol",
+    "clindamicina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica de Síndrome Coronario Agudo",
+  "diagnostico_cie10": "I249",
+  "referencias_cie10": [
+    "I219",
+    "I200"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Clasificación Inicial",
+      "contenido": "El diagnóstico rápido y la clasificación basada en el ECG son cruciales para definir la estrategia de tratamiento.",
+      "items": [
+        {
+          "nombre": "Evaluación Inicial",
+          "recomendacion": "Ante un paciente con dolor torácico sugestivo de isquemia, realizar un electrocardiograma (ECG) de 12 derivaciones en los primeros 10 minutos y medir troponinas cardíacas."
+        },
+        {
+          "nombre": "Clasificación del SCA",
+          "recomendacion": "Clasificar el SCA según el ECG en: Síndrome Coronario Agudo con Elevación del ST (SCACEST), que requiere reperfusión inmediata, o Síndrome Coronario Agudo sin Elevación del ST (SCASEST)."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Farmacológico Inicial (Todos los SCA)",
+      "contenido": "Terapia anti-isquémica y antitrombótica inmediata para todos los pacientes con sospecha de SCA.",
+      "items": [
+        {
+          "nombre": "Terapia Antiplaquetaria Doble (DAPT)",
+          "recomendacion": "Administrar una dosis de carga de Aspirina masticable y una dosis de carga de un inhibidor P2Y12 (como Clopidogrel) lo antes posible.",
+          "ejemplos": [
+            { "nombre": "Ácido Acetilsalicílico (Aspirina)", "codigo_item": "713", "dosis": "Dosis de carga de 150-300 mg." },
+            { "nombre": "Clopidogrel", "codigo_item": "18874", "dosis": "Dosis de carga de 300-600 mg." }
+          ]
+        },
+        {
+          "nombre": "Terapia Anticoagulante",
+          "recomendacion": "Añadir un anticoagulante parenteral (como Enoxaparina) a la terapia antiplaquetaria para prevenir la formación de trombos.",
+          "ejemplos": [
+            { "nombre": "Enoxaparina", "codigo_item": "3088", "dosis": "1 mg/kg por vía subcutánea cada 12 horas." }
+          ]
+        },
+        {
+          "nombre": "Terapia Anti-isquémica",
+          "recomendacion": "Administrar Nitroglicerina para aliviar el dolor torácico, si la presión arterial lo permite.",
+          "ejemplos": [
+            { "nombre": "Nitroglicerina", "codigo_item": "5105", "dosis": "Sublingual o en infusión intravenosa, titulando según el dolor y la presión arterial." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Terapia de Reperfusión (para SCACEST)",
+      "contenido": "El objetivo es restaurar el flujo sanguíneo en la arteria ocluida lo más rápido posible.",
+      "items": [
+        {
+          "nombre": "Angioplastia Primaria (ACTP)",
+          "recomendacion": "Es el tratamiento de elección. Se debe realizar un cateterismo cardíaco de emergencia para abrir la arteria con un balón e implantar un stent. El objetivo es un tiempo 'puerta-balón' < 90 minutos."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "sindrome coronario agudo",
+    "SCA",
+    "SCACEST",
+    "SCASEST",
+    "infarto",
+    "IAM",
+    "I249",
+    "cardiologia",
+    "dolor toracico",
+    "aspirina",
+    "clopidogrel",
+    "enoxaparina",
+    "nitroglicerina",
+    "angioplastia"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de Lumbalgia",
+  "diagnostico_cie10": "M545",
+  "referencias_cie10": [
+    "M544",
+    "M549"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Evaluación Inicial",
+      "contenido": "La prioridad es descartar patologías graves mediante la búsqueda de 'banderas rojas'.",
+      "items": [
+        {
+          "nombre": "Diagnóstico de Lumbalgia Inespecífica",
+          "recomendacion": "En la mayoría de los casos (>90%), el diagnóstico es clínico. No se requieren pruebas de imagen (radiografías, etc.) en la evaluación inicial si no existen signos de alarma."
+        },
+        {
+          "nombre": "Búsqueda de Signos de Alarma ('Banderas Rojas')",
+          "recomendacion": "Investigar activamente la presencia de signos que sugieran una causa grave (tumor, infección, fractura), como: edad <20 o >55 años, antecedente de cáncer, fiebre, pérdida de peso, déficit neurológico progresivo o incontinencia. Su presencia justifica estudios de imagen urgentes."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento de la Lumbalgia Aguda Inespecífica",
+      "contenido": "El manejo se centra en el control del dolor y la promoción de la actividad.",
+      "items": [
+        {
+          "nombre": "Recomendación Principal: Mantenerse Activo",
+          "recomendacion": "Aconsejar al paciente que evite el reposo en cama y continúe con sus actividades diarias normales en la medida que el dolor lo tolere. El movimiento favorece la recuperación."
+        },
+        {
+          "nombre": "Tratamiento Farmacológico de Primera Línea",
+          "recomendacion": "Utilizar Antiinflamatorios No Esteroideos (AINEs) a dosis pautadas por un corto período de tiempo.",
+          "ejemplos": [
+            { "nombre": "Ibuprofeno", "codigo_item": "4034", "dosis": "400-600 mg cada 8 horas." },
+            { "nombre": "Diclofenaco", "codigo_item": "2983", "dosis": "50 mg cada 8-12 horas." }
+          ]
+        },
+        {
+          "nombre": "Tratamiento Farmacológico de Segunda Línea",
+          "recomendacion": "Considerar añadir un relajante muscular no benzodiacepínico por un corto período (7-14 días) si existe un espasmo muscular significativo.",
+          "ejemplos": [
+            { "nombre": "Ciclobenzaprina", "codigo_item": "1774", "dosis": "5-10 mg por la noche o cada 8 horas." }
+          ]
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "lumbalgia",
+    "lumbago",
+    "dolor de espalda",
+    "M545",
+    "dolor lumbar",
+    "rehabilitacion",
+    "AINEs",
+    "ibuprofeno",
+    "ciclobenzaprina"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
+},
+{
+  "nombre_guia": "Guía de Práctica Clínica para el diagnóstico y tratamiento de Cáncer de Mama HER2 Positivo No Metastásico",
+  "diagnostico_cie10": "C509",
+  "referencias_cie10": [
+    "C504",
+    "C508"
+  ],
+  "secciones": [
+    {
+      "titulo": "Diagnóstico y Determinación del Estatus HER2",
+      "contenido": "La confirmación del subtipo HER2 positivo es mandatoria para definir el tratamiento.",
+      "items": [
+        {
+          "nombre": "Diagnóstico Anatomo-patológico",
+          "recomendacion": "El diagnóstico se confirma mediante biopsia del tumor mamario. En el informe se debe especificar el tipo histológico y el grado tumoral."
+        },
+        {
+          "nombre": "Determinación de HER2",
+          "recomendacion": "Evaluar el estatus del receptor HER2 en todas las biopsias de cáncer de mama. Un tumor es HER2 positivo si la Inmunohistoquímica (IHQ) es 3+, o si la IHQ es 2+ y la Hibridación in situ (FISH) es positiva."
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Sistémico Adyuvante (Post-cirugía)",
+      "contenido": "El pilar del tratamiento es la combinación de quimioterapia y terapia dirigida anti-HER2 para eliminar la microenfermedad y prevenir la recurrencia.",
+      "items": [
+        {
+          "nombre": "Esquema de Tratamiento",
+          "recomendacion": "El tratamiento estándar consiste en un régimen de quimioterapia basado en taxanos, administrado de forma concomitante con Trastuzumab, seguido de Trastuzumab en monoterapia hasta completar un año."
+        },
+        {
+          "nombre": "Fármacos Utilizados",
+          "ejemplos": [
+            { "nombre": "Docetaxel", "codigo_item": "2983", "dosis": "Parte del esquema de quimioterapia (ej. TCH: Docetaxel, Carboplatino, Trastuzumab)." },
+            { "nombre": "Trastuzumab", "codigo_item": "17689", "dosis": "Administrado cada 3 semanas por un total de 1 año (17-18 ciclos)." }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "Tratamiento Neoadyuvante (Pre-cirugía)",
+      "contenido": "Se considera en tumores localmente avanzados para reducir el tamaño tumoral.",
+      "items": [
+        {
+          "nombre": "Indicación de Neoadyuvancia",
+          "recomendacion": "En pacientes con tumores >2 cm o con ganglios axilares positivos, se recomienda el tratamiento sistémico (quimioterapia + terapia anti-HER2) antes de la cirugía para mejorar las tasas de cirugía conservadora y evaluar la respuesta al tratamiento."
+        }
+      ]
+    }
+  ],
+  "palabras_clave": [
+    "cancer de mama",
+    "cancer de seno",
+    "C509",
+    "oncologia",
+    "HER2 positivo",
+    "trastuzumab",
+    "herceptin",
+    "docetaxel",
+    "taxotere",
+    "quimioterapia",
+    "terapia dirigida"
+  ],
+  "version_guia": "1.0",
+  "fecha_actualizacion": "2025-11-16"
 }
-
-
-
 
 ]
