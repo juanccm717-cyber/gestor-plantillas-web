@@ -2,6 +2,22 @@
 
 {% block title %}Búsqueda de Diagnósticos (CIE-10){% endblock %}
 
+{% block styles %}
+<style>
+    /* Estilo para el texto resaltado en los resultados de búsqueda */
+    .table-hover tbody tr:hover {
+        background-color: #495057; /* Un gris un poco más claro para el hover */
+    }
+    mark {
+        background-color: #343a40; /* Fondo sutilmente más oscuro que el de la fila */
+        color: #ffffff; /* Color de texto blanco para un alto contraste */
+        padding: 0.1em 0; /* Un poco de padding vertical para que no se vea apretado */
+        border-radius: 3px;
+    }
+</style>
+{% endblock %}
+
+
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -14,7 +30,7 @@
                     
                     <!-- Controles de Búsqueda -->
                     <div class="mb-3">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Escribe un código o descripción (mín. 3 letras)..." autofocus>
+                        <input type="text" id="searchInput" class="form-control bg-dark text-white border-secondary" placeholder="Escribe un código o descripción (mín. 3 letras)..." autofocus>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
@@ -96,16 +112,22 @@
             spinner.style.display = 'block';
             resultsBody.innerHTML = '';
             resultsCount.textContent = '';
-            fetch(`/api/search_diagnosticos?q=${encodeURIComponent(query)}`).then(response => response.json()).then(data => handleNewData(data, query)).catch(handleError);
+            fetch(`/api/search_diagnosticos?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => handleNewData(data, query))
+                .catch(handleError);
         }
 
         function performLocalFilter(query) {
             const upperQuery = query.toUpperCase();
-            const filteredData = allData.filter(item => item.codigo.toUpperCase().includes(upperQuery) || item.descripcion.toUpperCase().includes(upperQuery));
+            const filteredData = allData.filter(item => 
+                item.codigo.toUpperCase().includes(upperQuery) || 
+                item.descripcion.toUpperCase().includes(upperQuery)
+            );
             handleNewData(filteredData, query);
         }
 
-        // --- MANEJO DE DATOS Y RENDERIZADO (SIN RESALTADO) ---
+        // --- MANEJO DE DATOS Y RENDERIZADO (CON RESALTADO) ---
         function handleNewData(data, query) {
             spinner.style.display = 'none';
             if (!data || data.error) {
@@ -114,15 +136,23 @@
                 return;
             }
             if (data.length === 0) {
-                resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${searchInput.value}".</td></tr>`;
+                resultsBody.innerHTML = `<tr><td colspan="2" class="text-center text-muted">No se encontraron resultados para "${escapeHTML(searchInput.value)}".</td></tr>`;
                 resultsCount.textContent = '0 resultados.';
             } else {
-                resultsBody.innerHTML = data.map(item => `
-                    <tr>
-                        <td>${item.codigo}</td>
-                        <td>${item.descripcion}</td>
-                    </tr>
-                `).join('');
+                const highlightRegex = query ? new RegExp(`(${escapeRegExp(query)})`, 'gi') : null;
+                
+                resultsBody.innerHTML = data.map(item => {
+                    const highlightedCode = highlightRegex ? item.codigo.replace(highlightRegex, '<mark>$1</mark>') : item.codigo;
+                    const highlightedDesc = highlightRegex ? item.descripcion.replace(highlightRegex, '<mark>$1</mark>') : item.descripcion;
+                    
+                    return `
+                        <tr>
+                            <td>${highlightedCode}</td>
+                            <td>${highlightedDesc}</td>
+                        </tr>
+                    `;
+                }).join('');
+
                 // Actualizar contador
                 if (searchMode === 'local') {
                     resultsCount.textContent = `Mostrando ${data.length} de ${allData.length} diagnósticos.`;
@@ -138,6 +168,15 @@
             resultsCount.textContent = 'Error de conexión.';
         }
 
+        // --- FUNCIONES AUXILIARES ---
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
         // --- EVENT LISTENERS ---
         searchInput.addEventListener('keyup', performSearch);
         loadAllButton.addEventListener('click', function() {
@@ -145,17 +184,20 @@
             loadingText.textContent = 'Cargando todos los diagnósticos...';
             spinner.style.display = 'block';
             this.disabled = true;
-            fetch('/api/get_all_diagnosticos').then(response => response.json()).then(data => {
-                if (data && !data.error) {
-                    allData = data;
-                    searchMode = 'local';
-                    statusText.innerHTML = 'Modo de búsqueda: <strong>Local (en memoria)</strong>';
-                    loadAllButton.style.display = 'none';
-                    performLocalFilter(searchInput.value);
-                } else {
-                    handleError();
-                }
-            }).catch(handleError);
+            fetch('/api/get_all_diagnosticos')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && !data.error) {
+                        allData = data;
+                        searchMode = 'local';
+                        statusText.innerHTML = 'Modo de búsqueda: <strong>Local (en memoria)</strong>';
+                        loadAllButton.style.display = 'none';
+                        performLocalFilter(searchInput.value);
+                    } else {
+                        handleError();
+                    }
+                })
+                .catch(handleError);
         });
     });
 </script>
