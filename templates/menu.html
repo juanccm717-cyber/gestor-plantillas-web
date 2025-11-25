@@ -4,44 +4,112 @@
 
 {% block styles %}
 <style>
-    /* Estilo para asegurar que las tarjetas en la misma fila tengan la misma altura */
-    .card {
+    /* --- Estilos Generales del Cuerpo --- */
+    body {
+        background-color: #f8f9fa; /* Un fondo gris muy claro */
+    }
+
+    /* --- Estilos para las Tarjetas del Menú --- */
+    .menu-card {
+        background-color: #ffffff;
+        border: none;
+        border-radius: 15px; /* Bordes más redondeados */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
     }
-    .card-body {
+
+    .menu-card:hover {
+        transform: translateY(-8px); /* Efecto de elevación al pasar el cursor */
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .menu-card .card-body {
+        padding: 2rem;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+        text-align: center;
     }
-    .card-body .mt-auto {
-        margin-top: auto;
+
+    /* --- Estilos para los Iconos --- */
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem; /* Iconos más grandes */
+        color: #fff;
     }
+    
+    /* Paleta de colores para los círculos de los iconos */
+    .icon-blue { background: linear-gradient(135deg, #0d6efd, #0a58ca); }
+    .icon-green { background: linear-gradient(135deg, #198754, #146c43); }
+    .icon-cyan { background: linear-gradient(135deg, #0dcaf0, #3dd5f3); }
+    .icon-orange { background: linear-gradient(135deg, #fd7e14, #f76707); }
+    .icon-purple { background: linear-gradient(135deg, #6f42c1, #6139a8); }
+    .icon-yellow { background: linear-gradient(135deg, #ffc107, #f5b000); }
+    .icon-pink { background: linear-gradient(135deg, #d63384, #c21a72); }
+    .icon-red { background: linear-gradient(135deg, #dc3545, #c92131); }
+
+
+    /* --- Estilos para los Botones --- */
+    .btn-menu {
+        border-radius: 50px; /* Botones tipo "píldora" */
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        color: #fff !important; /* Asegurar texto blanco */
+    }
+
+    .btn-menu:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Degradados para los botones */
+    .btn-grad-blue { background-image: linear-gradient(to right, #007bff, #0056b3); }
+    .btn-grad-green { background-image: linear-gradient(to right, #28a745, #218838); }
+    .btn-grad-cyan { background-image: linear-gradient(to right, #17a2b8, #117a8b); }
+    .btn-grad-orange { background-image: linear-gradient(to right, #fd7e14, #f76707); }
+    .btn-grad-purple { background-image: linear-gradient(to right, #6f42c1, #6139a8); }
+    .btn-grad-yellow { background-image: linear-gradient(to right, #ffc107, #f5b000); color: #212529 !important; }
+    .btn-grad-pink { background-image: linear-gradient(to right, #d63384, #c21a72); }
+    .btn-grad-red { background-image: linear-gradient(to right, #dc3545, #c92131); }
+    
+    .btn-outline-menu {
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container my-5">
     <div class="text-center mb-5">
-        <h1>Menú Principal</h1>
-        <p class="lead text-muted">Selecciona una opción para comenzar.</p>
+        <h1 class="display-5 fw-bold">Menú Principal</h1>
+        <p class="lead text-muted">Bienvenido, {{ session.username }}. Elige una herramienta para empezar.</p>
     </div>
 
     <div class="row justify-content-center g-4">
         
-        <!-- ================================================== -->
-        <!--           TARJETAS DE GESTIÓN PRINCIPAL            -->
-        <!-- ================================================== -->
-
         <!-- Tarjeta para Crear Plantilla (Solo Admin) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-plus-circle-dotted" style="font-size: 3rem; color: #0d6efd;"></i></div>
-                    <h5 class="card-title">Crear Nueva Plantilla</h5>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-blue"><i class="bi bi-plus-lg"></i></div>
+                    <h5 class="card-title fw-bold">Crear Plantilla</h5>
                     <p class="card-text text-muted">Diseña una nueva guía o procedimiento desde cero.</p>
-                    <a href="{{ url_for('plantillas') }}" class="btn btn-primary mt-auto">Comenzar a Crear</a>
+                    <a href="{{ url_for('plantillas') }}" class="btn-menu btn-grad-blue mt-auto">Comenzar</a>
                 </div>
             </div>
         </div>
@@ -49,138 +117,120 @@
 
         <!-- Tarjeta para Ver Plantillas -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-card-list" style="font-size: 3rem; color: #198754;"></i></div>
-                    <h5 class="card-title">Ver Plantillas Existentes</h5>
-                    <p class="card-text text-muted">Consulta las guías y plantillas guardadas.</p>
-                    <a href="{{ url_for('ver_plantillas') }}" class="btn btn-success mt-auto">Ver Plantillas</a>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-green"><i class="bi bi-collection"></i></div>
+                    <h5 class="card-title fw-bold">Ver Plantillas</h5>
+                    <p class="card-text text-muted">Consulta las guías y plantillas clínicas guardadas.</p>
+                    <a href="{{ url_for('ver_plantillas') }}" class="btn-menu btn-grad-green mt-auto">Explorar</a>
                 </div>
             </div>
         </div>
 
-        <!-- ================================================== -->
-        <!--           TARJETA UNIFICADA: HERRAMIENTAS DE IA    -->
-        <!-- ================================================== -->
+        <!-- Tarjeta Unificada: Herramientas de IA -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm border-info">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i></div>
-                    <h5 class="card-title">Herramientas de IA</h5>
-                    <p class="card-text text-muted">Asistentes inteligentes para el apoyo a la decisión clínica.</p>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-cyan"><i class="bi bi-robot"></i></div>
+                    <h5 class="card-title fw-bold">Herramientas de IA</h5>
+                    <p class="card-text text-muted">Asistentes inteligentes para el apoyo clínico.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('asistente_clinico') }}" class="btn btn-info d-block mb-2">Asistente Clínico</a>
+                        <a href="{{ url_for('asistente_clinico') }}" class="btn-menu btn-grad-cyan d-block mb-2">Asistente Clínico</a>
                         {% if session.role == 'administrador' %}
-                        <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-outline-info d-block">Analizador de Guías</a>
+                        <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-outline-info btn-outline-menu d-block">Analizador de Guías</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================================================== -->
-        <!--           TARJETA UNIFICADA: BÚSQUEDA              -->
-        <!-- ================================================== -->
+        <!-- Tarjeta Unificada: Búsqueda -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i></div>
-                    <h5 class="card-title">Herramientas de Búsqueda</h5>
-                    <p class="card-text text-muted">Consulta en tiempo real diagnósticos, procedimientos y más.</p>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-purple"><i class="bi bi-search"></i></div>
+                    <h5 class="card-title fw-bold">Búsqueda Rápida</h5>
+                    <p class="card-text text-muted">Encuentra diagnósticos, procedimientos y más.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-light d-block mb-2"><i class="bi bi-file-earmark-medical me-1"></i> Diagnósticos (CIE-10)</a>
-                        <a href="{{ url_for('buscar_procedimientos_page') }}" class="btn btn-light d-block mb-2"><i class="bi bi-heart-pulse me-1"></i> Procedimientos</a>
-                        <a href="{{ url_for('buscar_items') }}" class="btn btn-light d-block"><i class="bi bi-box-seam me-1"></i> Medicamentos/Insumos</a>
+                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-outline-secondary d-block mb-2">Diagnósticos (CIE-10)</a>
+                        <a href="{{ url_for('buscar_procedimientos_page') }}" class="btn btn-outline-secondary d-block mb-2">Procedimientos</a>
+                        <a href="{{ url_for('buscar_items') }}" class="btn btn-outline-secondary d-block">Medicamentos/Insumos</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================================================== -->
-        <!--           TARJETA UNIFICADA: CALCULADORAS          -->
-        <!-- ================================================== -->
+        <!-- Tarjeta Unificada: Calculadoras -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-calculator-fill" style="font-size: 3rem; color: #fd7e14;"></i></div>
-                    <h5 class="card-title">Calculadoras Clínicas</h5>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-orange"><i class="bi bi-calculator"></i></div>
+                    <h5 class="card-title fw-bold">Calculadoras Clínicas</h5>
                     <p class="card-text text-muted">Herramientas para cálculos rápidos y precisos.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('calculadora_imc') }}" class="btn btn-warning d-block mb-2">Calculadora de IMC</a>
-                        <a href="{{ url_for('calculadora_gestacional') }}" class="btn btn-pink d-block">Calculadora Gestacional</a>
+                        <a href="{{ url_for('calculadora_imc') }}" class="btn-menu btn-grad-orange d-block mb-2">IMC</a>
+                        <a href="{{ url_for('calculadora_gestacional') }}" class="btn-menu btn-grad-pink d-block">Gestacional</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================================================== -->
-        <!--           TARJETA UNIFICADA: GUÍAS RÁPIDAS         -->
-        <!-- ================================================== -->
+        <!-- Tarjeta Unificada: Guías Rápidas -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-journal-richtext" style="font-size: 3rem; color: #6f42c1;"></i></div>
-                    <h5 class="card-title">Guías y Referencias</h5>
-                    <p class="card-text text-muted">Consulta datos y tablas de referencia importantes.</p>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-red"><i class="bi bi-journal-check"></i></div>
+                    <h5 class="card-title fw-bold">Guías y Referencias</h5>
+                    <p class="card-text text-muted">Consulta tablas y datos de referencia importantes.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('guia_anemia') }}" class="btn btn-danger d-block mb-2">Guía de Anemia</a>
-                        <a href="{{ url_for('guia_peso_talla') }}" class="btn btn-warning d-block mb-2">Guía de Peso y Talla</a>
-                        <a href="{{ url_for('referencia_codigos') }}" class="btn btn-purple d-block">Códigos y Fechas</a>
+                        <a href="{{ url_for('guia_anemia') }}" class="btn btn-outline-danger d-block mb-2">Guía de Anemia</a>
+                        <a href="{{ url_for('guia_peso_talla') }}" class="btn btn-outline-warning d-block mb-2">Guía de Peso y Talla</a>
+                        <a href="{{ url_for('referencia_codigos') }}" class="btn btn-outline-purple d-block">Códigos y Fechas</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- ================================================== -->
-        <!--           TARJETAS DE ADMINISTRACIÓN Y FEEDBACK     -->
-        <!-- ================================================== -->
 
         <!-- Tarjeta para Enviar Sugerencia -->
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-lightbulb" style="font-size: 3rem; color: #ffc107;"></i></div>
-                    <h5 class="card-title">Buzón de Sugerencias</h5>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-yellow"><i class="bi bi-lightbulb"></i></div>
+                    <h5 class="card-title fw-bold">Buzón de Sugerencias</h5>
                     <p class="card-text text-muted">¿Tienes una idea? Ayúdanos a mejorar la aplicación.</p>
-                    <a href="{{ url_for('enviar_sugerencia') }}" class="btn btn-warning mt-auto">Enviar Idea</a>
+                    <a href="{{ url_for('enviar_sugerencia') }}" class="btn-menu btn-grad-yellow mt-auto">Enviar Idea</a>
                 </div>
             </div>
         </div>
 
-        <!-- Tarjeta para el Dashboard (Solo Admin) -->
+        <!-- Tarjetas de Administración (Solo Admin) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-bar-chart-line-fill" style="font-size: 3rem; color: #ffc107;"></i></div>
-                    <h5 class="card-title">Dashboard de Métricas</h5>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-purple"><i class="bi bi-bar-chart-line"></i></div>
+                    <h5 class="card-title fw-bold">Dashboard</h5>
                     <p class="card-text text-muted">Visualiza las estadísticas de uso de la aplicación.</p>
-                    <a href="{{ url_for('dashboard') }}" class="btn btn-warning mt-auto">Ver Dashboard</a>
+                    <a href="{{ url_for('dashboard') }}" class="btn-menu btn-grad-purple mt-auto">Ver Métricas</a>
                 </div>
             </div>
         </div>
-        {% endif %}
 
-        <!-- TARJETA DE SEGURIDAD (SOLO ADMIN) -->
-        {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-body text-center">
-                    <div class="mb-3"><i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #0d6efd;"></i></div>
-                    <h5 class="card-title">Gestión de Seguridad</h5>
-                    <p class="card-text text-muted">Administra usuarios, dispositivos, sugerencias y accesos.</p>
+            <div class="menu-card">
+                <div class="card-body">
+                    <div class="icon-circle icon-blue"><i class="bi bi-shield-lock"></i></div>
+                    <h5 class="card-title fw-bold">Gestión de Seguridad</h5>
+                    <p class="card-text text-muted">Administra usuarios, dispositivos y sugerencias.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
-                        <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2 position-relative">
-                            Validar Dispositivos
+                        <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-outline-primary d-block mb-2">Usuarios</a>
+                        <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-outline-primary d-block mb-2 position-relative">
+                            Dispositivos
                             {% if solicitudes_pendientes_count > 0 %}
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ solicitudes_pendientes_count }}
-                                </span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ solicitudes_pendientes_count }}</span>
                             {% endif %}
                         </a>
-                        <a href="{{ url_for('ver_sugerencias') }}" class="btn btn-primary d-block mb-2">Ver Sugerencias</a>
-                        <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>
+                        <a href="{{ url_for('ver_sugerencias') }}" class="btn btn-outline-primary d-block">Sugerencias</a>
                     </div>
                 </div>
             </div>
