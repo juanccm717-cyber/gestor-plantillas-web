@@ -14,10 +14,11 @@
         background-color: #ffffff;
         border: none;
         border-radius: 15px; /* Bordes más redondeados */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08 );
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
+        height: 100%; /* Asegura que todas las tarjetas ocupen la misma altura */
     }
 
     .menu-card:hover {
@@ -65,6 +66,7 @@
         border: none;
         transition: all 0.3s ease;
         color: #fff !important; /* Asegurar texto blanco */
+        text-decoration: none; /* Quitar subrayado de los enlaces */
     }
 
     .btn-menu:hover {
@@ -87,6 +89,7 @@
         padding: 0.75rem 1.5rem;
         font-weight: 600;
         transition: all 0.3s ease;
+        text-decoration: none;
     }
 
 </style>
@@ -135,7 +138,7 @@
                     <h5 class="card-title fw-bold">Herramientas de IA</h5>
                     <p class="card-text text-muted">Asistentes inteligentes para el apoyo clínico.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('asistente_clinico') }}" class="btn-menu btn-grad-cyan d-block mb-2">Asistente Clínico</a>
+                        <a href="{{ url_for('asistente_clinico') }}" class="btn btn-menu btn-grad-cyan d-block mb-2">Asistente Clínico</a>
                         {% if session.role == 'administrador' %}
                         <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-outline-info btn-outline-menu d-block">Analizador de Guías</a>
                         {% endif %}
@@ -168,8 +171,8 @@
                     <h5 class="card-title fw-bold">Calculadoras Clínicas</h5>
                     <p class="card-text text-muted">Herramientas para cálculos rápidos y precisos.</p>
                     <div class="mt-auto w-100">
-                        <a href="{{ url_for('calculadora_imc') }}" class="btn-menu btn-grad-orange d-block mb-2">IMC</a>
-                        <a href="{{ url_for('calculadora_gestacional') }}" class="btn-menu btn-grad-pink d-block">Gestacional</a>
+                        <a href="{{ url_for('calculadora_imc') }}" class="btn btn-menu btn-grad-orange d-block mb-2">IMC</a>
+                        <a href="{{ url_for('calculadora_gestacional') }}" class="btn btn-menu btn-grad-pink d-block">Gestacional</a>
                     </div>
                 </div>
             </div>
