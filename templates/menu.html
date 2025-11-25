@@ -2,25 +2,45 @@
 
 {% block title %}Menú Principal{% endblock %}
 
+{% block styles %}
+<style>
+    /* Estilo para asegurar que las tarjetas en la misma fila tengan la misma altura */
+    .card {
+        display: flex;
+        flex-direction: column;
+    }
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .card-body .mt-auto {
+        margin-top: auto;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <div class="text-center mb-5">
         <h1>Menú Principal</h1>
-        <p class="lead text-muted">Selecciona una opción para comenzar a gestionar las guías y plantillas.</p>
+        <p class="lead text-muted">Selecciona una opción para comenzar.</p>
     </div>
 
     <div class="row justify-content-center g-4">
         
-        <!-- Tarjeta para Crear Plantilla -->
+        <!-- ================================================== -->
+        <!--           TARJETAS DE GESTIÓN PRINCIPAL            -->
+        <!-- ================================================== -->
+
+        <!-- Tarjeta para Crear Plantilla (Solo Admin) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-plus-circle-dotted" style="font-size: 3rem; color: #0d6efd;"></i>
-                    </div>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-plus-circle-dotted" style="font-size: 3rem; color: #0d6efd;"></i></div>
                     <h5 class="card-title">Crear Nueva Plantilla</h5>
-                    <p class="card-text text-muted flex-grow-1">Diseña una nueva guía o procedimiento desde cero.</p>
+                    <p class="card-text text-muted">Diseña una nueva guía o procedimiento desde cero.</p>
                     <a href="{{ url_for('plantillas') }}" class="btn btn-primary mt-auto">Comenzar a Crear</a>
                 </div>
             </div>
@@ -30,156 +50,111 @@
         <!-- Tarjeta para Ver Plantillas -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-card-list" style="font-size: 3rem; color: #198754;"></i>
-                    </div>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-card-list" style="font-size: 3rem; color: #198754;"></i></div>
                     <h5 class="card-title">Ver Plantillas Existentes</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta las guías y plantillas guardadas.</p>
+                    <p class="card-text text-muted">Consulta las guías y plantillas guardadas.</p>
                     <a href="{{ url_for('ver_plantillas') }}" class="btn btn-success mt-auto">Ver Plantillas</a>
                 </div>
             </div>
         </div>
 
         <!-- ================================================== -->
-        <!--    TARJETA PARA EL ASISTENTE CLÍNICO DE IA (¡NUEVO!)    -->
-        <!-- ================================================== -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                    </div>
-                    <h5 class="card-title">Asistente Clínico (IA)</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta tratamientos recomendados por Guías de Práctica Clínica.</p>
-                    <a href="{{ url_for('asistente_clinico') }}" class="btn btn-info mt-auto">Consultar Asistente</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ================================================== -->
-        <!--    TARJETA UNIFICADA DE BÚSQUEDA (¡ACTUALIZADA!)    -->
+        <!--           TARJETA UNIFICADA: HERRAMIENTAS DE IA    -->
         <!-- ================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-info">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i></div>
+                    <h5 class="card-title">Herramientas de IA</h5>
+                    <p class="card-text text-muted">Asistentes inteligentes para el apoyo a la decisión clínica.</p>
+                    <div class="mt-auto w-100">
+                        <a href="{{ url_for('asistente_clinico') }}" class="btn btn-info d-block mb-2">Asistente Clínico</a>
+                        {% if session.role == 'administrador' %}
+                        <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-outline-info d-block">Analizador de Guías</a>
+                        {% endif %}
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!--           TARJETA UNIFICADA: BÚSQUEDA              -->
+        <!-- ================================================== -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-search" style="font-size: 3rem; color: #0dcaf0;"></i></div>
                     <h5 class="card-title">Herramientas de Búsqueda</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta en tiempo real diagnósticos, procedimientos y medicamentos.</p>
-                    
-                    <div class="mt-auto">
-                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-info d-block mb-2">
-                            <i class="bi bi-file-earmark-medical me-1"></i> Buscar Diagnóstico
-                        </a>
-                        <!-- ¡NUEVO BOTÓN AÑADIDO AQUÍ! -->
-                        <a href="{{ url_for('buscar_procedimientos_page') }}" class="btn btn-info d-block mb-2">
-                            <i class="bi bi-heart-pulse me-1"></i> Buscar Procedimiento
-                        </a>
-                        <a href="{{ url_for('buscar_items') }}" class="btn btn-info d-block">
-                            <i class="bi bi-box-seam me-1"></i> Buscar Medicamento/Insumo
-                        </a>
+                    <p class="card-text text-muted">Consulta en tiempo real diagnósticos, procedimientos y más.</p>
+                    <div class="mt-auto w-100">
+                        <a href="{{ url_for('buscar_diagnosticos') }}" class="btn btn-light d-block mb-2"><i class="bi bi-file-earmark-medical me-1"></i> Diagnósticos (CIE-10)</a>
+                        <a href="{{ url_for('buscar_procedimientos_page') }}" class="btn btn-light d-block mb-2"><i class="bi bi-heart-pulse me-1"></i> Procedimientos</a>
+                        <a href="{{ url_for('buscar_items') }}" class="btn btn-light d-block"><i class="bi bi-box-seam me-1"></i> Medicamentos/Insumos</a>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- ================================================== -->
+        <!--           TARJETA UNIFICADA: CALCULADORAS          -->
+        <!-- ================================================== -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-calculator-fill" style="font-size: 3rem; color: #fd7e14;"></i></div>
+                    <h5 class="card-title">Calculadoras Clínicas</h5>
+                    <p class="card-text text-muted">Herramientas para cálculos rápidos y precisos.</p>
+                    <div class="mt-auto w-100">
+                        <a href="{{ url_for('calculadora_imc') }}" class="btn btn-warning d-block mb-2">Calculadora de IMC</a>
+                        <a href="{{ url_for('calculadora_gestacional') }}" class="btn btn-pink d-block">Calculadora Gestacional</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- Tarjeta para la Calculadora de IMC -->
+        <!-- ================================================== -->
+        <!--           TARJETA UNIFICADA: GUÍAS RÁPIDAS         -->
+        <!-- ================================================== -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-calculator" style="font-size: 3rem; color: #fd7e14;"></i>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-journal-richtext" style="font-size: 3rem; color: #6f42c1;"></i></div>
+                    <h5 class="card-title">Guías y Referencias</h5>
+                    <p class="card-text text-muted">Consulta datos y tablas de referencia importantes.</p>
+                    <div class="mt-auto w-100">
+                        <a href="{{ url_for('guia_anemia') }}" class="btn btn-danger d-block mb-2">Guía de Anemia</a>
+                        <a href="{{ url_for('guia_peso_talla') }}" class="btn btn-warning d-block mb-2">Guía de Peso y Talla</a>
+                        <a href="{{ url_for('referencia_codigos') }}" class="btn btn-purple d-block">Códigos y Fechas</a>
                     </div>
-                    <h5 class="card-title">Calculadora de IMC</h5>
-                    <p class="card-text text-muted flex-grow-1">Calcula el Índice de Masa Corporal de forma rápida.</p>
-                    <a href="{{ url_for('calculadora_imc') }}" class="btn btn-warning mt-auto">Abrir Calculadora</a>
                 </div>
             </div>
         </div>
-        
-        <!-- Tarjeta para la Calculadora Gestacional -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-calendar2-heart" style="font-size: 3rem; color: #d63384;"></i>
-                    </div>
-                    <h5 class="card-title">Calculadora Gestacional</h5>
-                    <p class="card-text text-muted flex-grow-1">Calcula la FPP y las semanas de gestación.</p>
-                    <a href="{{ url_for('calculadora_gestacional') }}" class="btn btn-pink mt-auto">Abrir Calculadora</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tarjeta para Códigos y Fechas de Digitación -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-journal-check" style="font-size: 3rem; color: #6f42c1;"></i>
-                    </div>
-                    <h5 class="card-title">Códigos y Fechas</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta las fechas de digitación y la lista de códigos.</p>
-                    <a href="{{ url_for('referencia_codigos') }}" class="btn btn-purple mt-auto">Abrir Referencia</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tarjeta para Guía de Referencia de Anemia (RC: 61) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-droplet-half" style="font-size: 3rem; color: #dc3545;"></i>
-                    </div>
-                    <h5 class="card-title">Guía de Anemia (RC: 61)</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta los valores de referencia para el diagnóstico de anemia.</p>
-                    <a href="{{ url_for('guia_anemia') }}" class="btn btn-danger mt-auto">Abrir Guía</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tarjeta para Guía de Crecimiento (Peso y Talla) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-rulers" style="font-size: 3rem; color: #ffc107;"></i>
-                    </div>
-                    <h5 class="card-title">Guía de Peso y Talla</h5>
-                    <p class="card-text text-muted flex-grow-1">Consulta los rangos de referencia para el crecimiento infantil y de adultos.</p>
-                    <a href="{{ url_for('guia_peso_talla') }}" class="btn btn-warning mt-auto">Consultar</a>
-                </div>
-            </div>
-        </div>
+
+        <!-- ================================================== -->
+        <!--           TARJETAS DE ADMINISTRACIÓN Y FEEDBACK     -->
+        <!-- ================================================== -->
 
         <!-- Tarjeta para Enviar Sugerencia -->
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-lightbulb" style="font-size: 3rem; color: #ffc107;"></i>
-                    </div>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-lightbulb" style="font-size: 3rem; color: #ffc107;"></i></div>
                     <h5 class="card-title">Buzón de Sugerencias</h5>
-                    <p class="card-text text-muted flex-grow-1">¿Tienes una idea? Ayúdanos a mejorar la aplicación.</p>
+                    <p class="card-text text-muted">¿Tienes una idea? Ayúdanos a mejorar la aplicación.</p>
                     <a href="{{ url_for('enviar_sugerencia') }}" class="btn btn-warning mt-auto">Enviar Idea</a>
                 </div>
             </div>
         </div>
 
-        <!-- Tarjeta para el Dashboard -->
+        <!-- Tarjeta para el Dashboard (Solo Admin) -->
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-bar-chart-line-fill" style="font-size: 3rem; color: #ffc107;"></i>
-                    </div>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-bar-chart-line-fill" style="font-size: 3rem; color: #ffc107;"></i></div>
                     <h5 class="card-title">Dashboard de Métricas</h5>
-                    <p class="card-text text-muted flex-grow-1">Visualiza las estadísticas de uso de la aplicación.</p>
+                    <p class="card-text text-muted">Visualiza las estadísticas de uso de la aplicación.</p>
                     <a href="{{ url_for('dashboard') }}" class="btn btn-warning mt-auto">Ver Dashboard</a>
                 </div>
             </div>
@@ -190,16 +165,12 @@
         {% if session.role == 'administrador' %}
         <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-sm border-primary">
-                <div class="card-body text-center d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #0d6efd;"></i>
-                    </div>
+                <div class="card-body text-center">
+                    <div class="mb-3"><i class="bi bi-shield-lock-fill" style="font-size: 3rem; color: #0d6efd;"></i></div>
                     <h5 class="card-title">Gestión de Seguridad</h5>
-                    <p class="card-text text-muted flex-grow-1">Administra usuarios, dispositivos, sugerencias y el historial de accesos.</p>
-                    
-                    <div class="mt-auto">
+                    <p class="card-text text-muted">Administra usuarios, dispositivos, sugerencias y accesos.</p>
+                    <div class="mt-auto w-100">
                         <a href="{{ url_for('gestionar_usuarios') }}" class="btn btn-primary d-block mb-2">Gestionar Usuarios</a>
-                        
                         <a href="{{ url_for('pagina_admin_dispositivos') }}" class="btn btn-primary d-block mb-2 position-relative">
                             Validar Dispositivos
                             {% if solicitudes_pendientes_count > 0 %}
@@ -208,30 +179,9 @@
                                 </span>
                             {% endif %}
                         </a>
-
                         <a href="{{ url_for('ver_sugerencias') }}" class="btn btn-primary d-block mb-2">Ver Sugerencias</a>
-
                         <a href="{{ url_for('historial_solicitudes') }}" class="btn btn-outline-secondary d-block">Ver Historial de Solicitudes</a>
                     </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        <!-- ================================================== -->
-        <!--      TARJETA PARA EL ANALIZADOR DE GUÍAS (IA)      -->
-        <!-- ================================================== -->
-        {% if session.role == 'administrador' %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <i class="bi bi-robot" style="font-size: 3rem; color: #0dcaf0;"></i>
-                    <h5 class="card-title mt-3">Analizador de Guías (IA)</h5>
-                    <p class="card-text text-muted">
-                        Sube un PDF de una GPC para que Manus extraiga el conocimiento.
-                    </p>
-                    <a href="{{ url_for('analizar_guia_page') }}" class="btn btn-info text-white">
-                        <i class="bi bi-arrow-right-circle me-2"></i>Iniciar Análisis
-                    </a>
                 </div>
             </div>
         </div>
